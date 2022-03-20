@@ -70,8 +70,8 @@
 		160437A527E1AD7200EA615F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				160437A827E1AD8900EA615F /* L1 */,
-				160437A927E1AD8E00EA615F /* L2 */,
+				160437A827E1AD8900EA615F /* Core */,
+				160437A927E1AD8E00EA615F /* Rest */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -90,7 +90,7 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		160437A827E1AD8900EA615F /* L1 */ = {
+		160437A827E1AD8900EA615F /* Core */ = {
 			isa = PBXGroup;
 			children = (
 				160437B527E1AE8C00EA615F /* TxNavigationController */,
@@ -100,15 +100,15 @@
 				160437B927E1AEA600EA615F /* TxCollectionViewController */,
 				160437BF27E1B0C800EA615F /* TxPageViewController */,
 			);
-			path = L1;
+			path = Core;
 			sourceTree = "<group>";
 		};
-		160437A927E1AD8E00EA615F /* L2 */ = {
+		160437A927E1AD8E00EA615F /* Rest */ = {
 			isa = PBXGroup;
 			children = (
 				160437C427E1B62D00EA615F /* HomeViewController */,
 			);
-			path = L2;
+			path = Rest;
 			sourceTree = "<group>";
 		};
 		160437B527E1AE8C00EA615F /* TxNavigationController */ = {

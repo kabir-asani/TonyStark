@@ -48,8 +48,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func configure(windowWithWindowScene windowScene: UIWindowScene) {
-        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
-        window?.windowScene = windowScene
+        window = UIWindow(windowScene: windowScene)
         
         window?.rootViewController = HomeViewController()
         
