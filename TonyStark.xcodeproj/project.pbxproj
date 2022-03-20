@@ -28,6 +28,7 @@
 		161250FB27DBB56F006BCE5A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 161250FA27DBB56F006BCE5A /* Assets.xcassets */; };
 		161250FE27DBB56F006BCE5A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161250FC27DBB56F006BCE5A /* LaunchScreen.storyboard */; };
 		1659263E27E1C55100A1C9F2 /* TxBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1659263D27E1C55100A1C9F2 /* TxBarButtonItem.swift */; };
+		165E54F227E77F9C00D3BA0D /* TxImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165E54F127E77F9C00D3BA0D /* TxImageProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		161250FD27DBB56F006BCE5A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		161250FF27DBB56F006BCE5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1659263D27E1C55100A1C9F2 /* TxBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TxBarButtonItem.swift; sourceTree = "<group>"; };
+		165E54F127E77F9C00D3BA0D /* TxImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TxImageProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,6 +238,7 @@
 		161250F027DBB56E006BCE5A /* TonyStark */ = {
 			isa = PBXGroup;
 			children = (
+				16C45FF127E76F2100F592A2 /* Utilities */,
 				160437A727E1AD8400EA615F /* Models */,
 				160437A627E1AD7A00EA615F /* Views */,
 				160437A527E1AD7200EA615F /* Controllers */,
@@ -246,6 +249,22 @@
 				161250FF27DBB56F006BCE5A /* Info.plist */,
 			);
 			path = TonyStark;
+			sourceTree = "<group>";
+		};
+		165E54F027E77F9000D3BA0D /* TxImageProvider */ = {
+			isa = PBXGroup;
+			children = (
+				165E54F127E77F9C00D3BA0D /* TxImageProvider.swift */,
+			);
+			path = TxImageProvider;
+			sourceTree = "<group>";
+		};
+		16C45FF127E76F2100F592A2 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				165E54F027E77F9000D3BA0D /* TxImageProvider */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -328,6 +347,7 @@
 				160437D527E1B7C200EA615F /* ProfileViewController.swift in Sources */,
 				160437D727E1B83700EA615F /* TxPageControl.swift in Sources */,
 				161250F427DBB56E006BCE5A /* SceneDelegate.swift in Sources */,
+				165E54F227E77F9C00D3BA0D /* TxImageProvider.swift in Sources */,
 				160437AD27E1ADE700EA615F /* TxTabBarController.swift in Sources */,
 				160437B327E1AE3300EA615F /* TxCollectionViewController.swift in Sources */,
 				1659263E27E1C55100A1C9F2 /* TxBarButtonItem.swift in Sources */,
