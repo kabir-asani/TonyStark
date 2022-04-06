@@ -7,38 +7,39 @@
 
 import Foundation
 
-typealias Networkable = Codable
-
 enum TxNetworkError: Error {
+    case unknown
     case illegalStatusCode(statusCode: Int)
+    case illegalData
 }
 
-protocol TxNetworkAssistantProtocol {
-    func get<T: Networkable>(
-        url: String,
-        completion: @escaping (Result<T, TxNetworkError>) -> Void
-    )
+protocol TxNetworkAssistantProtocol { }
+
+class TxNetworkAssistant {
+    typealias Networkable = Codable
     
-    func get<T: Networkable>(
-        url baseUrl: String,
-        withQueryParameters queryParameters: [String: Any],
-        completion: @escaping (Result<T, TxNetworkError>) -> Void
-    )
+    private let baseUrl: String
+    
+    init(baseUrl: String) {
+        self.baseUrl = baseUrl
+    }
 }
 
-class TxNetworkAssistant: TxNetworkAssistantProtocol {
-    static let shared: TxNetworkAssistantProtocol = TxNetworkAssistant()
-    
-    func get<T: Networkable>(
-        url: String,
-        completion: @escaping (Result<T, TxNetworkError>) -> Void
-    ) {
+extension Dictionary where Key == String, Value == Codable {
+    enum Stringify {
+        case stringified(string: String)
+        case empty
     }
     
-    func get<T: Networkable>(
-        url baseUrl: String,
-        withQueryParameters queryParameters: [String: Any],
-        completion: @escaping (Result<T, TxNetworkError>) -> Void
-    ) {
+    func stringify() -> Stringify {
+        let parsed = self.compactMap { "\($0)=\($1)"}.joined(separator: "&")
+        
+        if parsed.isEmpty {
+            let result: Stringify = .empty
+            return result
+        }
+        
+        let result: Stringify = .stringified(string: parsed)
+        return result
     }
 }
