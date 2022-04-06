@@ -20,7 +20,13 @@ class FeedViewController: TxTableViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "Twitter"
+        navigationItem.title = "TwitterX"
+        
+        navigationItem.rightBarButtonItem = TxBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(onComposePressed(_:))
+        )
     }
     
     @objc func onComposePressed(_ sender: UIBarButtonItem) {

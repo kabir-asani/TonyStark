@@ -18,7 +18,6 @@ class HomeViewController: TxTabBarController {
         viewControllers = [
             makeFeedViewController(),
             makeExploreViewController(),
-            makeComposeViewController(),
             makeNotificationsViewController(),
             makeProfileViewController()
         ]
@@ -45,18 +44,7 @@ class HomeViewController: TxTabBarController {
         
         return TxNavigationController(rootViewController: exploreViewController)
     }
-    
-    func makeComposeViewController() -> UINavigationController {
-        let composeViewController = ComposeViewController()
-        composeViewController.tabBarItem = TxTabBarItem(
-            title: nil,
-            image: UIImage(systemName: "plus"),
-            tag: 2
-        )
-        
-        return TxNavigationController(rootViewController: composeViewController)
-    }
-    
+
     func makeNotificationsViewController() -> UINavigationController {
         let notificationsViewController = NotificationsViewController()
         notificationsViewController.tabBarItem = TxTabBarItem(
