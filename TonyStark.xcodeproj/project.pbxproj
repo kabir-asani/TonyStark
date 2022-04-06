@@ -29,6 +29,7 @@
 		161250FE27DBB56F006BCE5A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161250FC27DBB56F006BCE5A /* LaunchScreen.storyboard */; };
 		1659263E27E1C55100A1C9F2 /* TxBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1659263D27E1C55100A1C9F2 /* TxBarButtonItem.swift */; };
 		165E54F227E77F9C00D3BA0D /* TxImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165E54F127E77F9C00D3BA0D /* TxImageProvider.swift */; };
+		1688D3F927FD7B3B00F9C366 /* TxNetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1688D3F827FD7B3B00F9C366 /* TxNetworkMonitor.swift */; };
 		169E280027EB896800B72006 /* TxNetworkAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169E27FF27EB896800B72006 /* TxNetworkAssistant.swift */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,7 @@
 		161250FF27DBB56F006BCE5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1659263D27E1C55100A1C9F2 /* TxBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TxBarButtonItem.swift; sourceTree = "<group>"; };
 		165E54F127E77F9C00D3BA0D /* TxImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TxImageProvider.swift; sourceTree = "<group>"; };
+		1688D3F827FD7B3B00F9C366 /* TxNetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TxNetworkMonitor.swift; sourceTree = "<group>"; };
 		169E27FF27EB896800B72006 /* TxNetworkAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TxNetworkAssistant.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -261,6 +263,14 @@
 			path = TxImageProvider;
 			sourceTree = "<group>";
 		};
+		1688D3F727FD7B2800F9C366 /* TxNetworkMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				1688D3F827FD7B3B00F9C366 /* TxNetworkMonitor.swift */,
+			);
+			path = TxNetworkMonitor;
+			sourceTree = "<group>";
+		};
 		169E27FE27EB895300B72006 /* TxNetworkAssistant */ = {
 			isa = PBXGroup;
 			children = (
@@ -272,6 +282,7 @@
 		16C45FF127E76F2100F592A2 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				1688D3F727FD7B2800F9C366 /* TxNetworkMonitor */,
 				169E27FE27EB895300B72006 /* TxNetworkAssistant */,
 				165E54F027E77F9000D3BA0D /* TxImageProvider */,
 			);
@@ -361,6 +372,7 @@
 				165E54F227E77F9C00D3BA0D /* TxImageProvider.swift in Sources */,
 				160437AD27E1ADE700EA615F /* TxTabBarController.swift in Sources */,
 				169E280027EB896800B72006 /* TxNetworkAssistant.swift in Sources */,
+				1688D3F927FD7B3B00F9C366 /* TxNetworkMonitor.swift in Sources */,
 				160437B327E1AE3300EA615F /* TxCollectionViewController.swift in Sources */,
 				1659263E27E1C55100A1C9F2 /* TxBarButtonItem.swift in Sources */,
 				160437CB27E1B73300EA615F /* HomeViewController.swift in Sources */,
