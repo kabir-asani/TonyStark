@@ -8,17 +8,17 @@
 import Foundation
 import Network
 
-protocol NetworkMonitorProtocol {
-    var status: NetworkMonitor.NetworkStatus { get }
+protocol TXNetworkMonitorProtocol {
+    var status: TXNetworkMonitor.NetworkStatus { get }
     
     func start()
     
     func stop()
     
-    func onStatusChanged(listener: @escaping NetworkMonitor.Listener)
+    func onStatusChanged(listener: @escaping TXNetworkMonitor.Listener)
 }
 
-class NetworkMonitor: NetworkMonitorProtocol {
+class TXNetworkMonitor: TXNetworkMonitorProtocol {
     enum NetworkStatus {
         case connected
         case disconnected
@@ -26,7 +26,7 @@ class NetworkMonitor: NetworkMonitorProtocol {
     
     typealias Listener = (_ status: NetworkStatus) -> Void
     
-    static let shared: NetworkMonitorProtocol = NetworkMonitor()
+    static let shared: TXNetworkMonitorProtocol = TXNetworkMonitor()
     
     private let queue: DispatchQueue = DispatchQueue.global()
     private let monitor: NWPathMonitor = NWPathMonitor()
