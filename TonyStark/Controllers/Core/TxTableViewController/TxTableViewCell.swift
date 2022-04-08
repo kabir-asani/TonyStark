@@ -7,6 +7,6 @@
 
 import UIKit
 
-class TxTableViewCell: UITableViewCell {
+class TXTableViewCell: UITableViewCell {
     
 }

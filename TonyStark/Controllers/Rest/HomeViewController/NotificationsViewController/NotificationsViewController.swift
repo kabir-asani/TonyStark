@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NotificationsViewController: TxTableViewController {
+class NotificationsViewController: TXTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ComposeViewController: TxViewController {
+class ComposeViewController: TXViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         

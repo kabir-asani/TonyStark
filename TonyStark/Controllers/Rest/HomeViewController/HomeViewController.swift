@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeViewController: TxTabBarController {
+class HomeViewController: TXTabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,45 +25,45 @@ class HomeViewController: TxTabBarController {
     
     func makeFeedViewController() -> UINavigationController {
         let feedViewController = FeedViewController()
-        feedViewController.tabBarItem = TxTabBarItem(
+        feedViewController.tabBarItem = TXTabBarItem(
             title: nil,
             image: UIImage(systemName: "house"),
             tag: 0
         )
         
-        return TxNavigationController(rootViewController: feedViewController)
+        return TXNavigationController(rootViewController: feedViewController)
     }
     
     func makeExploreViewController() -> UINavigationController {
         let exploreViewController = ExploreViewController()
-        exploreViewController.tabBarItem = TxTabBarItem(
+        exploreViewController.tabBarItem = TXTabBarItem(
             title: nil,
             image: UIImage(systemName: "magnifyingglass"),
             tag: 1
         )
         
-        return TxNavigationController(rootViewController: exploreViewController)
+        return TXNavigationController(rootViewController: exploreViewController)
     }
 
     func makeNotificationsViewController() -> UINavigationController {
         let notificationsViewController = NotificationsViewController()
-        notificationsViewController.tabBarItem = TxTabBarItem(
+        notificationsViewController.tabBarItem = TXTabBarItem(
             title: nil,
             image: UIImage(systemName: "bell"),
             tag: 3
         )
         
-        return TxNavigationController(rootViewController: notificationsViewController)
+        return TXNavigationController(rootViewController: notificationsViewController)
     }
     
     func makeProfileViewController() -> UINavigationController {
         let profileViewController = ProfileViewController()
-        profileViewController.tabBarItem = TxTabBarItem(
+        profileViewController.tabBarItem = TXTabBarItem(
             title: nil,
             image: UIImage(systemName: "person"),
             tag: 4
         )
         
-        return TxNavigationController(rootViewController: profileViewController)
+        return TXNavigationController(rootViewController: profileViewController)
     }
 }

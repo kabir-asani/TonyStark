@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ExploreViewController: TxTableViewController {
+class ExploreViewController: TXTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         

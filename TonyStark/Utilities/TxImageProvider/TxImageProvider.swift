@@ -7,15 +7,15 @@
 
 import UIKit
 
-protocol TxImageProviderProtocol {
+protocol TXImageProviderProtocol {
     func image(
         _ urlString: String,
         completion: @escaping (UIImage?) -> Void
     )
 }
 
-class TxImageProvider: TxImageProviderProtocol {
-    static let shared: TxImageProviderProtocol = TxImageProvider()
+class TXImageProvider: TXImageProviderProtocol {
+    static let shared: TXImageProviderProtocol = TXImageProvider()
     
     private let cache = NSCache<NSString, UIImage>()
     

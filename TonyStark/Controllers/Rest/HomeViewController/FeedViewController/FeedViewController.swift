@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FeedViewController: TxTableViewController {
+class FeedViewController: TXTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,7 +22,7 @@ class FeedViewController: TxTableViewController {
     private func configureNavigationBar() {
         navigationItem.title = "TwitterX"
         
-        navigationItem.rightBarButtonItem = TxBarButtonItem(
+        navigationItem.rightBarButtonItem = TXBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
             action: #selector(onComposePressed(_:))
