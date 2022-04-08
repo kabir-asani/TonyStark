@@ -7,34 +7,70 @@
 
 import Foundation
 
+enum TXNetworkFailure: Error {
+    case unknown
+    case malformedURL
+    case malformedContent
+}
 
+struct TXNetworkSuccess {
+    let data: Data
+    let statusCode: Int
+}
 
-class TXNetworkAssistant {
-    enum TXNetworkFailure: Error {
-        case unknown
-        case malformedURL
-        case malformedContent
-    }
-    
-    typealias TXNetworkSuccess = (
-        data: Data,
-        statusCode: Int
+protocol TXNetworkAssistantProtocol {
+    func get(
+        url: String,
+        query: [String: String]?,
+        headers: [String: String]?,
+        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
     )
     
-    private let baseUrl: String
+    func post(
+        url: String,
+        headers: [String: String]?,
+        query: [String: String]?,
+        content: Encodable,
+        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
+    )
     
-    init(baseUrl: String) {
-        self.baseUrl = baseUrl
-    }
+    func put(
+        url: String,
+        headers: [String: String]?,
+        query: [String: String]?,
+        content: Encodable,
+        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
+    )
+    
+    func patch(
+        url: String,
+        headers: [String: String]?,
+        query: [String: String]?,
+        content: Encodable,
+        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
+    )
+    
+    func delete(
+        url: String,
+        headers: [String: String]?,
+        query: [String: String]?,
+        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
+    )
+}
+
+class TXNetworkAssistant: TXNetworkAssistantProtocol {
+    static let shared: TXNetworkAssistantProtocol = TXNetworkAssistant()
+    
+    private init() { }
     
     func get(
-        path: String,
+        url baseURL: String,
         query: [String: String]?,
         headers: [String: String]?,
         completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
     ) {
         request(
-            path: path,
+            url: baseURL,
             method: "GET",
             headers: headers,
             query: query,
@@ -44,14 +80,14 @@ class TXNetworkAssistant {
     }
     
     func post(
-        path: String,
+        url baseURL: String,
         headers: [String: String]?,
-        query: [String: Codable]?,
+        query: [String: String]?,
         content: Encodable,
         completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
     ) {
         request(
-            path: path,
+            url: baseURL,
             method: "POST",
             headers: headers,
             query: query,
@@ -61,14 +97,14 @@ class TXNetworkAssistant {
     }
     
     func put(
-        path: String,
+        url baseURL: String,
         headers: [String: String]?,
-        query: [String: Codable]?,
+        query: [String: String]?,
         content: Encodable,
         completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
     ) {
         request(
-            path: path,
+            url: baseURL,
             method: "PUT",
             headers: headers,
             query: query,
@@ -78,14 +114,14 @@ class TXNetworkAssistant {
     }
     
     func patch(
-        path: String,
+        url baseURL: String,
         headers: [String: String]?,
-        query: [String: Codable]?,
+        query: [String: String]?,
         content: Encodable,
         completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
     ) {
         request(
-            path: path,
+            url: baseURL,
             method: "PATCH",
             headers: headers,
             query: query,
@@ -95,13 +131,13 @@ class TXNetworkAssistant {
     }
     
     func delete(
-        path: String,
+        url baseURL: String,
         headers: [String: String]?,
-        query: [String: Codable]?,
+        query: [String: String]?,
         completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
     ) {
         request(
-            path: path,
+            url: baseURL,
             method: "DELETE",
             headers: headers,
             query: query,
@@ -110,15 +146,15 @@ class TXNetworkAssistant {
         )
     }
     
-    func request(
-        path: String,
+    private func request(
+        url baseURL: String,
         method: String,
         headers: [String: String]?,
-        query: [String: Encodable]?,
+        query: [String: String]?,
         content: Encodable?,
         completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
     ) {
-        guard let url = URL(string: buildCompleteURL(withPath: path, query: query)) else {
+        guard let url = URL(string: baseURL.buildCompleteURL(query: query)) else {
             completion(.failure(.malformedURL))
             return
         }
@@ -140,7 +176,7 @@ class TXNetworkAssistant {
             }
         }
         
-        let task = URLSession.shared.dataTask(with: request) {
+        URLSession.shared.dataTask(with: request) {
             data, response, error in
             guard error == nil else {
                 completion(.failure(.unknown))
@@ -157,27 +193,16 @@ class TXNetworkAssistant {
                 return
             }
             
-            completion(.success((data: data, statusCode: response.statusCode)))
-        }
-        
-        task.resume()
-    }
-    
-    private func buildCompleteURL(
-        withPath path: String,
-        query: [String: Encodable]?
-    ) -> String {
-        var url = baseUrl.hasSuffix("/") ? baseUrl + path : baseUrl + "/" + path
-        
-        if let query = query, !query.isEmpty {
-            let stringifiedQuery = query.compactMap { "\($0)=\($1)" }.joined(separator: "&")
+            let result = TXNetworkSuccess(
+                data: data,
+                statusCode: response.statusCode
+            )
             
-            url += ("?" + stringifiedQuery)
+            completion(.success(result))
         }
-        
-        return url
     }
 }
+
 
 extension URLRequest {
     mutating func setMethod(_ method: String) {
@@ -186,14 +211,28 @@ extension URLRequest {
     
     mutating func setHeaders(_ headers: [String: String]) {
         for (key, value) in headers {
-            self.setValue(value, forHTTPHeaderField: key)
+            self.setValue(
+                value,
+                forHTTPHeaderField: key
+            )
         }
     }
     
     mutating func setContent(_ content: Encodable) throws {
-        self.httpBody = try JSONSerialization.data(
-            withJSONObject: content,
-            options: .prettyPrinted
-        )
+        self.httpBody = try JSONSerialization.data(withJSONObject: content, options: .prettyPrinted)
+    }
+}
+
+extension String {
+    func buildCompleteURL(query: [String: String]?) -> String {
+        var url = self
+        
+        if let query = query, !query.isEmpty {
+            let stringifiedQuery = query.compactMap { "\($0)=\($1)" }.joined(separator: "&")
+            
+            url += ("?" + stringifiedQuery)
+        }
+        
+        return url
     }
 }

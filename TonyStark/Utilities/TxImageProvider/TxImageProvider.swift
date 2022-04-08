@@ -30,30 +30,30 @@ class TXImageProvider: TXImageProviderProtocol {
             return
         }
         
-        guard let url = URL(string: urlString) else {
-            completion(nil)
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) {
-            [weak self] data, response, error in
-            guard let data = data, error == nil else {
+        TXNetworkAssistant.shared.get(
+            url: urlString,
+            query: nil,
+            headers: nil
+        ) { result in
+            switch result {
+            case .failure(_):
                 completion(nil)
-                return
-            }
-            
-            DispatchQueue.main.async {
-                [weak self] in
-                guard let image = UIImage(data: data) else {
+            case .success(let success):
+                if success.statusCode >= 200 && success.statusCode <= 299 {
+                    DispatchQueue.main.async {
+                        [weak self] in
+                        guard let image = UIImage(data: success.data) else {
+                            completion(nil)
+                            return
+                        }
+                        
+                        self?.cache.setObject(image, forKey: NSString(string: urlString))
+                        completion(image)
+                    }
+                } else {
                     completion(nil)
-                    return
                 }
-                
-                self?.cache.setObject(image, forKey: NSString(string: urlString))
-                completion(image)
             }
         }
-        
-        task.resume()
     }
 }

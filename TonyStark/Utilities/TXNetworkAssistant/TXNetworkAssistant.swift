@@ -7,148 +7,232 @@
 
 import Foundation
 
-
-enum TXNetworkError: Error {
-    case unknownError
-    case urlError
-    case statusCodeError(statusCode: Int)
-    case decodeError
+enum TXNetworkFailure: Error {
+    case unknown
+    case malformedURL
+    case malformedContent
 }
 
-typealias TXNetworkable = Codable
+struct TXNetworkSuccess {
+    let data: Data
+    let statusCode: Int
+}
 
-class TXNetworkAssistant {
-    private let baseUrl: String
+protocol TXNetworkAssistantProtocol {
+    func get(
+        url: String,
+        query: [String: String]?,
+        headers: [String: String]?,
+        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
+    )
     
-    init(baseUrl: String) {
-        self.baseUrl = baseUrl
+    func post(
+        url: String,
+        headers: [String: String]?,
+        query: [String: String]?,
+        content: Encodable,
+        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
+    )
+    
+    func put(
+        url: String,
+        headers: [String: String]?,
+        query: [String: String]?,
+        content: Encodable,
+        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
+    )
+    
+    func patch(
+        url: String,
+        headers: [String: String]?,
+        query: [String: String]?,
+        content: Encodable,
+        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
+    )
+    
+    func delete(
+        url: String,
+        headers: [String: String]?,
+        query: [String: String]?,
+        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
+    )
+}
+
+class TXNetworkAssistant: TXNetworkAssistantProtocol {
+    static let shared: TXNetworkAssistantProtocol = TXNetworkAssistant()
+    
+    private init() { }
+    
+    func get(
+        url baseURL: String,
+        query: [String: String]?,
+        headers: [String: String]?,
+        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
+    ) {
+        request(
+            url: baseURL,
+            method: "GET",
+            headers: headers,
+            query: query,
+            content: nil,
+            completion: completion
+        )
     }
     
-    func get<T: TXNetworkable>(
-        path: String,
-        query: [String: Codable] = [:],
-        headers: [String: String] = [:],
-        completion: @escaping (Result<T, TXNetworkError>) -> Void
+    func post(
+        url baseURL: String,
+        headers: [String: String]?,
+        query: [String: String]?,
+        content: Encodable,
+        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
     ) {
-        guard let url = URL(string: buildCompleteURL(withPath: path, query: query)) else {
-            completion(.failure(.urlError))
+        request(
+            url: baseURL,
+            method: "POST",
+            headers: headers,
+            query: query,
+            content: content,
+            completion: completion
+        )
+    }
+    
+    func put(
+        url baseURL: String,
+        headers: [String: String]?,
+        query: [String: String]?,
+        content: Encodable,
+        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
+    ) {
+        request(
+            url: baseURL,
+            method: "PUT",
+            headers: headers,
+            query: query,
+            content: content,
+            completion: completion
+        )
+    }
+    
+    func patch(
+        url baseURL: String,
+        headers: [String: String]?,
+        query: [String: String]?,
+        content: Encodable,
+        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
+    ) {
+        request(
+            url: baseURL,
+            method: "PATCH",
+            headers: headers,
+            query: query,
+            content: content,
+            completion: completion
+        )
+    }
+    
+    func delete(
+        url baseURL: String,
+        headers: [String: String]?,
+        query: [String: String]?,
+        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
+    ) {
+        request(
+            url: baseURL,
+            method: "DELETE",
+            headers: headers,
+            query: query,
+            content: nil,
+            completion: completion
+        )
+    }
+    
+    private func request(
+        url baseURL: String,
+        method: String,
+        headers: [String: String]?,
+        query: [String: String]?,
+        content: Encodable?,
+        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
+    ) {
+        guard let url = URL(string: baseURL.buildCompleteURL(query: query)) else {
+            completion(.failure(.malformedURL))
             return
         }
         
         var request = URLRequest(url: url)
         
-        request.httpMethod = "GET"
+        request.setMethod(method)
         
-        headers.forEach { (key: String, value: String) in
-            request.setValue(value, forHTTPHeaderField: key)
+        if let headers = headers {
+            request.setHeaders(headers)
+        }
+        
+        if let content = content {
+            do {
+                try request.setContent(content)
+            } catch {
+                completion(.failure(.malformedContent))
+                return
+            }
         }
         
         URLSession.shared.dataTask(with: request) {
             data, response, error in
             guard error == nil else {
-                // TODO: Handle this case
-                completion(.failure(.unknownError))
+                completion(.failure(.unknown))
                 return
             }
             
-            guard let httpResponse = response as? HTTPURLResponse else {
-                completion(.failure(.unknownError))
-                return
-            }
-            
-            if httpResponse.statusCode != 200 {
-                completion(.failure(.statusCodeError(statusCode: httpResponse.statusCode)))
+            guard let response = response as? HTTPURLResponse else {
+                completion(.failure(.unknown))
                 return
             }
             
             guard let data = data else {
-                completion(.failure(.unknownError))
+                completion(.failure(.unknown))
                 return
             }
             
-            let decoder = JSONDecoder()
+            let result = TXNetworkSuccess(
+                data: data,
+                statusCode: response.statusCode
+            )
             
-            do {
-                let result = try decoder.decode(T.self, from: data)
-                
-                completion(.success(result))
-            } catch {
-                completion(.failure(.decodeError))
-            }
+            completion(.success(result))
+        }
+    }
+}
+
+
+extension URLRequest {
+    mutating func setMethod(_ method: String) {
+        self.httpMethod = method
+    }
+    
+    mutating func setHeaders(_ headers: [String: String]) {
+        for (key, value) in headers {
+            self.setValue(
+                value,
+                forHTTPHeaderField: key
+            )
         }
     }
     
-    func post<T: TXNetworkable>(
-        path: String,
-        headers: [String: String] = [:],
-        query: [String: Codable] = [:],
-        content: Codable,
-        completion: @escaping (Result<T, TXNetworkError>) -> Void
-    ) {
-        completion(.failure(.unknownError))
+    mutating func setContent(_ content: Encodable) throws {
+        self.httpBody = try JSONSerialization.data(withJSONObject: content, options: .prettyPrinted)
     }
-    
-    func put<T: TXNetworkable>(
-        path: String,
-        headers: [String: String] = [:],
-        query: [String: Codable] = [:],
-        content: Codable,
-        completion: @escaping (Result<T, TXNetworkError>) -> Void
-    ) {
-        completion(.failure(.unknownError))
-    }
-    
-    func patch<T: TXNetworkable>(
-        path: String,
-        headers: [String: String] = [:],
-        query: [String: Codable] = [:],
-        content: Codable,
-        completion: @escaping (Result<T, TXNetworkError>) -> Void
-    ) {
-        completion(.failure(.unknownError))
-    }
-    
-    func delete<T: TXNetworkable>(
-        path: String,
-        headers: [String: String] = [:],
-        query: [String: Codable] = [:],
-        content: Codable,
-        completion: @escaping (Result<T, TXNetworkError>) -> Void
-    ) {
-        completion(.failure(.unknownError))
-    }
-    
-    private func buildCompleteURL(
-        withPath path: String,
-        query: [String: Codable]
-    ) -> String {
-        var url = baseUrl.hasSuffix("/") ? baseUrl + path : baseUrl + "/" + path
+}
+
+extension String {
+    func buildCompleteURL(query: [String: String]?) -> String {
+        var url = self
         
-        if !query.isEmpty {
+        if let query = query, !query.isEmpty {
             let stringifiedQuery = query.compactMap { "\($0)=\($1)" }.joined(separator: "&")
             
             url += ("?" + stringifiedQuery)
         }
         
         return url
-    }
-}
-
-extension Dictionary where Key == String, Value == Codable {
-    enum Stringify {
-        case stringified(string: String)
-        case empty
-    }
-    
-    func stringify() -> Stringify {
-        let parsed = self.compactMap { "\($0)=\($1)"}.joined(separator: "&")
-        
-        if parsed.isEmpty {
-            let result: Stringify = .empty
-            return result
-        }
-        
-        let result: Stringify = .stringified(string: parsed)
-        return result
     }
 }
