@@ -13,150 +13,108 @@ enum TXNetworkFailure: Error {
     case malformedContent
 }
 
-struct TXNetworkSuccess {
-    let data: Data
-    let statusCode: Int
-}
+typealias TXNetworkSuccess = (
+    data: Data,
+    statusCode: Int
+)
 
-protocol TXNetworkAssistantProtocol {
-    func get(
-        url: String,
-        query: [String: String]?,
-        headers: [String: String]?,
-        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
-    )
-    
-    func post(
-        url: String,
-        headers: [String: String]?,
-        query: [String: String]?,
-        content: Encodable,
-        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
-    )
-    
-    func put(
-        url: String,
-        headers: [String: String]?,
-        query: [String: String]?,
-        content: Encodable,
-        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
-    )
-    
-    func patch(
-        url: String,
-        headers: [String: String]?,
-        query: [String: String]?,
-        content: Encodable,
-        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
-    )
-    
-    func delete(
-        url: String,
-        headers: [String: String]?,
-        query: [String: String]?,
-        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
-    )
-}
-
-class TXNetworkAssistant: TXNetworkAssistantProtocol {
-    static let shared: TXNetworkAssistantProtocol = TXNetworkAssistant()
+class TXNetworkAssistant {
+    static let shared: TXNetworkAssistant = TXNetworkAssistant()
     
     private init() { }
     
     func get(
         url baseURL: String,
-        query: [String: String]?,
-        headers: [String: String]?,
-        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
-    ) {
-        request(
+        query: [String: String]? = nil,
+        headers: [String: String]? = nil
+    ) async throws -> TXNetworkSuccess {
+        let result = try await request(
             url: baseURL,
             method: "GET",
             headers: headers,
             query: query,
-            content: nil,
-            completion: completion
+            content: nil
         )
+        
+        return result
     }
     
     func post(
         url baseURL: String,
-        headers: [String: String]?,
-        query: [String: String]?,
-        content: Encodable,
-        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
-    ) {
-        request(
+        headers: [String: String]? = nil,
+        query: [String: String]? = nil,
+        content: Encodable
+    ) async throws -> TXNetworkSuccess {
+        let result = try await request(
             url: baseURL,
             method: "POST",
             headers: headers,
             query: query,
-            content: content,
-            completion: completion
+            content: content
         )
+        
+        return result
     }
     
     func put(
         url baseURL: String,
-        headers: [String: String]?,
-        query: [String: String]?,
-        content: Encodable,
-        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
-    ) {
-        request(
+        headers: [String: String]? = nil,
+        query: [String: String]? = nil,
+        content: Encodable
+    ) async throws -> TXNetworkSuccess {
+        let result = try await request(
             url: baseURL,
             method: "PUT",
             headers: headers,
             query: query,
-            content: content,
-            completion: completion
+            content: content
         )
+        
+        return result
     }
     
     func patch(
         url baseURL: String,
-        headers: [String: String]?,
-        query: [String: String]?,
-        content: Encodable,
-        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
-    ) {
-        request(
+        headers: [String: String]? = nil,
+        query: [String: String]? = nil,
+        content: Encodable
+    ) async throws -> TXNetworkSuccess {
+        let result = try await request(
             url: baseURL,
             method: "PATCH",
             headers: headers,
             query: query,
-            content: content,
-            completion: completion
+            content: content
         )
+        
+        return result
     }
     
     func delete(
         url baseURL: String,
-        headers: [String: String]?,
-        query: [String: String]?,
-        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
-    ) {
-        request(
+        query: [String: String]? = nil,
+        headers: [String: String]? = nil
+    ) async throws -> TXNetworkSuccess {
+        let result = try await request(
             url: baseURL,
             method: "DELETE",
             headers: headers,
             query: query,
-            content: nil,
-            completion: completion
+            content: nil
         )
+        
+        return result
     }
     
     private func request(
         url baseURL: String,
         method: String,
-        headers: [String: String]?,
-        query: [String: String]?,
-        content: Encodable?,
-        completion: @escaping (Result<TXNetworkSuccess, TXNetworkFailure>) -> Void
-    ) {
+        headers: [String: String]? = nil,
+        query: [String: String]? = nil,
+        content: Encodable?
+    ) async throws -> TXNetworkSuccess {
         guard let url = URL(string: baseURL.buildCompleteURL(query: query)) else {
-            completion(.failure(.malformedURL))
-            return
+            throw TXNetworkFailure.malformedURL
         }
         
         var request = URLRequest(url: url)
@@ -171,38 +129,40 @@ class TXNetworkAssistant: TXNetworkAssistantProtocol {
             do {
                 try request.setContent(content)
             } catch {
-                completion(.failure(.malformedContent))
-                return
+                throw TXNetworkFailure.malformedContent
             }
         }
         
-        URLSession.shared.dataTask(with: request) {
-            data, response, error in
-            guard error == nil else {
-                completion(.failure(.unknown))
-                return
+        let result: TXNetworkSuccess = try await withCheckedThrowingContinuation { continuation in
+            URLSession.shared.dataTask(with: request) {
+                data, response, error in
+                guard error == nil else {
+                    continuation.resume(throwing: TXNetworkFailure.unknown)
+                    return
+                }
+                
+                guard let response = response as? HTTPURLResponse else {
+                    continuation.resume(throwing: TXNetworkFailure.unknown)
+                    return
+                }
+                
+                guard let data = data else {
+                    continuation.resume(throwing: TXNetworkFailure.unknown)
+                    return
+                }
+                
+                let result = (
+                    data: data,
+                    statusCode: response.statusCode
+                )
+                
+                continuation.resume(returning: result)
             }
-            
-            guard let response = response as? HTTPURLResponse else {
-                completion(.failure(.unknown))
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(.unknown))
-                return
-            }
-            
-            let result = TXNetworkSuccess(
-                data: data,
-                statusCode: response.statusCode
-            )
-            
-            completion(.success(result))
         }
+        
+        return result
     }
 }
-
 
 extension URLRequest {
     mutating func setMethod(_ method: String) {

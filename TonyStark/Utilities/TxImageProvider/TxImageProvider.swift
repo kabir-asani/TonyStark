@@ -9,9 +9,8 @@ import UIKit
 
 protocol TXImageProviderProtocol {
     func image(
-        _ urlString: String,
-        completion: @escaping (UIImage?) -> Void
-    )
+        _ urlString: String
+    ) async -> UIImage?
 }
 
 class TXImageProvider: TXImageProviderProtocol {
@@ -22,38 +21,41 @@ class TXImageProvider: TXImageProviderProtocol {
     private init() {}
     
     func image(
-        _ urlString: String,
-        completion: @escaping (UIImage?) -> Void
-    ) {
+        _ urlString: String
+    ) async -> UIImage? {
         if let image = cache.object(forKey: NSString(string: urlString)) {
-            completion(image)
-            return
+            return image
         }
         
-        TXNetworkAssistant.shared.get(
-            url: urlString,
-            query: nil,
-            headers: nil
-        ) { result in
-            switch result {
-            case .failure(_):
-                completion(nil)
-            case .success(let success):
-                if success.statusCode >= 200 && success.statusCode <= 299 {
+        do {
+            let result = try await TXNetworkAssistant.shared.get(
+                url: urlString
+            )
+            
+            if result.statusCode >= 200 && result.statusCode <= 299 {
+                let image: UIImage? = await withCheckedContinuation {
+                    continuation in
+                    
                     DispatchQueue.main.async {
-                        [weak self] in
-                        guard let image = UIImage(data: success.data) else {
-                            completion(nil)
+                        guard let image = UIImage(data: result.data) else {
+                            continuation.resume(returning: nil)
                             return
                         }
                         
-                        self?.cache.setObject(image, forKey: NSString(string: urlString))
-                        completion(image)
+                        continuation.resume(returning: image)
                     }
-                } else {
-                    completion(nil)
                 }
+                
+                if let image = image {
+                    cache.setObject(image, forKey: NSString(string: urlString))
+                }
+                
+                return image
+            } else {
+                return nil
             }
+        } catch {
+            return nil
         }
     }
 }
