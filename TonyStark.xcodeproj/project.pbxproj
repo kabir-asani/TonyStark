@@ -31,6 +31,8 @@
 		165E54F227E77F9C00D3BA0D /* TXImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165E54F127E77F9C00D3BA0D /* TXImageProvider.swift */; };
 		1688D3F927FD7B3B00F9C366 /* TXNetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1688D3F827FD7B3B00F9C366 /* TXNetworkMonitor.swift */; };
 		169E280027EB896800B72006 /* TXNetworkAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169E27FF27EB896800B72006 /* TXNetworkAssistant.swift */; };
+		16D237AD28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D237AC28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift */; };
+		16DEB9562806089E00140E63 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DEB9552806089E00140E63 /* Tweet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +62,8 @@
 		165E54F127E77F9C00D3BA0D /* TXImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXImageProvider.swift; sourceTree = "<group>"; };
 		1688D3F827FD7B3B00F9C366 /* TXNetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXNetworkMonitor.swift; sourceTree = "<group>"; };
 		169E27FF27EB896800B72006 /* TXNetworkAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXNetworkAssistant.swift; sourceTree = "<group>"; };
+		16D237AC28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXLocalStorageAssistant.swift; sourceTree = "<group>"; };
+		16DEB9552806089E00140E63 /* Tweet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,7 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				160437A827E1AD8900EA615F /* Core */,
-				160437A927E1AD8E00EA615F /* Rest */,
+				160437C427E1B62D00EA615F /* HomeViewController */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -92,6 +96,7 @@
 		160437A727E1AD8400EA615F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				16DEB9552806089E00140E63 /* Tweet.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -107,14 +112,6 @@
 				160437BF27E1B0C800EA615F /* TXPageViewController */,
 			);
 			path = Core;
-			sourceTree = "<group>";
-		};
-		160437A927E1AD8E00EA615F /* Rest */ = {
-			isa = PBXGroup;
-			children = (
-				160437C427E1B62D00EA615F /* HomeViewController */,
-			);
-			path = Rest;
 			sourceTree = "<group>";
 		};
 		160437B527E1AE8C00EA615F /* TXNavigationController */ = {
@@ -243,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				16C45FF127E76F2100F592A2 /* Utilities */,
+				16DEB94D2806079E00140E63 /* Providers */,
 				160437A727E1AD8400EA615F /* Models */,
 				160437A627E1AD7A00EA615F /* Views */,
 				160437A527E1AD7200EA615F /* Controllers */,
@@ -282,11 +280,83 @@
 		16C45FF127E76F2100F592A2 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				16D237AB28019A4C00FD1DC4 /* TXLocalStorageAssistant */,
 				1688D3F727FD7B2800F9C366 /* TXNetworkMonitor */,
 				169E27FE27EB895300B72006 /* TXNetworkAssistant */,
 				165E54F027E77F9000D3BA0D /* TXImageProvider */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		16D237AB28019A4C00FD1DC4 /* TXLocalStorageAssistant */ = {
+			isa = PBXGroup;
+			children = (
+				16D237AC28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift */,
+			);
+			path = TXLocalStorageAssistant;
+			sourceTree = "<group>";
+		};
+		16DEB94D2806079E00140E63 /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				16DEB957280608C700140E63 /* AuthenticationProvider */,
+				16DEB9532806082200140E63 /* FeedProvider */,
+				16DEB9522806081700140E63 /* TweetsProvider */,
+				16DEB9512806081300140E63 /* SearchProvider */,
+				16DEB9502806080100140E63 /* ComposeProvider */,
+				16DEB94F280607DF00140E63 /* NotificationsProvider */,
+				16DEB94E280607DA00140E63 /* ProfileProvider */,
+			);
+			path = Providers;
+			sourceTree = "<group>";
+		};
+		16DEB94E280607DA00140E63 /* ProfileProvider */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ProfileProvider;
+			sourceTree = "<group>";
+		};
+		16DEB94F280607DF00140E63 /* NotificationsProvider */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = NotificationsProvider;
+			sourceTree = "<group>";
+		};
+		16DEB9502806080100140E63 /* ComposeProvider */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ComposeProvider;
+			sourceTree = "<group>";
+		};
+		16DEB9512806081300140E63 /* SearchProvider */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SearchProvider;
+			sourceTree = "<group>";
+		};
+		16DEB9522806081700140E63 /* TweetsProvider */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TweetsProvider;
+			sourceTree = "<group>";
+		};
+		16DEB9532806082200140E63 /* FeedProvider */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FeedProvider;
+			sourceTree = "<group>";
+		};
+		16DEB957280608C700140E63 /* AuthenticationProvider */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AuthenticationProvider;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -369,10 +439,12 @@
 				160437D527E1B7C200EA615F /* ProfileViewController.swift in Sources */,
 				160437D727E1B83700EA615F /* TXPageControl.swift in Sources */,
 				161250F427DBB56E006BCE5A /* SceneDelegate.swift in Sources */,
+				16D237AD28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift in Sources */,
 				165E54F227E77F9C00D3BA0D /* TXImageProvider.swift in Sources */,
 				160437AD27E1ADE700EA615F /* TXTabBarController.swift in Sources */,
 				169E280027EB896800B72006 /* TXNetworkAssistant.swift in Sources */,
 				1688D3F927FD7B3B00F9C366 /* TXNetworkMonitor.swift in Sources */,
+				16DEB9562806089E00140E63 /* Tweet.swift in Sources */,
 				160437B327E1AE3300EA615F /* TXCollectionViewController.swift in Sources */,
 				1659263E27E1C55100A1C9F2 /* TXBarButtonItem.swift in Sources */,
 				160437CB27E1B73300EA615F /* HomeViewController.swift in Sources */,
