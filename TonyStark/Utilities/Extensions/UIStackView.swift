@@ -8,7 +8,9 @@
 import UIKit
 
 extension UIStackView {
-    static func spacer() -> UIView {
-        return UIView()
+    static var spacer: UIView {
+        get {
+            return UIView()
+        }
     }
 }
