@@ -25,45 +25,61 @@ class HomeViewController: TXTabBarController {
     
     func makeFeedViewController() -> UINavigationController {
         let feedViewController = FeedViewController()
-        feedViewController.tabBarItem = TXTabBarItem(
+        let navigationController = TXNavigationController(
+            rootViewController: feedViewController
+        )
+        
+        navigationController.tabBarItem = TXTabBarItem(
             title: nil,
             image: UIImage(systemName: "house"),
             tag: 0
         )
         
-        return TXNavigationController(rootViewController: feedViewController)
+        return navigationController
     }
     
     func makeExploreViewController() -> UINavigationController {
         let exploreViewController = ExploreViewController()
-        exploreViewController.tabBarItem = TXTabBarItem(
+        let navigationController = TXNavigationController(
+            rootViewController: exploreViewController
+        )
+        
+        navigationController.tabBarItem = TXTabBarItem(
             title: nil,
             image: UIImage(systemName: "magnifyingglass"),
             tag: 1
         )
         
-        return TXNavigationController(rootViewController: exploreViewController)
+        return navigationController
     }
 
     func makeNotificationsViewController() -> UINavigationController {
         let notificationsViewController = NotificationsViewController()
-        notificationsViewController.tabBarItem = TXTabBarItem(
+        let navigationController = TXNavigationController(
+            rootViewController: notificationsViewController
+        )
+        
+        navigationController.tabBarItem = TXTabBarItem(
             title: nil,
             image: UIImage(systemName: "bell"),
             tag: 3
         )
         
-        return TXNavigationController(rootViewController: notificationsViewController)
+        return navigationController
     }
     
     func makeProfileViewController() -> UINavigationController {
         let profileViewController = ProfileViewController()
-        profileViewController.tabBarItem = TXTabBarItem(
+        let navigationController = TXNavigationController(
+            rootViewController: profileViewController
+        )
+        
+        navigationController.tabBarItem = TXTabBarItem(
             title: nil,
             image: UIImage(systemName: "person"),
             tag: 4
         )
         
-        return TXNavigationController(rootViewController: profileViewController)
+        return navigationController
     }
 }
