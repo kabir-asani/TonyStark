@@ -21,5 +21,6 @@ class TXNavigationController: UINavigationController {
     
     private func configureNavigationBar() {
         navigationBar.tintColor = .label
+        navigationBar.isTranslucent = false
     }
 }

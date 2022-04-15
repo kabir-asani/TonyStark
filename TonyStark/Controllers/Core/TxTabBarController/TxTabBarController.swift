@@ -18,5 +18,6 @@ class TXTabBarController: UITabBarController {
         view.backgroundColor = .systemBackground
         
         tabBar.tintColor = .label
+        tabBar.isTranslucent = false
     }
 }
