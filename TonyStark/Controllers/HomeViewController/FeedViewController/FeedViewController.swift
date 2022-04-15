@@ -176,6 +176,8 @@ class FeedViewController: TXTableViewController {
     private func configureNavigationBar() {
         navigationItem.title = "TwitterX"
         
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         navigationItem.rightBarButtonItem = TXBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
@@ -191,6 +193,13 @@ class FeedViewController: TXTableViewController {
     }
     
     @objc private func onComposePressed(_ sender: UIBarButtonItem) {
+        let composeViewController = TXNavigationController(
+            rootViewController: ComposeViewController(style: .insetGrouped)
+        )
+        
+        composeViewController.modalPresentationStyle = .fullScreen
+        
+        present(composeViewController, animated: true)
     }
 }
 

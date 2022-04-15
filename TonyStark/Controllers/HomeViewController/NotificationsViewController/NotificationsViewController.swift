@@ -11,16 +11,11 @@ class NotificationsViewController: TXTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureBaseView()
         configureNavigationBar()
     }
     
-    private func configureBaseView() {
-        view.backgroundColor = .systemRed
-    }
-    
-    
     private func configureNavigationBar() {
         navigationItem.title = "Notifications"
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
 }

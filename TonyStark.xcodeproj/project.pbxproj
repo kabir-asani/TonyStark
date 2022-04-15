@@ -39,6 +39,7 @@
 		1659263E27E1C55100A1C9F2 /* TXBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1659263D27E1C55100A1C9F2 /* TXBarButtonItem.swift */; };
 		165E54F227E77F9C00D3BA0D /* TXImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165E54F127E77F9C00D3BA0D /* TXImageProvider.swift */; };
 		1688D3F927FD7B3B00F9C366 /* TXNetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1688D3F827FD7B3B00F9C366 /* TXNetworkMonitor.swift */; };
+		168D16902809AE67008821C8 /* ComposeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D168F2809AE67008821C8 /* ComposeTableViewCell.swift */; };
 		169E280027EB896800B72006 /* TXNetworkAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169E27FF27EB896800B72006 /* TXNetworkAssistant.swift */; };
 		16CC9A5428099500002647CE /* UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CC9A5328099500002647CE /* UIStackView.swift */; };
 		16D237AD28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D237AC28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift */; };
@@ -80,6 +81,7 @@
 		1659263D27E1C55100A1C9F2 /* TXBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXBarButtonItem.swift; sourceTree = "<group>"; };
 		165E54F127E77F9C00D3BA0D /* TXImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXImageProvider.swift; sourceTree = "<group>"; };
 		1688D3F827FD7B3B00F9C366 /* TXNetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXNetworkMonitor.swift; sourceTree = "<group>"; };
+		168D168F2809AE67008821C8 /* ComposeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeTableViewCell.swift; sourceTree = "<group>"; };
 		169E27FF27EB896800B72006 /* TXNetworkAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXNetworkAssistant.swift; sourceTree = "<group>"; };
 		16CC9A5328099500002647CE /* UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackView.swift; sourceTree = "<group>"; };
 		16D237AC28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXLocalStorageAssistant.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 			children = (
 				160437A827E1AD8900EA615F /* Core */,
 				160437C427E1B62D00EA615F /* HomeViewController */,
+				160437C927E1B70600EA615F /* ComposeViewController */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -197,10 +200,9 @@
 		160437C427E1B62D00EA615F /* HomeViewController */ = {
 			isa = PBXGroup;
 			children = (
-				16308635280881680061BE31 /* ReusabeComponents */,
+				16308635280881680061BE31 /* Components */,
 				160437C527E1B63800EA615F /* FeedViewController */,
 				160437C827E1B67700EA615F /* ExploreViewController */,
-				160437C927E1B70600EA615F /* ComposeViewController */,
 				160437C627E1B65A00EA615F /* NotificationsViewController */,
 				160437C727E1B66F00EA615F /* ProfileViewController */,
 				160437CA27E1B73300EA615F /* HomeViewController.swift */,
@@ -244,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				160437CC27E1B76200EA615F /* ComposeViewController.swift */,
+				168D168F2809AE67008821C8 /* ComposeTableViewCell.swift */,
 			);
 			path = ComposeViewController;
 			sourceTree = "<group>";
@@ -281,12 +284,12 @@
 			path = TonyStark;
 			sourceTree = "<group>";
 		};
-		16308635280881680061BE31 /* ReusabeComponents */ = {
+		16308635280881680061BE31 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				16308636280881780061BE31 /* TweetTableViewCell */,
 			);
-			path = ReusabeComponents;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		16308636280881780061BE31 /* TweetTableViewCell */ = {
@@ -505,6 +508,7 @@
 				161123832806CAC300908D98 /* Social.swift in Sources */,
 				169E280027EB896800B72006 /* TXNetworkAssistant.swift in Sources */,
 				1688D3F927FD7B3B00F9C366 /* TXNetworkMonitor.swift in Sources */,
+				168D16902809AE67008821C8 /* ComposeTableViewCell.swift in Sources */,
 				16DEB9562806089E00140E63 /* Tweet.swift in Sources */,
 				160437B327E1AE3300EA615F /* TXCollectionViewController.swift in Sources */,
 				161123812806CA4100908D98 /* Bookmark.swift in Sources */,

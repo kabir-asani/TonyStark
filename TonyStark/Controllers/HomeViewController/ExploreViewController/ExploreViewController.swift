@@ -8,19 +8,30 @@
 import UIKit
 
 class ExploreViewController: TXTableViewController {
+    let searchBarController: UISearchController = {
+        let searchBarController = UISearchController()
+        
+        return searchBarController
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureBaseView()
         configureNavigationBar()
+        configureSearchBar()
     }
-    
-    private func configureBaseView() {
-        view.backgroundColor = .systemPink
-    }
-    
     
     private func configureNavigationBar() {
         navigationItem.title = "Explore"
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
+    
+    private func configureSearchBar() {
+        searchBarController.delegate = self
+        navigationItem.searchController = searchBarController
+    }
+}
+
+extension ExploreViewController: UISearchControllerDelegate {
+    
 }
