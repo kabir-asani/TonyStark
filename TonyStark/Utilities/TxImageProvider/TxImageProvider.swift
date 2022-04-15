@@ -18,7 +18,7 @@ class TXImageProvider: TXImageProviderProtocol {
     
     private let cache = NSCache<NSString, UIImage>()
     
-    private init() {}
+    private init() { }
     
     func image(
         _ urlString: String

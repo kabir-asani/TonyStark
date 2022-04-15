@@ -134,7 +134,7 @@ class TXNetworkAssistant {
         }
         
         let result: TXNetworkSuccess = try await withCheckedThrowingContinuation { continuation in
-            URLSession.shared.dataTask(with: request) {
+            let task = URLSession.shared.dataTask(with: request) {
                 data, response, error in
                 guard error == nil else {
                     continuation.resume(throwing: TXNetworkFailure.unknown)
@@ -158,6 +158,8 @@ class TXNetworkAssistant {
                 
                 continuation.resume(returning: result)
             }
+            
+            task.resume()
         }
         
         return result
