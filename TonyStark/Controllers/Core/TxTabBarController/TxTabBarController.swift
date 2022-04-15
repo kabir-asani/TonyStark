@@ -12,11 +12,15 @@ class TXTabBarController: UITabBarController {
         super.viewDidLoad()
         
         configureBaseView()
+        configureTabBar()
     }
     
     private func configureBaseView() {
         view.backgroundColor = .systemBackground
-        
+
+    }
+    
+    private func configureTabBar() {
         tabBar.tintColor = .label
         tabBar.isTranslucent = false
     }
