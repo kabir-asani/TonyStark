@@ -113,6 +113,7 @@ class TweetViewCellLeading: UIView {
         
         image.squareOffConstraint(with: 44)
         
+        image.contentMode = .scaleAspectFill
         image.layer.cornerRadius = 22
         image.clipsToBounds = true
         
@@ -244,7 +245,7 @@ class TweetViewCellTrailingHeader: UIView {
         let stack = UIStackView(arrangedSubviews: [
             nameText,
             usernameText,
-            UIStackView.spacer()
+            UIStackView.spacer
         ])
         
         stack.enableAutolayout()
@@ -355,8 +356,30 @@ class TweetViewCellTrailingFooter: UIView {
         
         optionsButton.enableAutolayout()
         optionsButton.tintColor = .gray
-        optionsButton.setImage(UIImage(systemName: "square.grid.3x3.topright.fill"), for: .normal)
-        optionsButton.addTarget(nil, action: #selector(onOptionsPressed(_:)), for: .touchUpInside)
+        optionsButton.setImage(UIImage(systemName: "tray.full"), for: .normal)
+        
+        if #available(iOS 14.0, *) {
+            optionsButton.showsMenuAsPrimaryAction = true
+            optionsButton.menu = UIMenu(
+                title: "",
+                children: [
+                    UIAction(
+                        title: "Follow",
+                        image: UIImage(systemName: "person.badge.plus")
+                    ) { action in
+                        
+                    },
+                    UIAction(
+                        title: "Bookmark",
+                        image: UIImage(systemName: "bookmark")
+                    ) { action in
+                        
+                    },
+                ]
+            )
+        } else {
+            optionsButton.addTarget(nil, action: #selector(onOptionsPressed(_:)), for: .touchUpInside)
+        }
         
         return optionsButton
     }()
@@ -379,14 +402,14 @@ class TweetViewCellTrailingFooter: UIView {
         let stack = UIStackView(arrangedSubviews: [
             likeButton,
             commentButton,
-            bookmarkButton,
-            optionsButton
+            UIStackView.spacer,
+            optionsButton,
         ])
         
         stack.enableAutolayout()
         stack.axis = .horizontal
-        stack.spacing = 8
-        stack.distribution = .equalSpacing
+        stack.spacing = 16
+        stack.distribution = .fill
         stack.alignment = .center
         
         addSubview(stack)
@@ -407,6 +430,6 @@ class TweetViewCellTrailingFooter: UIView {
     }
     
     @objc private func onOptionsPressed(_ sender: UIButton) {
-        print(#function)
+        
     }
 }
