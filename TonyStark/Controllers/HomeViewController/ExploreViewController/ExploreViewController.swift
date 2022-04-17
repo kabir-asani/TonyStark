@@ -7,9 +7,13 @@
 
 import UIKit
 
-class ExploreViewController: TXTableViewController {
-    let searchBarController: UISearchController = {
-        let searchBarController = UISearchController()
+class ExploreViewController: TXViewController {
+    let searchBarController: TXSearchController = {
+        let searchBarController = TXSearchController(
+            searchResultsController: ExploreResultsViewController()
+        )
+        
+        searchBarController.extendedLayoutIncludesOpaqueBars = true
         
         return searchBarController
     }()
@@ -27,11 +31,28 @@ class ExploreViewController: TXTableViewController {
     }
     
     private func configureSearchBar() {
-        searchBarController.delegate = self
+        searchBarController.searchResultsUpdater = self
+        
         navigationItem.searchController = searchBarController
     }
 }
 
-extension ExploreViewController: UISearchControllerDelegate {
+extension ExploreViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let keyword = searchController.searchBar.text else {
+            return
+        }
+    }
+}
+
+class ExploreResultsViewController: TXTableViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        configureBaseView()
+    }
     
+    func configureBaseView() {
+        view.backgroundColor = .systemBlue
+    }
 }
