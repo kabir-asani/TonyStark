@@ -154,3 +154,23 @@ extension ProfileViewController {
         }
     }
 }
+
+// MARK: UIScrollViewDelegate
+extension ProfileViewController {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let currentYOffset = scrollView.contentOffset.y
+        
+        if currentYOffset < 140 {
+            navigationItem.title = nil
+        }
+        
+        if currentYOffset > 140 && navigationItem.title == nil {
+            switch userState {
+            case .success(let user):
+                navigationItem.title = user.name
+            default:
+                break
+            }
+        }
+    }
+}
