@@ -52,39 +52,14 @@ class FeedViewController: TXTableViewController {
 
 // MARK: UITableViewDataSource
 extension FeedViewController {
-    private func showActivityIndicator() {
-        DispatchQueue.main.async {
-            [weak self] in
-            let activityIndicator = UIActivityIndicatorView(
-                frame: CGRect(
-                    x: 0,
-                    y: 0,
-                    width: 80,
-                    height: 80
-                )
-            )
-            
-            activityIndicator.startAnimating()
-            
-            self?.tableView.tableFooterView = activityIndicator
-        }
-    }
-    
-    private func hideActivityIndicator() {
-        DispatchQueue.main.async {
-            [weak self] in
-            self?.tableView.tableFooterView = nil
-        }
-    }
-    
     private func populateTableViewWithFeed() {
-        showActivityIndicator()
+        tableView.showActivityIndicatorAtTheBottomOfTableView()
         
         Task {
             [weak self] in
             let result = await TweetsProvider.shared.tweets()
             
-            self?.hideActivityIndicator()
+            self?.tableView.hideActivityIndicatorAtTheBottomOfTableView()
             
             self?.state = result
             self?.tableView.reloadData()
@@ -118,7 +93,7 @@ extension FeedViewController {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         switch state {
-        case .success(result: let paginated):
+        case .success(let paginated):
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: TweetTableViewCell.reuseIdentifier,
                 for: indexPath
@@ -127,7 +102,7 @@ extension FeedViewController {
             cell.populate(with: paginated.page[indexPath.row])
             
             return cell
-        default:
+        case .failure(_):
             return UITableViewCell()
         }
     }
