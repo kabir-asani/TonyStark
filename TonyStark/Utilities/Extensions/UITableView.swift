@@ -1,0 +1,36 @@
+//
+//  UITableView.swift
+//  TonyStark
+//
+//  Created by Mohammed Sadiq on 18/04/22.
+//
+
+import Foundation
+import UIKit
+
+extension UITableView {
+    func showActivityIndicatorAtTheBottomOfTableView() {
+        DispatchQueue.main.async {
+            [weak self] in
+            if let safeSelf = self {
+                let activityIndicator = UIActivityIndicatorView()
+                safeSelf.tableFooterView = activityIndicator
+                                
+                activityIndicator.enableAutolayout()
+                activityIndicator.heightConstaint(with: 80)
+                activityIndicator.pin(toHorizonCenterOf: safeSelf)
+
+                activityIndicator.startAnimating()
+            }
+        }
+    }
+    
+    func hideActivityIndicatorAtTheBottomOfTableView() {
+        DispatchQueue.main.async {
+            [weak self] in
+            if let safeSelf = self {
+                safeSelf.tableFooterView = nil
+            }
+        }
+    }
+}
