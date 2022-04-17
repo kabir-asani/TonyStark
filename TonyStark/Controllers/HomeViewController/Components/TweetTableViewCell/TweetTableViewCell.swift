@@ -40,21 +40,21 @@ class TweetTableViewCell: TXTableViewCell {
         self.selectionStyle = .none
         contentView.isUserInteractionEnabled = false
         
-        addSubviews()
+        configureSubviews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with tweet: Tweet) {
+    func populate(with tweet: Tweet) {
         self.tweet = tweet
         
-        leading.configure(with: tweet)
-        trailing.configure(with: tweet)
+        leading.populate(with: tweet)
+        trailing.populate(with: tweet)
     }
     
-    private func addSubviews() {
+    private func configureSubviews() {
         let stack = UIStackView(arrangedSubviews: [
             leading,
             trailing
@@ -83,60 +83,54 @@ class TweetTableViewCell: TXTableViewCell {
 class TweetViewCellLeading: UIView {
     private var tweet: Tweet?
     
-    private let image: UIImageView = {
-        let image = UIImageView()
+    private let profileImage: TXCircularImageView = {
+        let profileImage = TXCircularImageView(radius: 22)
         
-        image.enableAutolayout()
-        image.backgroundColor = .lightGray
+        profileImage.enableAutolayout()
+        profileImage.backgroundColor = .lightGray
         
-        return image
+        return profileImage
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        addSubviews()
+        configureSubviews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with tweet: Tweet) {
+    func populate(with tweet: Tweet) {
         self.tweet = tweet
         
-        configure(imageWith: tweet.author.image)
+        populate(imageWith: tweet.author.image)
     }
     
-    private func addSubviews() {
-        addSubview(image)
-        
-        image.squareOffConstraint(with: 44)
-        
-        image.contentMode = .scaleAspectFill
-        image.layer.cornerRadius = 22
-        image.clipsToBounds = true
-        
-        image.pin(to: self)
-    }
-    
-    private func configure(imageWith imageURL: String) {
+    private func populate(imageWith imageURL: String) {
         Task {
             let image = await TXImageProvider.shared.image(imageURL)
             
             DispatchQueue.main.async {
                 [weak self] in
                 guard let image = image else { return }
-                self?.image.image = image
+                self?.profileImage.image = image
             }
         }
+    }
+    
+    private func configureSubviews() {
+        addSubview(profileImage)
+        
+        profileImage.pin(to: self)
     }
 }
 
 class TweetViewCellTrailing: UIView {
     private var tweet: Tweet?
     
-    let header: TweetViewCellTrailingHeader = {
+    private let header: TweetViewCellTrailingHeader = {
         let header = TweetViewCellTrailingHeader()
         
         header.enableAutolayout()
@@ -144,7 +138,7 @@ class TweetViewCellTrailing: UIView {
         return header
     }()
     
-    let body: TweetViewCellTrailingBody = {
+    private let body: TweetViewCellTrailingBody = {
         let body = TweetViewCellTrailingBody()
         
         body.enableAutolayout()
@@ -152,7 +146,7 @@ class TweetViewCellTrailing: UIView {
         return body
     }()
     
-    let footer: TweetViewCellTrailingFooter = {
+    private let footer: TweetViewCellTrailingFooter = {
         let footer = TweetViewCellTrailingFooter()
         
         footer.enableAutolayout()
@@ -163,22 +157,22 @@ class TweetViewCellTrailing: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        addSubviews()
+        configureSubviews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with tweet: Tweet) {
+    func populate(with tweet: Tweet) {
         self.tweet = tweet
         
-        header.configure(with: tweet)
+        header.populate(with: tweet)
         body.configure(with: tweet)
-        footer.configure(with: tweet)
+        footer.populate(with: tweet)
     }
     
-    private func addSubviews() {
+    private func configureSubviews() {
         let stack = UIStackView(arrangedSubviews: [
             header,
             body,
@@ -234,11 +228,11 @@ class TweetViewCellTrailingHeader: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with tweet: Tweet) {
+    func populate(with tweet: Tweet) {
         self.tweet = tweet
         
-        configure(nameWith: tweet.author.name)
-        configure(usernameWith: tweet.author.username)
+        populate(nameTextWith: tweet.author.name)
+        populate(usernameTextWith: tweet.author.username)
     }
     
     private func addSubviews() {
@@ -259,11 +253,11 @@ class TweetViewCellTrailingHeader: UIView {
         stack.pin(to: self)
     }
     
-    private func configure(nameWith name: String) {
+    private func populate(nameTextWith name: String) {
         nameText.text = name
     }
     
-    private func configure(usernameWith username: String) {
+    private func populate(usernameTextWith username: String) {
         usernameText.text = "@" + username
     }
 }
@@ -318,7 +312,6 @@ class TweetViewCellTrailingFooter: UIView {
         likeButton.enableAutolayout()
         likeButton.tintColor = .gray
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-        likeButton.addTarget(nil, action: #selector(onLikePressed(_:)), for: .touchUpInside)
         
         likeButton.heightConstaint(with: 20)
         
@@ -331,24 +324,10 @@ class TweetViewCellTrailingFooter: UIView {
         commentButton.enableAutolayout()
         commentButton.tintColor = .gray
         commentButton.setImage(UIImage(systemName: "text.bubble"), for: .normal)
-        commentButton.addTarget(nil, action: #selector(onCommentPressed(_:)), for: .touchUpInside)
         
         commentButton.heightConstaint(with: 20)
         
         return commentButton
-    }()
-    
-    private let bookmarkButton: UIButton = {
-        let bookmarkButton = UIButton()
-        
-        bookmarkButton.enableAutolayout()
-        bookmarkButton.tintColor = .gray
-        bookmarkButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
-        bookmarkButton.addTarget(nil, action: #selector(onBookmarkPressed(_:)), for: .touchUpInside)
-        
-        bookmarkButton.heightConstaint(with: 20)
-        
-        return bookmarkButton
     }()
     
     private let optionsButton: UIButton = {
@@ -357,29 +336,11 @@ class TweetViewCellTrailingFooter: UIView {
         optionsButton.enableAutolayout()
         optionsButton.tintColor = .gray
         optionsButton.setImage(UIImage(systemName: "tray.full"), for: .normal)
-        
         if #available(iOS 14.0, *) {
             optionsButton.showsMenuAsPrimaryAction = true
-            optionsButton.menu = UIMenu(
-                title: "",
-                children: [
-                    UIAction(
-                        title: "Follow",
-                        image: UIImage(systemName: "person.badge.plus")
-                    ) { action in
-                        
-                    },
-                    UIAction(
-                        title: "Bookmark",
-                        image: UIImage(systemName: "bookmark")
-                    ) { action in
-                        
-                    },
-                ]
-            )
-        } else {
-            optionsButton.addTarget(nil, action: #selector(onOptionsPressed(_:)), for: .touchUpInside)
         }
+        
+        optionsButton.heightConstaint(with: 20)
         
         return optionsButton
     }()
@@ -387,24 +348,61 @@ class TweetViewCellTrailingFooter: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        addSubviews()
+        configureSubviews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with tweet: Tweet) {
+    func populate(with tweet: Tweet) {
         self.tweet = tweet
+        
+        populate(optionsButtonWith: tweet)
     }
     
-    private func addSubviews() {
-        let stack = UIStackView(arrangedSubviews: [
-            likeButton,
-            commentButton,
-            UIStackView.spacer,
-            optionsButton,
-        ])
+    private func populate(optionsButtonWith tweet: Tweet) {
+        if #available(iOS 14.0, *) {
+            optionsButton.showsMenuAsPrimaryAction = true
+            optionsButton.menu = UIMenu(
+                title: "",
+                children: [
+                    UIAction(
+                        title: tweet.viewables.bookmarked ? "Remove bookmark" : "Bookmark",
+                        image: UIImage(systemName: tweet.viewables.bookmarked ? "bookmark.fill" : "bookmark")
+                    ) { action in
+                        
+                    },
+                    UIAction(
+                        title: tweet.author.viewables.follower
+                        ? "Unfollow"
+                        : "Follow",
+                        image: UIImage(
+                            systemName: tweet.author.viewables.follower
+                            ? "person.badge.plus.fill"
+                            : "person.badge.plus"
+                        )
+                    ) { action in
+                        
+                    }
+                ]
+            )
+        }
+    }
+    
+    private func configureSubviews() {
+        configureLikeButton()
+        configureCommentButton()
+        configureOptionsButton()
+        
+        let stack = UIStackView(
+            arrangedSubviews: [
+                likeButton,
+                commentButton,
+                UIStackView.spacer,
+                optionsButton,
+            ]
+        )
         
         stack.enableAutolayout()
         stack.axis = .horizontal
@@ -417,19 +415,45 @@ class TweetViewCellTrailingFooter: UIView {
         stack.pin(to: self)
     }
     
-    @objc private func onLikePressed(_ sender: UIButton) {
+    private func configureLikeButton() {
+        likeButton.addTarget(
+            self,
+            action: #selector(onLikePressed(_:)),
+            for: .touchUpInside
+        )
+    }
+    
+    private func configureCommentButton() {
+        commentButton.addTarget(
+            self,
+            action: #selector(onCommentPressed(_:)),
+            for: .touchUpInside
+        )
+    }
+    
+    private func configureOptionsButton() {
+        optionsButton.addTarget(
+            self,
+            action: #selector(onOptionsPressed(_:)),
+            for: .touchUpInside
+        )
+    }
+    
+    @objc private func onLikePressed(
+        _ sender: UIButton
+    ) {
         print(#function)
     }
     
-    @objc private func onCommentPressed(_ sender: UIButton) {
+    @objc private func onCommentPressed(
+        _ sender: UIButton
+    ) {
         print(#function)
     }
     
-    @objc private func onBookmarkPressed(_ sender: UIButton) {
+    @objc private func onOptionsPressed(
+        _ sender: UIButton
+    ) {
         print(#function)
-    }
-    
-    @objc private func onOptionsPressed(_ sender: UIButton) {
-        
     }
 }

@@ -35,7 +35,9 @@ class FeedViewController: TXTableViewController {
                 activityDetails: UserActivityDetails(
                     tweetsCount: 0
                 ),
-                viewables: UserViewables(follower: true)
+                viewables: UserViewables(
+                    follower: false
+                )
             ),
             viewables: TweetViewables(
                 liked: true,
@@ -70,11 +72,13 @@ class FeedViewController: TXTableViewController {
                 activityDetails: UserActivityDetails(
                     tweetsCount: 0
                 ),
-                viewables: UserViewables(follower: true)
+                viewables: UserViewables(
+                    follower: true
+                )
             ),
             viewables: TweetViewables(
                 liked: true,
-                bookmarked: true
+                bookmarked: false
             )
         ),
         Tweet(
@@ -106,7 +110,9 @@ class FeedViewController: TXTableViewController {
                 activityDetails: UserActivityDetails(
                     tweetsCount: 0
                 ),
-                viewables: UserViewables(follower: true)
+                viewables: UserViewables(
+                    follower: true
+                )
             ),
             viewables: TweetViewables(
                 liked: true,
@@ -139,7 +145,9 @@ class FeedViewController: TXTableViewController {
                 activityDetails: UserActivityDetails(
                     tweetsCount: 0
                 ),
-                viewables: UserViewables(follower: true)
+                viewables: UserViewables(
+                    follower: true
+                )
             ),
             viewables: TweetViewables(
                 liked: true,
@@ -172,7 +180,9 @@ class FeedViewController: TXTableViewController {
                 activityDetails: UserActivityDetails(
                     tweetsCount: 0
                 ),
-                viewables: UserViewables(follower: true)
+                viewables: UserViewables(
+                    follower: true
+                )
             ),
             viewables: TweetViewables(
                 liked: true,
@@ -227,7 +237,7 @@ extension FeedViewController {
             for: indexPath
         ) as! TweetTableViewCell
         
-        cell.configure(with: tweets[indexPath.row])
+        cell.populate(with: tweets[indexPath.row])
         
         return cell
     }

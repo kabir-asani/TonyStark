@@ -105,6 +105,7 @@ class ProfileTableViewCellHeader: UIView {
         let profileImage = TXCircularImageView(radius: 40)
         
         profileImage.enableAutolayout()
+        profileImage.backgroundColor = .lightGray
         
         return profileImage
     }()
