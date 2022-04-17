@@ -8,6 +8,13 @@
 import Foundation
 
 struct Paginated<T> {
+    static func empty() -> Paginated<T> {
+        return Paginated<T>(
+            page: [],
+            nextToken: nil
+        )
+    }
+    
     let page: [T]
     let nextToken: String?
     
