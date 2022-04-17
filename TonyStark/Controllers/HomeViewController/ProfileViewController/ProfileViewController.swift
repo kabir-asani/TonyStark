@@ -13,7 +13,7 @@ enum ProfileViewSegmentedItem: String {
 }
 
 class ProfileViewController: TXTableViewController {
-    let user = User(
+    private let user = User(
         id: "ar93hdk4",
         name: "Zain Khan",
         username: "mzaink",

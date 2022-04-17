@@ -23,7 +23,7 @@ class HomeViewController: TXTabBarController {
         ]
     }
     
-    func makeFeedViewController() -> UINavigationController {
+    func makeFeedViewController() -> TXNavigationController {
         let feedViewController = FeedViewController()
         let navigationController = TXNavigationController(
             rootViewController: feedViewController
@@ -38,7 +38,7 @@ class HomeViewController: TXTabBarController {
         return navigationController
     }
     
-    func makeExploreViewController() -> UINavigationController {
+    func makeExploreViewController() -> TXNavigationController {
         let exploreViewController = ExploreViewController()
         let navigationController = TXNavigationController(
             rootViewController: exploreViewController
@@ -53,7 +53,7 @@ class HomeViewController: TXTabBarController {
         return navigationController
     }
 
-    func makeNotificationsViewController() -> UINavigationController {
+    func makeNotificationsViewController() -> TXNavigationController {
         let notificationsViewController = NotificationsViewController()
         let navigationController = TXNavigationController(
             rootViewController: notificationsViewController
@@ -68,7 +68,7 @@ class HomeViewController: TXTabBarController {
         return navigationController
     }
     
-    func makeProfileViewController() -> UINavigationController {
+    func makeProfileViewController() -> TXNavigationController {
         let profileViewController = ProfileViewController()
         let navigationController = TXNavigationController(
             rootViewController: profileViewController
