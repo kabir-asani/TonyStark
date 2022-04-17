@@ -40,6 +40,7 @@
 		165E54F227E77F9C00D3BA0D /* TXImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165E54F127E77F9C00D3BA0D /* TXImageProvider.swift */; };
 		1688D3F927FD7B3B00F9C366 /* TXNetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1688D3F827FD7B3B00F9C366 /* TXNetworkMonitor.swift */; };
 		168D16902809AE67008821C8 /* ComposeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D168F2809AE67008821C8 /* ComposeTableViewCell.swift */; };
+		16993CD6280C41FE00FFE71B /* TXSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16993CD5280C41FE00FFE71B /* TXSearchController.swift */; };
 		169E280027EB896800B72006 /* TXNetworkAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169E27FF27EB896800B72006 /* TXNetworkAssistant.swift */; };
 		16CC9A5428099500002647CE /* UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CC9A5328099500002647CE /* UIStackView.swift */; };
 		16D237AD28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D237AC28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift */; };
@@ -82,6 +83,7 @@
 		165E54F127E77F9C00D3BA0D /* TXImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXImageProvider.swift; sourceTree = "<group>"; };
 		1688D3F827FD7B3B00F9C366 /* TXNetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXNetworkMonitor.swift; sourceTree = "<group>"; };
 		168D168F2809AE67008821C8 /* ComposeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeTableViewCell.swift; sourceTree = "<group>"; };
+		16993CD5280C41FE00FFE71B /* TXSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXSearchController.swift; sourceTree = "<group>"; };
 		169E27FF27EB896800B72006 /* TXNetworkAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXNetworkAssistant.swift; sourceTree = "<group>"; };
 		16CC9A5328099500002647CE /* UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackView.swift; sourceTree = "<group>"; };
 		16D237AC28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXLocalStorageAssistant.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 		160437A827E1AD8900EA615F /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				16993CD4280C41F700FFE71B /* TXSearchController */,
 				160437B527E1AE8C00EA615F /* TXNavigationController */,
 				160437B627E1AE9300EA615F /* TXTabBarController */,
 				160437B727E1AE9A00EA615F /* TXViewController */,
@@ -325,6 +328,14 @@
 			path = TXNetworkMonitor;
 			sourceTree = "<group>";
 		};
+		16993CD4280C41F700FFE71B /* TXSearchController */ = {
+			isa = PBXGroup;
+			children = (
+				16993CD5280C41FE00FFE71B /* TXSearchController.swift */,
+			);
+			path = TXSearchController;
+			sourceTree = "<group>";
+		};
 		169E27FE27EB895300B72006 /* TXNetworkAssistant */ = {
 			isa = PBXGroup;
 			children = (
@@ -491,6 +502,7 @@
 				160437B127E1AE2600EA615F /* TXTableViewController.swift in Sources */,
 				160437D927E1B87B00EA615F /* TXTabBarItem.swift in Sources */,
 				1611237B2806C75A00908D98 /* User.swift in Sources */,
+				16993CD6280C41FE00FFE71B /* TXSearchController.swift in Sources */,
 				1611237D2806C99500908D98 /* Like.swift in Sources */,
 				160437AF27E1AE0700EA615F /* TXViewController.swift in Sources */,
 				161250F227DBB56E006BCE5A /* AppDelegate.swift in Sources */,
