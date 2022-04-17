@@ -8,6 +8,27 @@
 import Foundation
 
 struct User {
+    static func empty() -> User {
+        return User(
+            id: "",
+            name: "",
+            username: "",
+            image: "",
+            bio: "",
+            creationDate: Date(),
+            socialDetails: UserSocialDetails(
+                followersCount: 0,
+                followingsCount: 0
+            ),
+            activityDetails: UserActivityDetails(
+                tweetsCount: 0
+            ),
+            viewables: UserViewables(
+                follower: false
+            )
+        )
+    }
+    
     let id: String
     let name: String
     let username: String
