@@ -15,16 +15,12 @@ enum TweetsProviderFailure: Error {
 class TweetsProvider {
     static let shared = TweetsProvider()
     
-    func tweets() async -> Result<Paginated<Tweet>, TweetsProviderFailure> {
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2) {
-            
-        }
-        
+    func tweets(of userId: String? = nil) async -> Result<Paginated<Tweet>, TweetsProviderFailure> {
         let paginated: Paginated<Tweet> = await withCheckedContinuation({ continuation in
             DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2) {
                 let tweets: [Tweet] = [
                     Tweet(
-                        id: "ar93hdk4",
+                        id: "ar93hdkj",
                         text: """
                         English
                         """,
@@ -34,7 +30,7 @@ class TweetsProvider {
                             commentsCount: 0
                         ),
                         author: User(
-                            id: "ar93hdk4",
+                            id: "sadiyakhan",
                             name: "Sadiya Khan",
                             username: "sadiyakhan",
                             image: "https://www.mirchi9.com/wp-content/uploads/2022/02/Mahesh-Fans-Firing-on-Pooja-Hegde.jpg",
@@ -71,7 +67,7 @@ class TweetsProvider {
                             commentsCount: 0
                         ),
                         author: User(
-                            id: "ar93hdk4",
+                            id: "mzaink",
                             name: "Zain Khan",
                             username: "mzaink",
                             image: "https://pbs.twimg.com/profile_images/1483797876522512385/9CcO904A_400x400.jpg",
@@ -109,7 +105,7 @@ class TweetsProvider {
                             commentsCount: 0
                         ),
                         author: User(
-                            id: "ar93hdk4",
+                            id: "RamyaKembal",
                             name: "Ramya kembal",
                             username: "RamyaKembal",
                             image: "https://pbs.twimg.com/profile_images/1190200299727851526/A26tGnda_400x400.jpg",
@@ -144,7 +140,7 @@ class TweetsProvider {
                             commentsCount: 0
                         ),
                         author: User(
-                            id: "ar93hdk4",
+                            id: "mzaink",
                             name: "Zain Khan",
                             username: "mzaink",
                             image: "https://pbs.twimg.com/profile_images/1483797876522512385/9CcO904A_400x400.jpg",
@@ -179,7 +175,7 @@ class TweetsProvider {
                             commentsCount: 0
                         ),
                         author: User(
-                            id: "ar93hdk4",
+                            id: "GabbbarSingh",
                             name: "Gabbar",
                             username: "GabbbarSingh",
                             image: "https://pbs.twimg.com/profile_images/1271082702326784003/1kIF_loZ_400x400.jpg",
@@ -213,6 +209,17 @@ class TweetsProvider {
                 continuation.resume(returning: result)
             }
         })
+        
+        if let userId = userId {
+            let paginated = Paginated<Tweet>(
+                page: paginated.page.filter { tweet in
+                    tweet.author.id == userId
+                },
+                nextToken: nil
+            )
+            
+            return .success(paginated)
+        }
         
         return .success(paginated)
     }

@@ -25,7 +25,7 @@ class CurrentUserProvider {
         let result: User = await withCheckedContinuation { continuation in
             DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2) {
                 let user = User(
-                    id: "ar93hdk4",
+                    id: "mzaink",
                     name: "Zain Khan",
                     username: "mzaink",
                     image: "https://pbs.twimg.com/profile_images/1483797876522512385/9CcO904A_400x400.jpg",
