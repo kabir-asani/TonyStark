@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Session: Codable {
+struct Session {
     let id: String
     let userId: String
     let creationDate: Date

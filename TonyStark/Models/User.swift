@@ -12,6 +12,7 @@ struct User {
     let name: String
     let username: String
     let image: String
+    let bio: String
     let creationDate: Date
     let socialDetails: UserSocialDetails
     let activityDetails: UserActivityDetails
@@ -22,6 +23,7 @@ struct User {
         name: String? = nil,
         username: String? = nil,
         image: String? = nil,
+        bio: String? = nil,
         creationDate: Date? = nil,
         socialDetails: UserSocialDetails? = nil,
         activityDetails: UserActivityDetails? = nil,
@@ -32,6 +34,7 @@ struct User {
             name: name ?? self.name,
             username: username ?? self.username,
             image: image ?? self.image,
+            bio: bio ?? self.bio,
             creationDate: creationDate ?? self.creationDate,
             socialDetails: socialDetails ?? self.socialDetails,
             activityDetails: activityDetails ?? self.activityDetails,
