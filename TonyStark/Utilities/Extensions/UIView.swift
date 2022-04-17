@@ -32,6 +32,27 @@ extension UIView {
         ])
     }
     
+    func pin(
+        toVerticalCenterOf verticalParent: UIView? = nil,
+        toHorizonCenterOf horizontalParent: UIView? = nil
+    ) {
+        if let view = verticalParent {
+            NSLayoutConstraint.activate([
+                self.centerYAnchor.constraint(
+                    equalTo: view.centerYAnchor
+                )
+            ])
+        }
+        
+        if let view = horizontalParent {
+            NSLayoutConstraint.activate([
+                self.centerXAnchor.constraint(
+                    equalTo: view.centerXAnchor
+                )
+            ])
+        }
+    }
+    
     func squareOffConstraint(with side: Double) {
         NSLayoutConstraint.activate([
             self.widthAnchor.constraint(equalToConstant: side),
