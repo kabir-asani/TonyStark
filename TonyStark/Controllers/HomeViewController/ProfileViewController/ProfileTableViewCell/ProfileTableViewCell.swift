@@ -10,7 +10,7 @@ import UIKit
 class ProfileTableViewCell: TXTableViewCell {
     static let reuseIdentifier = String(describing: ProfileTableViewCell.self)
     
-    private var user: User?
+    private var user: User!
     
     let header: ProfileTableViewCellHeader = {
         let header = ProfileTableViewCellHeader()
@@ -45,24 +45,15 @@ class ProfileTableViewCell: TXTableViewCell {
             reuseIdentifier: reuseIdentifier
         )
         
-        configureBaseView()
-        configureSubviews()
+        arrangeBaseView()
+        arrangeSubviews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func populate(with user: User) {
-        self.user = user
-        
-        header.populate(with: user)
-        body.populate(with: user)
-        footer.populate(with: user)
-    }
-    
-    
-    private func configureBaseView() {
+    private func arrangeBaseView() {
         selectionStyle = .none
         separatorInset = UIEdgeInsets(
             top: 0,
@@ -72,7 +63,7 @@ class ProfileTableViewCell: TXTableViewCell {
         )
     }
     
-    private func configureSubviews() {
+    private func arrangeSubviews() {
         let stack = UIStackView(arrangedSubviews: [
             header,
             body,
@@ -96,10 +87,18 @@ class ProfileTableViewCell: TXTableViewCell {
             )
         )
     }
+    
+    func configure(with user: User) {
+        self.user = user
+        
+        header.configure(with: user)
+        body.configure(with: user)
+        footer.configure(with: user)
+    }
 }
 
 class ProfileTableViewCellHeader: UIView {
-    private var user: User?
+    private var user: User!
     
     let profileImage: TXImageView = {
         let profileImage = TXCircularImageView(radius: 40)
@@ -138,35 +137,14 @@ class ProfileTableViewCellHeader: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureSubviews()
+        arrangeSubviews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func populate(with user: User) {
-        self.user = user
-        
-        populate(profileImageWith: user.image)
-    }
-    
-    private func populate(profileImageWith imageURL: String) {
-        Task {
-            let image = await TXImageProvider.shared.image(imageURL)
-            
-            if let image = image {
-                DispatchQueue.main.async {
-                    [weak self] in
-                    self?.profileImage.image = image
-                }
-            }
-        }
-    }
-    
-    private func configureSubviews() {
-        configureEditButton()
-        
+    private func arrangeSubviews() {
         let stack = UIStackView(arrangedSubviews: [
             profileImage,
             UIStackView.spacer,
@@ -181,6 +159,33 @@ class ProfileTableViewCellHeader: UIView {
         addSubview(stack)
         
         stack.pin(to: self)
+    }
+    
+    func configure(with user: User) {
+        self.user = user
+        
+        configureProfileImage()
+        configureEditButton()
+    }
+    
+    private func configureProfileImage() {
+        Task {
+            [weak self] in
+            guard let safeSelf = self else {
+                return
+            }
+            
+            let image = await TXImageProvider.shared.image(safeSelf.user.image)
+            
+            DispatchQueue.main.async {
+                [weak self] in
+                guard let safeSelf = self, let image = image else {
+                    return
+                }
+                
+                safeSelf.profileImage.image = image
+            }
+        }
     }
     
     private func configureEditButton() {
@@ -198,7 +203,7 @@ class ProfileTableViewCellHeader: UIView {
 
 
 class ProfileTableViewCellBody: UIView {
-    private var user: User?
+    private var user: User!
     
     let nameText: UILabel = {
         let nameText = UILabel()
@@ -234,34 +239,10 @@ class ProfileTableViewCellBody: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureSubviews()
+        arrangeSubviews()
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func populate(with user: User) {
-        self.user = user
-        
-        populate(nameTextWith: user.name)
-        populate(usernameTextWith: user.username)
-        populate(bioTextWith: user.bio)
-    }
-    
-    private func populate(nameTextWith text: String) {
-        nameText.text = text
-    }
-    
-    private func populate(usernameTextWith text: String) {
-        usernameText.text = "@\(text)"
-    }
-    
-    private func populate(bioTextWith text: String) {
-        bioText.text = text
-    }
-    
-    private func configureSubviews() {
+    private func arrangeSubviews() {
         let stack = UIStackView(arrangedSubviews: [
             nameText,
             usernameText,
@@ -278,11 +259,35 @@ class ProfileTableViewCellBody: UIView {
         
         stack.pin(to: self)
     }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(with user: User) {
+        self.user = user
+        
+        configureNameText()
+        configureUsernameText()
+        configureBioText()
+    }
+    
+    private func configureNameText() {
+        nameText.text = user.name
+    }
+    
+    private func configureUsernameText() {
+        usernameText.text = "@\(user.username)"
+    }
+    
+    private func configureBioText() {
+        bioText.text = user.bio
+    }
 }
 
 
 class ProfileTableViewCellFooter: UIView {
-    private var user: User?
+    private var user: User!
     
     let followersSocialDetails: SocialDetails = {
         let followersSocialDetails = SocialDetails()
@@ -303,32 +308,14 @@ class ProfileTableViewCellFooter: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureSubviews()
+        arrangeSubviews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func populate(with user: User) {
-        self.user = user
-        
-        followersSocialDetails.populate(
-            with: (
-                leadingText: "\(user.socialDetails.followersCount)",
-                trailingText: "Followers"
-            )
-        )
-        
-        followingsSocialDetails.populate(
-            with: (
-                leadingText: "\(user.socialDetails.followingsCount)",
-                trailingText: "Followings"
-            )
-        )
-    }
-    
-    private func configureSubviews() {
+
+    private func arrangeSubviews() {
         let stack = UIStackView(arrangedSubviews: [
             followersSocialDetails,
             followingsSocialDetails,
@@ -344,6 +331,24 @@ class ProfileTableViewCellFooter: UIView {
         addSubview(stack)
         
         stack.pin(to: self)
+    }
+    
+    func configure(with user: User) {
+        self.user = user
+        
+        followersSocialDetails.configure(
+            with: (
+                leadingText: "\(user.socialDetails.followersCount)",
+                trailingText: "Followers"
+            )
+        )
+        
+        followingsSocialDetails.configure(
+            with: (
+                leadingText: "\(user.socialDetails.followingsCount)",
+                trailingText: "Followings"
+            )
+        )
     }
 }
 
@@ -370,19 +375,14 @@ class SocialDetails: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureSubviews()
+        arrangeSubviews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func populate(with data: (leadingText: String, trailingText: String)) {
-        leadingText.text = data.leadingText
-        trailingText.text = data.trailingText
-    }
-    
-    private func configureSubviews() {
+    private func arrangeSubviews() {
         let stack = UIStackView(arrangedSubviews: [
             leadingText,
             trailingText
@@ -397,5 +397,10 @@ class SocialDetails: UIView {
         addSubview(stack)
         
         stack.pin(to: self)
+    }
+    
+    func configure(with data: (leadingText: String, trailingText: String)) {
+        leadingText.text = data.leadingText
+        trailingText.text = data.trailingText
     }
 }

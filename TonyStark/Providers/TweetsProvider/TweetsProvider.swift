@@ -17,7 +17,7 @@ class TweetsProvider {
     
     func tweets(of userId: String? = nil) async -> Result<Paginated<Tweet>, TweetsProviderFailure> {
         let paginated: Paginated<Tweet> = await withCheckedContinuation({ continuation in
-            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2) {
+            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now()) {
                 let tweets: [Tweet] = [
                     Tweet(
                         id: "ar93hdkj",
@@ -26,7 +26,7 @@ class TweetsProvider {
                         """,
                         creationDate: Date(),
                         meta: TweetMeta(
-                            likesCount: 0,
+                            likesCount: 1,
                             commentsCount: 0
                         ),
                         author: User(
@@ -63,7 +63,7 @@ class TweetsProvider {
                         """,
                         creationDate: Date(),
                         meta: TweetMeta(
-                            likesCount: 0,
+                            likesCount: 1,
                             commentsCount: 0
                         ),
                         author: User(
@@ -102,7 +102,7 @@ class TweetsProvider {
                         creationDate: Date(),
                         meta: TweetMeta(
                             likesCount: 0,
-                            commentsCount: 0
+                            commentsCount: 44
                         ),
                         author: User(
                             id: "RamyaKembal",
@@ -125,7 +125,7 @@ class TweetsProvider {
                             )
                         ),
                         viewables: TweetViewables(
-                            liked: true,
+                            liked: false,
                             bookmarked: true
                         )
                     ),
@@ -160,7 +160,7 @@ class TweetsProvider {
                             )
                         ),
                         viewables: TweetViewables(
-                            liked: true,
+                            liked: false,
                             bookmarked: true
                         )
                     ),
@@ -171,8 +171,8 @@ class TweetsProvider {
                         """,
                         creationDate: Date(),
                         meta: TweetMeta(
-                            likesCount: 0,
-                            commentsCount: 0
+                            likesCount: 1,
+                            commentsCount: 10
                         ),
                         author: User(
                             id: "GabbbarSingh",

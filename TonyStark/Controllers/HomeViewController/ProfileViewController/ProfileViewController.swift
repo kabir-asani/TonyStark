@@ -129,7 +129,7 @@ extension ProfileViewController {
                     for: indexPath
                 ) as! ProfileTableViewCell
                 
-                cell.populate(with: user)
+                cell.configure(with: user)
                 
                 return cell
             case .failure(_):
