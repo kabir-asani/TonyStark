@@ -32,13 +32,12 @@ class ProfileViewController: TXTableViewController {
             target: self,
             action: #selector(onActionPressed(_:))
         )
-        
     }
     
     private func configureTableView() {
         tableView.register(
-            ProfileTableViewCell.self,
-            forCellReuseIdentifier: ProfileTableViewCell.reuseIdentifier
+            CurrentUserDetailsTableViewCell.self,
+            forCellReuseIdentifier: CurrentUserDetailsTableViewCell.reuseIdentifier
         )
         
         tableView.register(
@@ -125,10 +124,11 @@ extension ProfileViewController {
             switch userState {
             case .success(let user):
                 let cell = tableView.dequeueReusableCell(
-                    withIdentifier: ProfileTableViewCell.reuseIdentifier,
+                    withIdentifier: CurrentUserDetailsTableViewCell.reuseIdentifier,
                     for: indexPath
-                ) as! ProfileTableViewCell
+                ) as! CurrentUserDetailsTableViewCell
                 
+                cell.delegate = self
                 cell.configure(with: user)
                 
                 return cell
@@ -172,5 +172,20 @@ extension ProfileViewController {
                 break
             }
         }
+    }
+}
+
+// MARK: CurrentUserDetailsTableViewCellDelegate
+extension ProfileViewController: CurrentUserDetailsTableViewCellDelegate {
+    func onEditPressed() {
+        print(#function)
+    }
+    
+    func onFollowersPressed() {
+        print(#function)
+    }
+    
+    func onFollowingsPressed() {
+        print(#function)
     }
 }
