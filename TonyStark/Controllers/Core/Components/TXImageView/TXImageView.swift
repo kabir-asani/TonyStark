@@ -20,6 +20,7 @@ class TXCircularImageView: TXImageView {
         layer.cornerRadius = radius
         clipsToBounds = true
         contentMode = .scaleAspectFill
+        backgroundColor = .lightGray
     }
     
     required init?(coder: NSCoder) {
