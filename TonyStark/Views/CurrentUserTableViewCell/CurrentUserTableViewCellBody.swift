@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CurrentUserDetailsTableViewCellBody: UIView {
+class CurrentUserTableViewCellBody: UIView {
     // Declare
     let nameText: UILabel = {
         let nameText = UILabel()

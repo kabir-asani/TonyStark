@@ -7,38 +7,39 @@
 
 import UIKit
 
-protocol CurrentUserDetailsTableViewCellDelegate: AnyObject {
-    func onEditPressed()
+protocol CurrentUserTableViewCellDelegate: AnyObject {
+    func didPressEdit(_ cell: CurrentUserTableViewCell)
     
-    func onFollowersPressed()
+    func didPressFollowers(_ cell: CurrentUserTableViewCell)
     
-    func onFollowingsPressed()
+    func didPressFollowings(_ cell: CurrentUserTableViewCell)
 }
 
-class CurrentUserDetailsTableViewCell: TXTableViewCell {
+class CurrentUserTableViewCell: TXTableViewCell {
     // Declare
-    static let reuseIdentifier = String(describing: CurrentUserDetailsTableViewCell.self)
+    static let reuseIdentifier = String(describing: CurrentUserTableViewCell.self)
     
-    weak var delegate: CurrentUserDetailsTableViewCellDelegate?
+    weak var delegate: CurrentUserTableViewCellDelegate?
     
-    let header: CurrentUserDetailsTableViewCellHeader = {
-        let header = CurrentUserDetailsTableViewCellHeader()
+    
+    let header: CurrentUserTableViewCellHeader = {
+        let header = CurrentUserTableViewCellHeader()
         
         header.enableAutolayout()
         
         return header
     }()
     
-    let body: CurrentUserDetailsTableViewCellBody = {
-        let body = CurrentUserDetailsTableViewCellBody()
+    let body: CurrentUserTableViewCellBody = {
+        let body = CurrentUserTableViewCellBody()
         
         body.enableAutolayout()
         
         return body
     }()
     
-    let footer: CurrentUserDetailsTableViewCellFooter = {
-        let footer = CurrentUserDetailsTableViewCellFooter()
+    let footer: CurrentUserTableViewCellFooter = {
+        let footer = CurrentUserTableViewCellFooter()
         
         footer.enableAutolayout()
         
@@ -108,7 +109,7 @@ class CurrentUserDetailsTableViewCell: TXTableViewCell {
                 return
             }
             
-            safeSelf.delegate?.onEditPressed()
+            safeSelf.delegate?.didPressEdit(safeSelf)
         }
         
         body.configure(
@@ -124,7 +125,7 @@ class CurrentUserDetailsTableViewCell: TXTableViewCell {
                 return
             }
             
-            safeSelf.delegate?.onFollowersPressed()
+            safeSelf.delegate?.didPressFollowers(safeSelf)
         } onFollowingsPressed: {
             [weak self] in
             
@@ -132,7 +133,7 @@ class CurrentUserDetailsTableViewCell: TXTableViewCell {
                 return
             }
             
-            safeSelf.delegate?.onFollowingsPressed()
+            safeSelf.delegate?.didPressFollowings(safeSelf)
         }
     }
 }

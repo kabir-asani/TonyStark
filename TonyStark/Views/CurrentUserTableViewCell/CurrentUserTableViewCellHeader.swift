@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CurrentUserDetailsTableViewCellHeader: UIView {
+class CurrentUserTableViewCellHeader: UIView {
     // Declare
     private var onEditPressed: (() -> Void)!
     

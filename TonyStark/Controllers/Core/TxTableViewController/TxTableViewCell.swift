@@ -8,6 +8,8 @@
 import UIKit
 
 class TXTableViewCell: UITableViewCell {
+    var identifier: String?
+    
     override init(
         style: UITableViewCell.CellStyle,
         reuseIdentifier: String?

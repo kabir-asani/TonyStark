@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CurrentUserDetailsTableViewCellFooter: UIView {
+class CurrentUserTableViewCellFooter: UIView {
     // Declare
     let followersSocialDetails: SocialDetails = {
         let followersSocialDetails = SocialDetails()

@@ -36,8 +36,8 @@ class ProfileViewController: TXTableViewController {
     
     private func configureTableView() {
         tableView.register(
-            CurrentUserDetailsTableViewCell.self,
-            forCellReuseIdentifier: CurrentUserDetailsTableViewCell.reuseIdentifier
+            CurrentUserTableViewCell.self,
+            forCellReuseIdentifier: CurrentUserTableViewCell.reuseIdentifier
         )
         
         tableView.register(
@@ -124,12 +124,15 @@ extension ProfileViewController {
             switch userState {
             case .success(let user):
                 let cell = tableView.dequeueReusableCell(
-                    withIdentifier: CurrentUserDetailsTableViewCell.reuseIdentifier,
+                    withIdentifier: CurrentUserTableViewCell.reuseIdentifier,
                     for: indexPath
-                ) as! CurrentUserDetailsTableViewCell
+                ) as! CurrentUserTableViewCell
                 
+                cell.identifier = user.id
+                cell.configure(
+                    with: user
+                )
                 cell.delegate = self
-                cell.configure(with: user)
                 
                 return cell
             case .failure(_):
@@ -143,7 +146,10 @@ extension ProfileViewController {
                     for: indexPath
                 ) as! TweetTableViewCell
                 
-                cell.populate(with: paginated.page[indexPath.row])
+                cell.identifier = paginated.page[indexPath.row].id
+                cell.populate(
+                    with: paginated.page[indexPath.row]
+                )
                 
                 return cell
             case .failure(_):
@@ -176,16 +182,16 @@ extension ProfileViewController {
 }
 
 // MARK: CurrentUserDetailsTableViewCellDelegate
-extension ProfileViewController: CurrentUserDetailsTableViewCellDelegate {
-    func onEditPressed() {
+extension ProfileViewController: CurrentUserTableViewCellDelegate {
+    func didPressEdit(_ cell: CurrentUserTableViewCell) {
         print(#function)
     }
     
-    func onFollowersPressed() {
+    func didPressFollowers(_ cell: CurrentUserTableViewCell) {
         print(#function)
     }
     
-    func onFollowingsPressed() {
+    func didPressFollowings(_ cell: CurrentUserTableViewCell) {
         print(#function)
     }
 }
