@@ -49,7 +49,52 @@ class ProfileViewController: TXTableViewController {
     @objc private func onActionPressed(
         _ sender: UIBarButtonItem
     ) {
-        print(#function)
+        let alert = UIAlertController(
+            title: nil,
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+        
+        let appInformation = UIAlertAction(
+            title: "App Information",
+            style: .default
+        ) { action in
+            // TODO:
+        }
+        
+        alert.addAction(appInformation)
+        
+        let developerInformationAction = UIAlertAction(
+            title: "Developer Information",
+            style: .default
+        ) { action in
+            // TODO:
+        }
+        
+        alert.addAction(developerInformationAction)
+        
+        let logOutAction = UIAlertAction(
+            title: "Log Out?",
+            style: .destructive
+        ) { action in
+            // TODO:
+        }
+        
+        alert.addAction(logOutAction)
+        
+        let cancelAction = UIAlertAction(
+            title: "Cancel",
+            style: .cancel
+        ) { action in
+            alert.dismiss(animated: true)
+        }
+        
+        alert.addAction(cancelAction)
+        
+        present(
+            alert,
+            animated: true
+        )
     }
 }
 
@@ -179,7 +224,14 @@ extension ProfileViewController {
 // MARK: CurrentUserDetailsTableViewCellDelegate
 extension ProfileViewController: CurrentUserTableViewCellInteractionsHandler {
     func didPressEdit(_ cell: CurrentUserTableViewCell) {
-        print(#function)
+        let editProfileViewController = EditProfileViewController(
+            style: .insetGrouped
+        )
+        
+        navigationController?.pushViewController(
+            editProfileViewController,
+            animated: true
+        )
     }
     
     func didPressFollowers(_ cell: CurrentUserTableViewCell) {
