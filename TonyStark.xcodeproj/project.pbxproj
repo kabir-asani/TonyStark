@@ -30,6 +30,9 @@
 		1610D93D280F397300739208 /* TXColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D93C280F397300739208 /* TXColor.swift */; };
 		1610D943280F44E300739208 /* TweetOptionsAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D942280F44E300739208 /* TweetOptionsAlertViewController.swift */; };
 		1610D946280F49E200739208 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D945280F49E200739208 /* EditProfileViewController.swift */; };
+		1610D94A280F4E0600739208 /* FollowingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D949280F4E0600739208 /* FollowingsViewController.swift */; };
+		1610D94C280F4E3800739208 /* FollowersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D94B280F4E3800739208 /* FollowersViewController.swift */; };
+		1610D94F280F4ED200739208 /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D94E280F4ED200739208 /* CommentsViewController.swift */; };
 		1611237B2806C75A00908D98 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1611237A2806C75A00908D98 /* User.swift */; };
 		1611237D2806C99500908D98 /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1611237C2806C99500908D98 /* Like.swift */; };
 		1611237F2806C9FD00908D98 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1611237E2806C9FD00908D98 /* Comment.swift */; };
@@ -96,6 +99,9 @@
 		1610D93C280F397300739208 /* TXColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXColor.swift; sourceTree = "<group>"; };
 		1610D942280F44E300739208 /* TweetOptionsAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetOptionsAlertViewController.swift; sourceTree = "<group>"; };
 		1610D945280F49E200739208 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		1610D949280F4E0600739208 /* FollowingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingsViewController.swift; sourceTree = "<group>"; };
+		1610D94B280F4E3800739208 /* FollowersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersViewController.swift; sourceTree = "<group>"; };
+		1610D94E280F4ED200739208 /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		1611237A2806C75A00908D98 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1611237C2806C99500908D98 /* Like.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
 		1611237E2806C9FD00908D98 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -154,11 +160,15 @@
 		160437A527E1AD7200EA615F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1610D950280F4F1F00739208 /* Others */,
 				160437A827E1AD8900EA615F /* Core */,
 				160437C427E1B62D00EA615F /* HomeViewController */,
 				1610D940280F44D100739208 /* TweetOptionsAlertViewController */,
 				160437C927E1B70600EA615F /* ComposeViewController */,
 				1610D944280F49D100739208 /* EditProfileViewController */,
+				1610D947280F4DDF00739208 /* FollowersViewController */,
+				1610D948280F4DE700739208 /* FollowingsViewController */,
+				1610D94D280F4EBC00739208 /* CommentsViewController */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -390,6 +400,37 @@
 				1610D945280F49E200739208 /* EditProfileViewController.swift */,
 			);
 			path = EditProfileViewController;
+			sourceTree = "<group>";
+		};
+		1610D947280F4DDF00739208 /* FollowersViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1610D94B280F4E3800739208 /* FollowersViewController.swift */,
+			);
+			path = FollowersViewController;
+			sourceTree = "<group>";
+		};
+		1610D948280F4DE700739208 /* FollowingsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1610D949280F4E0600739208 /* FollowingsViewController.swift */,
+			);
+			path = FollowingsViewController;
+			sourceTree = "<group>";
+		};
+		1610D94D280F4EBC00739208 /* CommentsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1610D94E280F4ED200739208 /* CommentsViewController.swift */,
+			);
+			path = CommentsViewController;
+			sourceTree = "<group>";
+		};
+		1610D950280F4F1F00739208 /* Others */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Others;
 			sourceTree = "<group>";
 		};
 		161250E527DBB56E006BCE5A = {
@@ -725,6 +766,7 @@
 				167DE00A280D56B100670BAD /* TweetViewCellTrailing.swift in Sources */,
 				16993CE3280C49E700FFE71B /* TXImageView.swift in Sources */,
 				1611237B2806C75A00908D98 /* User.swift in Sources */,
+				1610D94C280F4E3800739208 /* FollowersViewController.swift in Sources */,
 				16993CD6280C41FE00FFE71B /* TXSearchController.swift in Sources */,
 				167DE003280D561200670BAD /* CommentInteractionDetails.swift in Sources */,
 				167DE005280D562D00670BAD /* TweetOptions.swift in Sources */,
@@ -732,6 +774,7 @@
 				167C3A48280C99A3004E9B4D /* UITableView.swift in Sources */,
 				1691E453280EA8D800BA223D /* TXView.swift in Sources */,
 				1611237D2806C99500908D98 /* Like.swift in Sources */,
+				1610D94A280F4E0600739208 /* FollowingsViewController.swift in Sources */,
 				1610D938280F356C00739208 /* TweetViewCellTrailingBody.swift in Sources */,
 				160437AF27E1AE0700EA615F /* TXViewController.swift in Sources */,
 				16993CE6280C4A0200FFE71B /* TXButton.swift in Sources */,
@@ -774,6 +817,7 @@
 				1610D946280F49E200739208 /* EditProfileViewController.swift in Sources */,
 				1630863B280883900061BE31 /* UIView.swift in Sources */,
 				167C3A44280C80C6004E9B4D /* TweetsProvider.swift in Sources */,
+				1610D94F280F4ED200739208 /* CommentsViewController.swift in Sources */,
 				160437C127E1B0DE00EA615F /* TXPageViewController.swift in Sources */,
 				1610D943280F44E300739208 /* TweetOptionsAlertViewController.swift in Sources */,
 				16D8F978280D7BDD000545EC /* CurrentUserTableViewCellBody.swift in Sources */,
