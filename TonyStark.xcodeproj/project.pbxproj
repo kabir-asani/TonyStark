@@ -160,10 +160,9 @@
 		160437A527E1AD7200EA615F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				1610D950280F4F1F00739208 /* Others */,
 				160437A827E1AD8900EA615F /* Core */,
+				1610D950280F4F1F00739208 /* Others */,
 				160437C427E1B62D00EA615F /* HomeViewController */,
-				1610D940280F44D100739208 /* TweetOptionsAlertViewController */,
 				160437C927E1B70600EA615F /* ComposeViewController */,
 				1610D944280F49D100739208 /* EditProfileViewController */,
 				1610D947280F4DDF00739208 /* FollowersViewController */,
@@ -429,6 +428,7 @@
 		1610D950280F4F1F00739208 /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				1610D940280F44D100739208 /* TweetOptionsAlertViewController */,
 			);
 			path = Others;
 			sourceTree = "<group>";

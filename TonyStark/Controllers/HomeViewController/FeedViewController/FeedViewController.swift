@@ -125,7 +125,16 @@ extension FeedViewController: TweetTableViewCellInteractionsHandler {
     }
     
     func didPressComment(_ cell: TweetTableViewCell) {
-        print(#function)
+        let commentsViewController = CommentsViewController()
+        
+        let navigationController = TXNavigationController(
+            rootViewController: commentsViewController
+        )
+        
+        present(
+            navigationController,
+            animated: true
+        )
     }
     
     func didPressProfileImage(_ cell: TweetTableViewCell) {
