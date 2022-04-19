@@ -8,8 +8,13 @@
 import Foundation
 import UIKit
 
-class CommentInteractionDetails: UIView {
-    private var tweet: Tweet!
+protocol CommentInteractionDetailsInteractionsHandler: TweetViewCellTrailingFooter {
+    func didPressComment(_ commentInteractionDetails: CommentInteractionDetails)
+}
+
+class CommentInteractionDetails: TXView {
+    // Declare
+    weak var interactionsHandler: CommentInteractionDetailsInteractionsHandler?
     
     private let commentButton: TXButton = {
         let commentButton = TXButton()
@@ -19,8 +24,8 @@ class CommentInteractionDetails: UIView {
         return commentButton
     }()
     
-    private let commentsCountText: UILabel = {
-        let commentsCountText = UILabel()
+    private let commentsCountText: TXLabel = {
+        let commentsCountText = TXLabel()
         
         commentsCountText.enableAutolayout()
         commentsCountText.font = .systemFont(ofSize: 18, weight: .semibold)
@@ -29,6 +34,8 @@ class CommentInteractionDetails: UIView {
         return commentsCountText
     }()
     
+    
+    // Arrange
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -40,34 +47,35 @@ class CommentInteractionDetails: UIView {
     }
     
     private func arrangeSubviews() {
-        let stack = UIStackView(
+        let combinedStackView = makeCombinedStackView()
+        
+        addSubview(combinedStackView)
+        
+        combinedStackView.pin(to: self)
+    }
+    
+    private func makeCombinedStackView() -> TXStackView {
+        let combinedStack = TXStackView(
             arrangedSubviews: [
                 commentButton,
                 commentsCountText,
-                UIStackView.spacer
+                TXStackView.spacer
             ]
         )
         
-        stack.enableAutolayout()
-        stack.axis = .horizontal
-        stack.spacing = 8
-        stack.distribution = .fill
-        stack.alignment = .center
+        combinedStack.enableAutolayout()
+        combinedStack.axis = .horizontal
+        combinedStack.spacing = 8
+        combinedStack.distribution = .fill
+        combinedStack.alignment = .center
         
-        addSubview(stack)
-        
-        stack.pin(to: self)
+        return combinedStack
     }
     
-    func configure(with tweet: Tweet) {
-        self.tweet = tweet
-        
+    // Configure
+    func configure(withTweet tweet: Tweet) {
         configureCommentButton()
-        configureTrailingCounterText()
-    }
-    
-    private func configureTrailingCounterText() {
-        commentsCountText.text = "\(tweet.meta.commentsCount)"
+        configureCommentsCountText(withCommentsCount: tweet.meta.commentsCount)
     }
     
     private func configureCommentButton() {
@@ -85,7 +93,12 @@ class CommentInteractionDetails: UIView {
         )
     }
     
+    private func configureCommentsCountText(withCommentsCount commentsCount: Int) {
+        commentsCountText.text = "\(commentsCount)"
+    }
+    
+    // Interact
     @objc private func onCommentPressed(_ sender: TXButton) {
-        print(#function)
+        interactionsHandler?.didPressComment(self)
     }
 }

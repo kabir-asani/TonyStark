@@ -72,4 +72,13 @@ extension UIView {
     func enableAutolayout() {
         self.translatesAutoresizingMaskIntoConstraints = false
     }
+    
+    func addTapGestureRecognizer(target: UIView, action: Selector) {
+        let gestureRecognizer = UITapGestureRecognizer(
+            target: target,
+            action: action
+        )
+        
+        self.addGestureRecognizer(gestureRecognizer)
+    }
 }

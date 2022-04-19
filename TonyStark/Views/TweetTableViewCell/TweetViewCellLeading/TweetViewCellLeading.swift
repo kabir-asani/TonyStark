@@ -8,18 +8,25 @@
 import Foundation
 import UIKit
 
+protocol TweetViewCellLeadingInteractionsHandler: TweetTableViewCell {
+    func onProfileImagePressed()
+}
+
 class TweetViewCellLeading: UIView {
-    private var tweet: Tweet!
+    // Declare
+    weak var interactionsHandler: TweetViewCellLeadingInteractionsHandler?
     
     private let profileImage: TXCircularImageView = {
         let profileImage = TXCircularImageView(radius: 22)
         
         profileImage.enableAutolayout()
         profileImage.backgroundColor = .lightGray
+        profileImage.isUserInteractionEnabled = true
         
         return profileImage
     }()
     
+    // Arrange
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -30,10 +37,10 @@ class TweetViewCellLeading: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with tweet: Tweet) {
-        self.tweet = tweet
-        
-        configureProfileImage()
+    func configure(
+        withTweet tweet: Tweet
+    ) {
+        configureProfileImage(withImageURL: tweet.author.image)
     }
     
     private func arrangeSubviews() {
@@ -42,15 +49,17 @@ class TweetViewCellLeading: UIView {
         profileImage.pin(to: self)
     }
     
-    private func configureProfileImage() {
+    // Configure
+    private func configureProfileImage(
+        withImageURL imageURL: String
+    ) {
+        profileImage.addTapGestureRecognizer(
+            target: self,
+            action: #selector(onProfileImagePressed(_:))
+        )
+        
         Task {
-            [weak self] in
-            
-            guard let safeSelf = self else {
-                return
-            }
-            
-            let image = await TXImageProvider.shared.image(safeSelf.tweet.author.image)
+            let image = await TXImageProvider.shared.image(imageURL)
             
             DispatchQueue.main.async {
                 [weak self] in
@@ -61,5 +70,10 @@ class TweetViewCellLeading: UIView {
                 safeSelf.profileImage.image = image
             }
         }
+    }
+    
+    // Interact
+    @objc private func onProfileImagePressed(_ sender: UITapGestureRecognizer) {
+        interactionsHandler?.onProfileImagePressed()
     }
 }

@@ -129,10 +129,9 @@ extension ProfileViewController {
                 ) as! CurrentUserTableViewCell
                 
                 cell.identifier = user.id
-                cell.configure(
-                    with: user
-                )
-                cell.delegate = self
+                cell.interactionsHandler = self
+                cell.configure(withUser: user)
+                
                 
                 return cell
             case .failure(_):
@@ -146,10 +145,9 @@ extension ProfileViewController {
                     for: indexPath
                 ) as! TweetTableViewCell
                 
+                cell.interactionsHandler = self
                 cell.identifier = paginated.page[indexPath.row].id
-                cell.populate(
-                    with: paginated.page[indexPath.row]
-                )
+                cell.configure(withTweet: paginated.page[indexPath.row])
                 
                 return cell
             case .failure(_):
@@ -182,7 +180,7 @@ extension ProfileViewController {
 }
 
 // MARK: CurrentUserDetailsTableViewCellDelegate
-extension ProfileViewController: CurrentUserTableViewCellDelegate {
+extension ProfileViewController: CurrentUserTableViewCellInteractionsHandler {
     func didPressEdit(_ cell: CurrentUserTableViewCell) {
         print(#function)
     }
@@ -192,6 +190,32 @@ extension ProfileViewController: CurrentUserTableViewCellDelegate {
     }
     
     func didPressFollowings(_ cell: CurrentUserTableViewCell) {
+        print(#function)
+    }
+}
+
+extension ProfileViewController: TweetTableViewCellInteractionsHandler {
+    func didPressLike(_ cell: TweetTableViewCell) {
+        print(#function)
+    }
+    
+    func didPressComment(_ cell: TweetTableViewCell) {
+        print(#function)
+    }
+    
+    func didPressProfileImage(_ cell: TweetTableViewCell) {
+        print(#function)
+    }
+    
+    func didPressBookmarksOption(_ cell: TweetTableViewCell) {
+        print(#function)
+    }
+    
+    func didPressFollowOption(_ cell: TweetTableViewCell) {
+        print(#function)
+    }
+    
+    func didPressOption(_ cell: TweetTableViewCell) {
         print(#function)
     }
 }

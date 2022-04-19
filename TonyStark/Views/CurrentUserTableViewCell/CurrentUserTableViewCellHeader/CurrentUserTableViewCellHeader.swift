@@ -7,9 +7,13 @@
 
 import UIKit
 
-class CurrentUserTableViewCellHeader: UIView {
+protocol CurrentUserTableViewCellHeaderInteractionsHandler: AnyObject {
+    func didPressEdit(_ currentUserTableViewCellHeader: CurrentUserTableViewCellHeader)
+}
+
+class CurrentUserTableViewCellHeader: TXView {
     // Declare
-    private var onEditPressed: (() -> Void)!
+    weak var interactionsHandler: CurrentUserTableViewCellHeaderInteractionsHandler?
     
     let profileImage: TXImageView = {
         let profileImage = TXCircularImageView(radius: 40)
@@ -31,11 +35,11 @@ class CurrentUserTableViewCellHeader: UIView {
         if #available(iOS 15.0, *) {
             editButton.setTitleColor(.label, for: .normal)
             editButton.setTitleColor(.label, for: .highlighted)
-            editButton.configuration = UIButton.Configuration.bordered()
+            editButton.configuration = TXButton.Configuration.bordered()
         } else {
             editButton.setTitleColor(.systemBlue, for: .normal)
             editButton.layer.borderWidth = 2
-            editButton.layer.borderColor = UIColor.systemBlue.cgColor
+            editButton.layer.borderColor = TXColor.systemBlue.cgColor
             editButton.showsTouchWhenHighlighted = true
         }
         
@@ -57,32 +61,39 @@ class CurrentUserTableViewCellHeader: UIView {
     }
     
     private func arrangeSubviews() {
-        let stack = UIStackView(arrangedSubviews: [
-            profileImage,
-            UIStackView.spacer,
-            editButton
-        ])
+        let combinedStackView = makeCombinedStackView()
         
-        stack.enableAutolayout()
-        stack.axis = .horizontal
-        stack.distribution = .fill
-        stack.alignment = .center
+        addSubview(combinedStackView)
         
-        addSubview(stack)
+        combinedStackView.pin(to: self)
+    }
+    
+    private func makeCombinedStackView() -> TXStackView {
+        let combinedStack = TXStackView(
+            arrangedSubviews: [
+                profileImage,
+                TXStackView.spacer,
+                editButton
+            ]
+        )
         
-        stack.pin(to: self)
+        combinedStack.enableAutolayout()
+        combinedStack.axis = .horizontal
+        combinedStack.distribution = .fill
+        combinedStack.alignment = .center
+        
+        return combinedStack
     }
     
     // Configure
     func configure(
-        with user: User,
-        onEditPressed: @escaping () -> Void
+        withUser user: User
     ) {
-        configure(profileImageWith: user.image)
-        configure(editButtonWith: onEditPressed)
+        configureProfileImage(withImageURL: user.image)
+        configureEditButton()
     }
     
-    private func configure(profileImageWith imageURL: String) {
+    private func configureProfileImage(withImageURL imageURL: String) {
         Task {
             let image = await TXImageProvider.shared.image(imageURL)
             
@@ -97,9 +108,7 @@ class CurrentUserTableViewCellHeader: UIView {
         }
     }
     
-    private func configure(editButtonWith onEditPressed: @escaping () -> Void) {
-        self.onEditPressed = onEditPressed
-        
+    private func configureEditButton() {
         editButton.addTarget(
             self,
             action: #selector(onEditPressed(_:)),
@@ -107,7 +116,8 @@ class CurrentUserTableViewCellHeader: UIView {
         )
     }
     
-    @objc private func onEditPressed(_ sender: UIButton) {
-        onEditPressed()
+    // Interact
+    @objc private func onEditPressed(_ sender: TXButton) {
+        interactionsHandler?.didPressEdit(self)
     }
 }

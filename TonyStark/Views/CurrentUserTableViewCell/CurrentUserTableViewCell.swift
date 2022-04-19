@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol CurrentUserTableViewCellDelegate: AnyObject {
+protocol CurrentUserTableViewCellInteractionsHandler: AnyObject {
     func didPressEdit(_ cell: CurrentUserTableViewCell)
     
     func didPressFollowers(_ cell: CurrentUserTableViewCell)
@@ -19,8 +19,7 @@ class CurrentUserTableViewCell: TXTableViewCell {
     // Declare
     static let reuseIdentifier = String(describing: CurrentUserTableViewCell.self)
     
-    weak var delegate: CurrentUserTableViewCellDelegate?
-    
+    weak var interactionsHandler: CurrentUserTableViewCellInteractionsHandler?
     
     let header: CurrentUserTableViewCellHeader = {
         let header = CurrentUserTableViewCellHeader()
@@ -75,20 +74,11 @@ class CurrentUserTableViewCell: TXTableViewCell {
     }
     
     private func arrangeSubviews() {
-        let stack = UIStackView(arrangedSubviews: [
-            header,
-            body,
-            footer
-        ])
+        let combinedStackView = makeCombinedStackView()
         
-        stack.enableAutolayout()
-        stack.axis = .vertical
-        stack.distribution = .equalSpacing
-        stack.spacing = 16
+        addSubview(combinedStackView)
         
-        addSubview(stack)
-        
-        stack.pin(
+        combinedStackView.pin(
             to: self,
             padding: UIEdgeInsets(
                 top: 16,
@@ -99,42 +89,55 @@ class CurrentUserTableViewCell: TXTableViewCell {
         )
     }
     
-    // Configure
-    func configure(with user: User) {
-        header.configure(
-            with: user
-        ) {
-            [weak self] in
-            guard let safeSelf = self else {
-                return
-            }
-            
-            safeSelf.delegate?.didPressEdit(safeSelf)
-        }
-        
-        body.configure(
-            with: user
+    private func makeCombinedStackView() -> TXStackView {
+        let combinedStack = TXStackView(
+            arrangedSubviews: [
+                header,
+                body,
+                footer
+            ]
         )
         
-        footer.configure(
-            with: user
-        ) {
-            [weak self] in
-            
-            guard let safeSelf = self else {
-                return
-            }
-            
-            safeSelf.delegate?.didPressFollowers(safeSelf)
-        } onFollowingsPressed: {
-            [weak self] in
-            
-            guard let safeSelf = self else {
-                return
-            }
-            
-            safeSelf.delegate?.didPressFollowings(safeSelf)
-        }
+        combinedStack.enableAutolayout()
+        combinedStack.axis = .vertical
+        combinedStack.distribution = .equalSpacing
+        combinedStack.spacing = 16
+        
+        return combinedStack
+    }
+    
+    // Configure
+    func configure(withUser user: User) {
+        header.interactionsHandler = self
+        header.configure(withUser: user)
+        
+        body.configure(withUser: user)
+        
+        footer.interactionsHandler = self
+        footer.configure(withUser: user)
     }
 }
 
+// MARK: CurrentUserTableViewCellHeaderInteractionHandler
+extension CurrentUserTableViewCell: CurrentUserTableViewCellHeaderInteractionsHandler {
+    func didPressEdit(
+        _ currentUserTableViewCellHeader: CurrentUserTableViewCellHeader
+    ) {
+        interactionsHandler?.didPressEdit(self)
+    }
+}
+
+// MARK: CurrentUserTableViewCellFooterInteractionHandler
+extension CurrentUserTableViewCell: CurrentUserTableViewCellFooterInteractionsHandler {
+    func didPressFollowers(
+        _ currentUserTableViewCellFooter: CurrentUserTableViewCellFooter
+    ) {
+        interactionsHandler?.didPressFollowers(self)
+    }
+    
+    func didPressFollowings(
+        _ currentUserTableViewCellFooter: CurrentUserTableViewCellFooter
+    ) {
+        interactionsHandler?.didPressFollowings(self)
+    }
+}

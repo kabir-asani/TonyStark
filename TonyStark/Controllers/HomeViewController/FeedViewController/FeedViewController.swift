@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class FeedViewController: TXTableViewController {
     private var state: Result<Paginated<Tweet>, TweetsProviderFailure> = .success(Paginated<Tweet>.empty())
     
@@ -66,7 +65,6 @@ extension FeedViewController {
         }
     }
     
-    
     override func numberOfSections(
         in tableView: UITableView
     ) -> Int {
@@ -99,7 +97,8 @@ extension FeedViewController {
                 for: indexPath
             ) as! TweetTableViewCell
             
-            cell.populate(with: paginated.page[indexPath.row])
+            cell.interactionsHandler = self
+            cell.configure(withTweet: paginated.page[indexPath.row])
             
             return cell
         case .failure(_):
@@ -116,5 +115,32 @@ extension FeedViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+// MARK: TweetTableViewCellInteractionsHandler
+extension FeedViewController: TweetTableViewCellInteractionsHandler {
+    func didPressLike(_ cell: TweetTableViewCell) {
+        print(#function)
+    }
+    
+    func didPressComment(_ cell: TweetTableViewCell) {
+        print(#function)
+    }
+    
+    func didPressProfileImage(_ cell: TweetTableViewCell) {
+        print(#function)
+    }
+    
+    func didPressBookmarksOption(_ cell: TweetTableViewCell) {
+        print(#function)
+    }
+    
+    func didPressFollowOption(_ cell: TweetTableViewCell) {
+        print(#function)
+    }
+    
+    func didPressOption(_ cell: TweetTableViewCell) {
+        print(#function)
     }
 }

@@ -7,39 +7,37 @@
 
 import UIKit
 
-class SocialDetails: UIView {
+protocol SocialDetailsInteractionsHandler: CurrentUserTableViewCellFooter {
+    func didPress(_ socialDetails: SocialDetails)
+}
+
+class SocialDetails: TXView {
     // Declare
-    private var onPressed: (() -> Void)!
+    weak var interactionsHandler: SocialDetailsInteractionsHandler?
     
-    let leadingText: UILabel = {
-        let leadingText = UILabel()
+    let leadingText: TXLabel = {
+        let leadingText = TXLabel()
         
         leadingText.enableAutolayout()
-        leadingText.font = .systemFont(ofSize: 16, weight: .bold)
+        leadingText.font = .systemFont(
+            ofSize: 16,
+            weight: .bold
+        )
         
         return leadingText
     }()
     
-    let trailingText: UILabel = {
-        let trailingText = UILabel()
+    let trailingText: TXLabel = {
+        let trailingText = TXLabel()
         
         trailingText.enableAutolayout()
-        trailingText.font = .systemFont(ofSize: 16, weight: .regular)
+        trailingText.font = .systemFont(
+            ofSize: 16,
+            weight: .regular
+        )
         trailingText.textColor = .gray
         
         return trailingText
-    }()
-    
-    let combinedStack: UIStackView = {
-        let stack = UIStackView()
-        
-        stack.enableAutolayout()
-        stack.axis = .horizontal
-        stack.spacing = 8
-        stack.distribution = .equalSpacing
-        stack.alignment = .center
-        
-        return stack
     }()
     
     // Arrange
@@ -52,35 +50,69 @@ class SocialDetails: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func arrangeSubviews() {
-        combinedStack.addArrangedSubview(leadingText)
-        combinedStack.addArrangedSubview(trailingText)
+        let combinedStackView = makeCombinedStackView()
         
-        addSubview(combinedStack)
+        combinedStackView.addTapGestureRecognizer(
+            target: self,
+            action: #selector(onPress(_:))
+        )
         
-        combinedStack.pin(to: self)
+        addSubview(combinedStackView)
+        
+        combinedStackView.pin(to: self)
+    }
+    
+    private func makeCombinedStackView() -> TXStackView {
+        let combinedStack = TXStackView(
+            arrangedSubviews: [
+                leadingText,
+                trailingText
+            ]
+        )
+        
+        combinedStack.enableAutolayout()
+        combinedStack.axis = .horizontal
+        combinedStack.spacing = 8
+        combinedStack.distribution = .equalSpacing
+        combinedStack.alignment = .center
+        
+        return combinedStack
     }
     
     // Configure
     func configure(
-        with data: (leadingText: String, trailingText: String),
-        onPressed: @escaping () -> Void
-    ) {
-        self.onPressed = onPressed
-        
-        leadingText.text = data.leadingText
-        trailingText.text = data.trailingText
-        
-        let gestureRecognizer = UITapGestureRecognizer(
-            target: self,
-            action: #selector(onPressed(_:))
+        withData data: (
+            leadingText: String,
+            trailingText: String
         )
-        
-        combinedStack.addGestureRecognizer(gestureRecognizer)
+    ) {
+        configureLeadingText(
+            withText: data.leadingText
+        )
+        configureTrailingText(
+            withText: data.trailingText
+        )
     }
     
-    @objc private func onPressed(_ sender: UITapGestureRecognizer) {
-        onPressed()
+    private func configureLeadingText(
+        withText text: String
+    ) {
+        leadingText.text = text
+    }
+    
+    private func configureTrailingText(
+        withText text: String
+    ) {
+        trailingText.text = text
+    }
+    
+    
+    // Interact
+    @objc private func onPress(
+        _ sender: UITapGestureRecognizer
+    ) {
+        interactionsHandler?.didPress(self)
     }
 }

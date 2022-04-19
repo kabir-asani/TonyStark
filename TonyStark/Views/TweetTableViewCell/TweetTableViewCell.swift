@@ -7,10 +7,28 @@
 
 import UIKit
 
+protocol TweetTableViewCellInteractionsHandler: AnyObject {
+    func didPressLike(_ cell: TweetTableViewCell)
+    
+    func didPressComment(_ cell: TweetTableViewCell)
+    
+    func didPressProfileImage(_ cell: TweetTableViewCell)
+    
+    @available(iOS 14, *)
+    func didPressBookmarksOption(_ cell: TweetTableViewCell)
+    
+    @available(iOS 14, *)
+    func didPressFollowOption(_ cell: TweetTableViewCell)
+    
+    @available(iOS, deprecated: 14)
+    func didPressOption(_ cell: TweetTableViewCell)
+}
+
 class TweetTableViewCell: TXTableViewCell {
     static let reuseIdentifier = String(describing: TweetTableViewCell.self)
     
-    private var tweet: Tweet!
+    // Declare
+    weak var interactionsHandler: TweetTableViewCellInteractionsHandler?
     
     private let leading: TweetViewCellLeading = {
         let leading = TweetViewCellLeading()
@@ -28,6 +46,19 @@ class TweetTableViewCell: TXTableViewCell {
         return trailing
     }()
     
+    private let combinateStack: UIStackView = {
+        let combinateStack = UIStackView()
+        
+        combinateStack.enableAutolayout()
+        combinateStack.axis = .horizontal
+        combinateStack.distribution = .fill
+        combinateStack.alignment = .top
+        combinateStack.spacing = 16
+        
+        return combinateStack
+    }()
+    
+    // Arrange
     override init(
         style: UITableViewCell.CellStyle,
         reuseIdentifier: String?
@@ -37,40 +68,25 @@ class TweetTableViewCell: TXTableViewCell {
             reuseIdentifier: reuseIdentifier
         )
         
-        self.selectionStyle = .none
-        contentView.isUserInteractionEnabled = false
-        
-        configureSubviews()
+        arrageBaseView()
+        arrangeSubviews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func populate(with tweet: Tweet) {
-        self.tweet = tweet
-        
-        leading.configure(with: tweet)
-        trailing.configure(with: tweet)
+    private func arrageBaseView() {
+        self.selectionStyle = .none
     }
     
-    private func configureSubviews() {
-        let stack = UIStackView(
-            arrangedSubviews: [
-                leading,
-                trailing
-            ]
-        )
+    private func arrangeSubviews() {
+        combinateStack.addArrangedSubview(leading)
+        combinateStack.addArrangedSubview(trailing)
         
-        stack.enableAutolayout()
-        stack.axis = .horizontal
-        stack.distribution = .fill
-        stack.alignment = .top
-        stack.spacing = 16
+        addSubview(combinateStack)
         
-        addSubview(stack)
-        
-        stack.pin(
+        combinateStack.pin(
             to: self,
             padding: UIEdgeInsets(
                 top: 16,
@@ -80,5 +96,45 @@ class TweetTableViewCell: TXTableViewCell {
             )
         )
     }
+    
+    // Configure
+    func configure(withTweet tweet: Tweet) {
+        leading.interactionsHandler = self
+        leading.configure(withTweet: tweet)
+        
+        trailing.interactionsHandler = self
+        trailing.configure(withTweet: tweet)
+    }
 }
 
+// MARK: TweetViewCellLeadingInteractionsHandler
+extension TweetTableViewCell: TweetViewCellLeadingInteractionsHandler {
+    func onProfileImagePressed() {
+        interactionsHandler?.didPressProfileImage(self)
+    }
+}
+
+// MARK: TweetViewCellTrailingInteractionsHandler
+extension TweetTableViewCell: TweetViewCellTrailingInteractionsHandler {
+    func didPressLike(_ tweetViewCellTrailing: TweetViewCellTrailing) {
+        interactionsHandler?.didPressLike(self)
+    }
+    
+    func didPressComment(_ tweetViewCellTrailing: TweetViewCellTrailing) {
+        interactionsHandler?.didPressComment(self)
+    }
+    
+    @available(iOS 14, *)
+    func didPressBookmark(_ tweetViewCellTrailing: TweetViewCellTrailing) {
+        interactionsHandler?.didPressBookmarksOption(self)
+    }
+    
+    @available(iOS 14, *)
+    func didPressFollow(_ tweetViewCellTrailing: TweetViewCellTrailing) {
+        interactionsHandler?.didPressFollowOption(self)
+    }
+    
+    func didPressOptions(_ tweetViewCellTrailing: TweetViewCellTrailing) {
+        interactionsHandler?.didPressOption(self)
+    }
+}
