@@ -33,4 +33,18 @@ extension UITableView {
             }
         }
     }
+    
+    func dequeueReusableCellWithIndexPath(
+        withIdentifier identifier: String,
+        for indexPath: IndexPath
+    ) -> TXTableViewCell {
+        let cell = dequeueReusableCell(
+            withIdentifier: identifier,
+            for: indexPath
+        ) as! TXTableViewCell
+        
+        cell.indexPath = indexPath
+        
+        return cell
+    }
 }

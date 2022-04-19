@@ -8,7 +8,7 @@
 import UIKit
 
 class TXTableViewCell: UITableViewCell {
-    var identifier: String?
+    var indexPath: IndexPath!
     
     override init(
         style: UITableViewCell.CellStyle,
