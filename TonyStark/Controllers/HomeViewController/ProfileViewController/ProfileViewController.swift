@@ -235,11 +235,21 @@ extension ProfileViewController: CurrentUserTableViewCellInteractionsHandler {
     }
     
     func didPressFollowers(_ cell: CurrentUserTableViewCell) {
-        print(#function)
+        let followersViewController = FollowersViewController()
+        
+        navigationController?.pushViewController(
+            followersViewController,
+            animated: true
+        )
     }
     
     func didPressFollowings(_ cell: CurrentUserTableViewCell) {
-        print(#function)
+        let followingsViewController = FollowingsViewController()
+        
+        navigationController?.pushViewController(
+            followingsViewController,
+            animated: true
+        )
     }
 }
 
