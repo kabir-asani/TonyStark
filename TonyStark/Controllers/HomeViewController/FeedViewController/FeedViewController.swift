@@ -92,7 +92,7 @@ extension FeedViewController {
     ) -> UITableViewCell {
         switch state {
         case .success(let paginated):
-            let cell = tableView.dequeueReusableCell(
+            let cell = tableView.dequeueReusableCellWithIndexPath(
                 withIdentifier: TweetTableViewCell.reuseIdentifier,
                 for: indexPath
             ) as! TweetTableViewCell
@@ -141,6 +141,18 @@ extension FeedViewController: TweetTableViewCellInteractionsHandler {
     }
     
     func didPressOption(_ cell: TweetTableViewCell) {
-        print(#function)
+        switch state {
+        case .success(let paginated):
+            let alert = TweetOptionsAlertViewController.regular()
+            
+            alert.configure(withTweet: paginated.page[cell.indexPath.row])
+            
+            present(
+                alert,
+                animated: true
+            )
+        default:
+            break
+        }
     }
 }

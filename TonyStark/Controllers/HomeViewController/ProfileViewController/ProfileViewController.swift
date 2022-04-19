@@ -123,15 +123,13 @@ extension ProfileViewController {
         case ProfileViewControllerSection.profile.rawValue:
             switch userState {
             case .success(let user):
-                let cell = tableView.dequeueReusableCell(
+                let cell = tableView.dequeueReusableCellWithIndexPath(
                     withIdentifier: CurrentUserTableViewCell.reuseIdentifier,
                     for: indexPath
                 ) as! CurrentUserTableViewCell
                 
-                cell.identifier = user.id
                 cell.interactionsHandler = self
                 cell.configure(withUser: user)
-                
                 
                 return cell
             case .failure(_):
@@ -140,13 +138,12 @@ extension ProfileViewController {
         case ProfileViewControllerSection.tweets.rawValue:
             switch tweetsState {
             case .success(let paginated):
-                let cell = tableView.dequeueReusableCell(
+                let cell = tableView.dequeueReusableCellWithIndexPath(
                     withIdentifier: TweetTableViewCell.reuseIdentifier,
                     for: indexPath
                 ) as! TweetTableViewCell
                 
                 cell.interactionsHandler = self
-                cell.identifier = paginated.page[indexPath.row].id
                 cell.configure(withTweet: paginated.page[indexPath.row])
                 
                 return cell
@@ -216,6 +213,18 @@ extension ProfileViewController: TweetTableViewCellInteractionsHandler {
     }
     
     func didPressOption(_ cell: TweetTableViewCell) {
-        print(#function)
+        switch tweetsState {
+        case .success(let paginated):
+            let alert = TweetOptionsAlertViewController.regular()
+            
+            alert.configure(withTweet: paginated.page[cell.indexPath.row])
+            
+            present(
+                alert,
+                animated: true
+            )
+        default:
+            break
+        }
     }
 }
