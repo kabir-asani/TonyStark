@@ -68,6 +68,8 @@
 		169E280027EB896800B72006 /* TXNetworkAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169E27FF27EB896800B72006 /* TXNetworkAssistant.swift */; };
 		16CC9A5428099500002647CE /* UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CC9A5328099500002647CE /* UIStackView.swift */; };
 		16D237AD28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D237AC28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift */; };
+		16D3C5E22810306100B8A2CC /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3C5E12810306100B8A2CC /* Date.swift */; };
+		16D3C5E52810314B00B8A2CC /* TXEventBroker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3C5E42810314B00B8A2CC /* TXEventBroker.swift */; };
 		16D8F976280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F975280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift */; };
 		16D8F978280D7BDD000545EC /* CurrentUserTableViewCellBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F977280D7BDD000545EC /* CurrentUserTableViewCellBody.swift */; };
 		16D8F97A280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F979280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift */; };
@@ -147,6 +149,8 @@
 		169E27FF27EB896800B72006 /* TXNetworkAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXNetworkAssistant.swift; sourceTree = "<group>"; };
 		16CC9A5328099500002647CE /* UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackView.swift; sourceTree = "<group>"; };
 		16D237AC28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXLocalStorageAssistant.swift; sourceTree = "<group>"; };
+		16D3C5E12810306100B8A2CC /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		16D3C5E42810314B00B8A2CC /* TXEventBroker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXEventBroker.swift; sourceTree = "<group>"; };
 		16D8F975280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCellHeader.swift; sourceTree = "<group>"; };
 		16D8F977280D7BDD000545EC /* CurrentUserTableViewCellBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCellBody.swift; sourceTree = "<group>"; };
 		16D8F979280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCellFooter.swift; sourceTree = "<group>"; };
@@ -499,6 +503,7 @@
 				1630863A280883900061BE31 /* UIView.swift */,
 				16CC9A5328099500002647CE /* UIStackView.swift */,
 				167C3A47280C99A3004E9B4D /* UITableView.swift */,
+				16D3C5E12810306100B8A2CC /* Date.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -614,6 +619,7 @@
 		16C45FF127E76F2100F592A2 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				16D3C5E32810313D00B8A2CC /* TXEventBroker */,
 				16308639280883810061BE31 /* Extensions */,
 				16D237AB28019A4C00FD1DC4 /* TXLocalStorageAssistant */,
 				1688D3F727FD7B2800F9C366 /* TXNetworkMonitor */,
@@ -631,6 +637,14 @@
 			path = TXLocalStorageAssistant;
 			sourceTree = "<group>";
 		};
+		16D3C5E32810313D00B8A2CC /* TXEventBroker */ = {
+			isa = PBXGroup;
+			children = (
+				16D3C5E42810314B00B8A2CC /* TXEventBroker.swift */,
+			);
+			path = TXEventBroker;
+			sourceTree = "<group>";
+		};
 		16D8F974280D7B3C000545EC /* Interactions */ = {
 			isa = PBXGroup;
 			children = (
@@ -642,7 +656,6 @@
 		16DEB94D2806079E00140E63 /* Providers */ = {
 			isa = PBXGroup;
 			children = (
-				16DEB957280608C700140E63 /* AuthenticationProvider */,
 				16DEB9532806082200140E63 /* FeedProvider */,
 				16DEB9522806081700140E63 /* TweetsProvider */,
 				16DEB9512806081300140E63 /* SearchProvider */,
@@ -698,13 +711,6 @@
 			children = (
 			);
 			path = FeedProvider;
-			sourceTree = "<group>";
-		};
-		16DEB957280608C700140E63 /* AuthenticationProvider */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = AuthenticationProvider;
 			sourceTree = "<group>";
 		};
 		16FDA06D280FF359004BB3C4 /* CommentTableViewCell */ = {
@@ -824,7 +830,9 @@
 				161123852806CBE100908D98 /* Paginated.swift in Sources */,
 				1691E456280EABAE00BA223D /* TXStackView.swift in Sources */,
 				16FDA072280FF45B004BB3C4 /* CommentTableViewCellLeading.swift in Sources */,
+				16D3C5E22810306100B8A2CC /* Date.swift in Sources */,
 				160437D327E1B7B100EA615F /* NotificationsViewController.swift in Sources */,
+				16D3C5E52810314B00B8A2CC /* TXEventBroker.swift in Sources */,
 				160437B127E1AE2600EA615F /* TXTableViewController.swift in Sources */,
 				16D8F97C280D7C13000545EC /* SocialDetails.swift in Sources */,
 				160437D927E1B87B00EA615F /* TXTabBarItem.swift in Sources */,
