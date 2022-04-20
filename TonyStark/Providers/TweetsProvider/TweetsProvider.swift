@@ -8,14 +8,14 @@
 import Foundation
 
 
-enum TweetsProviderFailure: Error {
+enum TweetsFailure: Error {
     case unknown
 }
 
 class TweetsProvider {
     static let shared = TweetsProvider()
     
-    func tweets(of userId: String? = nil) async -> Result<Paginated<Tweet>, TweetsProviderFailure> {
+    func tweets(of userId: String? = nil) async -> Result<Paginated<Tweet>, TweetsFailure> {
         let paginated: Paginated<Tweet> = await withCheckedContinuation({ continuation in
             DispatchQueue.global(qos: .background).asyncAfter(deadline: .now()) {
                 let tweets: [Tweet] = [

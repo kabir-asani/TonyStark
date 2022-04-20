@@ -73,6 +73,14 @@
 		16D8F97A280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F979280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift */; };
 		16D8F97C280D7C13000545EC /* SocialDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F97B280D7C13000545EC /* SocialDetails.swift */; };
 		16DEB9562806089E00140E63 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DEB9552806089E00140E63 /* Tweet.swift */; };
+		16FDA06F280FF367004BB3C4 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA06E280FF367004BB3C4 /* CommentTableViewCell.swift */; };
+		16FDA072280FF45B004BB3C4 /* CommentTableViewCellLeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA071280FF45B004BB3C4 /* CommentTableViewCellLeading.swift */; };
+		16FDA075280FF465004BB3C4 /* CommentTableViewCellTrailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA074280FF465004BB3C4 /* CommentTableViewCellTrailing.swift */; };
+		16FDA078280FF5A4004BB3C4 /* CommentTableViewCellTrailingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA077280FF5A4004BB3C4 /* CommentTableViewCellTrailingHeader.swift */; };
+		16FDA07A280FF5B7004BB3C4 /* CommentTableViewCellTrailingFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA079280FF5B7004BB3C4 /* CommentTableViewCellTrailingFooter.swift */; };
+		16FDA07D280FFCA0004BB3C4 /* CommentsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA07C280FFCA0004BB3C4 /* CommentsProvider.swift */; };
+		16FDA07F280FFD0B004BB3C4 /* CurrentUserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA07E280FFD0B004BB3C4 /* CurrentUserProvider.swift */; };
+		16FDA081280FFD2D004BB3C4 /* OtherUserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA080280FFD2D004BB3C4 /* OtherUserProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -144,6 +152,14 @@
 		16D8F979280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCellFooter.swift; sourceTree = "<group>"; };
 		16D8F97B280D7C13000545EC /* SocialDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialDetails.swift; sourceTree = "<group>"; };
 		16DEB9552806089E00140E63 /* Tweet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
+		16FDA06E280FF367004BB3C4 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
+		16FDA071280FF45B004BB3C4 /* CommentTableViewCellLeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCellLeading.swift; sourceTree = "<group>"; };
+		16FDA074280FF465004BB3C4 /* CommentTableViewCellTrailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCellTrailing.swift; sourceTree = "<group>"; };
+		16FDA077280FF5A4004BB3C4 /* CommentTableViewCellTrailingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCellTrailingHeader.swift; sourceTree = "<group>"; };
+		16FDA079280FF5B7004BB3C4 /* CommentTableViewCellTrailingFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCellTrailingFooter.swift; sourceTree = "<group>"; };
+		16FDA07C280FFCA0004BB3C4 /* CommentsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsProvider.swift; sourceTree = "<group>"; };
+		16FDA07E280FFD0B004BB3C4 /* CurrentUserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserProvider.swift; sourceTree = "<group>"; };
+		16FDA080280FFD2D004BB3C4 /* OtherUserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +194,7 @@
 				1691E450280EA8BD00BA223D /* Core */,
 				16993CD7280C42BB00FFE71B /* CurrentUserTableViewCell */,
 				16308636280881780061BE31 /* TweetTableViewCell */,
+				16FDA06D280FF359004BB3C4 /* CommentTableViewCell */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -629,6 +646,7 @@
 				16DEB9532806082200140E63 /* FeedProvider */,
 				16DEB9522806081700140E63 /* TweetsProvider */,
 				16DEB9512806081300140E63 /* SearchProvider */,
+				16FDA07B280FFC97004BB3C4 /* CommentsProvider */,
 				16DEB9502806080100140E63 /* ComposeProvider */,
 				16DEB94F280607DF00140E63 /* NotificationsProvider */,
 				16DEB94E280607DA00140E63 /* UserProvider */,
@@ -640,6 +658,8 @@
 			isa = PBXGroup;
 			children = (
 				167C3A45280C8BB5004E9B4D /* UserProvider.swift */,
+				16FDA07E280FFD0B004BB3C4 /* CurrentUserProvider.swift */,
+				16FDA080280FFD2D004BB3C4 /* OtherUserProvider.swift */,
 			);
 			path = UserProvider;
 			sourceTree = "<group>";
@@ -685,6 +705,50 @@
 			children = (
 			);
 			path = AuthenticationProvider;
+			sourceTree = "<group>";
+		};
+		16FDA06D280FF359004BB3C4 /* CommentTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				16FDA070280FF44F004BB3C4 /* CommentTableViewCellLeading */,
+				16FDA073280FF45D004BB3C4 /* CommentTableViewCellTrailing */,
+				16FDA06E280FF367004BB3C4 /* CommentTableViewCell.swift */,
+			);
+			path = CommentTableViewCell;
+			sourceTree = "<group>";
+		};
+		16FDA070280FF44F004BB3C4 /* CommentTableViewCellLeading */ = {
+			isa = PBXGroup;
+			children = (
+				16FDA071280FF45B004BB3C4 /* CommentTableViewCellLeading.swift */,
+			);
+			path = CommentTableViewCellLeading;
+			sourceTree = "<group>";
+		};
+		16FDA073280FF45D004BB3C4 /* CommentTableViewCellTrailing */ = {
+			isa = PBXGroup;
+			children = (
+				16FDA076280FF595004BB3C4 /* Components */,
+				16FDA074280FF465004BB3C4 /* CommentTableViewCellTrailing.swift */,
+			);
+			path = CommentTableViewCellTrailing;
+			sourceTree = "<group>";
+		};
+		16FDA076280FF595004BB3C4 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				16FDA077280FF5A4004BB3C4 /* CommentTableViewCellTrailingHeader.swift */,
+				16FDA079280FF5B7004BB3C4 /* CommentTableViewCellTrailingFooter.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		16FDA07B280FFC97004BB3C4 /* CommentsProvider */ = {
+			isa = PBXGroup;
+			children = (
+				16FDA07C280FFCA0004BB3C4 /* CommentsProvider.swift */,
+			);
+			path = CommentsProvider;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -759,6 +823,7 @@
 			files = (
 				161123852806CBE100908D98 /* Paginated.swift in Sources */,
 				1691E456280EABAE00BA223D /* TXStackView.swift in Sources */,
+				16FDA072280FF45B004BB3C4 /* CommentTableViewCellLeading.swift in Sources */,
 				160437D327E1B7B100EA615F /* NotificationsViewController.swift in Sources */,
 				160437B127E1AE2600EA615F /* TXTableViewController.swift in Sources */,
 				16D8F97C280D7C13000545EC /* SocialDetails.swift in Sources */,
@@ -768,9 +833,11 @@
 				1611237B2806C75A00908D98 /* User.swift in Sources */,
 				1610D94C280F4E3800739208 /* FollowersViewController.swift in Sources */,
 				16993CD6280C41FE00FFE71B /* TXSearchController.swift in Sources */,
+				16FDA07D280FFCA0004BB3C4 /* CommentsProvider.swift in Sources */,
 				167DE003280D561200670BAD /* CommentInteractionDetails.swift in Sources */,
 				167DE005280D562D00670BAD /* TweetOptions.swift in Sources */,
 				1610D93D280F397300739208 /* TXColor.swift in Sources */,
+				16FDA075280FF465004BB3C4 /* CommentTableViewCellTrailing.swift in Sources */,
 				167C3A48280C99A3004E9B4D /* UITableView.swift in Sources */,
 				1691E453280EA8D800BA223D /* TXView.swift in Sources */,
 				1611237D2806C99500908D98 /* Like.swift in Sources */,
@@ -784,6 +851,7 @@
 				160437BD27E1AF5100EA615F /* TXCollectionViewCell.swift in Sources */,
 				16993CD9280C42CD00FFE71B /* CurrentUserTableViewCell.swift in Sources */,
 				160437D527E1B7C200EA615F /* ProfileViewController.swift in Sources */,
+				16FDA081280FFD2D004BB3C4 /* OtherUserProvider.swift in Sources */,
 				16308638280881810061BE31 /* TweetTableViewCell.swift in Sources */,
 				160437D727E1B83700EA615F /* TXPageControl.swift in Sources */,
 				161123892806D29600908D98 /* Session.swift in Sources */,
@@ -795,6 +863,7 @@
 				160437AD27E1ADE700EA615F /* TXTabBarController.swift in Sources */,
 				16CC9A5428099500002647CE /* UIStackView.swift in Sources */,
 				161123832806CAC300908D98 /* Social.swift in Sources */,
+				16FDA07A280FF5B7004BB3C4 /* CommentTableViewCellTrailingFooter.swift in Sources */,
 				169E280027EB896800B72006 /* TXNetworkAssistant.swift in Sources */,
 				167C3A46280C8BB5004E9B4D /* UserProvider.swift in Sources */,
 				1688D3F927FD7B3B00F9C366 /* TXNetworkMonitor.swift in Sources */,
@@ -803,7 +872,9 @@
 				167DE001280D55F900670BAD /* LikeInteractionDetails.swift in Sources */,
 				160437B327E1AE3300EA615F /* TXCollectionViewController.swift in Sources */,
 				161123812806CA4100908D98 /* Bookmark.swift in Sources */,
+				16FDA07F280FFD0B004BB3C4 /* CurrentUserProvider.swift in Sources */,
 				1659263E27E1C55100A1C9F2 /* TXBarButtonItem.swift in Sources */,
+				16FDA06F280FF367004BB3C4 /* CommentTableViewCell.swift in Sources */,
 				160437CB27E1B73300EA615F /* HomeViewController.swift in Sources */,
 				160437BB27E1AED700EA615F /* TXTableViewCell.swift in Sources */,
 				1610D936280F354A00739208 /* TXLabel.swift in Sources */,
@@ -818,6 +889,7 @@
 				1630863B280883900061BE31 /* UIView.swift in Sources */,
 				167C3A44280C80C6004E9B4D /* TweetsProvider.swift in Sources */,
 				1610D94F280F4ED200739208 /* CommentsViewController.swift in Sources */,
+				16FDA078280FF5A4004BB3C4 /* CommentTableViewCellTrailingHeader.swift in Sources */,
 				160437C127E1B0DE00EA615F /* TXPageViewController.swift in Sources */,
 				1610D943280F44E300739208 /* TweetOptionsAlertViewController.swift in Sources */,
 				16D8F978280D7BDD000545EC /* CurrentUserTableViewCellBody.swift in Sources */,

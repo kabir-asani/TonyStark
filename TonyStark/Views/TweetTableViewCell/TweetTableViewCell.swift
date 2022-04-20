@@ -46,18 +46,6 @@ class TweetTableViewCell: TXTableViewCell {
         return trailing
     }()
     
-    private let combinateStack: UIStackView = {
-        let combinateStack = UIStackView()
-        
-        combinateStack.enableAutolayout()
-        combinateStack.axis = .horizontal
-        combinateStack.distribution = .fill
-        combinateStack.alignment = .top
-        combinateStack.spacing = 16
-        
-        return combinateStack
-    }()
-    
     // Arrange
     override init(
         style: UITableViewCell.CellStyle,
@@ -81,12 +69,11 @@ class TweetTableViewCell: TXTableViewCell {
     }
     
     private func arrangeSubviews() {
-        combinateStack.addArrangedSubview(leading)
-        combinateStack.addArrangedSubview(trailing)
+        let combinateStackView = makeCombinedStackView()
         
-        addSubview(combinateStack)
+        addSubview(combinateStackView)
         
-        combinateStack.pin(
+        combinateStackView.pin(
             to: self,
             padding: UIEdgeInsets(
                 top: 16,
@@ -95,6 +82,23 @@ class TweetTableViewCell: TXTableViewCell {
                 right: -16
             )
         )
+    }
+    
+    private func makeCombinedStackView() -> TXStackView {
+        let combinateStack = TXStackView(
+            arrangedSubviews: [
+                leading,
+                trailing
+            ]
+        )
+        
+        combinateStack.enableAutolayout()
+        combinateStack.axis = .horizontal
+        combinateStack.distribution = .fill
+        combinateStack.alignment = .top
+        combinateStack.spacing = 16
+        
+        return combinateStack
     }
     
     // Configure
