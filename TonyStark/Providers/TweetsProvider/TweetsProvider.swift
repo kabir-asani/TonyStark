@@ -8,12 +8,13 @@
 import Foundation
 
 
-enum TweetsFailure: Error {
-    case unknown
-}
 
 class TweetsProvider {
     static let shared = TweetsProvider()
+    
+    enum TweetsFailure: Error {
+        case unknown
+    }
     
     func tweets(of userId: String? = nil) async -> Result<Paginated<Tweet>, TweetsFailure> {
         let paginated: Paginated<Tweet> = await withCheckedContinuation({ continuation in

@@ -8,6 +8,13 @@
 import Foundation
 
 struct Follower {
+    static func empty() -> Follower {
+        return Follower(
+            user: .empty(),
+            creationDate: .now()
+        )
+    }
+    
     let user: User
     let creationDate: Date
     
@@ -25,6 +32,13 @@ struct Follower {
 }
 
 struct Following {
+    static func empty() -> Following {
+        return Following(
+            user: .empty(),
+            creationDate: .now()
+        )
+    }
+    
     let user: User
     let creationDate: Date
     

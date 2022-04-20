@@ -8,6 +8,17 @@
 import Foundation
 
 struct Tweet {
+    static func empty() -> Tweet {
+        return Tweet(
+            id: "",
+            text: "",
+            creationDate: .now(),
+            meta: .empty(),
+            author: .empty(),
+            viewables: .empty()
+        )
+    }
+    
     let id: String
     let text: String
     let creationDate: Date
@@ -37,6 +48,13 @@ struct Tweet {
 }
 
 struct TweetMeta {
+    static func empty() -> TweetMeta {
+        return TweetMeta(
+            likesCount: 0,
+            commentsCount: 0
+        )
+    }
+    
     let likesCount: Int
     let commentsCount: Int
     
@@ -54,6 +72,13 @@ struct TweetMeta {
 }
 
 struct TweetViewables {
+    static func empty() -> TweetViewables {
+        return TweetViewables(
+            liked: false,
+            bookmarked: false
+        )
+    }
+    
     let liked: Bool
     let bookmarked: Bool
     

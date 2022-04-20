@@ -8,7 +8,7 @@
 import UIKit
 
 class FeedViewController: TXTableViewController {
-    private var state: Result<Paginated<Tweet>, TweetsFailure> = .success(.empty())
+    private var state: Result<Paginated<Tweet>, TweetsProvider.TweetsFailure> = .success(.empty())
     
     override func viewDidLoad() {
         super.viewDidLoad()

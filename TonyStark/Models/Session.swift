@@ -8,19 +8,13 @@
 import Foundation
 
 struct Session {
-    let id: String
-    let userId: String
-    let creationDate: Date
+    let accessToken: String
     
     func copyWith(
-        id: String? = nil,
-        userId: String? = nil,
-        creationDate: Date? = nil
+        accessToken: String? = nil
     ) -> Session {
         let newSession = Session(
-            id: id ?? self.id,
-            userId: userId ?? self.userId,
-            creationDate: creationDate ?? self.creationDate
+            accessToken: accessToken ?? self.accessToken
         )
         
         return newSession

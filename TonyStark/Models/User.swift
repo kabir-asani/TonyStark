@@ -15,7 +15,7 @@ struct User {
             username: "",
             image: "",
             bio: "",
-            creationDate: Date(),
+            creationDate: .now(),
             socialDetails: UserSocialDetails(
                 followersCount: 0,
                 followingsCount: 0

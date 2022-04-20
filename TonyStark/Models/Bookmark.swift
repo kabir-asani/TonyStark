@@ -8,28 +8,30 @@
 import Foundation
 
 struct Bookmark {
+    static func empty() -> Bookmark {
+        return Bookmark(
+            id: "",
+            authorId: "",
+            creationDate: .now(),
+            tweet: .empty()
+        )
+    }
+    
     let id: String
     let authorId: String
+    let creationDate: Date
     let tweet: Tweet
-    
-    init(
-        id: String,
-        authorId: String,
-        tweet: Tweet
-    ) {
-        self.id = id
-        self.authorId = authorId
-        self.tweet = tweet
-    }
     
     func copyWith(
         id: String? = nil,
         authorId: String? = nil,
+        creationDate: Date? = nil,
         tweet: Tweet? = nil
     ) -> Bookmark {
         let newBookmark = Bookmark(
             id: id ?? self.id,
             authorId: authorId ?? self.authorId,
+            creationDate: creationDate ?? self.creationDate,
             tweet: tweet ?? self.tweet
         )
         

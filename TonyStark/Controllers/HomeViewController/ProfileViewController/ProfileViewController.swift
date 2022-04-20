@@ -14,7 +14,7 @@ enum ProfileViewControllerSection: Int, CaseIterable {
 
 class ProfileViewController: TXTableViewController {
     private var userState: Result<User, CurrentUserFailure> = .success(.empty())
-    private var tweetsState: Result<Paginated<Tweet>, TweetsFailure> = .success(.empty())
+    private var tweetsState: Result<Paginated<Tweet>, TweetsProvider.TweetsFailure> = .success(.empty())
     
     override func viewDidLoad() {
         super.viewDidLoad()

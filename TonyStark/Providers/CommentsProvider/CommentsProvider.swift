@@ -19,6 +19,7 @@ class CommentsProvider {
             Comment(
                 id: "3939",
                 text: "Hello World!",
+                creationDate: .now(),
                 tweetId: "d4had8",
                 author: User(
                     id: "sadiyakhan",
@@ -39,12 +40,12 @@ class CommentsProvider {
                     viewables: UserViewables(
                         follower: false
                     )
-                ),
-                creationDate: Date()
+                )
             ),
             Comment(
                 id: "3939",
                 text: "Black is the color that speaks to me",
+                creationDate: .now(),
                 tweetId: "d4had8",
                 author: User(
                     id: "mzaink",
@@ -65,8 +66,7 @@ class CommentsProvider {
                     viewables: UserViewables(
                         follower: true
                     )
-                ),
-                creationDate: Date()
+                )
             )
         ]
         
