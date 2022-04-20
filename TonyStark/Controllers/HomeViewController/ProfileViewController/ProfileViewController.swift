@@ -55,14 +55,12 @@ class ProfileViewController: TXTableViewController {
             preferredStyle: .actionSheet
         )
         
-        let appInformation = UIAlertAction(
+        let appInformationAction = UIAlertAction(
             title: "App Information",
             style: .default
         ) { action in
             // TODO:
         }
-        
-        alert.addAction(appInformation)
         
         let developerInformationAction = UIAlertAction(
             title: "Developer Information",
@@ -71,16 +69,19 @@ class ProfileViewController: TXTableViewController {
             // TODO:
         }
         
-        alert.addAction(developerInformationAction)
-        
+        let bookmarksAction = UIAlertAction(
+            title: "Bookmarks",
+            style: .default
+        ) { action in
+            // TODO:
+        }
+    
         let logOutAction = UIAlertAction(
             title: "Log Out?",
             style: .destructive
         ) { action in
             // TODO:
         }
-        
-        alert.addAction(logOutAction)
         
         let cancelAction = UIAlertAction(
             title: "Cancel",
@@ -89,6 +90,10 @@ class ProfileViewController: TXTableViewController {
             alert.dismiss(animated: true)
         }
         
+        alert.addAction(appInformationAction)
+        alert.addAction(developerInformationAction)
+        alert.addAction(bookmarksAction)
+        alert.addAction(logOutAction)
         alert.addAction(cancelAction)
         
         present(

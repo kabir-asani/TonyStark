@@ -96,12 +96,29 @@ class TweetViewCellTrailingFooter: TXView {
     ) {
         likeInteractionDetails.interactionsHandler = self
         likeInteractionDetails.configure(withTweet: tweet)
+        likeInteractionDetails.addTapGestureRecognizer(
+            target: self,
+            action: #selector(onLikePressed(_:))
+        )
         
         commentInteractionDetails.interactionsHandler = self
         commentInteractionDetails.configure(withTweet: tweet)
+        commentInteractionDetails.addTapGestureRecognizer(
+            target: self,
+            action: #selector(onCommentPressed(_:))
+        )
         
         tweetOptions.interactionsHandler = self
         tweetOptions.configure(withTweet: tweet)
+    }
+    
+    // Interact
+    @objc private func onLikePressed(_ sender: UITapGestureRecognizer) {
+        interactionsHandler?.didPressLike(self)
+    }
+    
+    @objc private func onCommentPressed(_ sender: UITapGestureRecognizer) {
+        interactionsHandler?.didPressComment(self)
     }
 }
 
