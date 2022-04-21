@@ -18,7 +18,7 @@ extension UIView {
 extension UIView {
     func pin(
         to view: UIView,
-        withPadding padding: TXEdgeInsets? = nil,
+        withInsets insets: TXEdgeInsets? = nil,
         byBeingSafeAreaAware safeAreaEnabled: Bool = false
     ) {
         NSLayoutConstraint.activate([
@@ -26,26 +26,32 @@ extension UIView {
                 equalTo: safeAreaEnabled
                 ? view.safeAreaLayoutGuide.topAnchor
                 : view.topAnchor,
-                constant: padding?.top ?? 0
+                constant: insets?.top ?? 0
             ),
             self.bottomAnchor.constraint(
-                equalTo: view.bottomAnchor,
-                constant: -(padding?.bottom ?? 0)
+                equalTo: safeAreaEnabled
+                ? view.safeAreaLayoutGuide.bottomAnchor
+                : view.bottomAnchor,
+                constant: -(insets?.bottom ?? 0)
             ),
             self.leadingAnchor.constraint(
-                equalTo: view.leadingAnchor,
-                constant: padding?.left ?? 0
+                equalTo: safeAreaEnabled
+                ? view.safeAreaLayoutGuide.leftAnchor
+                : view.leftAnchor,
+                constant: insets?.left ?? 0
             ),
             self.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor,
-                constant: -(padding?.right ?? 0)
+                equalTo: safeAreaEnabled
+                ? view.safeAreaLayoutGuide.trailingAnchor
+                : view.trailingAnchor,
+                constant: -(insets?.right ?? 0)
             )
         ])
     }
     
     func pin(
         toTopOf view: UIView,
-        withMargin margin: Double? = nil,
+        withInset inset: Double? = nil,
         byBeingSafeAreaAware safeAreaEnabled: Bool = false
     ) {
         NSLayoutConstraint.activate([
@@ -53,14 +59,14 @@ extension UIView {
                 equalTo: safeAreaEnabled
                 ? view.safeAreaLayoutGuide.topAnchor
                 : view.topAnchor,
-                constant: margin ?? 0
+                constant: inset ?? 0
             )
         ])
     }
     
     func pin(
         toBottomOf view: UIView,
-        withMargin margin: Double? = nil,
+        withInset inset: Double? = nil,
         byBeingSafeAreaAware safeAreaEnabled: Bool = false
     ) {
         NSLayoutConstraint.activate([
@@ -68,14 +74,14 @@ extension UIView {
                 equalTo: safeAreaEnabled
                 ? view.safeAreaLayoutGuide.bottomAnchor
                 : view.bottomAnchor,
-                constant: -(margin ?? 0)
+                constant: -(inset ?? 0)
             )
         ])
     }
     
     func pin(
         toLeftOf view: UIView,
-        withMargin margin: Double? = nil,
+        withInset inset: Double? = nil,
         byBeingSafeAreaAware safeAreaEnabled: Bool = false
     ) {
         NSLayoutConstraint.activate([
@@ -83,14 +89,14 @@ extension UIView {
                 equalTo: safeAreaEnabled
                 ? view.safeAreaLayoutGuide.leftAnchor
                 : view.leftAnchor,
-                constant: margin ?? 0
+                constant: inset ?? 0
             )
         ])
     }
     
     func pin(
         toRightOf view: UIView,
-        withMargin margin: Double? = nil,
+        withInset inset: Double? = nil,
         byBeingSafeAreaAware safeAreaEnabled: Bool = false
     ) {
         NSLayoutConstraint.activate([
@@ -98,7 +104,7 @@ extension UIView {
                 equalTo: safeAreaEnabled
                 ? view.safeAreaLayoutGuide.rightAnchor
                 : view.rightAnchor,
-                constant: -(margin ?? 0)
+                constant: -(inset ?? 0)
             )
         ])
     }
@@ -131,11 +137,14 @@ extension UIView {
 extension UIView {
     func attach(
         topToBottomOf view: UIView,
-        withMargin margin: Double? = nil
+        withMargin margin: Double? = nil,
+        byBeingSafeAreaAware safeAreaEnabled: Bool = false
     ) {
         NSLayoutConstraint.activate([
             self.topAnchor.constraint(
-                equalTo: view.bottomAnchor,
+                equalTo: safeAreaEnabled
+                ? view.safeAreaLayoutGuide.bottomAnchor
+                : view.topAnchor,
                 constant: margin ?? 0
             )
         ])
@@ -143,11 +152,14 @@ extension UIView {
     
     func attach(
         bottomToTopOf view: UIView,
-        withMargin margin: Double? = nil
+        withMargin margin: Double? = nil,
+        byBeingSafeAreaAware safeAreaEnabled: Bool = false
     ) {
         NSLayoutConstraint.activate([
             self.bottomAnchor.constraint(
-                equalTo: view.topAnchor,
+                equalTo: safeAreaEnabled
+                ? view.safeAreaLayoutGuide.topAnchor
+                : view.topAnchor,
                 constant: margin ?? 0
             )
         ])
@@ -155,11 +167,14 @@ extension UIView {
     
     func attach(
         leftToRightOf view: UIView,
-        withMargin margin: Double? = nil
+        withMargin margin: Double? = nil,
+        byBeingSafeAreaAware safeAreaEnabled: Bool = false
     ) {
         NSLayoutConstraint.activate([
             self.leftAnchor.constraint(
-                equalTo: view.rightAnchor,
+                equalTo: safeAreaEnabled
+                ? view.safeAreaLayoutGuide.rightAnchor
+                : view.rightAnchor,
                 constant: margin ?? 0
             )
         ])
@@ -167,11 +182,14 @@ extension UIView {
     
     func attach(
         rightToLeftOf view: UIView,
-        withMargin margin: Double? = nil
+        withMargin margin: Double? = nil,
+        byBeingSafeAreaAware safeAreaEnabled: Bool = false
     ) {
         NSLayoutConstraint.activate([
             self.rightAnchor.constraint(
-                equalTo: view.leftAnchor,
+                equalTo: safeAreaEnabled
+                ? view.safeAreaLayoutGuide.leftAnchor
+                : view.leftAnchor,
                 constant: margin ?? 0
             )
         ])
@@ -180,7 +198,7 @@ extension UIView {
 
 // MARK: Dimensions
 extension UIView {
-    func squareOff(with side: Double) {
+    func squareOff(withSide side: Double) {
         NSLayoutConstraint.activate([
             self.widthAnchor.constraint(equalToConstant: side),
             self.heightAnchor.constraint(equalTo: self.widthAnchor)

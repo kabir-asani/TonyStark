@@ -16,7 +16,7 @@ class TXCircularImageView: TXImageView {
         super.init(frame: .zero)
         
         enableAutolayout()
-        squareOff(with: 2 * radius)
+        squareOff(withSide: 2 * radius)
         layer.cornerRadius = radius
         clipsToBounds = true
         contentMode = .scaleAspectFill
