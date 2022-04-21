@@ -7,25 +7,8 @@
 
 import UIKit
 
-protocol TweetViewCellTrailingInteractionsHandler: TweetTableViewCell {
-    func didPressLike(_ tweetViewCellTrailing: TweetViewCellTrailing)
-    
-    func didPressComment(_ tweetViewCellTrailing: TweetViewCellTrailing)
-    
-    @available(iOS 14, *)
-    func didPressBookmark(_ tweetViewCellTrailing: TweetViewCellTrailing)
-    
-    @available(iOS 14, *)
-    func didPressFollow(_ tweetViewCellTrailing: TweetViewCellTrailing)
-    
-    @available(iOS, deprecated: 14)
-    func didPressOptions(_ tweetViewCellTrailing: TweetViewCellTrailing)
-}
-
 class TweetViewCellTrailing: TXView {
     // Declare
-    weak var interactionsHandler: TweetViewCellTrailingInteractionsHandler?
-    
     private let header: TweetViewCellTrailingHeader = {
         let header = TweetViewCellTrailingHeader()
         
@@ -88,39 +71,43 @@ class TweetViewCellTrailing: TXView {
     }
     
     // Configure
+    @available(iOS 14, *)
     func configure(
-        withTweet tweet: Tweet
+        withTweet tweet: Tweet,
+        onLikePressed: @escaping () -> Void,
+        onCommentPressed: @escaping () -> Void,
+        onBookmarksPressed: @escaping () -> Void,
+        onFollowPressed: @escaping () -> Void
     ) {
         header.configure(withTweet: tweet)
         
         body.configure(withTweet: tweet)
         
-        footer.interactionsHandler = self
-        footer.configure(withTweet: tweet)
-    }
-}
-
-// MARK: TweetViewCellTrailingFooterInteractionsHandler
-extension TweetViewCellTrailing: TweetViewCellTrailingFooterInteractionsHandler {
-    func didPressLike(_ tweetViewCellTrailingFooter: TweetViewCellTrailingFooter) {
-        interactionsHandler?.didPressLike(self)
+        footer.configure(
+            withTweet: tweet,
+            onLikePressed: onLikePressed,
+            onCommentPressed: onCommentPressed,
+            onBookmarkPressed: onBookmarksPressed,
+            onFollowPressed: onFollowPressed
+        )
     }
     
-    func didPressComment(_ tweetViewCellTrailingFooter: TweetViewCellTrailingFooter) {
-        interactionsHandler?.didPressComment(self)
-    }
-    
-    @available(iOS 14, *)
-    func didPressBookmark(_ tweetViewCellTrailingFooter: TweetViewCellTrailingFooter) {
-        interactionsHandler?.didPressBookmark(self)
-    }
-    
-    @available(iOS 14, *)
-    func didPressFollow(_ tweetViewCellTrailingFooter: TweetViewCellTrailingFooter) {
-        interactionsHandler?.didPressFollow(self)
-    }
-    
-    func didPressOptions(_ tweetViewCellTrailingFooter: TweetViewCellTrailingFooter) {
-        interactionsHandler?.didPressOptions(self)
+    @available(iOS, deprecated: 14)
+    func configure(
+        withTweet tweet: Tweet,
+        onLikePressed: @escaping () -> Void,
+        onCommentPressed: @escaping () -> Void,
+        onOptionsPressed: @escaping () -> Void
+    ) {
+        header.configure(withTweet: tweet)
+        
+        body.configure(withTweet: tweet)
+        
+        footer.configure(
+            withTweet: tweet,
+            onLikePressed: onLikePressed,
+            onCommentPressed: onCommentPressed,
+            onOptionsPressed: onOptionsPressed
+        )
     }
 }

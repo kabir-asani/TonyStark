@@ -7,13 +7,9 @@
 
 import UIKit
 
-protocol CurrentUserTableViewCellHeaderInteractionsHandler: AnyObject {
-    func didPressEdit(_ currentUserTableViewCellHeader: CurrentUserTableViewCellHeader)
-}
-
 class CurrentUserTableViewCellHeader: TXView {
     // Declare
-    weak var interactionsHandler: CurrentUserTableViewCellHeaderInteractionsHandler?
+    private var onEditPressed: (() -> Void)?
     
     let profileImage: TXImageView = {
         let profileImage = TXCircularImageView(radius: 40)
@@ -87,8 +83,11 @@ class CurrentUserTableViewCellHeader: TXView {
     
     // Configure
     func configure(
-        withUser user: User
+        withUser user: User,
+        onEditPressed: @escaping () -> Void
     ) {
+        self.onEditPressed = onEditPressed
+        
         configureProfileImage(withImageURL: user.image)
         configureEditButton()
     }
@@ -118,6 +117,6 @@ class CurrentUserTableViewCellHeader: TXView {
     
     // Interact
     @objc private func onEditPressed(_ sender: TXButton) {
-        interactionsHandler?.didPressEdit(self)
+        onEditPressed?()
     }
 }

@@ -7,13 +7,9 @@
 
 import UIKit
 
-protocol SocialDetailsInteractionsHandler: CurrentUserTableViewCellFooter {
-    func didPress(_ socialDetails: SocialDetails)
-}
-
 class SocialDetails: TXView {
     // Declare
-    weak var interactionsHandler: SocialDetailsInteractionsHandler?
+    private var onPressed: (() -> Void)?
     
     let leadingText: TXLabel = {
         let leadingText = TXLabel()
@@ -86,8 +82,11 @@ class SocialDetails: TXView {
         withData data: (
             leadingText: String,
             trailingText: String
-        )
+        ),
+        onPressed: @escaping () -> Void
     ) {
+        self.onPressed = onPressed
+        
         configureLeadingText(
             withText: data.leadingText
         )
@@ -113,6 +112,6 @@ class SocialDetails: TXView {
     @objc private func onPress(
         _ sender: UITapGestureRecognizer
     ) {
-        interactionsHandler?.didPress(self)
+        onPressed?()
     }
 }

@@ -103,42 +103,82 @@ class TweetTableViewCell: TXTableViewCell {
     
     // Configure
     func configure(withTweet tweet: Tweet) {
-        leading.interactionsHandler = self
-        leading.configure(withTweet: tweet)
+        leading.configure(
+            withTweet: tweet
+        ) {
+            [weak self] in
+            
+            guard let safeSelf = self else {
+                return
+            }
+            
+            safeSelf.interactionsHandler?.didPressProfileImage(safeSelf)
+        }
         
-        trailing.interactionsHandler = self
-        trailing.configure(withTweet: tweet)
-    }
-}
-
-// MARK: TweetViewCellLeadingInteractionsHandler
-extension TweetTableViewCell: TweetViewCellLeadingInteractionsHandler {
-    func onProfileImagePressed() {
-        interactionsHandler?.didPressProfileImage(self)
-    }
-}
-
-// MARK: TweetViewCellTrailingInteractionsHandler
-extension TweetTableViewCell: TweetViewCellTrailingInteractionsHandler {
-    func didPressLike(_ tweetViewCellTrailing: TweetViewCellTrailing) {
-        interactionsHandler?.didPressLike(self)
-    }
-    
-    func didPressComment(_ tweetViewCellTrailing: TweetViewCellTrailing) {
-        interactionsHandler?.didPressComment(self)
-    }
-    
-    @available(iOS 14, *)
-    func didPressBookmark(_ tweetViewCellTrailing: TweetViewCellTrailing) {
-        interactionsHandler?.didPressBookmarksOption(self)
-    }
-    
-    @available(iOS 14, *)
-    func didPressFollow(_ tweetViewCellTrailing: TweetViewCellTrailing) {
-        interactionsHandler?.didPressFollowOption(self)
-    }
-    
-    func didPressOptions(_ tweetViewCellTrailing: TweetViewCellTrailing) {
-        interactionsHandler?.didPressOption(self)
+        if #available(iOS 14, *) {
+            trailing.configure(
+                withTweet: tweet
+            ) {
+                [weak self] in
+                
+                guard let safeSelf = self else {
+                    return
+                }
+                
+                safeSelf.interactionsHandler?.didPressLike(safeSelf)
+            } onCommentPressed: {
+                [weak self] in
+                
+                guard let safeSelf = self else {
+                    return
+                }
+                
+                safeSelf.interactionsHandler?.didPressComment(safeSelf)
+            } onBookmarksPressed: {
+                [weak self] in
+                
+                guard let safeSelf = self else {
+                    return
+                }
+                
+                safeSelf.interactionsHandler?.didPressBookmarksOption(safeSelf)
+            } onFollowPressed: {
+                [weak self] in
+                
+                guard let safeSelf = self else {
+                    return
+                }
+                
+                safeSelf.interactionsHandler?.didPressFollowOption(safeSelf)
+            }
+        } else {
+            trailing.configure(
+                withTweet: tweet
+            ) {
+                [weak self] in
+                
+                guard let safeSelf = self else {
+                    return
+                }
+                
+                safeSelf.interactionsHandler?.didPressLike(safeSelf)
+            } onCommentPressed: {
+                [weak self] in
+                
+                guard let safeSelf = self else {
+                    return
+                }
+                
+                safeSelf.interactionsHandler?.didPressComment(safeSelf)
+            } onOptionsPressed: {
+                [weak self] in
+                
+                guard let safeSelf = self else {
+                    return
+                }
+                
+                safeSelf.interactionsHandler?.didPressOption(safeSelf)
+            }
+        }
     }
 }

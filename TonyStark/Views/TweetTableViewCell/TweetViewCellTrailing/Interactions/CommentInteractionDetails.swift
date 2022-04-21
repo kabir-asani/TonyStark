@@ -8,13 +8,9 @@
 import Foundation
 import UIKit
 
-protocol CommentInteractionDetailsInteractionsHandler: TweetViewCellTrailingFooter {
-    func didPressComment(_ commentInteractionDetails: CommentInteractionDetails)
-}
-
 class CommentInteractionDetails: TXView {
     // Declare
-    weak var interactionsHandler: CommentInteractionDetailsInteractionsHandler?
+    private var onCommentPressed: (() -> Void)?
     
     private let commentButton: TXButton = {
         let commentButton = TXButton()
@@ -69,11 +65,21 @@ class CommentInteractionDetails: TXView {
         combinedStack.distribution = .fill
         combinedStack.alignment = .center
         
+        combinedStack.addTapGestureRecognizer(
+            target: self,
+            action: #selector(onEntireCommentPressed(_:))
+        )
+        
         return combinedStack
     }
     
     // Configure
-    func configure(withTweet tweet: Tweet) {
+    func configure(
+        withTweet tweet: Tweet,
+        onCommentPressed: @escaping () -> Void
+    ) {
+        self.onCommentPressed = onCommentPressed
+        
         configureCommentButton()
         configureCommentsCountText(withCommentsCount: tweet.meta.commentsCount)
     }
@@ -99,6 +105,10 @@ class CommentInteractionDetails: TXView {
     
     // Interact
     @objc private func onCommentPressed(_ sender: TXButton) {
-        interactionsHandler?.didPressComment(self)
+        onCommentPressed?()
+    }
+    
+    @objc private func onEntireCommentPressed(_ sender: UITapGestureRecognizer) {
+        onCommentPressed?()
     }
 }

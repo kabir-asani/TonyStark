@@ -7,9 +7,15 @@
 
 import UIKit
 
+protocol CommentTableViewCellInteractionsHandler: AnyObject {
+    func didPressProfileImage(_ commentTableViewCell: CommentTableViewCell)
+}
+
 class CommentTableViewCell: TXTableViewCell {
     // Declare
     static let reuseIdentifer = String(describing: CommentTableViewCell.self)
+    
+    weak var interactionsHandler: CommentTableViewCellInteractionsHandler?
     
     let leading: CommentTableViewCellLeading = {
         let leading = CommentTableViewCellLeading()
@@ -79,17 +85,20 @@ class CommentTableViewCell: TXTableViewCell {
     
     // Configure
     func configure(withComment comment: Comment) {
-        leading.interactionsHandler = self
-        leading.configure(withComment: comment)
+        leading.configure(
+            withComment: comment
+        ) {
+            [weak self] in
+            
+            guard let safeSelf = self else {
+                return
+            }
+            
+            safeSelf.interactionsHandler?.didPressProfileImage(safeSelf)
+        }
         
         trailing.configure(withComment: comment)
     }
     
     // Interact
-}
-
-extension CommentTableViewCell: CommentTableViewCellLeadingInteractionsHandler {
-    func didPressProfileImage(_ commentTableViewCellLeading: CommentTableViewCellLeading) {
-        print(#function)
-    }
 }

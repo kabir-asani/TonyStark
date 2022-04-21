@@ -7,13 +7,9 @@
 
 import UIKit
 
-protocol CommentTableViewCellLeadingInteractionsHandler: CommentTableViewCell {
-    func didPressProfileImage(_ commentTableViewCellLeading: CommentTableViewCellLeading)
-}
-
 class CommentTableViewCellLeading: TXView {
     // Declare
-    weak var interactionsHandler: CommentTableViewCellLeadingInteractionsHandler?
+    private var onProfileImagePressed: (() -> Void)?
     
     private let profileImage: TXImageView = {
         let profileImage = TXCircularImageView(
@@ -44,7 +40,12 @@ class CommentTableViewCellLeading: TXView {
     }
     
     // Configure
-    func configure(withComment comment: Comment) {
+    func configure(
+        withComment comment: Comment,
+        onProfileImagePressed: @escaping () -> Void
+    ) {
+        self.onProfileImagePressed = onProfileImagePressed
+        
         configureProfileImage(withImageURL: comment.author.image)
     }
     
@@ -72,6 +73,6 @@ class CommentTableViewCellLeading: TXView {
     
     // Interact
     @objc private func onProfileImagePressed(_ sender: UITapGestureRecognizer) {
-        interactionsHandler?.didPressProfileImage(self)
+        onProfileImagePressed?()
     }
 }

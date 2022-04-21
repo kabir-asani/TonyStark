@@ -8,20 +8,11 @@
 import Foundation
 import UIKit
 
-protocol TweetOptionsInteractionsHandler: TweetViewCellTrailingFooter {
-    @available(iOS 14.0, *)
-    func didPressBookmark(_ tweetOptions: TweetOptions)
-    
-    @available(iOS 14.0, *)
-    func didPressFollow(_ tweetOptions: TweetOptions)
-    
-    @available(iOS, deprecated: 14)
-    func didPressOptions(_ tweetOptions: TweetOptions)
-}
-
 class TweetOptions: UIView {
     // Declare
-    weak var interactionsHandler: TweetOptionsInteractionsHandler?
+    private var onBookmarkPressed: (() -> Void)?
+    private var onFollowPressed: (() -> Void)?
+    private var onOptionsPressed: (() -> Void)?
     
     private let optionsButton: UIButton = {
         let optionsButton = UIButton()
@@ -59,23 +50,32 @@ class TweetOptions: UIView {
     }
     
     // Configure
+    @available (iOS 14.0, *)
     func configure(
-        withTweet tweet: Tweet
+        withTweet tweet: Tweet,
+        onBookmarkPressed: @escaping () -> Void,
+        onFollowPressed: @escaping () -> Void
     ) {
-        if #available(iOS 14.0, *) {
-            configureOptionsButton(
-                withData: (
-                    isBookmarked: tweet.viewables.bookmarked,
-                    isFollower: tweet.author.viewables.follower
-                )
+        self.onBookmarkPressed = onBookmarkPressed
+        self.onFollowPressed = onFollowPressed
+        
+        configureOptionsButton(
+            withData: (
+                isBookmarked: tweet.viewables.bookmarked,
+                isFollower: tweet.author.viewables.follower
             )
-        } else {
-            optionsButton.addTarget(
-                self,
-                action: #selector(onOptionsPressed(_:)),
-                for: .touchUpInside
-            )
-        }
+        )
+    }
+    
+    @available (iOS, deprecated: 14.0)
+    func configure(onOptionsPressed: @escaping () -> Void) {
+        self.onOptionsPressed = onOptionsPressed
+        
+        optionsButton.addTarget(
+            self,
+            action: #selector(onOptionsPressed(_:)),
+            for: .touchUpInside
+        )
     }
     
     @available(iOS 14.0, *)
@@ -96,7 +96,7 @@ class TweetOptions: UIView {
                         return
                     }
                     
-                    safeSelf.interactionsHandler?.didPressBookmark(safeSelf)
+                    safeSelf.onBookmarkPressed?()
                 },
                 UIAction(
                     title: data.isFollower
@@ -112,7 +112,7 @@ class TweetOptions: UIView {
                         return
                     }
                     
-                    safeSelf.interactionsHandler?.didPressFollow(safeSelf)
+                    safeSelf.onFollowPressed?()
                 }
             ]
         )
@@ -120,6 +120,6 @@ class TweetOptions: UIView {
     
     // Interact
     @objc private func onOptionsPressed(_ sender: TXButton) {
-        interactionsHandler?.didPressOptions(self)
+        onOptionsPressed?()
     }
 }

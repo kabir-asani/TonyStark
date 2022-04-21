@@ -7,12 +7,6 @@
 
 import UIKit
 
-protocol CurrentUserTableViewCellFooterInteractionsHandler: AnyObject {
-    func didPressFollowers(_ currentUserTableViewCellFooter: CurrentUserTableViewCellFooter)
-    
-    func didPressFollowings(_ currentUserTableViewCellFooter: CurrentUserTableViewCellFooter)
-}
-
 class CurrentUserTableViewCellFooter: TXView {
     private enum SocialDetailsIdentifier: String {
         case followers = "follower"
@@ -20,7 +14,6 @@ class CurrentUserTableViewCellFooter: TXView {
     }
     
     // Declare
-    weak var interactionsHandler: CurrentUserTableViewCellFooterInteractionsHandler?
     
     let followersSocialDetails: SocialDetails = {
         let followersSocialDetails = SocialDetails()
@@ -82,37 +75,24 @@ class CurrentUserTableViewCellFooter: TXView {
     
     // Configure
     func configure(
-        withUser user: User
+        withUser user: User,
+        onFollowersPressed: @escaping () -> Void,
+        onFollowingsPressed: @escaping () -> Void
     ) {
-        followersSocialDetails.interactionsHandler = self
         followersSocialDetails.configure(
             withData: (
                 leadingText: "\(user.socialDetails.followersCount)",
                 trailingText: "Followers"
-            )
+            ),
+            onPressed: onFollowersPressed
         )
         
-        followingsSocialDetails.interactionsHandler = self
         followingsSocialDetails.configure(
             withData: (
                 leadingText: "\(user.socialDetails.followingsCount)",
                 trailingText: "Followings"
-            )
+            ),
+            onPressed: onFollowingsPressed
         )
-    }
-}
-
-// MARK: SocialDetailsInteractionHandler
-extension CurrentUserTableViewCellFooter: SocialDetailsInteractionsHandler {
-    func didPress(_ socialDetails: SocialDetails) {
-        if let identifier = socialDetails.identifier {
-            if identifier == SocialDetailsIdentifier.followers.rawValue {
-                interactionsHandler?.didPressFollowers(self)
-            }
-            
-            if identifier == SocialDetailsIdentifier.followings.rawValue {
-                interactionsHandler?.didPressFollowings(self)
-            }
-        }
     }
 }

@@ -8,13 +8,9 @@
 import Foundation
 import UIKit
 
-protocol TweetViewCellLeadingInteractionsHandler: TweetTableViewCell {
-    func onProfileImagePressed()
-}
-
 class TweetViewCellLeading: UIView {
     // Declare
-    weak var interactionsHandler: TweetViewCellLeadingInteractionsHandler?
+    private var onProfileImagePressed: (() -> Void)?
     
     private let profileImage: TXCircularImageView = {
         let profileImage = TXCircularImageView(radius: 22)
@@ -38,8 +34,11 @@ class TweetViewCellLeading: UIView {
     }
     
     func configure(
-        withTweet tweet: Tweet
+        withTweet tweet: Tweet,
+        onProfileImagePressed: @escaping () -> Void
     ) {
+        self.onProfileImagePressed = onProfileImagePressed
+        
         configureProfileImage(withImageURL: tweet.author.image)
     }
     
@@ -74,6 +73,6 @@ class TweetViewCellLeading: UIView {
     
     // Interact
     @objc private func onProfileImagePressed(_ sender: UITapGestureRecognizer) {
-        interactionsHandler?.onProfileImagePressed()
+        onProfileImagePressed?()
     }
 }

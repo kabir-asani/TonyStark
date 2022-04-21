@@ -621,8 +621,8 @@
 		16C45FF127E76F2100F592A2 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				16D3C5E32810313D00B8A2CC /* TXEventBroker */,
 				16308639280883810061BE31 /* Extensions */,
+				16D3C5E32810313D00B8A2CC /* TXEventBroker */,
 				16D237AB28019A4C00FD1DC4 /* TXLocalStorageAssistant */,
 				1688D3F727FD7B2800F9C366 /* TXNetworkMonitor */,
 				169E27FE27EB895300B72006 /* TXNetworkAssistant */,

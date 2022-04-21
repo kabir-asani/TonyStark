@@ -108,36 +108,35 @@ class CurrentUserTableViewCell: TXTableViewCell {
     
     // Configure
     func configure(withUser user: User) {
-        header.interactionsHandler = self
-        header.configure(withUser: user)
+        header.configure(
+            withUser: user
+        ) {
+            [weak self] in
+            guard let safeSelf = self else {
+                return
+            }
+            
+            safeSelf.interactionsHandler?.didPressEdit(safeSelf)
+        }
         
         body.configure(withUser: user)
         
-        footer.interactionsHandler = self
-        footer.configure(withUser: user)
-    }
-}
-
-// MARK: CurrentUserTableViewCellHeaderInteractionHandler
-extension CurrentUserTableViewCell: CurrentUserTableViewCellHeaderInteractionsHandler {
-    func didPressEdit(
-        _ currentUserTableViewCellHeader: CurrentUserTableViewCellHeader
-    ) {
-        interactionsHandler?.didPressEdit(self)
-    }
-}
-
-// MARK: CurrentUserTableViewCellFooterInteractionHandler
-extension CurrentUserTableViewCell: CurrentUserTableViewCellFooterInteractionsHandler {
-    func didPressFollowers(
-        _ currentUserTableViewCellFooter: CurrentUserTableViewCellFooter
-    ) {
-        interactionsHandler?.didPressFollowers(self)
-    }
-    
-    func didPressFollowings(
-        _ currentUserTableViewCellFooter: CurrentUserTableViewCellFooter
-    ) {
-        interactionsHandler?.didPressFollowings(self)
+        footer.configure(
+            withUser: user
+        ) {
+            [weak self] in
+            guard let safeSelf = self else {
+                return
+            }
+            
+            safeSelf.interactionsHandler?.didPressFollowers(safeSelf)
+        } onFollowingsPressed: {
+            [weak self] in
+            guard let safeSelf = self else {
+                return
+            }
+            
+            safeSelf.interactionsHandler?.didPressFollowings(safeSelf)
+        }
     }
 }

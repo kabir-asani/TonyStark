@@ -7,25 +7,8 @@
 
 import UIKit
 
-protocol TweetViewCellTrailingFooterInteractionsHandler: TweetViewCellTrailing {
-    func didPressLike(_ tweetViewCellTrailingFooter: TweetViewCellTrailingFooter)
-    
-    func didPressComment(_ tweetViewCellTrailingFooter: TweetViewCellTrailingFooter)
-    
-    @available(iOS 14, *)
-    func didPressBookmark(_ tweetViewCellTrailingFooter: TweetViewCellTrailingFooter)
-    
-    @available(iOS 14, *)
-    func didPressFollow(_ tweetViewCellTrailingFooter: TweetViewCellTrailingFooter)
-    
-    @available(iOS, deprecated: 14)
-    func didPressOptions(_ tweetViewCellTrailingFooter: TweetViewCellTrailingFooter)
-}
-
 class TweetViewCellTrailingFooter: TXView {
     // Declare
-    weak var interactionsHandler: TweetViewCellTrailingFooterInteractionsHandler?
-    
     private let likeInteractionDetails: LikeInteractionDetails = {
         let likeInteractionDetails = LikeInteractionDetails()
         
@@ -91,64 +74,50 @@ class TweetViewCellTrailingFooter: TXView {
     }
     
     // Configure
+    @available(iOS 14, *)
     func configure(
-        withTweet tweet: Tweet
+        withTweet tweet: Tweet,
+        onLikePressed: @escaping () -> Void,
+        onCommentPressed: @escaping () -> Void,
+        onBookmarkPressed: @escaping () -> Void,
+        onFollowPressed: @escaping () -> Void
     ) {
-        likeInteractionDetails.interactionsHandler = self
-        likeInteractionDetails.configure(withTweet: tweet)
-        likeInteractionDetails.addTapGestureRecognizer(
-            target: self,
-            action: #selector(onLikePressed(_:))
+        likeInteractionDetails.configure(
+            withTweet: tweet,
+            onLikePressed: onLikePressed
         )
         
-        commentInteractionDetails.interactionsHandler = self
-        commentInteractionDetails.configure(withTweet: tweet)
-        commentInteractionDetails.addTapGestureRecognizer(
-            target: self,
-            action: #selector(onCommentPressed(_:))
+        commentInteractionDetails.configure(
+            withTweet: tweet,
+            onCommentPressed: onCommentPressed
         )
         
-        tweetOptions.interactionsHandler = self
-        tweetOptions.configure(withTweet: tweet)
+        tweetOptions.configure(
+            withTweet: tweet,
+            onBookmarkPressed: onBookmarkPressed,
+            onFollowPressed: onFollowPressed
+        )
     }
     
-    // Interact
-    @objc private func onLikePressed(_ sender: UITapGestureRecognizer) {
-        interactionsHandler?.didPressLike(self)
-    }
-    
-    @objc private func onCommentPressed(_ sender: UITapGestureRecognizer) {
-        interactionsHandler?.didPressComment(self)
-    }
-}
-
-// MARK: LikeInteractionDetailsInteractionHandler
-extension TweetViewCellTrailingFooter: LikeInteractionDetailsInteractionsHandler {
-    func didPressLike(_ likeInteractionDetails: LikeInteractionDetails) {
-        interactionsHandler?.didPressLike(self)
-    }
-}
-
-// MARK: CommentInteractionDetailsInteractionHandler
-extension TweetViewCellTrailingFooter: CommentInteractionDetailsInteractionsHandler {
-    func didPressComment(_ commentInteractionDetails: CommentInteractionDetails) {
-        interactionsHandler?.didPressComment(self)
-    }
-}
-
-// MARK: TweetOptionsInteractionHandler
-extension TweetViewCellTrailingFooter: TweetOptionsInteractionsHandler {
-    @available(iOS 14, *)
-    func didPressBookmark(_ tweetOptions: TweetOptions) {
-        interactionsHandler?.didPressBookmark(self)
-    }
-    
-    @available(iOS 14, *)
-    func didPressFollow(_ tweetOptions: TweetOptions) {
-        interactionsHandler?.didPressFollow(self)
-    }
-    
-    func didPressOptions(_ tweetOptions: TweetOptions) {
-        interactionsHandler?.didPressOptions(self)
+    @available(iOS, deprecated: 14)
+    func configure(
+        withTweet tweet: Tweet,
+        onLikePressed: @escaping () -> Void,
+        onCommentPressed: @escaping () -> Void,
+        onOptionsPressed: @escaping () -> Void
+    ) {
+        likeInteractionDetails.configure(
+            withTweet: tweet,
+            onLikePressed: onLikePressed
+        )
+        
+        commentInteractionDetails.configure(
+            withTweet: tweet,
+            onCommentPressed: onCommentPressed
+        )
+        
+        tweetOptions.configure(
+            onOptionsPressed: onOptionsPressed
+        )
     }
 }

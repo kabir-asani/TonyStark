@@ -8,13 +8,9 @@
 import Foundation
 import UIKit
 
-protocol LikeInteractionDetailsInteractionsHandler: TweetViewCellTrailingFooter {
-    func didPressLike(_ likeInteractionDetails: LikeInteractionDetails)
-}
-
 class LikeInteractionDetails: TXView {
     // Declare
-    weak var interactionsHandler: LikeInteractionDetailsInteractionsHandler?
+    private var onLikePressed: (() -> Void)?
     
     private let likeButton: TXButton = {
         let likeButton = TXButton()
@@ -67,13 +63,21 @@ class LikeInteractionDetails: TXView {
         combinedStack.distribution = .fill
         combinedStack.alignment = .center
         
+        combinedStack.addTapGestureRecognizer(
+            target: self,
+            action: #selector(onLikePressed(_:))
+        )
+        
         return combinedStack
     }
     
     // Configure
     func configure(
-        withTweet tweet: Tweet
+        withTweet tweet: Tweet,
+        onLikePressed: @escaping () -> Void
     ) {
+        self.onLikePressed = onLikePressed
+        
         configure(
             likeButtonWith: tweet.viewables.liked
         )
@@ -104,7 +108,7 @@ class LikeInteractionDetails: TXView {
         
         likeButton.addTarget(
             self,
-            action: #selector(onLikePressed(_:)),
+            action: #selector(onEntireLikePressed(_:)),
             for: .touchUpInside
         )
     }
@@ -126,6 +130,12 @@ class LikeInteractionDetails: TXView {
     @objc private func onLikePressed(
         _ sender: TXButton
     ) {
-        interactionsHandler?.didPressLike(self)
+        onLikePressed?()
+    }
+    
+    @objc private func onEntireLikePressed(
+        _ sender: UITapGestureRecognizer
+    ) {
+        onLikePressed?()
     }
 }
