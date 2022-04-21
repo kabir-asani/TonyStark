@@ -20,7 +20,7 @@
 		160437CF27E1B77B00EA615F /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437CE27E1B77B00EA615F /* FeedViewController.swift */; };
 		160437D127E1B79300EA615F /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437D027E1B79300EA615F /* ExploreViewController.swift */; };
 		160437D327E1B7B100EA615F /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437D227E1B7B100EA615F /* NotificationsViewController.swift */; };
-		160437D527E1B7C200EA615F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437D427E1B7C200EA615F /* ProfileViewController.swift */; };
+		160437D527E1B7C200EA615F /* CurrentUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437D427E1B7C200EA615F /* CurrentUserViewController.swift */; };
 		160437D727E1B83700EA615F /* TXPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437D627E1B83700EA615F /* TXPageControl.swift */; };
 		160437D927E1B87B00EA615F /* TXTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437D827E1B87B00EA615F /* TXTabBarItem.swift */; };
 		1610D933280F351B00739208 /* TweetViewCellTrailingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D932280F351B00739208 /* TweetViewCellTrailingHeader.swift */; };
@@ -70,6 +70,7 @@
 		16D237AD28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D237AC28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift */; };
 		16D3C5E22810306100B8A2CC /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3C5E12810306100B8A2CC /* Date.swift */; };
 		16D3C5E52810314B00B8A2CC /* TXEventBroker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3C5E42810314B00B8A2CC /* TXEventBroker.swift */; };
+		16D3C5E82810347400B8A2CC /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3C5E72810347400B8A2CC /* Provider.swift */; };
 		16D8F976280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F975280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift */; };
 		16D8F978280D7BDD000545EC /* CurrentUserTableViewCellBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F977280D7BDD000545EC /* CurrentUserTableViewCellBody.swift */; };
 		16D8F97A280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F979280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift */; };
@@ -99,7 +100,7 @@
 		160437CE27E1B77B00EA615F /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		160437D027E1B79300EA615F /* ExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
 		160437D227E1B7B100EA615F /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
-		160437D427E1B7C200EA615F /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		160437D427E1B7C200EA615F /* CurrentUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserViewController.swift; sourceTree = "<group>"; };
 		160437D627E1B83700EA615F /* TXPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXPageControl.swift; sourceTree = "<group>"; };
 		160437D827E1B87B00EA615F /* TXTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTabBarItem.swift; sourceTree = "<group>"; };
 		1610D932280F351B00739208 /* TweetViewCellTrailingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetViewCellTrailingHeader.swift; sourceTree = "<group>"; };
@@ -151,6 +152,7 @@
 		16D237AC28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXLocalStorageAssistant.swift; sourceTree = "<group>"; };
 		16D3C5E12810306100B8A2CC /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		16D3C5E42810314B00B8A2CC /* TXEventBroker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXEventBroker.swift; sourceTree = "<group>"; };
+		16D3C5E72810347400B8A2CC /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		16D8F975280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCellHeader.swift; sourceTree = "<group>"; };
 		16D8F977280D7BDD000545EC /* CurrentUserTableViewCellBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCellBody.swift; sourceTree = "<group>"; };
 		16D8F979280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCellFooter.swift; sourceTree = "<group>"; };
@@ -316,7 +318,7 @@
 		160437C727E1B66F00EA615F /* ProfileViewController */ = {
 			isa = PBXGroup;
 			children = (
-				160437D427E1B7C200EA615F /* ProfileViewController.swift */,
+				160437D427E1B7C200EA615F /* CurrentUserViewController.swift */,
 			);
 			path = ProfileViewController;
 			sourceTree = "<group>";
@@ -645,6 +647,14 @@
 			path = TXEventBroker;
 			sourceTree = "<group>";
 		};
+		16D3C5E62810347000B8A2CC /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				16D3C5E72810347400B8A2CC /* Provider.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		16D8F974280D7B3C000545EC /* Interactions */ = {
 			isa = PBXGroup;
 			children = (
@@ -656,6 +666,7 @@
 		16DEB94D2806079E00140E63 /* Providers */ = {
 			isa = PBXGroup;
 			children = (
+				16D3C5E62810347000B8A2CC /* Core */,
 				16DEB9532806082200140E63 /* FeedProvider */,
 				16DEB9522806081700140E63 /* TweetsProvider */,
 				16DEB9512806081300140E63 /* SearchProvider */,
@@ -858,7 +869,7 @@
 				160437CD27E1B76200EA615F /* ComposeViewController.swift in Sources */,
 				160437BD27E1AF5100EA615F /* TXCollectionViewCell.swift in Sources */,
 				16993CD9280C42CD00FFE71B /* CurrentUserTableViewCell.swift in Sources */,
-				160437D527E1B7C200EA615F /* ProfileViewController.swift in Sources */,
+				160437D527E1B7C200EA615F /* CurrentUserViewController.swift in Sources */,
 				16FDA081280FFD2D004BB3C4 /* OtherUserProvider.swift in Sources */,
 				16308638280881810061BE31 /* TweetTableViewCell.swift in Sources */,
 				160437D727E1B83700EA615F /* TXPageControl.swift in Sources */,
@@ -885,6 +896,7 @@
 				16FDA06F280FF367004BB3C4 /* CommentTableViewCell.swift in Sources */,
 				160437CB27E1B73300EA615F /* HomeViewController.swift in Sources */,
 				160437BB27E1AED700EA615F /* TXTableViewCell.swift in Sources */,
+				16D3C5E82810347400B8A2CC /* Provider.swift in Sources */,
 				1610D936280F354A00739208 /* TXLabel.swift in Sources */,
 				160437AB27E1ADCF00EA615F /* TXNavigationController.swift in Sources */,
 				167DE008280D569400670BAD /* TweetViewCellLeading.swift in Sources */,
