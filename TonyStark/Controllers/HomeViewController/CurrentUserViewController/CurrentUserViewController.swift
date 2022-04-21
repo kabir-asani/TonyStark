@@ -12,9 +12,8 @@ enum ProfileViewControllerSection: Int, CaseIterable {
     case tweets = 1
 }
 
-class ProfileViewController: TXTableViewController {
-    private var userState: Result<User, CurrentUserFailure> = .success(.empty())
-    private var tweetsState: Result<Paginated<Tweet>, TweetsProvider.TweetsFailure> = .success(.empty())
+class CurrentUserViewController: TXTableViewController {
+    private var state: Result<Paginated<Tweet>, TweetsProvider.TweetsFailure> = .success(.empty())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,24 +103,13 @@ class ProfileViewController: TXTableViewController {
 }
 
 // MARK: UITableViewDataSource
-extension ProfileViewController {
+extension CurrentUserViewController {
     private func populate() {
-        Task {
-            [weak self] in
-            let result = await UserProvider.current.user()
-            
-            self?.userState = result
-            self?.tableView.reloadSections(
-                [ProfileViewControllerSection.profile.rawValue],
-                with: .automatic
-            )
-        }
-        
         Task {
             [weak self] in
             let result = await TweetsProvider.shared.tweets(of: "mzaink")
             
-            self?.tweetsState = result
+            self?.state = result
             self?.tableView.reloadSections(
                 [ProfileViewControllerSection.tweets.rawValue],
                 with: .automatic
@@ -143,7 +131,7 @@ extension ProfileViewController {
         case ProfileViewControllerSection.profile.rawValue:
             return 1
         case ProfileViewControllerSection.tweets.rawValue:
-            switch tweetsState {
+            switch state {
             case .success(let paginated):
                 return paginated.page.count
             case .failure(_):
@@ -164,29 +152,25 @@ extension ProfileViewController {
 }
 
 // MARK: UITableViewDelegate
-extension ProfileViewController {
+extension CurrentUserViewController {
     override func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         switch indexPath.section {
         case ProfileViewControllerSection.profile.rawValue:
-            switch userState {
-            case .success(let user):
-                let cell = tableView.dequeueReusableCellWithIndexPath(
-                    withIdentifier: CurrentUserTableViewCell.reuseIdentifier,
-                    for: indexPath
-                ) as! CurrentUserTableViewCell
-                
-                cell.interactionsHandler = self
-                cell.configure(withUser: user)
-                
-                return cell
-            case .failure(_):
-                return UITableViewCell()
-            }
+            let cell = tableView.dequeueReusableCellWithIndexPath(
+                withIdentifier: CurrentUserTableViewCell.reuseIdentifier,
+                for: indexPath
+            ) as! CurrentUserTableViewCell
+            
+            cell.interactionsHandler = self
+            cell.configure(withUser: UserProvider.current.user)
+            
+            return cell
+            
         case ProfileViewControllerSection.tweets.rawValue:
-            switch tweetsState {
+            switch state {
             case .success(let paginated):
                 let cell = tableView.dequeueReusableCellWithIndexPath(
                     withIdentifier: TweetTableViewCell.reuseIdentifier,
@@ -207,7 +191,7 @@ extension ProfileViewController {
 }
 
 // MARK: UIScrollViewDelegate
-extension ProfileViewController {
+extension CurrentUserViewController {
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let currentYOffset = scrollView.contentOffset.y
         
@@ -216,18 +200,13 @@ extension ProfileViewController {
         }
         
         if currentYOffset > 140 && navigationItem.title == nil {
-            switch userState {
-            case .success(let user):
-                navigationItem.title = user.name
-            default:
-                break
-            }
+            navigationItem.title = UserProvider.current.user.name
         }
     }
 }
 
 // MARK: CurrentUserDetailsTableViewCellDelegate
-extension ProfileViewController: CurrentUserTableViewCellInteractionsHandler {
+extension CurrentUserViewController: CurrentUserTableViewCellInteractionsHandler {
     func didPressEdit(_ cell: CurrentUserTableViewCell) {
         let editProfileViewController = EditProfileViewController(
             style: .insetGrouped
@@ -258,7 +237,7 @@ extension ProfileViewController: CurrentUserTableViewCellInteractionsHandler {
     }
 }
 
-extension ProfileViewController: TweetTableViewCellInteractionsHandler {
+extension CurrentUserViewController: TweetTableViewCellInteractionsHandler {
     func didPressLike(_ cell: TweetTableViewCell) {
         print(#function)
     }
@@ -289,7 +268,7 @@ extension ProfileViewController: TweetTableViewCellInteractionsHandler {
     }
     
     func didPressOption(_ cell: TweetTableViewCell) {
-        switch tweetsState {
+        switch state {
         case .success(let paginated):
             let alert = TweetOptionsAlertViewController.regular()
             

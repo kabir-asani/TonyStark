@@ -293,7 +293,7 @@
 				160437C527E1B63800EA615F /* FeedViewController */,
 				160437C827E1B67700EA615F /* ExploreViewController */,
 				160437C627E1B65A00EA615F /* NotificationsViewController */,
-				160437C727E1B66F00EA615F /* ProfileViewController */,
+				160437C727E1B66F00EA615F /* CurrentUserViewController */,
 				160437CA27E1B73300EA615F /* HomeViewController.swift */,
 			);
 			path = HomeViewController;
@@ -315,12 +315,12 @@
 			path = NotificationsViewController;
 			sourceTree = "<group>";
 		};
-		160437C727E1B66F00EA615F /* ProfileViewController */ = {
+		160437C727E1B66F00EA615F /* CurrentUserViewController */ = {
 			isa = PBXGroup;
 			children = (
 				160437D427E1B7C200EA615F /* CurrentUserViewController.swift */,
 			);
-			path = ProfileViewController;
+			path = CurrentUserViewController;
 			sourceTree = "<group>";
 		};
 		160437C827E1B67700EA615F /* ExploreViewController */ = {

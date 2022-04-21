@@ -50,9 +50,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func configure(windowWithWindowScene windowScene: UIWindowScene) {
         window = UIWindow(windowScene: windowScene)
         
-        window?.rootViewController = HomeViewController()
-        
-        window?.makeKeyAndVisible()
+        Task {
+            [weak self] in
+            
+            guard let safeSelf = self else {
+                return
+            }
+            
+            await ProvidersRegistry.shared.bootUp()
+    
+            safeSelf.window?.rootViewController = HomeViewController()
+            
+            safeSelf.window?.makeKeyAndVisible()
+        }
     }
 }
 

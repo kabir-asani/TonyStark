@@ -19,7 +19,7 @@ class HomeViewController: TXTabBarController {
             makeFeedViewController(),
             makeExploreViewController(),
             makeNotificationsViewController(),
-            makeProfileViewController()
+            makeCurrentUserViewController()
         ]
     }
     
@@ -68,10 +68,10 @@ class HomeViewController: TXTabBarController {
         return navigationController
     }
     
-    func makeProfileViewController() -> TXNavigationController {
-        let profileViewController = ProfileViewController()
+    func makeCurrentUserViewController() -> TXNavigationController {
+        let currentUserViewController = CurrentUserViewController()
         let navigationController = TXNavigationController(
-            rootViewController: profileViewController
+            rootViewController: currentUserViewController
         )
         
         navigationController.tabBarItem = TXTabBarItem(
