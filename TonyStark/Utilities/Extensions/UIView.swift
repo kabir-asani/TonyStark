@@ -256,8 +256,37 @@ extension UIView {
 
 // MARK: Gestures
 extension UIView {
-    func addTapGestureRecognizer(target: UIView, action: Selector) {
+    func addTapGestureRecognizer(
+        target: UIView,
+        action: Selector
+    ) {
         let gestureRecognizer = UITapGestureRecognizer(
+            target: target,
+            action: action
+        )
+        
+        self.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    func addDoubleTagGestureRecognizer(
+        target: UIView,
+        action: Selector
+    ) {
+        let gestureRecognizer = UITapGestureRecognizer(
+            target: target,
+            action: action
+        )
+        
+        gestureRecognizer.numberOfTapsRequired = 2
+        
+        self.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    func addLongPressGestureRecognizer(
+        target: UIView,
+        action: Selector
+    ) {
+        let gestureRecognizer = UILongPressGestureRecognizer(
             target: target,
             action: action
         )
