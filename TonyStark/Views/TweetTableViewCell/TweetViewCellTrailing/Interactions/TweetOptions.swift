@@ -27,7 +27,7 @@ class TweetOptions: UIView {
             optionsButton.showsMenuAsPrimaryAction = true
         }
         
-        optionsButton.heightConstaint(with: 20)
+        optionsButton.fixHeight(to: 20)
         
         return optionsButton
     }()

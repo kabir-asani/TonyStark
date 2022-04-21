@@ -75,11 +75,11 @@ class TweetTableViewCell: TXTableViewCell {
         
         combinateStackView.pin(
             to: self,
-            padding: UIEdgeInsets(
+            withPadding: TXEdgeInsets(
                 top: 16,
-                left: 16,
-                bottom: -16,
-                right: -16
+                right: 16,
+                bottom: 16,
+                left: 16
             )
         )
     }

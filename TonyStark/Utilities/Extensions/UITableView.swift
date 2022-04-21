@@ -17,8 +17,8 @@ extension UITableView {
                 safeSelf.tableFooterView = activityIndicator
                                 
                 activityIndicator.enableAutolayout()
-                activityIndicator.heightConstaint(with: 80)
-                activityIndicator.pin(toHorizonCenterOf: safeSelf)
+                activityIndicator.fixHeight(to: 80)
+                activityIndicator.align(toHorizonCenterOf: safeSelf)
 
                 activityIndicator.startAnimating()
             }

@@ -42,16 +42,16 @@ class ComposeTableViewCell: TXTableViewCell {
     private func addSubviews() {
         addSubview(composableTextView)
         
-        composableTextView.heightConstaint(
-            with: 120
+        composableTextView.fixHeight(
+            to: 120
         )
         composableTextView.pin(
             to: self,
-            padding: UIEdgeInsets(
+            withPadding: TXEdgeInsets(
                 top: 16,
-                left: 16,
-                bottom: -16,
-                right: -16
+                right: 16,
+                bottom: 16,
+                left: 16
             )
         )
     }

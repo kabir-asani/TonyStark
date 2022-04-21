@@ -13,7 +13,7 @@ class TweetViewCellTrailingFooter: TXView {
         let likeInteractionDetails = LikeInteractionDetails()
         
         likeInteractionDetails.enableAutolayout()
-        likeInteractionDetails.heightConstaint(with: 20)
+        likeInteractionDetails.fixHeight(to: 20)
         
         return likeInteractionDetails
     }()
@@ -22,7 +22,7 @@ class TweetViewCellTrailingFooter: TXView {
         let commentInteractionDetails = CommentInteractionDetails()
         
         commentInteractionDetails.enableAutolayout()
-        commentInteractionDetails.heightConstaint(with: 20)
+        commentInteractionDetails.fixHeight(to: 20)
         
         return commentInteractionDetails
     }()
@@ -31,7 +31,7 @@ class TweetViewCellTrailingFooter: TXView {
         let tweetOptions = TweetOptions()
         
         tweetOptions.enableAutolayout()
-        tweetOptions.heightConstaint(with: 20)
+        tweetOptions.fixHeight(to: 20)
         
         return tweetOptions
     }()

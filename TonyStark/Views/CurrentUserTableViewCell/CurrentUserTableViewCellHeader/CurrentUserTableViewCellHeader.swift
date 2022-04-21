@@ -24,8 +24,8 @@ class CurrentUserTableViewCellHeader: TXView {
         let editButton = TXButton()
         
         editButton.enableAutolayout()
-        editButton.widthConstraint(with: 140)
-        editButton.heightConstaint(with: 40)
+        editButton.fixWidth(to: 140)
+        editButton.fixHeight(to: 40)
         editButton.setTitle("Edit", for: .normal)
         
         if #available(iOS 15.0, *) {
