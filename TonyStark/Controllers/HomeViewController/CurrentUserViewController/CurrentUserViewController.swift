@@ -208,12 +208,16 @@ extension CurrentUserViewController {
 // MARK: CurrentUserDetailsTableViewCellDelegate
 extension CurrentUserViewController: CurrentUserTableViewCellInteractionsHandler {
     func didPressEdit(_ cell: CurrentUserTableViewCell) {
-        let editProfileViewController = EditProfileViewController(
-            style: .insetGrouped
+        let navigationViewController = TXNavigationController(
+            rootViewController: EditProfileViewController(
+                style: .insetGrouped
+            )
         )
         
-        navigationController?.pushViewController(
-            editProfileViewController,
+        navigationViewController.modalPresentationStyle = .fullScreen
+        
+        present(
+            navigationViewController,
             animated: true
         )
     }
