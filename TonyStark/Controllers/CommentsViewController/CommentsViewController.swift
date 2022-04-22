@@ -8,6 +8,7 @@
 import UIKit
 
 class CommentsViewController: TXViewController {
+    // Declare
     private var state: Result<Paginated<Comment>, CommentsFailure> = .success(.empty())
     
     private let tableView: TXTableView = {
@@ -26,22 +27,22 @@ class CommentsViewController: TXViewController {
         return commentInputBar
     }()
     
-    private let bottomInputBar: TXVisualEffectView = {
-        let bottomBar = TXVisualEffectView()
+    private let separator: TXView = {
+        let separator = TXView()
         
-        bottomBar.enableAutolayout()
-        bottomBar.effect = UIBlurEffect(style: .systemChromeMaterial)
+        separator.enableAutolayout()
+        separator.backgroundColor = .separator
         
-        return bottomBar
+        return separator
     }()
     
-    private let bottomSafeAreaChin: UIVisualEffectView = {
-        let bottomSafeAreaChin = UIVisualEffectView()
+    private let bottomInputBar: TXView = {
+        let bottomBar = TXView()
         
-        bottomSafeAreaChin.enableAutolayout()
-        bottomSafeAreaChin.effect = UIBlurEffect(style: .systemChromeMaterial)
+        bottomBar.enableAutolayout()
+        bottomBar.backgroundColor = .systemBackground
         
-        return bottomSafeAreaChin
+        return bottomBar
     }()
     
     override func viewDidLoad() {
@@ -52,20 +53,22 @@ class CommentsViewController: TXViewController {
         configureNavigationBar()
         configureTableView()
         configureCommentInputBar()
+        configureSeparator()
         configureBottomInputBar()
-        configureBottomSafeAreaChin()
         
         populateTableViewWithComments()
     }
     
+    // Arrange
     private func addSubviews() {
-        bottomInputBar.contentView.addSubview(commentInputBar)
+        bottomInputBar.addSubview(commentInputBar)
         
         view.addSubview(tableView)
+        view.addSubview(separator)
         view.addSubview(bottomInputBar)
-        view.addSubview(bottomSafeAreaChin)
     }
     
+    // Configure
     private func configureNavigationBar() {
         navigationItem.title = "Comments"
         
@@ -92,10 +95,10 @@ class CommentsViewController: TXViewController {
         
         tableView.keyboardDismissMode = .onDrag
         
-        tableView.pin(toTopOf: view)
-        tableView.pin(toLeftOf: view)
-        tableView.pin(toRightOf: view)
-        tableView.attach(bottomToTopOf: bottomInputBar)
+        tableView.pin(toTopOf: view, byBeingSafeAreaAware: true)
+        tableView.pin(toLeftOf: view, byBeingSafeAreaAware: true)
+        tableView.pin(toRightOf: view, byBeingSafeAreaAware: true)
+        tableView.attach(bottomToTopOf: separator, byBeingSafeAreaAware: true)
     }
     
     private func configureCommentInputBar() {
@@ -118,23 +121,25 @@ class CommentsViewController: TXViewController {
         )
     }
     
+    private func configureSeparator() {
+        separator.fixHeight(to: 0.5)
+        
+        separator.pin(toRightOf: view, byBeingSafeAreaAware: true)
+        separator.pin(toLeftOf: view, byBeingSafeAreaAware: true)
+        separator.attach(bottomToTopOf: bottomInputBar, byBeingSafeAreaAware: true)
+    }
+    
     private func configureBottomInputBar() {
         bottomInputBar.fixHeight(to: 60)
-        bottomInputBar.pin(toRightOf: view)
-        bottomInputBar.pin(toLeftOf: view)
+        bottomInputBar.pin(toRightOf: view, byBeingSafeAreaAware: true)
+        bottomInputBar.pin(toLeftOf: view, byBeingSafeAreaAware: true)
         bottomInputBar.pin(
             toBottomOf: view,
             byBeingSafeAreaAware: true
         )
     }
     
-    private func configureBottomSafeAreaChin() {
-        bottomSafeAreaChin.attach(topToBottomOf: bottomInputBar)
-        bottomSafeAreaChin.pin(toRightOf: view)
-        bottomSafeAreaChin.pin(toLeftOf: view)
-        bottomSafeAreaChin.pin(toBottomOf: view)
-    }
-    
+    // Interact
     @objc private func onClosePressed(_ sender: TXBarButtonItem) {
         dismiss(animated: true)
     }
@@ -203,6 +208,7 @@ extension CommentsViewController: TXTableViewDelegate {
     }
 }
 
+// MARK: CommentTableViewCellInteractionsHandler
 extension CommentsViewController: CommentTableViewCellInteractionsHandler {
     func didPressProfileImage(_ commentTableViewCell: CommentTableViewCell) {
         print(#function)
