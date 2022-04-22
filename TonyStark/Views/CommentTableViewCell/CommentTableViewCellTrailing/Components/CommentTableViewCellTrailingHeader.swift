@@ -13,7 +13,7 @@ class CommentTableViewCellTrailingHeader: TXView {
         let nameText = TXLabel()
         
         nameText.enableAutolayout()
-        nameText.numberOfLines = 0
+        nameText.numberOfLines = 1
         nameText.font = .systemFont(ofSize: 16, weight: .bold)
         
         return nameText
@@ -24,6 +24,7 @@ class CommentTableViewCellTrailingHeader: TXView {
         
         usernameText.enableAutolayout()
         usernameText.lineBreakMode = .byTruncatingTail
+        usernameText.numberOfLines = 1
         usernameText.textColor = .gray
         usernameText.font = .systemFont(ofSize: 16, weight: .regular)
         
