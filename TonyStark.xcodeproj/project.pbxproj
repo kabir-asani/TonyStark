@@ -48,6 +48,8 @@
 		1630863B280883900061BE31 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1630863A280883900061BE31 /* UIView.swift */; };
 		16493D182812A497004912BB /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 16493D172812A497004912BB /* IQKeyboardManagerSwift */; };
 		16493D1B2812A4A8004912BB /* IQKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16493D1A2812A4A8004912BB /* IQKeyboardManager.swift */; };
+		16493D212812B372004912BB /* TXTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16493D202812B372004912BB /* TXTextView.swift */; };
+		16493D232812B56D004912BB /* UIEdgeInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16493D222812B56D004912BB /* UIEdgeInsets.swift */; };
 		1659263E27E1C55100A1C9F2 /* TXBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1659263D27E1C55100A1C9F2 /* TXBarButtonItem.swift */; };
 		165E54F227E77F9C00D3BA0D /* TXImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165E54F127E77F9C00D3BA0D /* TXImageProvider.swift */; };
 		165ED0252811CC760022D822 /* TXTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ED0242811CC760022D822 /* TXTableView.swift */; };
@@ -64,7 +66,6 @@
 		167DE008280D569400670BAD /* TweetViewCellLeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167DE007280D569400670BAD /* TweetViewCellLeading.swift */; };
 		167DE00A280D56B100670BAD /* TweetViewCellTrailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167DE009280D56B100670BAD /* TweetViewCellTrailing.swift */; };
 		1688D3F927FD7B3B00F9C366 /* TXNetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1688D3F827FD7B3B00F9C366 /* TXNetworkMonitor.swift */; };
-		168D16902809AE67008821C8 /* ComposeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D168F2809AE67008821C8 /* ComposeTableViewCell.swift */; };
 		1691E453280EA8D800BA223D /* TXView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1691E452280EA8D800BA223D /* TXView.swift */; };
 		1691E456280EABAE00BA223D /* TXStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1691E455280EABAE00BA223D /* TXStackView.swift */; };
 		16993CD6280C41FE00FFE71B /* TXSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16993CD5280C41FE00FFE71B /* TXSearchController.swift */; };
@@ -136,6 +137,8 @@
 		16308637280881810061BE31 /* TweetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
 		1630863A280883900061BE31 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		16493D1A2812A4A8004912BB /* IQKeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IQKeyboardManager.swift; sourceTree = "<group>"; };
+		16493D202812B372004912BB /* TXTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTextView.swift; sourceTree = "<group>"; };
+		16493D222812B56D004912BB /* UIEdgeInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIEdgeInsets.swift; sourceTree = "<group>"; };
 		1659263D27E1C55100A1C9F2 /* TXBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXBarButtonItem.swift; sourceTree = "<group>"; };
 		165E54F127E77F9C00D3BA0D /* TXImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXImageProvider.swift; sourceTree = "<group>"; };
 		165ED0242811CC760022D822 /* TXTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTableView.swift; sourceTree = "<group>"; };
@@ -152,7 +155,6 @@
 		167DE007280D569400670BAD /* TweetViewCellLeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetViewCellLeading.swift; sourceTree = "<group>"; };
 		167DE009280D56B100670BAD /* TweetViewCellTrailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetViewCellTrailing.swift; sourceTree = "<group>"; };
 		1688D3F827FD7B3B00F9C366 /* TXNetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXNetworkMonitor.swift; sourceTree = "<group>"; };
-		168D168F2809AE67008821C8 /* ComposeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeTableViewCell.swift; sourceTree = "<group>"; };
 		1691E452280EA8D800BA223D /* TXView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXView.swift; sourceTree = "<group>"; };
 		1691E455280EABAE00BA223D /* TXStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXStackView.swift; sourceTree = "<group>"; };
 		16993CD5280C41FE00FFE71B /* TXSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXSearchController.swift; sourceTree = "<group>"; };
@@ -350,7 +352,6 @@
 			isa = PBXGroup;
 			children = (
 				160437CC27E1B76200EA615F /* ComposeViewController.swift */,
-				168D168F2809AE67008821C8 /* ComposeTableViewCell.swift */,
 			);
 			path = ComposeViewController;
 			sourceTree = "<group>";
@@ -522,6 +523,7 @@
 				16CC9A5328099500002647CE /* UIStackView.swift */,
 				167C3A47280C99A3004E9B4D /* UITableView.swift */,
 				16D3C5E12810306100B8A2CC /* Date.swift */,
+				16493D222812B56D004912BB /* UIEdgeInsets.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -532,6 +534,14 @@
 				16493D1A2812A4A8004912BB /* IQKeyboardManager.swift */,
 			);
 			path = IQKeyboardManager;
+			sourceTree = "<group>";
+		};
+		16493D1F2812B36A004912BB /* TXTextView */ = {
+			isa = PBXGroup;
+			children = (
+				16493D202812B372004912BB /* TXTextView.swift */,
+			);
+			path = TXTextView;
 			sourceTree = "<group>";
 		};
 		165E54F027E77F9000D3BA0D /* TXImageProvider */ = {
@@ -603,6 +613,7 @@
 		1691E450280EA8BD00BA223D /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				16493D1F2812B36A004912BB /* TXTextView */,
 				165ED02F2811E4100022D822 /* TXVisualEffectView */,
 				165ED02C2811D8430022D822 /* TXEdgeInsets */,
 				165ED0292811D4960022D822 /* TXTextField */,
@@ -943,6 +954,7 @@
 				161250F227DBB56E006BCE5A /* AppDelegate.swift in Sources */,
 				16D8F97A280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift in Sources */,
 				160437CD27E1B76200EA615F /* ComposeViewController.swift in Sources */,
+				16493D212812B372004912BB /* TXTextView.swift in Sources */,
 				160437BD27E1AF5100EA615F /* TXCollectionViewCell.swift in Sources */,
 				16993CD9280C42CD00FFE71B /* CurrentUserTableViewCell.swift in Sources */,
 				160437D527E1B7C200EA615F /* CurrentUserViewController.swift in Sources */,
@@ -962,7 +974,6 @@
 				169E280027EB896800B72006 /* TXNetworkAssistant.swift in Sources */,
 				167C3A46280C8BB5004E9B4D /* UserProvider.swift in Sources */,
 				1688D3F927FD7B3B00F9C366 /* TXNetworkMonitor.swift in Sources */,
-				168D16902809AE67008821C8 /* ComposeTableViewCell.swift in Sources */,
 				16DEB9562806089E00140E63 /* Tweet.swift in Sources */,
 				167DE001280D55F900670BAD /* LikeInteractionDetails.swift in Sources */,
 				165ED02E2811D85C0022D822 /* TXEdgeInsets.swift in Sources */,
@@ -979,6 +990,7 @@
 				160437AB27E1ADCF00EA615F /* TXNavigationController.swift in Sources */,
 				167DE008280D569400670BAD /* TweetViewCellLeading.swift in Sources */,
 				16D8F976280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift in Sources */,
+				16493D232812B56D004912BB /* UIEdgeInsets.swift in Sources */,
 				160437CF27E1B77B00EA615F /* FeedViewController.swift in Sources */,
 				160437D127E1B79300EA615F /* ExploreViewController.swift in Sources */,
 				16993CDC280C443E00FFE71B /* TXSegmentedControl.swift in Sources */,

@@ -13,3 +13,14 @@ struct TXEdgeInsets {
     let bottom: Double
     let left: Double
 }
+
+extension TXEdgeInsets {
+    static func all(_ inset: Double) -> TXEdgeInsets {
+        return TXEdgeInsets(
+            top: inset,
+            right: inset,
+            bottom: inset,
+            left: inset
+        )
+    }
+}

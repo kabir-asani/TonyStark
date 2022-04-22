@@ -65,12 +65,7 @@ class CurrentUserTableViewCell: TXTableViewCell {
     
     private func arrangeBaseView() {
         selectionStyle = .none
-        separatorInset = UIEdgeInsets(
-            top: 0,
-            left: Double.infinity,
-            bottom: 0,
-            right: 0
-        )
+        separatorInset = .empty
     }
     
     private func arrangeSubviews() {
