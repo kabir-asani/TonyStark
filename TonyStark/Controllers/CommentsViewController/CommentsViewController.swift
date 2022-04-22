@@ -186,6 +186,7 @@ extension CommentsViewController: TXTableViewDelegate {
                 for: indexPath
             ) as! CommentTableViewCell
             
+            cell.interactionsHandler = self
             cell.configure(withComment: paginate.page[indexPath.row])
             
             return cell
@@ -196,5 +197,11 @@ extension CommentsViewController: TXTableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension CommentsViewController: CommentTableViewCellInteractionsHandler {
+    func didPressProfileImage(_ commentTableViewCell: CommentTableViewCell) {
+        print(#function)
     }
 }
