@@ -145,7 +145,7 @@ extension UIView {
                 equalTo: safeAreaEnabled
                 ? view.safeAreaLayoutGuide.bottomAnchor
                 : view.bottomAnchor,
-                constant: margin ?? 0
+                constant: -(margin ?? 0)
             )
         ])
     }
@@ -190,7 +190,7 @@ extension UIView {
                 equalTo: safeAreaEnabled
                 ? view.safeAreaLayoutGuide.leadingAnchor
                 : view.leadingAnchor,
-                constant: margin ?? 0
+                constant: -(margin ?? 0)
             )
         ])
     }
