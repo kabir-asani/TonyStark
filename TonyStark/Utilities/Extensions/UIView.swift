@@ -36,8 +36,8 @@ extension UIView {
             ),
             self.leadingAnchor.constraint(
                 equalTo: safeAreaEnabled
-                ? view.safeAreaLayoutGuide.leftAnchor
-                : view.leftAnchor,
+                ? view.safeAreaLayoutGuide.leadingAnchor
+                : view.leadingAnchor,
                 constant: insets?.left ?? 0
             ),
             self.trailingAnchor.constraint(
@@ -85,10 +85,10 @@ extension UIView {
         byBeingSafeAreaAware safeAreaEnabled: Bool = false
     ) {
         NSLayoutConstraint.activate([
-            self.leftAnchor.constraint(
+            self.leadingAnchor.constraint(
                 equalTo: safeAreaEnabled
-                ? view.safeAreaLayoutGuide.leftAnchor
-                : view.leftAnchor,
+                ? view.safeAreaLayoutGuide.leadingAnchor
+                : view.leadingAnchor,
                 constant: inset ?? 0
             )
         ])
@@ -100,10 +100,10 @@ extension UIView {
         byBeingSafeAreaAware safeAreaEnabled: Bool = false
     ) {
         NSLayoutConstraint.activate([
-            self.rightAnchor.constraint(
+            self.trailingAnchor.constraint(
                 equalTo: safeAreaEnabled
-                ? view.safeAreaLayoutGuide.rightAnchor
-                : view.rightAnchor,
+                ? view.safeAreaLayoutGuide.trailingAnchor
+                : view.trailingAnchor,
                 constant: -(inset ?? 0)
             )
         ])
@@ -144,7 +144,7 @@ extension UIView {
             self.topAnchor.constraint(
                 equalTo: safeAreaEnabled
                 ? view.safeAreaLayoutGuide.bottomAnchor
-                : view.topAnchor,
+                : view.bottomAnchor,
                 constant: margin ?? 0
             )
         ])
@@ -171,10 +171,10 @@ extension UIView {
         byBeingSafeAreaAware safeAreaEnabled: Bool = false
     ) {
         NSLayoutConstraint.activate([
-            self.leftAnchor.constraint(
+            self.leadingAnchor.constraint(
                 equalTo: safeAreaEnabled
-                ? view.safeAreaLayoutGuide.rightAnchor
-                : view.rightAnchor,
+                ? view.safeAreaLayoutGuide.trailingAnchor
+                : view.trailingAnchor,
                 constant: margin ?? 0
             )
         ])
@@ -186,10 +186,10 @@ extension UIView {
         byBeingSafeAreaAware safeAreaEnabled: Bool = false
     ) {
         NSLayoutConstraint.activate([
-            self.rightAnchor.constraint(
+            self.trailingAnchor.constraint(
                 equalTo: safeAreaEnabled
-                ? view.safeAreaLayoutGuide.leftAnchor
-                : view.leftAnchor,
+                ? view.safeAreaLayoutGuide.leadingAnchor
+                : view.leadingAnchor,
                 constant: margin ?? 0
             )
         ])
