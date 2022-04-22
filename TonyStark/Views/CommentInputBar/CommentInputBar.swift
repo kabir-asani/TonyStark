@@ -17,6 +17,7 @@ class CommentInputBar: TXView {
         textField.enableAutolayout()
         
         textField.returnKeyType = .done
+        textField.keyboardDistanceFromTextField = 0
         
         return textField
     }()
