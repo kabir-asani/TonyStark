@@ -16,6 +16,8 @@ class CommentInputBar: TXView {
         
         textField.enableAutolayout()
         
+        textField.returnKeyType = .done
+        
         return textField
     }()
     
@@ -117,7 +119,8 @@ class CommentInputBar: TXView {
 }
 
 extension CommentInputBar: TXTextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        print(#function)
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
