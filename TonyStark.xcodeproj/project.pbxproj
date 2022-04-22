@@ -46,6 +46,8 @@
 		161250FE27DBB56F006BCE5A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161250FC27DBB56F006BCE5A /* LaunchScreen.storyboard */; };
 		16308638280881810061BE31 /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16308637280881810061BE31 /* TweetTableViewCell.swift */; };
 		1630863B280883900061BE31 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1630863A280883900061BE31 /* UIView.swift */; };
+		16493D182812A497004912BB /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 16493D172812A497004912BB /* IQKeyboardManagerSwift */; };
+		16493D1B2812A4A8004912BB /* IQKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16493D1A2812A4A8004912BB /* IQKeyboardManager.swift */; };
 		1659263E27E1C55100A1C9F2 /* TXBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1659263D27E1C55100A1C9F2 /* TXBarButtonItem.swift */; };
 		165E54F227E77F9C00D3BA0D /* TXImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165E54F127E77F9C00D3BA0D /* TXImageProvider.swift */; };
 		165ED0252811CC760022D822 /* TXTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ED0242811CC760022D822 /* TXTableView.swift */; };
@@ -133,6 +135,7 @@
 		161250FF27DBB56F006BCE5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16308637280881810061BE31 /* TweetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
 		1630863A280883900061BE31 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		16493D1A2812A4A8004912BB /* IQKeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IQKeyboardManager.swift; sourceTree = "<group>"; };
 		1659263D27E1C55100A1C9F2 /* TXBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXBarButtonItem.swift; sourceTree = "<group>"; };
 		165E54F127E77F9C00D3BA0D /* TXImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXImageProvider.swift; sourceTree = "<group>"; };
 		165ED0242811CC760022D822 /* TXTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTableView.swift; sourceTree = "<group>"; };
@@ -183,6 +186,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16493D182812A497004912BB /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -513,12 +517,21 @@
 		16308639280883810061BE31 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				16493D192812A49E004912BB /* IQKeyboardManager */,
 				1630863A280883900061BE31 /* UIView.swift */,
 				16CC9A5328099500002647CE /* UIStackView.swift */,
 				167C3A47280C99A3004E9B4D /* UITableView.swift */,
 				16D3C5E12810306100B8A2CC /* Date.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		16493D192812A49E004912BB /* IQKeyboardManager */ = {
+			isa = PBXGroup;
+			children = (
+				16493D1A2812A4A8004912BB /* IQKeyboardManager.swift */,
+			);
+			path = IQKeyboardManager;
 			sourceTree = "<group>";
 		};
 		165E54F027E77F9000D3BA0D /* TXImageProvider */ = {
@@ -839,6 +852,9 @@
 			dependencies = (
 			);
 			name = TonyStark;
+			packageProductDependencies = (
+				16493D172812A497004912BB /* IQKeyboardManagerSwift */,
+			);
 			productName = TonyStark;
 			productReference = 161250EE27DBB56E006BCE5A /* TonyStark.app */;
 			productType = "com.apple.product-type.application";
@@ -867,6 +883,9 @@
 				Base,
 			);
 			mainGroup = 161250E527DBB56E006BCE5A;
+			packageReferences = (
+				16493D162812A497004912BB /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+			);
 			productRefGroup = 161250EF27DBB56E006BCE5A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -914,6 +933,7 @@
 				1610D93D280F397300739208 /* TXColor.swift in Sources */,
 				16FDA075280FF465004BB3C4 /* CommentTableViewCellTrailing.swift in Sources */,
 				167C3A48280C99A3004E9B4D /* UITableView.swift in Sources */,
+				16493D1B2812A4A8004912BB /* IQKeyboardManager.swift in Sources */,
 				1691E453280EA8D800BA223D /* TXView.swift in Sources */,
 				1611237D2806C99500908D98 /* Like.swift in Sources */,
 				1610D94A280F4E0600739208 /* FollowingsViewController.swift in Sources */,
@@ -1188,6 +1208,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		16493D162812A497004912BB /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		16493D172812A497004912BB /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 16493D162812A497004912BB /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 161250E627DBB56E006BCE5A /* Project object */;
 }
