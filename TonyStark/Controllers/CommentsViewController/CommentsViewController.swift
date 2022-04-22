@@ -70,7 +70,8 @@ class CommentsViewController: TXViewController {
         navigationItem.title = "Comments"
         
         navigationItem.largeTitleDisplayMode = .never
-        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.backgroundColor = .systemBackground
+        navigationController?.navigationBar.barTintColor = .systemBackground
     
         navigationItem.leftBarButtonItem = TXBarButtonItem(
             image: UIImage(systemName: "multiply"),
@@ -88,6 +89,8 @@ class CommentsViewController: TXViewController {
             CommentTableViewCell.self,
             forCellReuseIdentifier: CommentTableViewCell.reuseIdentifer
         )
+        
+        tableView.keyboardDismissMode = .onDrag
         
         tableView.pin(toTopOf: view)
         tableView.pin(toLeftOf: view)
