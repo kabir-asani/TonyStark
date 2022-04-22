@@ -43,11 +43,16 @@ class CommentTableViewCell: TXTableViewCell {
             reuseIdentifier: reuseIdentifier
         )
         
+        arrangeBaseView()
         arrangeSubviews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func arrangeBaseView() {
+        selectionStyle = .none
     }
     
     private func arrangeSubviews() {
