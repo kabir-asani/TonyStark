@@ -7,12 +7,42 @@
 
 import UIKit
 
-class ComposeViewController: TXTableViewController {
+class ComposeViewController: TXTabBarController {
+    private let composableTextView: TXTextView = {
+        let composableTextView = TXTextView()
+        
+        composableTextView.enableAutolayout()
+        composableTextView.font = .systemFont(
+            ofSize: 16,
+            weight: .regular
+        )
+
+        return composableTextView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        addSubviews()
+        
         configureNavigationBar()
-        configureTableView()
+        configureComposableTextView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        composableTextView.becomeFirstResponder()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        composableTextView.resignFirstResponder()
+    }
+    
+    private func addSubviews() {
+        view.addSubview(composableTextView)
     }
     
     private func configureNavigationBar() {
@@ -32,10 +62,11 @@ class ComposeViewController: TXTableViewController {
         )
     }
     
-    private func configureTableView() {
-        tableView.register(
-            ComposeTableViewCell.self,
-            forCellReuseIdentifier: ComposeTableViewCell.reuseIdentifer
+    private func configureComposableTextView() {
+        composableTextView.pin(
+            to: view,
+            withInsets: .all(16),
+            byBeingSafeAreaAware: true
         )
     }
     
@@ -44,41 +75,5 @@ class ComposeViewController: TXTableViewController {
     
     @objc private func onCancelPressed(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
-    }
-}
-
-// MARK: UITableViewDataSource
-extension ComposeViewController {
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    override func tableView(
-        _ tableView: UITableView,
-        numberOfRowsInSection section: Int
-    ) -> Int {
-        return 1
-    }
-}
-
-// MARK: UITableViewDelegate
-extension ComposeViewController {
-    override func tableView(
-        _ tableView: UITableView,
-        heightForRowAt indexPath: IndexPath
-    ) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
-    override func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: ComposeTableViewCell.reuseIdentifer,
-            for: indexPath
-        ) as! ComposeTableViewCell
-        
-        return cell
     }
 }

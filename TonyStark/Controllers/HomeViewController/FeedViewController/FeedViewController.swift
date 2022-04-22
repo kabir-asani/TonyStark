@@ -40,7 +40,7 @@ class FeedViewController: TXTableViewController {
     
     @objc private func onComposePressed(_ sender: UIBarButtonItem) {
         let composeViewController = TXNavigationController(
-            rootViewController: ComposeViewController(style: .insetGrouped)
+            rootViewController: ComposeViewController()
         )
         
         composeViewController.modalPresentationStyle = .fullScreen
