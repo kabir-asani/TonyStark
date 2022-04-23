@@ -20,9 +20,9 @@ class FeedViewController: TXTableViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "TwitterX"
-        
-        navigationController?.navigationBar.prefersLargeTitles = true
+        let titleImage = TXImageView(image: UIImage(named: "Octopus"))
+        titleImage.contentMode = .scaleAspectFit
+        navigationItem.titleView = titleImage
         
         navigationItem.rightBarButtonItem = TXBarButtonItem(
             barButtonSystemItem: .add,
@@ -155,7 +155,29 @@ extension FeedViewController: TweetTableViewCellInteractionsHandler {
     }
     
     func didPressProfileImage(_ cell: TweetTableViewCell) {
-        print(#function)
+        switch state {
+        case .success(let paginated):
+            let tweet = paginated.page[cell.indexPath.row]
+            
+            let user = tweet.author
+            
+            if user.id == UserProvider.current.user.id {
+                let event =  HomeViewTabSwitchEvent(tab: HomeViewController.TabItem.user)
+                
+                TXEventBroker.shared.emit(event: event)
+            } else {
+                let otherUserViewController = OtherUserViewController()
+                
+                otherUserViewController.configure(withUser: user)
+                
+                navigationController?.pushViewController(
+                    otherUserViewController,
+                    animated: true
+                )
+            }
+        default:
+            break
+        }
     }
     
     func didPressBookmarksOption(_ cell: TweetTableViewCell) {
