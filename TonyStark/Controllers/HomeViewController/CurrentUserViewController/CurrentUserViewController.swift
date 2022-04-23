@@ -8,7 +8,7 @@
 import UIKit
 
 class CurrentUserViewController: TXTableViewController {
-    enum ProfileViewControllerSection: Int, CaseIterable {
+    enum Section: Int, CaseIterable {
         case profile = 0
         case tweets = 1
     }
@@ -113,7 +113,7 @@ extension CurrentUserViewController {
             
             self?.state = result
             self?.tableView.reloadSections(
-                [ProfileViewControllerSection.tweets.rawValue],
+                [Section.tweets.rawValue],
                 with: .automatic
             )
         }
@@ -122,7 +122,7 @@ extension CurrentUserViewController {
     override func numberOfSections(
         in tableView: UITableView
     ) -> Int {
-        return ProfileViewControllerSection.allCases.count
+        return Section.allCases.count
     }
     
     override func tableView(
@@ -130,9 +130,9 @@ extension CurrentUserViewController {
         numberOfRowsInSection section: Int
     ) -> Int {
         switch section {
-        case ProfileViewControllerSection.profile.rawValue:
+        case Section.profile.rawValue:
             return 1
-        case ProfileViewControllerSection.tweets.rawValue:
+        case Section.tweets.rawValue:
             switch state {
             case .success(let paginated):
                 return paginated.page.count
@@ -160,7 +160,7 @@ extension CurrentUserViewController {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        if indexPath.section == ProfileViewControllerSection.tweets.rawValue {
+        if indexPath.section == Section.tweets.rawValue {
             switch state {
             case .success(let paginated):
                 if indexPath.row  == paginated.page.count - 1 {
@@ -177,7 +177,7 @@ extension CurrentUserViewController {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         switch indexPath.section {
-        case ProfileViewControllerSection.profile.rawValue:
+        case Section.profile.rawValue:
             let cell = tableView.dequeueReusableCellWithIndexPath(
                 withIdentifier: CurrentUserTableViewCell.reuseIdentifier,
                 for: indexPath
@@ -188,7 +188,7 @@ extension CurrentUserViewController {
             
             return cell
             
-        case ProfileViewControllerSection.tweets.rawValue:
+        case Section.tweets.rawValue:
             switch state {
             case .success(let paginated):
                 let cell = tableView.dequeueReusableCellWithIndexPath(
