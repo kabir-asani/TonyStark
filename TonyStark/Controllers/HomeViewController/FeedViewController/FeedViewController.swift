@@ -36,6 +36,8 @@ class FeedViewController: TXTableViewController {
             TweetTableViewCell.self,
             forCellReuseIdentifier: TweetTableViewCell.reuseIdentifier
         )
+        
+        tableView.tableHeaderView = TXView(frame: .zero)
     }
     
     @objc private func onComposePressed(_ sender: UIBarButtonItem) {
@@ -86,6 +88,21 @@ extension FeedViewController {
 
 // MARK: UITableViewDelegate
 extension FeedViewController {
+    override func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        switch state {
+        case .success(let paginated):
+            if indexPath.row  == paginated.page.count - 1 {
+                cell.separatorInset = .empty
+            }
+        default:
+            break
+        }
+    }
+    
     override func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath

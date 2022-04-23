@@ -87,6 +87,7 @@ class CommentsViewController: TXViewController {
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.tableHeaderView = TXView(frame: .zero)
         
         tableView.register(
             CommentTableViewCell.self,
@@ -170,7 +171,10 @@ extension CommentsViewController: TXTableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(
+        _ tableView: UITableView,
+        numberOfRowsInSection section: Int
+    ) -> Int {
         switch state {
         case .success(let paginate):
             return paginate.page.count
@@ -182,11 +186,32 @@ extension CommentsViewController: TXTableViewDataSource {
 
 // MARK: UITableViewDelegate
 extension CommentsViewController: TXTableViewDelegate {
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        switch state {
+        case .success(let paginated):
+            if indexPath.row  == paginated.page.count - 1 {
+                cell.separatorInset = .empty
+            }
+        default:
+            break
+        }
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        estimatedHeightForRowAt indexPath: IndexPath
+    ) -> CGFloat {
         return UITableView.automaticDimension
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
         switch state {
         case .success(let paginate):
             let cell = tableView.dequeueReusableCellWithIndexPath(
@@ -203,7 +228,10 @@ extension CommentsViewController: TXTableViewDelegate {
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

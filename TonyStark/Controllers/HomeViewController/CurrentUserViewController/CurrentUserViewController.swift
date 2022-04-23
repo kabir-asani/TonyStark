@@ -7,12 +7,12 @@
 
 import UIKit
 
-enum ProfileViewControllerSection: Int, CaseIterable {
-    case profile = 0
-    case tweets = 1
-}
-
 class CurrentUserViewController: TXTableViewController {
+    enum ProfileViewControllerSection: Int, CaseIterable {
+        case profile = 0
+        case tweets = 1
+    }
+    
     private var state: Result<Paginated<Tweet>, TweetsProvider.TweetsFailure> = .success(.empty())
     
     override func viewDidLoad() {
@@ -34,6 +34,8 @@ class CurrentUserViewController: TXTableViewController {
     }
     
     private func configureTableView() {
+        tableView.tableHeaderView = TXView(frame: .zero)
+        
         tableView.register(
             CurrentUserTableViewCell.self,
             forCellReuseIdentifier: CurrentUserTableViewCell.reuseIdentifier
@@ -153,6 +155,23 @@ extension CurrentUserViewController {
 
 // MARK: UITableViewDelegate
 extension CurrentUserViewController {
+    override func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        if indexPath.section == ProfileViewControllerSection.tweets.rawValue {
+            switch state {
+            case .success(let paginated):
+                if indexPath.row  == paginated.page.count - 1 {
+                    cell.separatorInset = .empty
+                }
+            default:
+                break
+            }
+        }
+    }
+    
     override func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
