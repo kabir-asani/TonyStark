@@ -8,13 +8,34 @@
 import UIKit
 
 class HomeViewController: TXTabBarController {
+    enum TabItem: Int {
+        case feed
+        case explore
+        case notifications
+        case user
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureEventListener()
         configureViewControllers()
     }
     
-    func configureViewControllers() {
+    private func configureEventListener() {
+        TXEventBroker.shared.listen {
+            [weak self] event in
+            guard let safeSelf = self else {
+                return
+            }
+            
+            if let event = event as? HomeViewTabSwitchEvent {
+                safeSelf.selectedIndex = event.tab.rawValue
+            }
+        }
+    }
+    
+    private func configureViewControllers() {
         viewControllers = [
             makeFeedViewController(),
             makeExploreViewController(),
@@ -23,7 +44,7 @@ class HomeViewController: TXTabBarController {
         ]
     }
     
-    func makeFeedViewController() -> TXNavigationController {
+    private func makeFeedViewController() -> TXNavigationController {
         let feedViewController = FeedViewController()
         let navigationController = TXNavigationController(
             rootViewController: feedViewController
@@ -32,13 +53,13 @@ class HomeViewController: TXTabBarController {
         navigationController.tabBarItem = TXTabBarItem(
             title: nil,
             image: UIImage(systemName: "house"),
-            tag: 0
+            tag: TabItem.feed.rawValue
         )
         
         return navigationController
     }
     
-    func makeExploreViewController() -> TXNavigationController {
+    private func makeExploreViewController() -> TXNavigationController {
         let exploreViewController = ExploreViewController()
         let navigationController = TXNavigationController(
             rootViewController: exploreViewController
@@ -47,13 +68,13 @@ class HomeViewController: TXTabBarController {
         navigationController.tabBarItem = TXTabBarItem(
             title: nil,
             image: UIImage(systemName: "magnifyingglass"),
-            tag: 1
+            tag: TabItem.explore.rawValue
         )
         
         return navigationController
     }
 
-    func makeNotificationsViewController() -> TXNavigationController {
+    private func makeNotificationsViewController() -> TXNavigationController {
         let notificationsViewController = NotificationsViewController()
         let navigationController = TXNavigationController(
             rootViewController: notificationsViewController
@@ -62,13 +83,13 @@ class HomeViewController: TXTabBarController {
         navigationController.tabBarItem = TXTabBarItem(
             title: nil,
             image: UIImage(systemName: "bell"),
-            tag: 3
+            tag: TabItem.notifications.rawValue
         )
         
         return navigationController
     }
     
-    func makeCurrentUserViewController() -> TXNavigationController {
+    private func makeCurrentUserViewController() -> TXNavigationController {
         let currentUserViewController = CurrentUserViewController()
         let navigationController = TXNavigationController(
             rootViewController: currentUserViewController
@@ -77,9 +98,10 @@ class HomeViewController: TXTabBarController {
         navigationController.tabBarItem = TXTabBarItem(
             title: nil,
             image: UIImage(systemName: "person"),
-            tag: 4
+            tag: TabItem.user.rawValue
         )
         
         return navigationController
     }
 }
+
