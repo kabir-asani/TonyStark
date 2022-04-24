@@ -33,8 +33,8 @@ class FeedViewController: TXTableViewController {
     
     private func configureTableView() {
         tableView.register(
-            TweetTableViewCell.self,
-            forCellReuseIdentifier: TweetTableViewCell.reuseIdentifier
+            PartialTweetTableViewCell.self,
+            forCellReuseIdentifier: PartialTweetTableViewCell.reuseIdentifier
         )
         
         tableView.tableHeaderView = TXView(frame: .zero)
@@ -110,9 +110,9 @@ extension FeedViewController {
         switch state {
         case .success(let paginated):
             let cell = tableView.dequeueReusableCellWithIndexPath(
-                withIdentifier: TweetTableViewCell.reuseIdentifier,
+                withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
                 for: indexPath
-            ) as! TweetTableViewCell
+            ) as! PartialTweetTableViewCell
             
             cell.interactionsHandler = self
             cell.configure(withTweet: paginated.page[indexPath.row])
@@ -136,12 +136,12 @@ extension FeedViewController {
 }
 
 // MARK: TweetTableViewCellInteractionsHandler
-extension FeedViewController: TweetTableViewCellInteractionsHandler {
-    func didPressLike(_ cell: TweetTableViewCell) {
+extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
+    func didPressLike(_ cell: PartialTweetTableViewCell) {
         print(#function)
     }
     
-    func didPressComment(_ cell: TweetTableViewCell) {
+    func didPressComment(_ cell: PartialTweetTableViewCell) {
         let commentsViewController = CommentsViewController()
         
         let navigationController = TXNavigationController(
@@ -154,7 +154,7 @@ extension FeedViewController: TweetTableViewCellInteractionsHandler {
         )
     }
     
-    func didPressProfileImage(_ cell: TweetTableViewCell) {
+    func didPressProfileImage(_ cell: PartialTweetTableViewCell) {
         switch state {
         case .success(let paginated):
             let tweet = paginated.page[cell.indexPath.row]
@@ -180,15 +180,15 @@ extension FeedViewController: TweetTableViewCellInteractionsHandler {
         }
     }
     
-    func didPressBookmarksOption(_ cell: TweetTableViewCell) {
+    func didPressBookmarksOption(_ cell: PartialTweetTableViewCell) {
         print(#function)
     }
     
-    func didPressFollowOption(_ cell: TweetTableViewCell) {
+    func didPressFollowOption(_ cell: PartialTweetTableViewCell) {
         print(#function)
     }
     
-    func didPressOption(_ cell: TweetTableViewCell) {
+    func didPressOption(_ cell: PartialTweetTableViewCell) {
         switch state {
         case .success(let paginated):
             let alert = TweetOptionsAlertViewController.regular()

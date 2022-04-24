@@ -7,41 +7,41 @@
 
 import UIKit
 
-protocol TweetTableViewCellInteractionsHandler: AnyObject {
-    func didPressLike(_ cell: TweetTableViewCell)
+protocol PartialTweetTableViewCellInteractionsHandler: AnyObject {
+    func didPressLike(_ cell: PartialTweetTableViewCell)
     
-    func didPressComment(_ cell: TweetTableViewCell)
+    func didPressComment(_ cell: PartialTweetTableViewCell)
     
-    func didPressProfileImage(_ cell: TweetTableViewCell)
-    
-    @available(iOS 14, *)
-    func didPressBookmarksOption(_ cell: TweetTableViewCell)
+    func didPressProfileImage(_ cell: PartialTweetTableViewCell)
     
     @available(iOS 14, *)
-    func didPressFollowOption(_ cell: TweetTableViewCell)
+    func didPressBookmarksOption(_ cell: PartialTweetTableViewCell)
+    
+    @available(iOS 14, *)
+    func didPressFollowOption(_ cell: PartialTweetTableViewCell)
     
     @available(iOS, deprecated: 14)
-    func didPressOption(_ cell: TweetTableViewCell)
+    func didPressOption(_ cell: PartialTweetTableViewCell)
 }
 
-class TweetTableViewCell: TXTableViewCell {
+class PartialTweetTableViewCell: TXTableViewCell {
     override class var reuseIdentifier: String {
-        String(describing: TweetTableViewCell.self)
+        String(describing: PartialTweetTableViewCell.self)
     }
     
     // Declare
-    weak var interactionsHandler: TweetTableViewCellInteractionsHandler?
+    weak var interactionsHandler: PartialTweetTableViewCellInteractionsHandler?
     
-    private let leading: TweetViewCellLeading = {
-        let leading = TweetViewCellLeading()
+    private let leading: PartialTweetViewCellLeading = {
+        let leading = PartialTweetViewCellLeading()
         
         leading.enableAutolayout()
         
         return leading
     }()
     
-    private let trailing: TweetViewCellTrailing = {
-        let trailing = TweetViewCellTrailing()
+    private let trailing: PartialTweetViewCellTrailing = {
+        let trailing = PartialTweetViewCellTrailing()
         
         trailing.enableAutolayout()
         

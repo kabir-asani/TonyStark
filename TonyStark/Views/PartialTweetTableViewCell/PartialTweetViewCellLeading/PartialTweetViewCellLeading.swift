@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class TweetViewCellLeading: UIView {
+class PartialTweetViewCellLeading: UIView {
     // Declare
     private var onProfileImagePressed: (() -> Void)?
     

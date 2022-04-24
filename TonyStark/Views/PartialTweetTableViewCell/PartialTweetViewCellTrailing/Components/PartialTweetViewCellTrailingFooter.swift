@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TweetViewCellTrailingFooter: TXView {
+class PartialTweetViewCellTrailingFooter: TXView {
     // Declare
     private let likeInteractionDetails: LikeInteractionDetails = {
         let likeInteractionDetails = LikeInteractionDetails()

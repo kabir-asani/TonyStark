@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TweetViewCellTrailingHeader: TXView {
+class PartialTweetViewCellTrailingHeader: TXView {
     // Declare
     private let nameText: TXLabel = {
         let nameText = TXLabel()

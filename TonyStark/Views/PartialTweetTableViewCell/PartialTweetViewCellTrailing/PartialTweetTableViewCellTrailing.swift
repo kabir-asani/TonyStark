@@ -7,26 +7,26 @@
 
 import UIKit
 
-class TweetViewCellTrailing: TXView {
+class PartialTweetViewCellTrailing: TXView {
     // Declare
-    private let header: TweetViewCellTrailingHeader = {
-        let header = TweetViewCellTrailingHeader()
+    private let header: PartialTweetViewCellTrailingHeader = {
+        let header = PartialTweetViewCellTrailingHeader()
         
         header.enableAutolayout()
         
         return header
     }()
     
-    private let body: TweetViewCellTrailingBody = {
-        let body = TweetViewCellTrailingBody()
+    private let body: PartialTweetViewCellTrailingBody = {
+        let body = PartialTweetViewCellTrailingBody()
         
         body.enableAutolayout()
         
         return body
     }()
     
-    private let footer: TweetViewCellTrailingFooter = {
-        let footer = TweetViewCellTrailingFooter()
+    private let footer: PartialTweetViewCellTrailingFooter = {
+        let footer = PartialTweetViewCellTrailingFooter()
         
         footer.enableAutolayout()
         
