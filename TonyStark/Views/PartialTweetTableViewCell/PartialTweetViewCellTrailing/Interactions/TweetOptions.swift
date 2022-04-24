@@ -86,7 +86,7 @@ class TweetOptions: UIView {
         )
     ) {
         optionsButton.showsMenuAsPrimaryAction = true
-        optionsButton.menu = UIMenu(
+        optionsButton.menu = TXMenu(
             children: [
                 UIAction(
                     title: data.isBookmarked ? "Remove bookmark" : "Bookmark",

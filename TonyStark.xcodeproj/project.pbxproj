@@ -46,6 +46,7 @@
 		161250FE27DBB56F006BCE5A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161250FC27DBB56F006BCE5A /* LaunchScreen.storyboard */; };
 		16308638280881810061BE31 /* PartialTweetTableViewCellTweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16308637280881810061BE31 /* PartialTweetTableViewCellTweetTableViewCell.swift */; };
 		1630863B280883900061BE31 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1630863A280883900061BE31 /* UIView.swift */; };
+		164828D22815C96E002C6C06 /* TXMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164828D12815C96E002C6C06 /* TXMenu.swift */; };
 		16493D182812A497004912BB /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 16493D172812A497004912BB /* IQKeyboardManagerSwift */; };
 		16493D1B2812A4A8004912BB /* IQKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16493D1A2812A4A8004912BB /* IQKeyboardManager.swift */; };
 		16493D212812B372004912BB /* TXTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16493D202812B372004912BB /* TXTextView.swift */; };
@@ -142,6 +143,7 @@
 		161250FF27DBB56F006BCE5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16308637280881810061BE31 /* PartialTweetTableViewCellTweetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialTweetTableViewCellTweetTableViewCell.swift; sourceTree = "<group>"; };
 		1630863A280883900061BE31 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		164828D12815C96E002C6C06 /* TXMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXMenu.swift; sourceTree = "<group>"; };
 		16493D1A2812A4A8004912BB /* IQKeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IQKeyboardManager.swift; sourceTree = "<group>"; };
 		16493D202812B372004912BB /* TXTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTextView.swift; sourceTree = "<group>"; };
 		16493D222812B56D004912BB /* UIEdgeInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIEdgeInsets.swift; sourceTree = "<group>"; };
@@ -587,6 +589,14 @@
 			path = TXPageControl;
 			sourceTree = "<group>";
 		};
+		164828D02815C966002C6C06 /* TXMenu */ = {
+			isa = PBXGroup;
+			children = (
+				164828D12815C96E002C6C06 /* TXMenu.swift */,
+			);
+			path = TXMenu;
+			sourceTree = "<group>";
+		};
 		16493D192812A49E004912BB /* IQKeyboardManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -672,6 +682,7 @@
 		1691E450280EA8BD00BA223D /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				164828D02815C966002C6C06 /* TXMenu */,
 				164828CE2815C19B002C6C06 /* TXCollectionViewCell */,
 				164828CD2815C18B002C6C06 /* TXTableViewCell */,
 				164828CC2815C17D002C6C06 /* TXTabBarItem */,
@@ -1069,6 +1080,7 @@
 				16BB01132813A2B800532323 /* OtherUserTableViewCellHeader.swift in Sources */,
 				16FDA081280FFD2D004BB3C4 /* OtherUserProvider.swift in Sources */,
 				16308638280881810061BE31 /* PartialTweetTableViewCellTweetTableViewCell.swift in Sources */,
+				164828D22815C96E002C6C06 /* TXMenu.swift in Sources */,
 				160437D727E1B83700EA615F /* TXPageControl.swift in Sources */,
 				161123892806D29600908D98 /* Session.swift in Sources */,
 				161250F427DBB56E006BCE5A /* SceneDelegate.swift in Sources */,
