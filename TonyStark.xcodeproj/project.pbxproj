@@ -47,6 +47,7 @@
 		16308638280881810061BE31 /* PartialTweetTableViewCellTweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16308637280881810061BE31 /* PartialTweetTableViewCellTweetTableViewCell.swift */; };
 		1630863B280883900061BE31 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1630863A280883900061BE31 /* UIView.swift */; };
 		164828D22815C96E002C6C06 /* TXMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164828D12815C96E002C6C06 /* TXMenu.swift */; };
+		164828D52815D097002C6C06 /* LikesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164828D42815D097002C6C06 /* LikesProvider.swift */; };
 		16493D182812A497004912BB /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 16493D172812A497004912BB /* IQKeyboardManagerSwift */; };
 		16493D1B2812A4A8004912BB /* IQKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16493D1A2812A4A8004912BB /* IQKeyboardManager.swift */; };
 		16493D212812B372004912BB /* TXTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16493D202812B372004912BB /* TXTextView.swift */; };
@@ -144,6 +145,7 @@
 		16308637280881810061BE31 /* PartialTweetTableViewCellTweetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialTweetTableViewCellTweetTableViewCell.swift; sourceTree = "<group>"; };
 		1630863A280883900061BE31 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		164828D12815C96E002C6C06 /* TXMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXMenu.swift; sourceTree = "<group>"; };
+		164828D42815D097002C6C06 /* LikesProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesProvider.swift; sourceTree = "<group>"; };
 		16493D1A2812A4A8004912BB /* IQKeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IQKeyboardManager.swift; sourceTree = "<group>"; };
 		16493D202812B372004912BB /* TXTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTextView.swift; sourceTree = "<group>"; };
 		16493D222812B56D004912BB /* UIEdgeInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIEdgeInsets.swift; sourceTree = "<group>"; };
@@ -597,6 +599,14 @@
 			path = TXMenu;
 			sourceTree = "<group>";
 		};
+		164828D32815D083002C6C06 /* LikesProvider */ = {
+			isa = PBXGroup;
+			children = (
+				164828D42815D097002C6C06 /* LikesProvider.swift */,
+			);
+			path = LikesProvider;
+			sourceTree = "<group>";
+		};
 		16493D192812A49E004912BB /* IQKeyboardManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -867,6 +877,7 @@
 				16DEB9522806081700140E63 /* TweetsProvider */,
 				16DEB9512806081300140E63 /* SearchProvider */,
 				16FDA07B280FFC97004BB3C4 /* CommentsProvider */,
+				164828D32815D083002C6C06 /* LikesProvider */,
 				16DEB9502806080100140E63 /* ComposeProvider */,
 				16DEB94F280607DF00140E63 /* NotificationsProvider */,
 				16DEB94E280607DA00140E63 /* UserProvider */,
@@ -1085,6 +1096,7 @@
 				161123892806D29600908D98 /* Session.swift in Sources */,
 				161250F427DBB56E006BCE5A /* SceneDelegate.swift in Sources */,
 				16D237AD28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift in Sources */,
+				164828D52815D097002C6C06 /* LikesProvider.swift in Sources */,
 				16BB011C2813A89200532323 /* Events.swift in Sources */,
 				165E54F227E77F9C00D3BA0D /* TXImageProvider.swift in Sources */,
 				1610D933280F351B00739208 /* PartialTweetViewCellTrailingHeader.swift in Sources */,
