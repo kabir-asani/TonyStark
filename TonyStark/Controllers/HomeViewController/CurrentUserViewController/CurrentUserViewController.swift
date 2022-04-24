@@ -8,6 +8,7 @@
 import UIKit
 
 class CurrentUserViewController: TXTableViewController {
+    // Decalre
     enum Section: Int, CaseIterable {
         case profile = 0
         case tweets = 1
@@ -15,6 +16,15 @@ class CurrentUserViewController: TXTableViewController {
     
     private var state: Result<Paginated<Tweet>, TweetsProvider.TweetsFailure> = .success(.empty())
     
+    init() {
+        super.init(style: .plain)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // Configure
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,6 +57,9 @@ class CurrentUserViewController: TXTableViewController {
         )
     }
     
+    // Populate
+    
+    // Interact
     @objc private func onActionPressed(
         _ sender: UIBarButtonItem
     ) {
@@ -260,6 +273,7 @@ extension CurrentUserViewController: CurrentUserTableViewCellInteractionsHandler
     }
 }
 
+// MARK: PartialTweetTableViewCellInteractionsHandler
 extension CurrentUserViewController: PartialTweetTableViewCellInteractionsHandler {
     func didPressLike(_ cell: PartialTweetTableViewCell) {
         print(#function)

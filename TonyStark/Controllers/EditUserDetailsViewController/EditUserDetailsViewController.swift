@@ -8,6 +8,9 @@
 import UIKit
 
 class EditUserDetailsViewController: TXTableViewController {
+    // Declare
+    
+    // Configure
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,6 +33,9 @@ class EditUserDetailsViewController: TXTableViewController {
         )
     }
     
+    // Populate
+    
+    // Interact
     @objc private func onCancelPressed(_ sender: TXBarButtonItem) {
         dismiss(animated: true)
     }

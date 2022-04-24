@@ -8,6 +8,7 @@
 import UIKit
 
 class HomeViewController: TXTabBarController {
+    // Declare
     enum TabItem: Int {
         case feed
         case explore
@@ -15,6 +16,7 @@ class HomeViewController: TXTabBarController {
         case user
     }
     
+    // Configure
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -103,5 +105,9 @@ class HomeViewController: TXTabBarController {
         
         return navigationController
     }
+    
+    // Populate
+    
+    // Interact
 }
 

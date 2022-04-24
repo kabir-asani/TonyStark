@@ -8,6 +8,9 @@
 import UIKit
 
 class NotificationsViewController: TXTableViewController {
+    // Declare
+    
+    // Configure
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -18,4 +21,8 @@ class NotificationsViewController: TXTableViewController {
         navigationItem.title = "Notifications"
         navigationController?.navigationBar.prefersLargeTitles = true
     }
+    
+    // Populate
+    
+    // Ineteract
 }

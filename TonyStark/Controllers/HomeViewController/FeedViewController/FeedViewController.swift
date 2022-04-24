@@ -8,8 +8,18 @@
 import UIKit
 
 class FeedViewController: TXTableViewController {
+    // Decalre
     private var state: Result<Paginated<Tweet>, TweetsProvider.TweetsFailure> = .success(.empty())
     
+    init() {
+        super.init(style: .plain)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // Configure
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,6 +50,9 @@ class FeedViewController: TXTableViewController {
         tableView.tableHeaderView = TXView(frame: .zero)
     }
     
+    // Populate
+    
+    // Interact
     @objc private func onComposePressed(_ sender: UIBarButtonItem) {
         let composeViewController = TXNavigationController(
             rootViewController: ComposeViewController()
@@ -162,13 +175,15 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
             let user = tweet.author
             
             if user.id == UserProvider.current.user.id {
+                navigationController?.popViewController(animated: true)
+                
                 let event =  HomeViewTabSwitchEvent(tab: HomeViewController.TabItem.user)
                 
                 TXEventBroker.shared.emit(event: event)
             } else {
                 let otherUserViewController = OtherUserViewController()
                 
-                otherUserViewController.configure(withUser: user)
+                otherUserViewController.populate(withUser: user)
                 
                 navigationController?.pushViewController(
                     otherUserViewController,

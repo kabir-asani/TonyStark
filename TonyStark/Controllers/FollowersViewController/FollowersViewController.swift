@@ -8,6 +8,9 @@
 import UIKit
 
 class FollowersViewController: TXTableViewController {
+    // Declare
+    
+    // Configure
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -17,4 +20,8 @@ class FollowersViewController: TXTableViewController {
     func configureNavigationBar() {
         navigationItem.title = "Followers"
     }
+    
+    // Populate
+    
+    // Interact
 }

@@ -8,6 +8,7 @@
 import UIKit
 
 class ExploreViewController: TXTableViewController {
+    // Decalre
     let searchBarController: TXSearchController = {
         let searchBarController = TXSearchController()
         
@@ -16,6 +17,7 @@ class ExploreViewController: TXTableViewController {
         return searchBarController
     }()
     
+    // Configure
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,6 +36,10 @@ class ExploreViewController: TXTableViewController {
         searchBarController.searchResultsUpdater = self
         searchBarController.didMove(toParent: self)
     }
+    
+    // Populate
+    
+    // Interact
 }
 
 extension ExploreViewController: UISearchResultsUpdating {

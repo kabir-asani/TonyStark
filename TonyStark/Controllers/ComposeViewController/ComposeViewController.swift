@@ -8,6 +8,7 @@
 import UIKit
 
 class ComposeViewController: TXTabBarController {
+    // Declare
     private let composableTextView: TXTextView = {
         let composableTextView = TXTextView()
         
@@ -20,6 +21,7 @@ class ComposeViewController: TXTabBarController {
         return composableTextView
     }()
     
+    // Configure
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -70,6 +72,9 @@ class ComposeViewController: TXTabBarController {
         )
     }
     
+    // Populate
+    
+    // Interact
     @objc private func onDonePressed(_ sender: UIBarButtonItem) {
     }
     

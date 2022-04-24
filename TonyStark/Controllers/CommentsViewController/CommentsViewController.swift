@@ -45,6 +45,7 @@ class CommentsViewController: TXViewController {
         return bottomBar
     }()
     
+    // Configure
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,7 +60,6 @@ class CommentsViewController: TXViewController {
         populateTableViewWithComments()
     }
     
-    // Arrange
     private func addSubviews() {
         bottomInputBar.addSubview(commentInputBar)
         
@@ -68,7 +68,6 @@ class CommentsViewController: TXViewController {
         view.addSubview(bottomInputBar)
     }
     
-    // Configure
     private func configureNavigationBar() {
         navigationItem.title = "Comments"
         
@@ -140,13 +139,15 @@ class CommentsViewController: TXViewController {
         )
     }
     
+    // Populate
+    
     // Interact
     @objc private func onClosePressed(_ sender: TXBarButtonItem) {
         dismiss(animated: true)
     }
 }
 
-// MARK: UITableViewDataSource
+// MARK: TXTableViewDataSource
 extension CommentsViewController: TXTableViewDataSource {
     private func populateTableViewWithComments() {
         tableView.showActivityIndicatorAtTheBottomOfTableView()
@@ -184,7 +185,7 @@ extension CommentsViewController: TXTableViewDataSource {
     }
 }
 
-// MARK: UITableViewDelegate
+// MARK: TXTableViewDelegate
 extension CommentsViewController: TXTableViewDelegate {
     func tableView(
         _ tableView: UITableView,
