@@ -873,14 +873,14 @@
 			isa = PBXGroup;
 			children = (
 				16D3C5E62810347000B8A2CC /* Core */,
+				16DEB94E280607DA00140E63 /* UserProvider */,
 				16DEB9532806082200140E63 /* FeedProvider */,
 				16DEB9522806081700140E63 /* TweetsProvider */,
-				16DEB9512806081300140E63 /* SearchProvider */,
+				16DEB9502806080100140E63 /* ComposeProvider */,
 				16FDA07B280FFC97004BB3C4 /* CommentsProvider */,
 				164828D32815D083002C6C06 /* LikesProvider */,
-				16DEB9502806080100140E63 /* ComposeProvider */,
+				16DEB9512806081300140E63 /* SearchProvider */,
 				16DEB94F280607DF00140E63 /* NotificationsProvider */,
-				16DEB94E280607DA00140E63 /* UserProvider */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
