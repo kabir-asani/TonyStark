@@ -39,6 +39,10 @@ class TXNetworkMonitor: TXNetworkMonitorProtocol {
     func start() {
         monitor.pathUpdateHandler = {
             [weak self] path in
+            guard let strongSelf = self else {
+                return
+            }
+            
             let status: NetworkStatus
             
             if path.status != .unsatisfied {
@@ -47,8 +51,8 @@ class TXNetworkMonitor: TXNetworkMonitorProtocol {
                 status = .disconnected
             }
             
-            self?.status = status
-            self?.listeners.forEach({ listener in
+            strongSelf.status = status
+            strongSelf.listeners.forEach({ listener in
                 listener(status)
             })
         }

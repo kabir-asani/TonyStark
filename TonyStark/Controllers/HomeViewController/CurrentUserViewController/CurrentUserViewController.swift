@@ -122,10 +122,14 @@ extension CurrentUserViewController {
     private func populate() {
         Task {
             [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
             let result = await TweetsProvider.shared.tweets(of: "mzaink")
             
-            self?.state = result
-            self?.tableView.reloadSections(
+            strongSelf.state = result
+            strongSelf.tableView.reloadSections(
                 [Section.tweets.rawValue],
                 with: .automatic
             )

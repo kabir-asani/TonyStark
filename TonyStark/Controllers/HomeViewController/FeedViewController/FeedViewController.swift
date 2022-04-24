@@ -73,12 +73,16 @@ extension FeedViewController {
         
         Task {
             [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
             let result = await TweetsProvider.shared.tweets()
             
-            self?.tableView.hideActivityIndicatorAtTheBottomOfTableView()
+            strongSelf.tableView.hideActivityIndicatorAtTheBottomOfTableView()
             
-            self?.state = result
-            self?.tableView.reloadData()
+            strongSelf.state = result
+            strongSelf.tableView.reloadData()
         }
     }
     

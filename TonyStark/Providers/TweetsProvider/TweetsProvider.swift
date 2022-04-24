@@ -18,7 +18,7 @@ class TweetsProvider {
     
     func tweets(of userId: String? = nil) async -> Result<Paginated<Tweet>, TweetsFailure> {
         let paginated: Paginated<Tweet> = await withCheckedContinuation({ continuation in
-            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now()) {
+            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 4) {
                 let tweets: [Tweet] = [
                     Tweet(
                         id: "ar93hdkj",
