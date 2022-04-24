@@ -8,5 +8,7 @@
 import UIKit
 
 class TXCollectionViewCell: UITableViewCell {
-    
+    class var reuseIdentifier: String {
+        String(describing: TXCollectionViewCell.self)
+    }
 }
