@@ -21,6 +21,7 @@ class OtherUserViewController: TXTableViewController {
     
     private func configureNavigationBar() {
         navigationItem.largeTitleDisplayMode = .never
+        navigationController?.navigationBar.isTranslucent = true
     }
     
     private func configureTableView() {
