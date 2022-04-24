@@ -8,24 +8,17 @@
 import Foundation
 
 struct User {
-    static func empty() -> User {
-        return User(
+    static func `default`() -> User {
+        User(
             id: "",
             name: "",
             username: "",
             image: "",
             bio: "",
             creationDate: .now(),
-            socialDetails: UserSocialDetails(
-                followersCount: 0,
-                followingsCount: 0
-            ),
-            activityDetails: UserActivityDetails(
-                tweetsCount: 0
-            ),
-            viewables: UserViewables(
-                follower: false
-            )
+            socialDetails: .default(),
+            activityDetails: .default(),
+            viewables: .default()
         )
     }
     
@@ -67,6 +60,13 @@ struct User {
 }
 
 struct UserSocialDetails {
+    static func `default`() -> UserSocialDetails {
+        UserSocialDetails(
+            followersCount: 0,
+            followingsCount: 0
+        )
+    }
+    
     let followersCount: Int
     let followingsCount: Int
     
@@ -84,6 +84,10 @@ struct UserSocialDetails {
 }
 
 struct UserActivityDetails {
+    static func `default`() -> UserActivityDetails {
+        UserActivityDetails(tweetsCount: 0)
+    }
+    
     let tweetsCount: Int
     
     func copyWith(
@@ -98,6 +102,10 @@ struct UserActivityDetails {
 }
 
 struct UserViewables {
+    static func `default`() -> UserViewables {
+        UserViewables(follower: false)
+    }
+    
     let follower: Bool
     
     func copyWith(

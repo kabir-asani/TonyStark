@@ -9,7 +9,7 @@ import UIKit
 
 class CommentsViewController: TXViewController {
     // Declare
-    private var state: Result<Paginated<Comment>, CommentsFailure> = .success(.empty())
+    private var state: Result<Paginated<Comment>, CommentsFailure> = .success(.default())
     
     private let tableView: TXTableView = {
         let tableView = TXTableView()

@@ -8,12 +8,12 @@
 import Foundation
 
 struct Like {
-    static func empty() -> Like {
-        return Like(
+    static func `default`() -> Like {
+        Like(
             id: "",
             tweetId: "",
             creationDate: .now(),
-            author: .empty()
+            author: .default()
         )
     }
     

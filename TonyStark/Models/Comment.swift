@@ -9,12 +9,12 @@
 import Foundation
 
 struct Comment {
-    static func empty() -> Comment {
-        return Comment(
+    static func `default`() -> Comment {
+        Comment(
             id: "", text: "",
             creationDate: .now(),
             tweetId: "",
-            author: .empty()
+            author: .default()
         )
     }
     

@@ -9,7 +9,7 @@ import UIKit
 
 class FeedViewController: TXTableViewController {
     // Decalre
-    private var state: Result<Paginated<Tweet>, TweetsProvider.TweetsFailure> = .success(.empty())
+    private var state: Result<Paginated<Tweet>, TweetsProvider.TweetsFailure> = .success(.default())
     
     init() {
         super.init(style: .plain)

@@ -8,8 +8,8 @@
 import Foundation
 
 struct Paginated<T> {
-    static func empty() -> Paginated<T> {
-        return Paginated<T>(
+    static func `default`() -> Paginated<T> {
+        Paginated<T>(
             page: [],
             nextToken: nil
         )

@@ -8,12 +8,12 @@
 import Foundation
 
 struct Bookmark {
-    static func empty() -> Bookmark {
-        return Bookmark(
+    static func `default`() -> Bookmark {
+        Bookmark(
             id: "",
             authorId: "",
             creationDate: .now(),
-            tweet: .empty()
+            tweet: .default()
         )
     }
     

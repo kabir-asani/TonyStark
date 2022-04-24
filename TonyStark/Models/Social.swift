@@ -8,9 +8,9 @@
 import Foundation
 
 struct Follower {
-    static func empty() -> Follower {
-        return Follower(
-            user: .empty(),
+    static func `default`() -> Follower {
+        Follower(
+            user: .default(),
             creationDate: .now()
         )
     }
@@ -32,9 +32,9 @@ struct Follower {
 }
 
 struct Following {
-    static func empty() -> Following {
-        return Following(
-            user: .empty(),
+    static func `default`() -> Following {
+        Following(
+            user: .default(),
             creationDate: .now()
         )
     }

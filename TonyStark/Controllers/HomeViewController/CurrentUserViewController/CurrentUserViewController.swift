@@ -14,7 +14,7 @@ class CurrentUserViewController: TXTableViewController {
         case tweets = 1
     }
     
-    private var state: Result<Paginated<Tweet>, TweetsProvider.TweetsFailure> = .success(.empty())
+    private var state: Result<Paginated<Tweet>, TweetsProvider.TweetsFailure> = .success(.default())
     
     init() {
         super.init(style: .plain)

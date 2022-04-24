@@ -8,14 +8,14 @@
 import Foundation
 
 struct Tweet {
-    static func empty() -> Tweet {
-        return Tweet(
+    static func `default`() -> Tweet {
+        Tweet(
             id: "",
             text: "",
             creationDate: .now(),
-            meta: .empty(),
-            author: .empty(),
-            viewables: .empty()
+            meta: .default(),
+            author: .default(),
+            viewables: .default()
         )
     }
     
@@ -48,7 +48,7 @@ struct Tweet {
 }
 
 struct TweetMeta {
-    static func empty() -> TweetMeta {
+    static func `default`() -> TweetMeta {
         return TweetMeta(
             likesCount: 0,
             commentsCount: 0
@@ -72,7 +72,7 @@ struct TweetMeta {
 }
 
 struct TweetViewables {
-    static func empty() -> TweetViewables {
+    static func `default`() -> TweetViewables {
         return TweetViewables(
             liked: false,
             bookmarked: false
