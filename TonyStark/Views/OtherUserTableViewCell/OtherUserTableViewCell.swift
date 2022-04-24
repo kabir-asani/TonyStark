@@ -17,7 +17,9 @@ protocol OtherUserTableViewCellInteractionsHandler: AnyObject {
 
 class OtherUserTableViewCell: TXTableViewCell {
     // Declare
-    static let reuseIdentifier = String(describing: OtherUserTableViewCell.self)
+    override class var reuseIdentifier: String {
+        String(describing: OtherUserTableViewCell.self)
+    }
     
     weak var interactionsHandler: OtherUserTableViewCellInteractionsHandler?
     

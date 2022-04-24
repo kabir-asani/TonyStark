@@ -25,7 +25,9 @@ protocol TweetTableViewCellInteractionsHandler: AnyObject {
 }
 
 class TweetTableViewCell: TXTableViewCell {
-    static let reuseIdentifier = String(describing: TweetTableViewCell.self)
+    override class var reuseIdentifier: String {
+        String(describing: TweetTableViewCell.self)
+    }
     
     // Declare
     weak var interactionsHandler: TweetTableViewCellInteractionsHandler?

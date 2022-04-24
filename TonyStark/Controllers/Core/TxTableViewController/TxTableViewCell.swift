@@ -8,6 +8,10 @@
 import UIKit
 
 class TXTableViewCell: UITableViewCell {
+    class var reuseIdentifier: String {
+        String(describing: TXTableViewCell.self)
+    }
+    
     var indexPath: IndexPath!
     
     override init(
