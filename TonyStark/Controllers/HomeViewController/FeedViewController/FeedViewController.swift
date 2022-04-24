@@ -30,7 +30,7 @@ class FeedViewController: TXTableViewController {
     }
     
     private func configureNavigationBar() {
-        let titleImage = TXImageView(image: UIImage(named: "Octopus"))
+        let titleImage = TXImageView(image: TXBundledImage.twitterX)
         titleImage.contentMode = .scaleAspectFit
         
         navigationItem.backButtonTitle = ""
