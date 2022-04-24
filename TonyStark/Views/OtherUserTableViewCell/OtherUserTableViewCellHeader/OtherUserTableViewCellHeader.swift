@@ -86,11 +86,11 @@ class OtherUserTableViewCellHeader: TXView {
             
             DispatchQueue.main.async {
                 [weak self] in
-                guard let safeSelf = self, let image = image else {
+                guard let strongSelf = self, let image = image else {
                     return
                 }
                 
-                safeSelf.profileImage.image = image
+                strongSelf.profileImage.image = image
             }
         }
     }

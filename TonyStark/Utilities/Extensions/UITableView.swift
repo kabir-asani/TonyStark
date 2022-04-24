@@ -12,13 +12,13 @@ extension UITableView {
     func showActivityIndicatorAtTheBottomOfTableView() {
         DispatchQueue.main.async {
             [weak self] in
-            if let safeSelf = self {
+            if let strongSelf = self {
                 let activityIndicator = UIActivityIndicatorView()
-                safeSelf.tableFooterView = activityIndicator
+                strongSelf.tableFooterView = activityIndicator
                                 
                 activityIndicator.enableAutolayout()
                 activityIndicator.fixHeight(to: 80)
-                activityIndicator.align(toHorizonCenterOf: safeSelf)
+                activityIndicator.align(toHorizonCenterOf: strongSelf)
 
                 activityIndicator.startAnimating()
             }
@@ -28,8 +28,8 @@ extension UITableView {
     func hideActivityIndicatorAtTheBottomOfTableView() {
         DispatchQueue.main.async {
             [weak self] in
-            if let safeSelf = self {
-                safeSelf.tableFooterView = nil
+            if let strongSelf = self {
+                strongSelf.tableFooterView = nil
             }
         }
     }

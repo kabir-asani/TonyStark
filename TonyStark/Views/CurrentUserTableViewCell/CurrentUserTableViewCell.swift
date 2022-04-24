@@ -108,11 +108,11 @@ class CurrentUserTableViewCell: TXTableViewCell {
             withUser: user
         ) {
             [weak self] in
-            guard let safeSelf = self else {
+            guard let strongSelf = self else {
                 return
             }
             
-            safeSelf.interactionsHandler?.didPressEdit(safeSelf)
+            strongSelf.interactionsHandler?.didPressEdit(strongSelf)
         }
         
         body.configure(withUser: user)
@@ -121,18 +121,18 @@ class CurrentUserTableViewCell: TXTableViewCell {
             withUser: user
         ) {
             [weak self] in
-            guard let safeSelf = self else {
+            guard let strongSelf = self else {
                 return
             }
             
-            safeSelf.interactionsHandler?.didPressFollowers(safeSelf)
+            strongSelf.interactionsHandler?.didPressFollowers(strongSelf)
         } onFollowingsPressed: {
             [weak self] in
-            guard let safeSelf = self else {
+            guard let strongSelf = self else {
                 return
             }
             
-            safeSelf.interactionsHandler?.didPressFollowings(safeSelf)
+            strongSelf.interactionsHandler?.didPressFollowings(strongSelf)
         }
     }
 }

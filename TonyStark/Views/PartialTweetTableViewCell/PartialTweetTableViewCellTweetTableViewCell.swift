@@ -110,11 +110,11 @@ class PartialTweetTableViewCell: TXTableViewCell {
         ) {
             [weak self] in
             
-            guard let safeSelf = self else {
+            guard let strongSelf = self else {
                 return
             }
             
-            safeSelf.interactionsHandler?.didPressProfileImage(safeSelf)
+            strongSelf.interactionsHandler?.didPressProfileImage(strongSelf)
         }
         
         if #available(iOS 14, *) {
@@ -123,35 +123,35 @@ class PartialTweetTableViewCell: TXTableViewCell {
             ) {
                 [weak self] in
                 
-                guard let safeSelf = self else {
+                guard let strongSelf = self else {
                     return
                 }
                 
-                safeSelf.interactionsHandler?.didPressLike(safeSelf)
+                strongSelf.interactionsHandler?.didPressLike(strongSelf)
             } onCommentPressed: {
                 [weak self] in
                 
-                guard let safeSelf = self else {
+                guard let strongSelf = self else {
                     return
                 }
                 
-                safeSelf.interactionsHandler?.didPressComment(safeSelf)
+                strongSelf.interactionsHandler?.didPressComment(strongSelf)
             } onBookmarksPressed: {
                 [weak self] in
                 
-                guard let safeSelf = self else {
+                guard let strongSelf = self else {
                     return
                 }
                 
-                safeSelf.interactionsHandler?.didPressBookmarksOption(safeSelf)
+                strongSelf.interactionsHandler?.didPressBookmarksOption(strongSelf)
             } onFollowPressed: {
                 [weak self] in
                 
-                guard let safeSelf = self else {
+                guard let strongSelf = self else {
                     return
                 }
                 
-                safeSelf.interactionsHandler?.didPressFollowOption(safeSelf)
+                strongSelf.interactionsHandler?.didPressFollowOption(strongSelf)
             }
         } else {
             trailing.configure(
@@ -159,27 +159,27 @@ class PartialTweetTableViewCell: TXTableViewCell {
             ) {
                 [weak self] in
                 
-                guard let safeSelf = self else {
+                guard let strongSelf = self else {
                     return
                 }
                 
-                safeSelf.interactionsHandler?.didPressLike(safeSelf)
+                strongSelf.interactionsHandler?.didPressLike(strongSelf)
             } onCommentPressed: {
                 [weak self] in
                 
-                guard let safeSelf = self else {
+                guard let strongSelf = self else {
                     return
                 }
                 
-                safeSelf.interactionsHandler?.didPressComment(safeSelf)
+                strongSelf.interactionsHandler?.didPressComment(strongSelf)
             } onOptionsPressed: {
                 [weak self] in
                 
-                guard let safeSelf = self else {
+                guard let strongSelf = self else {
                     return
                 }
                 
-                safeSelf.interactionsHandler?.didPressOption(safeSelf)
+                strongSelf.interactionsHandler?.didPressOption(strongSelf)
             }
         }
     }

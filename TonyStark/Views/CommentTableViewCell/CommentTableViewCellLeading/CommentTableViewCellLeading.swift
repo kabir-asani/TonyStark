@@ -61,11 +61,11 @@ class CommentTableViewCellLeading: TXView {
             if let image = image {
                 DispatchQueue.main.async {
                     [weak self] in
-                    guard let safeSelf = self else {
+                    guard let strongSelf = self else {
                         return
                     }
                     
-                    safeSelf.profileImage.image = image
+                    strongSelf.profileImage.image = image
                 }
             }
         }

@@ -27,12 +27,12 @@ class HomeViewController: TXTabBarController {
     private func configureEventListener() {
         TXEventBroker.shared.listen {
             [weak self] event in
-            guard let safeSelf = self else {
+            guard let strongSelf = self else {
                 return
             }
             
             if let event = event as? HomeViewTabSwitchEvent {
-                safeSelf.selectedIndex = event.tab.rawValue
+                strongSelf.selectedIndex = event.tab.rawValue
             }
         }
     }

@@ -32,11 +32,11 @@ class TweetOptionsAlertViewController: UIAlertController {
             style: .default
         ) {
             [weak self] action in
-            guard let safeSelf = self else {
+            guard let strongSelf = self else {
                 return
             }
             
-            safeSelf.interactionsHandler?.didPressBookmark(safeSelf)
+            strongSelf.interactionsHandler?.didPressBookmark(strongSelf)
         }
         
         addAction(bookmarkAction)
@@ -46,11 +46,11 @@ class TweetOptionsAlertViewController: UIAlertController {
             style: .default
         ) {
             [weak self] action in
-            guard let safeSelf = self else {
+            guard let strongSelf = self else {
                 return
             }
             
-            safeSelf.interactionsHandler?.didPressFollow(safeSelf)
+            strongSelf.interactionsHandler?.didPressFollow(strongSelf)
         }
         
         addAction(followAction)
@@ -60,11 +60,11 @@ class TweetOptionsAlertViewController: UIAlertController {
             style: .cancel
         ) {
             [weak self] action in
-            guard let safeSelf = self else {
+            guard let strongSelf = self else {
                 return
             }
             
-            safeSelf.dismiss(animated: true)
+            strongSelf.dismiss(animated: true)
         }
         
         addAction(cancelAction)

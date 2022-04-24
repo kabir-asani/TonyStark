@@ -92,11 +92,11 @@ class TweetOptions: UIView {
                     title: data.isBookmarked ? "Remove bookmark" : "Bookmark",
                     image: UIImage(systemName: data.isBookmarked ? "bookmark.fill" : "bookmark")
                 ) { [weak self] action in
-                    guard let safeSelf = self else {
+                    guard let strongSelf = self else {
                         return
                     }
                     
-                    safeSelf.onBookmarkPressed?()
+                    strongSelf.onBookmarkPressed?()
                 },
                 UIAction(
                     title: data.isFollower
@@ -108,11 +108,11 @@ class TweetOptions: UIView {
                         : "person.badge.plus"
                     )
                 ) { [weak self] action in
-                    guard let safeSelf = self else {
+                    guard let strongSelf = self else {
                         return
                     }
                     
-                    safeSelf.onFollowPressed?()
+                    strongSelf.onFollowPressed?()
                 }
             ]
         )

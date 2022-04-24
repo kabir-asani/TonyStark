@@ -53,15 +53,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         Task {
             [weak self] in
             
-            guard let safeSelf = self else {
+            guard let strongSelf = self else {
                 return
             }
             
             await ProvidersRegistry.shared.bootUp()
     
-            safeSelf.window?.rootViewController = HomeViewController()
+            strongSelf.window?.rootViewController = HomeViewController()
             
-            safeSelf.window?.makeKeyAndVisible()
+            strongSelf.window?.makeKeyAndVisible()
         }
     }
 }

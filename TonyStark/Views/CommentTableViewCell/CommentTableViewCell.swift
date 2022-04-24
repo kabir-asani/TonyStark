@@ -95,11 +95,11 @@ class CommentTableViewCell: TXTableViewCell {
         ) {
             [weak self] in
             
-            guard let safeSelf = self else {
+            guard let strongSelf = self else {
                 return
             }
             
-            safeSelf.interactionsHandler?.didPressProfileImage(safeSelf)
+            strongSelf.interactionsHandler?.didPressProfileImage(strongSelf)
         }
         
         trailing.configure(withComment: comment)
