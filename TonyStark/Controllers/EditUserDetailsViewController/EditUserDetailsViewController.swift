@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EditProfileViewController: TXTableViewController {
+class EditUserDetailsViewController: TXTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         

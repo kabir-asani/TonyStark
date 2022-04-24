@@ -25,7 +25,7 @@ class ExploreViewController: TXTableViewController {
     
     private func configureNavigationBar() {
         navigationItem.title = "Explore"
-        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .never
     }
     
     private func configureSearchBar() {
@@ -33,8 +33,6 @@ class ExploreViewController: TXTableViewController {
         
         searchBarController.searchResultsUpdater = self
         searchBarController.didMove(toParent: self)
-        
-        navigationItem.hidesSearchBarWhenScrolling = true
     }
 }
 

@@ -228,7 +228,7 @@ extension CurrentUserViewController {
 extension CurrentUserViewController: CurrentUserTableViewCellInteractionsHandler {
     func didPressEdit(_ cell: CurrentUserTableViewCell) {
         let navigationViewController = TXNavigationController(
-            rootViewController: EditProfileViewController(
+            rootViewController: EditUserDetailsViewController(
                 style: .insetGrouped
             )
         )
