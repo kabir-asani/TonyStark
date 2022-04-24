@@ -215,7 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				160437A827E1AD8900EA615F /* Core */,
-				1610D950280F4F1F00739208 /* Others */,
+				1610D950280F4F1F00739208 /* Extras */,
 				160437C427E1B62D00EA615F /* HomeViewController */,
 				16BB01152813A52000532323 /* OtherUserViewController */,
 				160437C927E1B70600EA615F /* ComposeViewController */,
@@ -479,12 +479,12 @@
 			path = CommentsViewController;
 			sourceTree = "<group>";
 		};
-		1610D950280F4F1F00739208 /* Others */ = {
+		1610D950280F4F1F00739208 /* Extras */ = {
 			isa = PBXGroup;
 			children = (
 				1610D940280F44D100739208 /* TweetOptionsAlertViewController */,
 			);
-			path = Others;
+			path = Extras;
 			sourceTree = "<group>";
 		};
 		161250E527DBB56E006BCE5A = {
