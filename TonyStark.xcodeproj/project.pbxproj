@@ -609,12 +609,12 @@
 			path = LikesProvider;
 			sourceTree = "<group>";
 		};
-		164828D62815D665002C6C06 /* TXImage */ = {
+		164828D62815D665002C6C06 /* TXBundledImage */ = {
 			isa = PBXGroup;
 			children = (
 				164828D72815D678002C6C06 /* TXBundledImage.swift */,
 			);
-			path = TXImage;
+			path = TXBundledImage;
 			sourceTree = "<group>";
 		};
 		16493D192812A49E004912BB /* IQKeyboardManager */ = {
@@ -845,7 +845,7 @@
 		16C45FF127E76F2100F592A2 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				164828D62815D665002C6C06 /* TXImage */,
+				164828D62815D665002C6C06 /* TXBundledImage */,
 				16308639280883810061BE31 /* Extensions */,
 				16D3C5E32810313D00B8A2CC /* TXEventBroker */,
 				16D237AB28019A4C00FD1DC4 /* TXLocalStorageAssistant */,
