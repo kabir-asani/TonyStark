@@ -151,6 +151,22 @@ extension FeedViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        switch state {
+        case .success(let paginated):
+            let tweet = paginated.page[indexPath.row]
+            
+            let tweetViewController = TweetViewController()
+            
+            tweetViewController.populate(withTweet: tweet)
+            
+            navigationController?.pushViewController(
+                tweetViewController,
+                animated: true
+            )
+        default:
+            break
+        }
     }
 }
 
