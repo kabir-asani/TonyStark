@@ -81,10 +81,7 @@ extension OtherUserViewController {
     ) -> Int {
         return 1
     }
-}
-
-// MARK: UITableViewDelegate
-extension OtherUserViewController {
+    
     override func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
@@ -98,4 +95,9 @@ extension OtherUserViewController {
         
         return cell
     }
+}
+
+// MARK: UITableViewDelegate
+extension OtherUserViewController {
+    
 }

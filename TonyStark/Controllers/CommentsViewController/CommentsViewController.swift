@@ -187,6 +187,26 @@ extension CommentsViewController: TXTableViewDataSource {
             return 0
         }
     }
+    
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
+        switch state {
+        case .success(let paginate):
+            let cell = tableView.dequeueReusableCellWithIndexPath(
+                withIdentifier: CommentTableViewCell.reuseIdentifer,
+                for: indexPath
+            ) as! CommentTableViewCell
+            
+            cell.interactionsHandler = self
+            cell.configure(withComment: paginate.page[indexPath.row])
+            
+            return cell
+        default:
+            fatalError()
+        }
+    }
 }
 
 // MARK: TXTableViewDelegate
@@ -211,26 +231,6 @@ extension CommentsViewController: TXTableViewDelegate {
         estimatedHeightForRowAt indexPath: IndexPath
     ) -> CGFloat {
         return UITableView.automaticDimension
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        switch state {
-        case .success(let paginate):
-            let cell = tableView.dequeueReusableCellWithIndexPath(
-                withIdentifier: CommentTableViewCell.reuseIdentifer,
-                for: indexPath
-            ) as! CommentTableViewCell
-            
-            cell.interactionsHandler = self
-            cell.configure(withComment: paginate.page[indexPath.row])
-            
-            return cell
-        default:
-            fatalError()
-        }
     }
     
     func tableView(

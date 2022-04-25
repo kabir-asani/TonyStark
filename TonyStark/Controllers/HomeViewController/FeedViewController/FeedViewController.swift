@@ -103,24 +103,6 @@ extension FeedViewController {
             return 0
         }
     }
-}
-
-// MARK: UITableViewDelegate
-extension FeedViewController {
-    override func tableView(
-        _ tableView: UITableView,
-        willDisplay cell: UITableViewCell,
-        forRowAt indexPath: IndexPath
-    ) {
-        switch state {
-        case .success(let paginated):
-            if indexPath.row  == paginated.page.count - 1 {
-                cell.separatorInset = .empty
-            }
-        default:
-            break
-        }
-    }
     
     override func tableView(
         _ tableView: UITableView,
@@ -139,6 +121,24 @@ extension FeedViewController {
             return cell
         case .failure(_):
             return UITableViewCell()
+        }
+    }
+}
+
+// MARK: UITableViewDelegate
+extension FeedViewController {
+    override func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        switch state {
+        case .success(let paginated):
+            if indexPath.row  == paginated.page.count - 1 {
+                cell.separatorInset = .empty
+            }
+        default:
+            break
         }
     }
     

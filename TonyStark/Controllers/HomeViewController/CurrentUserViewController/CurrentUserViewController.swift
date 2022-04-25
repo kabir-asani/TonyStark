@@ -168,26 +168,6 @@ extension CurrentUserViewController {
     ) -> CGFloat {
         return UITableView.automaticDimension
     }
-}
-
-// MARK: UITableViewDelegate
-extension CurrentUserViewController {
-    override func tableView(
-        _ tableView: UITableView,
-        willDisplay cell: UITableViewCell,
-        forRowAt indexPath: IndexPath
-    ) {
-        if indexPath.section == Section.tweets.rawValue {
-            switch state {
-            case .success(let paginated):
-                if indexPath.row  == paginated.page.count - 1 {
-                    cell.separatorInset = .empty
-                }
-            default:
-                break
-            }
-        }
-    }
     
     override func tableView(
         _ tableView: UITableView,
@@ -222,6 +202,26 @@ extension CurrentUserViewController {
             }
         default:
             fatalError()
+        }
+    }
+}
+
+// MARK: UITableViewDelegate
+extension CurrentUserViewController {
+    override func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        if indexPath.section == Section.tweets.rawValue {
+            switch state {
+            case .success(let paginated):
+                if indexPath.row  == paginated.page.count - 1 {
+                    cell.separatorInset = .empty
+                }
+            default:
+                break
+            }
         }
     }
 }
