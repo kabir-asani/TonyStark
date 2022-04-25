@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class TweetOptions: UIView {
+class PartialTweetOptions: UIView {
     // Declare
     private var onBookmarkPressed: (() -> Void)?
     private var onFollowPressed: (() -> Void)?

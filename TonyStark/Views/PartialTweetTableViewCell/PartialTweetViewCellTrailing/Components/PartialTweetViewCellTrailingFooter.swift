@@ -27,8 +27,8 @@ class PartialTweetViewCellTrailingFooter: TXView {
         return commentInteractionDetails
     }()
     
-    private let tweetOptions: TweetOptions = {
-        let tweetOptions = TweetOptions()
+    private let tweetOptions: PartialTweetOptions = {
+        let tweetOptions = PartialTweetOptions()
         
         tweetOptions.enableAutolayout()
         tweetOptions.fixHeight(to: 20)
