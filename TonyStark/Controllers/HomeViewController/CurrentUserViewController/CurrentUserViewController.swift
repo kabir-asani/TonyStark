@@ -34,6 +34,18 @@ class CurrentUserViewController: TXTableViewController {
         populate()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        navigationController?.navigationBar.isTranslucent = true
+    }
+    
     private func configureNavigationBar() {
         navigationItem.rightBarButtonItem = TXBarButtonItem(
             image: UIImage(systemName: "line.3.horizontal"),

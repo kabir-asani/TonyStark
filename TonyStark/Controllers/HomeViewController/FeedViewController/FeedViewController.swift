@@ -29,6 +29,18 @@ class FeedViewController: TXTableViewController {
         populateTableViewWithFeed()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        navigationController?.navigationBar.isTranslucent = true
+    }
+    
     private func configureNavigationBar() {
         let titleImage = TXImageView(image: TXBundledImage.twitterX)
         titleImage.contentMode = .scaleAspectFit
