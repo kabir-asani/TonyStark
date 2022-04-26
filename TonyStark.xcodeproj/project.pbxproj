@@ -32,7 +32,6 @@
 		1610D946280F49E200739208 /* EditUserDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D945280F49E200739208 /* EditUserDetailsViewController.swift */; };
 		1610D94A280F4E0600739208 /* FollowingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D949280F4E0600739208 /* FollowingsViewController.swift */; };
 		1610D94C280F4E3800739208 /* FollowersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D94B280F4E3800739208 /* FollowersViewController.swift */; };
-		1610D94F280F4ED200739208 /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D94E280F4ED200739208 /* CommentsViewController.swift */; };
 		1611237B2806C75A00908D98 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1611237A2806C75A00908D98 /* User.swift */; };
 		1611237D2806C99500908D98 /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1611237C2806C99500908D98 /* Like.swift */; };
 		1611237F2806C9FD00908D98 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1611237E2806C9FD00908D98 /* Comment.swift */; };
@@ -140,7 +139,6 @@
 		1610D945280F49E200739208 /* EditUserDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserDetailsViewController.swift; sourceTree = "<group>"; };
 		1610D949280F4E0600739208 /* FollowingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingsViewController.swift; sourceTree = "<group>"; };
 		1610D94B280F4E3800739208 /* FollowersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersViewController.swift; sourceTree = "<group>"; };
-		1610D94E280F4ED200739208 /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		1611237A2806C75A00908D98 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1611237C2806C99500908D98 /* Like.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
 		1611237E2806C9FD00908D98 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -247,7 +245,6 @@
 				1610D947280F4DDF00739208 /* FollowersViewController */,
 				1610D948280F4DE700739208 /* FollowingsViewController */,
 				16CFD1C528172DF90020341B /* TweetViewController */,
-				1610D94D280F4EBC00739208 /* CommentsViewController */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -496,14 +493,6 @@
 				1610D949280F4E0600739208 /* FollowingsViewController.swift */,
 			);
 			path = FollowingsViewController;
-			sourceTree = "<group>";
-		};
-		1610D94D280F4EBC00739208 /* CommentsViewController */ = {
-			isa = PBXGroup;
-			children = (
-				1610D94E280F4ED200739208 /* CommentsViewController.swift */,
-			);
-			path = CommentsViewController;
 			sourceTree = "<group>";
 		};
 		1610D950280F4F1F00739208 /* Extras */ = {
@@ -1252,7 +1241,6 @@
 				167C3A44280C80C6004E9B4D /* TweetsProvider.swift in Sources */,
 				16D3DFE228166F800083B7E9 /* TweetTableViewCellHeaderTrailing.swift in Sources */,
 				1667093B2817B79E00889B0C /* TweetTableViewCellFooterFooter.swift in Sources */,
-				1610D94F280F4ED200739208 /* CommentsViewController.swift in Sources */,
 				165ED0312811E41A0022D822 /* TXVisualEffectView.swift in Sources */,
 				16FDA078280FF5A4004BB3C4 /* CommentTableViewCellTrailingHeader.swift in Sources */,
 				16DBF5C32817E90600E92DE5 /* UIViewController.swift in Sources */,
