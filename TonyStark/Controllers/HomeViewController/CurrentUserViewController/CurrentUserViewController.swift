@@ -47,6 +47,7 @@ class CurrentUserViewController: TXTableViewController {
     }
     
     private func configureNavigationBar() {
+        navigationItem.backButtonTitle = ""
         navigationItem.rightBarButtonItem = TXBarButtonItem(
             image: UIImage(systemName: "line.3.horizontal"),
             style: .plain,
