@@ -33,12 +33,14 @@ class FeedViewController: TXTableViewController {
         super.viewWillAppear(animated)
         
         navigationController?.navigationBar.isTranslucent = false
+        tabBarController?.tabBar.isTranslucent = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         navigationController?.navigationBar.isTranslucent = true
+        tabBarController?.tabBar.isTranslucent = true
     }
     
     private func configureNavigationBar() {
