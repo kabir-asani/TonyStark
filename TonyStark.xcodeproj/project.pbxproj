@@ -49,8 +49,6 @@
 		164828D22815C96E002C6C06 /* TXMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164828D12815C96E002C6C06 /* TXMenu.swift */; };
 		164828D52815D097002C6C06 /* LikesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164828D42815D097002C6C06 /* LikesProvider.swift */; };
 		164828D82815D678002C6C06 /* TXBundledImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164828D72815D678002C6C06 /* TXBundledImage.swift */; };
-		16493D182812A497004912BB /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 16493D172812A497004912BB /* IQKeyboardManagerSwift */; };
-		16493D1B2812A4A8004912BB /* IQKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16493D1A2812A4A8004912BB /* IQKeyboardManager.swift */; };
 		16493D212812B372004912BB /* TXTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16493D202812B372004912BB /* TXTextView.swift */; };
 		16493D232812B56D004912BB /* UIEdgeInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16493D222812B56D004912BB /* UIEdgeInsets.swift */; };
 		1659263E27E1C55100A1C9F2 /* TXBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1659263D27E1C55100A1C9F2 /* TXBarButtonItem.swift */; };
@@ -102,6 +100,9 @@
 		16D8F978280D7BDD000545EC /* CurrentUserTableViewCellBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F977280D7BDD000545EC /* CurrentUserTableViewCellBody.swift */; };
 		16D8F97A280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F979280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift */; };
 		16D8F97C280D7C13000545EC /* SocialDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F97B280D7C13000545EC /* SocialDetails.swift */; };
+		16DBF5BD2817E07400E92DE5 /* TXScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBF5BC2817E07400E92DE5 /* TXScrollView.swift */; };
+		16DBF5C32817E90600E92DE5 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBF5C22817E90600E92DE5 /* UIViewController.swift */; };
+		16DBF5C62817EEF700E92DE5 /* TXScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBF5C52817EEF700E92DE5 /* TXScrollViewController.swift */; };
 		16DEB9562806089E00140E63 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DEB9552806089E00140E63 /* Tweet.swift */; };
 		16FDA06F280FF367004BB3C4 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA06E280FF367004BB3C4 /* CommentTableViewCell.swift */; };
 		16FDA072280FF45B004BB3C4 /* CommentTableViewCellLeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA071280FF45B004BB3C4 /* CommentTableViewCellLeading.swift */; };
@@ -158,7 +159,6 @@
 		164828D12815C96E002C6C06 /* TXMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXMenu.swift; sourceTree = "<group>"; };
 		164828D42815D097002C6C06 /* LikesProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesProvider.swift; sourceTree = "<group>"; };
 		164828D72815D678002C6C06 /* TXBundledImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXBundledImage.swift; sourceTree = "<group>"; };
-		16493D1A2812A4A8004912BB /* IQKeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IQKeyboardManager.swift; sourceTree = "<group>"; };
 		16493D202812B372004912BB /* TXTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTextView.swift; sourceTree = "<group>"; };
 		16493D222812B56D004912BB /* UIEdgeInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIEdgeInsets.swift; sourceTree = "<group>"; };
 		1659263D27E1C55100A1C9F2 /* TXBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXBarButtonItem.swift; sourceTree = "<group>"; };
@@ -210,6 +210,9 @@
 		16D8F977280D7BDD000545EC /* CurrentUserTableViewCellBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCellBody.swift; sourceTree = "<group>"; };
 		16D8F979280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCellFooter.swift; sourceTree = "<group>"; };
 		16D8F97B280D7C13000545EC /* SocialDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialDetails.swift; sourceTree = "<group>"; };
+		16DBF5BC2817E07400E92DE5 /* TXScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXScrollView.swift; sourceTree = "<group>"; };
+		16DBF5C22817E90600E92DE5 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		16DBF5C52817EEF700E92DE5 /* TXScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXScrollViewController.swift; sourceTree = "<group>"; };
 		16DEB9552806089E00140E63 /* Tweet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		16FDA06E280FF367004BB3C4 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		16FDA071280FF45B004BB3C4 /* CommentTableViewCellLeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCellLeading.swift; sourceTree = "<group>"; };
@@ -226,7 +229,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16493D182812A497004912BB /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +285,7 @@
 		160437A827E1AD8900EA615F /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				16DBF5C42817EEE400E92DE5 /* TXScrollViewController */,
 				16993CD4280C41F700FFE71B /* TXSearchController */,
 				160437B527E1AE8C00EA615F /* TXNavigationController */,
 				160437B627E1AE9300EA615F /* TXTabBarController */,
@@ -557,12 +560,12 @@
 		16308639280883810061BE31 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				16493D192812A49E004912BB /* IQKeyboardManager */,
 				1630863A280883900061BE31 /* UIView.swift */,
 				16CC9A5328099500002647CE /* UIStackView.swift */,
 				167C3A47280C99A3004E9B4D /* UITableView.swift */,
-				16D3C5E12810306100B8A2CC /* Date.swift */,
 				16493D222812B56D004912BB /* UIEdgeInsets.swift */,
+				16DBF5C22817E90600E92DE5 /* UIViewController.swift */,
+				16D3C5E12810306100B8A2CC /* Date.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -637,14 +640,6 @@
 				164828D72815D678002C6C06 /* TXBundledImage.swift */,
 			);
 			path = TXBundledImage;
-			sourceTree = "<group>";
-		};
-		16493D192812A49E004912BB /* IQKeyboardManager */ = {
-			isa = PBXGroup;
-			children = (
-				16493D1A2812A4A8004912BB /* IQKeyboardManager.swift */,
-			);
-			path = IQKeyboardManager;
 			sourceTree = "<group>";
 		};
 		16493D1F2812B36A004912BB /* TXTextView */ = {
@@ -733,6 +728,7 @@
 		1691E450280EA8BD00BA223D /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				16DBF5BB2817E06B00E92DE5 /* TXScrollView */,
 				164828D02815C966002C6C06 /* TXMenu */,
 				164828CE2815C19B002C6C06 /* TXCollectionViewCell */,
 				164828CD2815C18B002C6C06 /* TXTableViewCell */,
@@ -966,6 +962,22 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		16DBF5BB2817E06B00E92DE5 /* TXScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				16DBF5BC2817E07400E92DE5 /* TXScrollView.swift */,
+			);
+			path = TXScrollView;
+			sourceTree = "<group>";
+		};
+		16DBF5C42817EEE400E92DE5 /* TXScrollViewController */ = {
+			isa = PBXGroup;
+			children = (
+				16DBF5C52817EEF700E92DE5 /* TXScrollViewController.swift */,
+			);
+			path = TXScrollViewController;
+			sourceTree = "<group>";
+		};
 		16DEB94D2806079E00140E63 /* Providers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1089,7 +1101,6 @@
 			);
 			name = TonyStark;
 			packageProductDependencies = (
-				16493D172812A497004912BB /* IQKeyboardManagerSwift */,
 			);
 			productName = TonyStark;
 			productReference = 161250EE27DBB56E006BCE5A /* TonyStark.app */;
@@ -1120,7 +1131,6 @@
 			);
 			mainGroup = 161250E527DBB56E006BCE5A;
 			packageReferences = (
-				16493D162812A497004912BB /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 161250EF27DBB56E006BCE5A /* Products */;
 			projectDirPath = "";
@@ -1157,12 +1167,14 @@
 				16BB01112813A2B200532323 /* OtherUserTableViewCellBody.swift in Sources */,
 				16D3C5E52810314B00B8A2CC /* TXEventBroker.swift in Sources */,
 				160437B127E1AE2600EA615F /* TXTableViewController.swift in Sources */,
+				16DBF5C62817EEF700E92DE5 /* TXScrollViewController.swift in Sources */,
 				16CFD1C728172E040020341B /* TweetViewController.swift in Sources */,
 				165ED0252811CC760022D822 /* TXTableView.swift in Sources */,
 				16D8F97C280D7C13000545EC /* SocialDetails.swift in Sources */,
 				160437D927E1B87B00EA615F /* TXTabBarItem.swift in Sources */,
 				167DE00A280D56B100670BAD /* PartialTweetTableViewCellTrailing.swift in Sources */,
 				16993CE3280C49E700FFE71B /* TXImageView.swift in Sources */,
+				16DBF5BD2817E07400E92DE5 /* TXScrollView.swift in Sources */,
 				1611237B2806C75A00908D98 /* User.swift in Sources */,
 				1610D94C280F4E3800739208 /* FollowersViewController.swift in Sources */,
 				16993CD6280C41FE00FFE71B /* TXSearchController.swift in Sources */,
@@ -1173,7 +1185,6 @@
 				1667093E2817B7AA00889B0C /* TweetTableViewCellFooterHeader.swift in Sources */,
 				16FDA075280FF465004BB3C4 /* CommentTableViewCellTrailing.swift in Sources */,
 				167C3A48280C99A3004E9B4D /* UITableView.swift in Sources */,
-				16493D1B2812A4A8004912BB /* IQKeyboardManager.swift in Sources */,
 				1691E453280EA8D800BA223D /* TXView.swift in Sources */,
 				16D3DFD228166CDD0083B7E9 /* TweetTableViewCell.swift in Sources */,
 				16D3DFD928166D790083B7E9 /* TweetTableViewCellBody.swift in Sources */,
@@ -1244,6 +1255,7 @@
 				1610D94F280F4ED200739208 /* CommentsViewController.swift in Sources */,
 				165ED0312811E41A0022D822 /* TXVisualEffectView.swift in Sources */,
 				16FDA078280FF5A4004BB3C4 /* CommentTableViewCellTrailingHeader.swift in Sources */,
+				16DBF5C32817E90600E92DE5 /* UIViewController.swift in Sources */,
 				16BB010F2813A2AB00532323 /* OtherUserTableViewCellFooter.swift in Sources */,
 				160437C127E1B0DE00EA615F /* TXPageViewController.swift in Sources */,
 				1610D943280F44E300739208 /* TweetOptionsAlertViewController.swift in Sources */,
@@ -1464,25 +1476,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		16493D162812A497004912BB /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		16493D172812A497004912BB /* IQKeyboardManagerSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 16493D162812A497004912BB /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
-			productName = IQKeyboardManagerSwift;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 161250E627DBB56E006BCE5A /* Project object */;
 }
