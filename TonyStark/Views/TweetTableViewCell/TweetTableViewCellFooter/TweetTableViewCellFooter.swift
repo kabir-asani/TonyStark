@@ -9,30 +9,20 @@ import UIKit
 
 class TweetTableViewCellFooter: TXView {
     // Declare
-    private var onLikePressed: (() -> Void)?
-    
-    private let likesCountText: TXLabel = {
-        let likesCountText = TXLabel()
+    private let header: TweetTableViewCellFooterHeader = {
+        let header = TweetTableViewCellFooterHeader()
         
-        likesCountText.enableAutolayout()
+        header.enableAutolayout()
         
-        likesCountText.adjustsFontSizeToFitWidth = false
-        likesCountText.numberOfLines = 1
-        likesCountText.font = .systemFont(ofSize: 16, weight: .bold)
-        
-        return likesCountText
+        return header
     }()
     
-    private let likesText: TXLabel = {
-        let likesText = TXLabel()
+    private let footer: TweetTableViewCellFooterFooter = {
+        let footer = TweetTableViewCellFooterFooter()
         
-        likesText.enableAutolayout()
-        likesText.adjustsFontSizeToFitWidth = false
-        likesText.numberOfLines = 1
-        likesText.textColor = .systemGray
-        likesText.font = .systemFont(ofSize: 16, weight: .semibold)
+        footer.enableAutolayout()
         
-        return likesText
+        return footer
     }()
     
     // Arrange
@@ -51,43 +41,32 @@ class TweetTableViewCellFooter: TXView {
         
         addSubview(combinedStackView)
         
-        combinedStackView.addTapGestureRecognizer(
-            target: self,
-            action: #selector(onEntireLikesPressed(_:))
-        )
-        
         combinedStackView.pin(to: self)
     }
     
     private func makeCombinedStackView() -> TXStackView {
         let combinedStack = TXStackView(
             arrangedSubviews: [
-                likesCountText,
-                likesText,
-                TXStackView.spacer
+                header,
+                footer
             ]
         )
         
         combinedStack.enableAutolayout()
-        combinedStack.axis = .horizontal
-        combinedStack.distribution = .fill
-        combinedStack.alignment = .center
+        combinedStack.axis = .vertical
+        combinedStack.distribution = .equalSpacing
+        combinedStack.alignment = .leading
         combinedStack.spacing = 8
         
         return combinedStack
     }
     
     // Configure
-    func configure(
-        withTweet tweet: Tweet
-    ) { 
-        likesCountText.text = "\(tweet.meta.likesCount)"
-        
-        likesText.text = tweet.meta.likesCount == 1 ? "like" : "likes"
+    func configure(withTweet tweet: Tweet) {
+        header.configure(withTweet: tweet)
+        footer.configure(withTweet: tweet)
     }
     
     // Interact
-    @objc private func onEntireLikesPressed(_ sender: UITapGestureRecognizer) {
-        onLikePressed?()
-    }
 }
+

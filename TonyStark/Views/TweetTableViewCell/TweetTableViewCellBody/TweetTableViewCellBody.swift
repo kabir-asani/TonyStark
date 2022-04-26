@@ -9,20 +9,15 @@ import UIKit
 
 class TweetTableViewCellBody: TXView {
     // Declare
-    private var header: TweetTableViewCellBodyHeader = {
-        let header = TweetTableViewCellBodyHeader()
+    private let tweetText: TXLabel = {
+        let tweetText = TXLabel()
         
-        header.enableAutolayout()
+        tweetText.enableAutolayout()
+        tweetText.adjustsFontSizeToFitWidth = false
+        tweetText.numberOfLines = 0
+        tweetText.font = .systemFont(ofSize: 16, weight: .regular)
         
-        return header
-    }()
-    
-    private var footer: TweetTableViewCellBodyFooter = {
-        let footer = TweetTableViewCellBodyFooter()
-        
-        footer.enableAutolayout()
-        
-        return footer
+        return tweetText
     }()
     
     // Arrange
@@ -37,35 +32,14 @@ class TweetTableViewCellBody: TXView {
     }
     
     private func arrangeSubviews() {
-        let combinedStackView = makeCombinedStackView()
+        addSubview(tweetText)
         
-        addSubview(combinedStackView)
-        
-        combinedStackView.pin(to: self)
-    }
-    
-    private func makeCombinedStackView() -> TXStackView {
-        let combinedStack = TXStackView(
-            arrangedSubviews: [
-                header,
-                footer
-            ]
-        )
-        
-        combinedStack.enableAutolayout()
-        combinedStack.axis = .vertical
-        combinedStack.distribution = .equalSpacing
-        combinedStack.alignment = .fill
-        combinedStack.spacing = 8
-        
-        return combinedStack
+        tweetText.pin(to: self)
     }
     
     // Configure
     func configure(withTweet tweet: Tweet) {
-        header.configure(withTweet: tweet)
-        
-        footer.configure(withTweet: tweet)
+        tweetText.text = tweet.text
     }
     
     // Interact
