@@ -11,13 +11,14 @@ class CommentInputBar: TXView {
     // Declare
     private var onPressed: ((_ text: String) -> Void)?
     
+    private var insets: TXEdgeInsets = .zero
+    
     private let textField: TXTextField = {
         let textField = TXTextField()
         
         textField.enableAutolayout()
         
         textField.returnKeyType = .done
-        textField.keyboardDistanceFromTextField = 0
         
         return textField
     }()
@@ -27,11 +28,11 @@ class CommentInputBar: TXView {
         
         primaryButton.enableAutolayout()
         primaryButton.setTitleColor(
-            .systemPurple,
+            .systemBlue,
             for: .normal
         )
         primaryButton.setTitleColor(
-            .systemPurple.withAlphaComponent(0.8),
+            .systemBlue.withAlphaComponent(0.8),
             for: .highlighted
         )
         primaryButton.setTitleColor(
@@ -99,10 +100,19 @@ class CommentInputBar: TXView {
         self.onPressed = onPressed
         
         textField.placeholder = data.inputPlaceholder
+        
         primaryButton.setTitle(
             data.buttonText,
             for: .normal
         )
+    }
+    
+    func focusTextField() {
+        textField.becomeFirstResponder()
+    }
+    
+    func unfocusTextField() {
+        textField.resignFirstResponder()
     }
     
     // Interact

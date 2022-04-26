@@ -177,16 +177,26 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
     }
     
     func didPressComment(_ cell: PartialTweetTableViewCell) {
-        let commentsViewController = CommentsViewController()
-        
-        let navigationController = TXNavigationController(
-            rootViewController: commentsViewController
-        )
-        
-        present(
-            navigationController,
-            animated: true
-        )
+        switch state {
+        case .success(let paginated):
+            let tweet = paginated.page[cell.indexPath.row]
+            
+            let tweetViewController = TweetViewController()
+            
+            tweetViewController.populate(
+                withTweet: tweet,
+                options: TweetViewControllerOptions(
+                    autoFocus: true
+                )
+            )
+            
+            navigationController?.pushViewController(
+                tweetViewController,
+                animated: true
+            )
+        default:
+            break
+        }
     }
     
     func didPressProfileImage(_ cell: PartialTweetTableViewCell) {
