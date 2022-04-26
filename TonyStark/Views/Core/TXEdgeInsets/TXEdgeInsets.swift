@@ -15,6 +15,8 @@ struct TXEdgeInsets {
 }
 
 extension TXEdgeInsets {
+    static var zero: TXEdgeInsets = all(0)
+    
     static func all(_ inset: Double) -> TXEdgeInsets {
         return TXEdgeInsets(
             top: inset,
