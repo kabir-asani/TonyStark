@@ -21,6 +21,7 @@ class TXTabBarController: UITabBarController {
     
     private func configureTabBar() {
         tabBar.tintColor = .label
-        tabBar.isTranslucent = true
+        tabBar.isTranslucent = false
+        tabBar.backgroundColor = .systemBackground
     }
 }
