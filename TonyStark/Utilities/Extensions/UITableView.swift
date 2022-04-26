@@ -16,12 +16,16 @@ extension UITableView {
                 return
             }
             
-            let activityIndicator = UIActivityIndicatorView()
+            let activityIndicator = UIActivityIndicatorView(
+                frame: .init(
+                    x: 0,
+                    y: 0,
+                    width: 0,
+                    height: 40
+                )
+            )
+            
             strongSelf.tableFooterView = activityIndicator
-                            
-            activityIndicator.enableAutolayout()
-            activityIndicator.fixHeight(to: 80)
-            activityIndicator.align(toHorizonCenterOf: strongSelf)
 
             activityIndicator.startAnimating()
         }

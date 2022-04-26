@@ -7,26 +7,51 @@
 
 import UIKit
 
-class FeedViewController: TXTableViewController {
+class FeedViewController: TXViewController {
     // Decalre
     private var state: Result<Paginated<Tweet>, TweetsProvider.TweetsFailure> = .success(.default())
     
-    init() {
-        super.init(style: .plain)
-    }
+    private let tableView: TXTableView = {
+        let tableView = TXTableView()
+        
+        tableView.enableAutolayout()
+        
+        return tableView
+    }()
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private let floatingActionButton: TXButton = {
+        let floatingActionButton = TXButton()
+        
+        floatingActionButton.enableAutolayout()
+        floatingActionButton.squareOff(withSide: 60)
+        floatingActionButton.backgroundColor = .systemBlue
+        floatingActionButton.tintColor = .white
+        floatingActionButton.layer.cornerRadius = 30
+        floatingActionButton.clipsToBounds = true
+        floatingActionButton.setImage(
+            UIImage(systemName: "plus"),
+            for: .normal
+        )
+        
+        return floatingActionButton
+    }()
     
     // Configure
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        addSubviews()
+        
         configureNavigationBar()
         configureTableView()
+        configureFloatingActionButton()
         
         populateTableViewWithFeed()
+    }
+    
+    private func addSubviews() {
+        view.addSubview(tableView)
+        view.addSubview(floatingActionButton)
     }
     
     private func configureNavigationBar() {
@@ -35,27 +60,46 @@ class FeedViewController: TXTableViewController {
         
         navigationItem.backButtonTitle = ""
         navigationItem.titleView = titleImage
-        
-        navigationItem.rightBarButtonItem = TXBarButtonItem(
-            barButtonSystemItem: .add,
-            target: self,
-            action: #selector(onComposePressed(_:))
-        )
     }
     
     private func configureTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        
         tableView.register(
             PartialTweetTableViewCell.self,
             forCellReuseIdentifier: PartialTweetTableViewCell.reuseIdentifier
         )
         
         tableView.tableHeaderView = TXView(frame: .zero)
+        
+        tableView.pin(to: view)
+    }
+    
+    private func configureFloatingActionButton() {
+        floatingActionButton.pin(
+            toBottomOf: view,
+            withInset: 20,
+            byBeingSafeAreaAware: true
+        )
+        
+        floatingActionButton.pin(
+            toRightOf: view,
+            withInset: 20,
+            byBeingSafeAreaAware: true
+        )
+        
+        floatingActionButton.addTarget(
+            self,
+            action: #selector(onComposePressed(_:)),
+            for: .touchUpInside
+        )
     }
     
     // Populate
     
     // Interact
-    @objc private func onComposePressed(_ sender: UIBarButtonItem) {
+    @objc private func onComposePressed(_ sender: UITapGestureRecognizer) {
         let composeViewController = TXNavigationController(
             rootViewController: ComposeViewController()
         )
@@ -66,8 +110,8 @@ class FeedViewController: TXTableViewController {
     }
 }
 
-// MARK: UITableViewDataSource
-extension FeedViewController {
+// MARK: TXTableViewDataSource
+extension FeedViewController: TXTableViewDataSource {
     private func populateTableViewWithFeed() {
         tableView.showActivityIndicatorAtTheBottomOfTableView()
         
@@ -86,13 +130,13 @@ extension FeedViewController {
         }
     }
     
-    override func numberOfSections(
+    func numberOfSections(
         in tableView: UITableView
     ) -> Int {
         return 1
     }
     
-    override func tableView(
+    func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
@@ -104,7 +148,7 @@ extension FeedViewController {
         }
     }
     
-    override func tableView(
+    func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
@@ -125,9 +169,9 @@ extension FeedViewController {
     }
 }
 
-// MARK: UITableViewDelegate
-extension FeedViewController {
-    override func tableView(
+// MARK: TXTableViewDelegate
+extension FeedViewController: TXTableViewDelegate {
+    func tableView(
         _ tableView: UITableView,
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
@@ -142,14 +186,14 @@ extension FeedViewController {
         }
     }
     
-    override func tableView(
+    func tableView(
         _ tableView: UITableView,
         estimatedHeightForRowAt indexPath: IndexPath
     ) -> CGFloat {
         return UITableView.automaticDimension
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
         switch state {
