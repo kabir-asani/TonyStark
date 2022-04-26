@@ -236,6 +236,33 @@ extension CurrentUserViewController {
             }
         }
     }
+    
+    override func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        tableView.deselectRow(
+            at: indexPath,
+            animated: true
+        )
+        
+        if indexPath.section == Section.tweets.rawValue {
+            switch state {
+            case .success(let paginated):
+                let tweet = paginated.page[indexPath.row]
+                
+                let tweetViewController = TweetViewController()
+                tweetViewController.populate(withTweet: tweet)
+                
+                navigationController?.pushViewController(
+                    tweetViewController,
+                    animated: true
+                )
+            default:
+                break
+            }
+        }
+    }
 }
 
 // MARK: UIScrollViewDelegate
