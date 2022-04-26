@@ -17,7 +17,7 @@ struct TweetViewControllerOptions {
     let autoFocus: Bool
 }
 
-class TweetViewController: TXScrollViewController {
+class TweetViewController: TXViewController {
     enum Section: Int, CaseIterable {
         case tweet
         case comments
@@ -197,6 +197,7 @@ class TweetViewController: TXScrollViewController {
     }
 }
 
+// MARK: TXTableViewDataSource
 extension TweetViewController: TXTableViewDataSource {
     private func populateTableViewWithComments() {
         tableView.showActivityIndicatorAtTheBottomOfTableView()
@@ -263,6 +264,7 @@ extension TweetViewController: TXTableViewDataSource {
                     for: indexPath
                 ) as! CommentTableViewCell
                 
+                cell.interactionsHandler = self
                 cell.configure(withComment: comment)
                 
                 return cell
@@ -275,6 +277,7 @@ extension TweetViewController: TXTableViewDataSource {
     }
 }
 
+// MARK: TXTableViewDelegate
 extension TweetViewController: TXTableViewDelegate {
     func tableView(
         _ tableView: UITableView,
@@ -292,6 +295,36 @@ extension TweetViewController: TXTableViewDelegate {
             default:
                 break
             }
+        }
+    }
+}
+
+extension TweetViewController: CommentTableViewCellInteractionsHandler {
+    func didPressProfileImage(_ commentTableViewCell: CommentTableViewCell) {
+        switch state {
+        case .success(let paginated):
+            let comment = paginated.page[commentTableViewCell.indexPath.row]
+            
+            let user = comment.author
+            
+            if user.id == UserProvider.current.user.id {
+                navigationController?.popViewController(animated: true)
+                
+                let event =  HomeViewTabSwitchEvent(tab: HomeViewController.TabItem.user)
+                
+                TXEventBroker.shared.emit(event: event)
+            } else {
+                let otherUserViewController = OtherUserViewController()
+                
+                otherUserViewController.populate(withUser: user)
+                
+                navigationController?.pushViewController(
+                    otherUserViewController,
+                    animated: true
+                )
+            }
+        default:
+            break
         }
     }
 }
