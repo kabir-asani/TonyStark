@@ -63,6 +63,7 @@ class TweetTableViewCell: TXTableViewCell {
     
     private func arrangeBaseView() {
         selectionStyle = .none
+        separatorInset = .zero
     }
     
     private func arrangeSubviews() {
