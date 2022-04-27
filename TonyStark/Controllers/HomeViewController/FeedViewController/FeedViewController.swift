@@ -163,7 +163,7 @@ extension FeedViewController: TXTableViewDataSource {
             cell.configure(withTweet: paginated.page[indexPath.row])
             
             return cell
-        case .failure(_):
+        default:
             return UITableViewCell()
         }
     }
@@ -180,6 +180,8 @@ extension FeedViewController: TXTableViewDelegate {
         case .success(let paginated):
             if indexPath.row  == paginated.page.count - 1 {
                 cell.separatorInset = .empty
+            } else {
+                cell.separatorInset = .leading(20)
             }
         default:
             break

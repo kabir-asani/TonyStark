@@ -33,7 +33,7 @@ class CurrentUserViewController: TXViewController {
         configureNavigationBar()
         configureTableView()
         
-        populate()
+        populateTableView()
     }
     
     private func addSubviews() {
@@ -98,8 +98,17 @@ class CurrentUserViewController: TXViewController {
         let bookmarksAction = UIAlertAction(
             title: "Bookmarks",
             style: .default
-        ) { action in
-            // TODO:
+        ) { [weak self] action in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            let bookmarksViewController = BookmarksViewController()
+            
+            strongSelf.navigationController?.pushViewController(
+                bookmarksViewController,
+                animated: true
+            )
         }
     
         let logOutAction = UIAlertAction(
@@ -131,7 +140,7 @@ class CurrentUserViewController: TXViewController {
 
 // MARK: TXTableViewDataSource
 extension CurrentUserViewController: TXTableViewDataSource {
-    private func populate() {
+    private func populateTableView() {
         Task {
             [weak self] in
             guard let strongSelf = self else {
@@ -230,6 +239,8 @@ extension CurrentUserViewController: TXTableViewDelegate {
             case .success(let paginated):
                 if indexPath.row  == paginated.page.count - 1 {
                     cell.separatorInset = .empty
+                } else {
+                    cell.separatorInset = .leading(20)
                 }
             default:
                 break
