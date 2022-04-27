@@ -41,6 +41,8 @@
 		161250F427DBB56E006BCE5A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161250F327DBB56E006BCE5A /* SceneDelegate.swift */; };
 		161250FB27DBB56F006BCE5A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 161250FA27DBB56F006BCE5A /* Assets.xcassets */; };
 		161250FE27DBB56F006BCE5A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161250FC27DBB56F006BCE5A /* LaunchScreen.storyboard */; };
+		161347E32819433B004AA245 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161347E22819433B004AA245 /* BookmarksViewController.swift */; };
+		161347E628194DE1004AA245 /* BookmarksProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161347E528194DE1004AA245 /* BookmarksProvider.swift */; };
 		16308638280881810061BE31 /* PartialTweetTableViewCellTweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16308637280881810061BE31 /* PartialTweetTableViewCellTweetTableViewCell.swift */; };
 		1630863B280883900061BE31 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1630863A280883900061BE31 /* UIView.swift */; };
 		163D2D9228191BE100CE5646 /* PartialUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2D9128191BE100CE5646 /* PartialUserTableViewCell.swift */; };
@@ -157,6 +159,8 @@
 		161250FA27DBB56F006BCE5A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		161250FD27DBB56F006BCE5A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		161250FF27DBB56F006BCE5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		161347E22819433B004AA245 /* BookmarksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
+		161347E528194DE1004AA245 /* BookmarksProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksProvider.swift; sourceTree = "<group>"; };
 		16308637280881810061BE31 /* PartialTweetTableViewCellTweetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialTweetTableViewCellTweetTableViewCell.swift; sourceTree = "<group>"; };
 		1630863A280883900061BE31 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		163D2D9128191BE100CE5646 /* PartialUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialUserTableViewCell.swift; sourceTree = "<group>"; };
@@ -257,6 +261,7 @@
 				160437C927E1B70600EA615F /* ComposeViewController */,
 				1610D944280F49D100739208 /* EditUserDetailsViewController */,
 				16CFD1C528172DF90020341B /* TweetViewController */,
+				161347E1281942C2004AA245 /* BookmarksViewController */,
 				163D2DAC281927C700CE5646 /* LikesViewController */,
 			);
 			path = Controllers;
@@ -532,6 +537,22 @@
 				161250FF27DBB56F006BCE5A /* Info.plist */,
 			);
 			path = TonyStark;
+			sourceTree = "<group>";
+		};
+		161347E1281942C2004AA245 /* BookmarksViewController */ = {
+			isa = PBXGroup;
+			children = (
+				161347E22819433B004AA245 /* BookmarksViewController.swift */,
+			);
+			path = BookmarksViewController;
+			sourceTree = "<group>";
+		};
+		161347E428194DD2004AA245 /* BookmarksProvider */ = {
+			isa = PBXGroup;
+			children = (
+				161347E528194DE1004AA245 /* BookmarksProvider.swift */,
+			);
+			path = BookmarksProvider;
 			sourceTree = "<group>";
 		};
 		16308636280881780061BE31 /* PartialTweetTableViewCell */ = {
@@ -1047,6 +1068,7 @@
 				164828D32815D083002C6C06 /* LikesProvider */,
 				16DEB9512806081300140E63 /* SearchProvider */,
 				163D2DA82819257600CE5646 /* SocialsProvider */,
+				161347E428194DD2004AA245 /* BookmarksProvider */,
 				16DEB94F280607DF00140E63 /* NotificationsProvider */,
 			);
 			path = Providers;
@@ -1260,12 +1282,14 @@
 				16493D212812B372004912BB /* TXTextView.swift in Sources */,
 				160437BD27E1AF5100EA615F /* TXCollectionViewCell.swift in Sources */,
 				16993CD9280C42CD00FFE71B /* CurrentUserTableViewCell.swift in Sources */,
+				161347E628194DE1004AA245 /* BookmarksProvider.swift in Sources */,
 				160437D527E1B7C200EA615F /* CurrentUserViewController.swift in Sources */,
 				16BB01132813A2B800532323 /* OtherUserTableViewCellHeader.swift in Sources */,
 				16FDA081280FFD2D004BB3C4 /* OtherUserProvider.swift in Sources */,
 				16308638280881810061BE31 /* PartialTweetTableViewCellTweetTableViewCell.swift in Sources */,
 				164828D22815C96E002C6C06 /* TXMenu.swift in Sources */,
 				163D2D9F28191D3300CE5646 /* PartialUserTableViewCellTrailingFooter.swift in Sources */,
+				161347E32819433B004AA245 /* BookmarksViewController.swift in Sources */,
 				160437D727E1B83700EA615F /* TXPageControl.swift in Sources */,
 				161123892806D29600908D98 /* Session.swift in Sources */,
 				161250F427DBB56E006BCE5A /* SceneDelegate.swift in Sources */,
