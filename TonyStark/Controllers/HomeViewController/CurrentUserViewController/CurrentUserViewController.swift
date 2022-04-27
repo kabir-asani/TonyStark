@@ -287,21 +287,11 @@ extension CurrentUserViewController: CurrentUserTableViewCellInteractionsHandler
     }
     
     func didPressFollowers(_ cell: CurrentUserTableViewCell) {
-        let followersViewController = FollowersViewController()
-        
-        navigationController?.pushViewController(
-            followersViewController,
-            animated: true
-        )
+        print(#function)
     }
     
     func didPressFollowings(_ cell: CurrentUserTableViewCell) {
-        let followingsViewController = FollowingsViewController()
-        
-        navigationController?.pushViewController(
-            followingsViewController,
-            animated: true
-        )
+        print(#function)
     }
 }
 
