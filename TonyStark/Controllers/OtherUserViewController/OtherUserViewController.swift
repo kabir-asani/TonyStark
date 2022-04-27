@@ -7,24 +7,30 @@
 
 import UIKit
 
-class OtherUserViewController: TXTableViewController {
+class OtherUserViewController: TXViewController {
     // Declare
     private var user: User!
     
-    init() {
-        super.init(style: .plain)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private let tableView: TXTableView = {
+        let tableView = TXTableView()
+        
+        tableView.enableAutolayout()
+        
+        return tableView
+    }()
     
     // Configure
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        addSubviews()
+        
         configureNavigationBar()
         configureTableView()
+    }
+    
+    private func addSubviews() {
+        view.addSubview(tableView)
     }
     
     private func configureNavigationBar() {
@@ -32,12 +38,17 @@ class OtherUserViewController: TXTableViewController {
     }
     
     private func configureTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        
         tableView.tableHeaderView = TXView(frame: .zero)
         
         tableView.register(
             OtherUserTableViewCell.self,
             forCellReuseIdentifier: OtherUserTableViewCell.reuseIdentifier
         )
+        
+        tableView.pin(to: view)
     }
     
     // Populate
@@ -48,35 +59,36 @@ class OtherUserViewController: TXTableViewController {
     // Interact
 }
 
-// MARK: UIScrollViewDelegate
-extension OtherUserViewController {
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+// MARK: TXScrollViewDelegate
+extension OtherUserViewController: TXScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(#function)
         let currentYOffset = scrollView.contentOffset.y
         
-        if currentYOffset < 140 {
+        if currentYOffset < 40 {
             navigationItem.title = nil
         }
         
-        if currentYOffset > 140 && navigationItem.title == nil {
+        if currentYOffset > 40 && navigationItem.title == nil {
             navigationItem.title = user.name
         }
     }
 }
 
-// MARK: UITableViewDataSource
-extension OtherUserViewController {
-    override func numberOfSections(in tableView: UITableView) -> Int {
+// MARK: TXTableViewDataSource
+extension OtherUserViewController: TXTableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(
+    func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
         return 1
     }
     
-    override func tableView(
+    func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
@@ -91,7 +103,7 @@ extension OtherUserViewController {
     }
 }
 
-// MARK: UITableViewDelegate
-extension OtherUserViewController {
+// MARK: TXTableViewDelegate
+extension OtherUserViewController: TXTableViewDelegate {
     
 }

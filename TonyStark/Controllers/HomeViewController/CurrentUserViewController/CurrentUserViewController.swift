@@ -7,8 +7,8 @@
 
 import UIKit
 
-class CurrentUserViewController: TXTableViewController {
-    // Decalre
+class CurrentUserViewController: TXViewController {
+    // Declare
     enum Section: Int, CaseIterable {
         case profile = 0
         case tweets = 1
@@ -16,22 +16,28 @@ class CurrentUserViewController: TXTableViewController {
     
     private var state: Result<Paginated<Tweet>, TweetsProvider.TweetsFailure> = .success(.default())
     
-    init() {
-        super.init(style: .plain)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private var tableView: TXTableView = {
+        let tableView = TXTableView()
+        
+        tableView.enableAutolayout()
+        
+        return tableView
+    }()
     
     // Configure
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        addSubviews()
+        
         configureNavigationBar()
         configureTableView()
         
         populate()
+    }
+    
+    private func addSubviews() {
+        view.addSubview(tableView)
     }
     
     private func configureNavigationBar() {
@@ -45,6 +51,9 @@ class CurrentUserViewController: TXTableViewController {
     }
     
     private func configureTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        
         tableView.tableHeaderView = TXView(frame: .zero)
         
         tableView.register(
@@ -56,6 +65,8 @@ class CurrentUserViewController: TXTableViewController {
             PartialTweetTableViewCell.self,
             forCellReuseIdentifier: PartialTweetTableViewCell.reuseIdentifier
         )
+        
+        tableView.pin(to: view)
     }
     
     // Populate
@@ -118,8 +129,8 @@ class CurrentUserViewController: TXTableViewController {
     }
 }
 
-// MARK: UITableViewDataSource
-extension CurrentUserViewController {
+// MARK: TXTableViewDataSource
+extension CurrentUserViewController: TXTableViewDataSource {
     private func populate() {
         Task {
             [weak self] in
@@ -137,13 +148,13 @@ extension CurrentUserViewController {
         }
     }
     
-    override func numberOfSections(
+    func numberOfSections(
         in tableView: UITableView
     ) -> Int {
         return Section.allCases.count
     }
     
-    override func tableView(
+    func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
@@ -163,14 +174,14 @@ extension CurrentUserViewController {
         
     }
     
-    override func tableView(
+    func tableView(
         _ tableView: UITableView,
         estimatedHeightForRowAt indexPath: IndexPath
     ) -> CGFloat {
         return UITableView.automaticDimension
     }
     
-    override func tableView(
+    func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
@@ -207,9 +218,9 @@ extension CurrentUserViewController {
     }
 }
 
-// MARK: UITableViewDelegate
-extension CurrentUserViewController {
-    override func tableView(
+// MARK: TXTableViewDelegate
+extension CurrentUserViewController: TXTableViewDelegate {
+    func tableView(
         _ tableView: UITableView,
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
@@ -226,7 +237,7 @@ extension CurrentUserViewController {
         }
     }
     
-    override func tableView(
+    func tableView(
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
@@ -254,16 +265,16 @@ extension CurrentUserViewController {
     }
 }
 
-// MARK: UIScrollViewDelegate
-extension CurrentUserViewController {
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+// MARK: TXScrollViewDelegate
+extension CurrentUserViewController: TXScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let currentYOffset = scrollView.contentOffset.y
         
-        if currentYOffset < 140 {
+        if currentYOffset < 40 {
             navigationItem.title = nil
         }
         
-        if currentYOffset > 140 && navigationItem.title == nil {
+        if currentYOffset > 40 && navigationItem.title == nil {
             navigationItem.title = UserProvider.current.user.name
         }
     }

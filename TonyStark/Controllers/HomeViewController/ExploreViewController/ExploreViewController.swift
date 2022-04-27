@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ExploreViewController: TXTableViewController {
+class ExploreViewController: TXViewController {
     // Decalre
     let searchBarController: TXSearchController = {
         let searchBarController = TXSearchController()

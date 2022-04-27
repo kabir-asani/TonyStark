@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NotificationsViewController: TXTableViewController {
+class NotificationsViewController: TXViewController {
     // Declare
     
     // Configure
