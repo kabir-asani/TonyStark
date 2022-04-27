@@ -8,6 +8,8 @@
 import UIKit
 
 class TweetTableViewCellHeaderMiddle: TXView {
+    private var onPressed: (() -> Void)?
+    
     // Declare
     private let nameText: TXLabel = {
         let nameText = TXLabel()
@@ -49,6 +51,11 @@ class TweetTableViewCellHeaderMiddle: TXView {
         addSubview(combinedStackView)
         
         combinedStackView.pin(to: self)
+        
+        combinedStackView.addTapGestureRecognizer(
+            target: self,
+            action: #selector(onPressed(_:))
+        )
     }
     
     private func makeCombinedStackView() -> TXStackView {
@@ -69,10 +76,18 @@ class TweetTableViewCellHeaderMiddle: TXView {
     }
     
     // Configure
-    func configure(withTweet tweet: Tweet) {
+    func configure(
+        withTweet tweet: Tweet,
+        onPressed: @escaping () -> Void
+    ) {
+        self.onPressed = onPressed
+        
         nameText.text = tweet.author.name
-        usernameText.text = tweet.author.username
+        usernameText.text = "@" + tweet.author.username
     }
     
     // Interact
+    @objc private func onPressed(_ sender: UITapGestureRecognizer) {
+        onPressed?()
+    }
 }

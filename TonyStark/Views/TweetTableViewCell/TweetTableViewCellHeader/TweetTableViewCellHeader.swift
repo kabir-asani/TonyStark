@@ -72,10 +72,20 @@ class TweetTableViewCellHeader: TXView {
     }
     
     // Configure
-    func configure(withTweet tweet: Tweet) {
-        leading.configure(withTweet: tweet)
+    func configure(
+        withTweet tweet: Tweet,
+        onProfileImagePressed: @escaping () -> Void,
+        onDetailsPressed: @escaping () -> Void
+    ) {
+        leading.configure(
+            withTweet: tweet,
+            onProfileImagePressed: onProfileImagePressed
+        )
         
-        middle.configure(withTweet: tweet)
+        middle.configure(
+            withTweet: tweet,
+            onPressed: onDetailsPressed
+        )
         
         trailing.configure(withTweet: tweet)
     }

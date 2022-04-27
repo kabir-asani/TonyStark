@@ -44,8 +44,11 @@ class TweetTableViewCellHeaderLeading: TXView {
     
     // Configure
     func configure(
-        withTweet tweet: Tweet
-    ) { 
+        withTweet tweet: Tweet,
+        onProfileImagePressed: @escaping () -> Void
+    ) {
+        self.onProfileImagePressed = onProfileImagePressed
+        
         Task {
             let image = await TXImageProvider.shared.image(tweet.author.image)
             

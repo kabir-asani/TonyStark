@@ -62,9 +62,15 @@ class TweetTableViewCellFooter: TXView {
     }
     
     // Configure
-    func configure(withTweet tweet: Tweet) {
+    func configure(
+        withTweet tweet: Tweet,
+        onLikePressed: @escaping () -> Void
+    ) {
         header.configure(withTweet: tweet)
-        footer.configure(withTweet: tweet)
+        footer.configure(
+            withTweet: tweet,
+            onPressed: onLikePressed
+        )
     }
     
     // Interact

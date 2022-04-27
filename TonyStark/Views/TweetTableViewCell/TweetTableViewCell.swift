@@ -8,7 +8,11 @@
 import UIKit
 
 protocol TweetTableViewCellInteractionsHandler: AnyObject {
+    func didPressProfileImage(_ tweetTableViewCell: TweetTableViewCell)
     
+    func didPressDetails(_ tweetTableViewCell: TweetTableViewCell)
+    
+    func didPressLike(_ tweetTableViewCell: TweetTableViewCell)
 }
 
 class TweetTableViewCell: TXTableViewCell {
@@ -96,12 +100,37 @@ class TweetTableViewCell: TXTableViewCell {
     }
     
     // Configure
-    func configure(withTweet tweet: Tweet) {
-        header.configure(withTweet: tweet)
+    func configure(
+        withTweet tweet: Tweet
+    ) {
+        header.configure(
+            withTweet: tweet
+        ) {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.interactionsHandler?.didPressProfileImage(strongSelf)
+        } onDetailsPressed: {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.interactionsHandler?.didPressDetails(strongSelf)
+        }
         
         body.configure(withTweet: tweet)
         
-        footer.configure(withTweet: tweet)
+        footer.configure(withTweet: tweet) {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.interactionsHandler?.didPressLike(strongSelf)
+        }
     }
     
     // Interact

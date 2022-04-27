@@ -9,7 +9,7 @@ import UIKit
 
 class TweetTableViewCellFooterFooter: TXView {
     // Declare
-    private var onLikePressed: (() -> Void)?
+    private var onPressed: (() -> Void)?
     
     private let likesCountText: TXLabel = {
         let likesCountText = TXLabel()
@@ -52,6 +52,11 @@ class TweetTableViewCellFooterFooter: TXView {
         addSubview(combinedStackView)
         
         combinedStackView.pin(to: self)
+        
+        combinedStackView.addTapGestureRecognizer(
+            target: self,
+            action: #selector(onPressed(_:))
+        )
     }
     
     private func makeCombinedStackView() -> TXStackView {
@@ -73,12 +78,18 @@ class TweetTableViewCellFooterFooter: TXView {
     
     // Configure
     func configure(
-        withTweet tweet: Tweet
+        withTweet tweet: Tweet,
+        onPressed: @escaping () -> Void
     ) {
+        self.onPressed = onPressed
+        
         likesCountText.text = "\(tweet.meta.likesCount)"
         
         likesText.text = tweet.meta.likesCount == 1 ? "like" : "likes"
     }
     
     // Interact
+    @objc private func onPressed(_ sender: UITapGestureRecognizer) {
+        onPressed?()
+    }
 }
