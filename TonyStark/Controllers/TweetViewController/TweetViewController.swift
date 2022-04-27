@@ -111,6 +111,7 @@ class TweetViewController: TXViewController {
     
     private func configureNavigationBar() {
         navigationItem.title = "Tweet"
+        navigationItem.backButtonTitle = ""
     }
     
     private func configureTableView() {
@@ -252,6 +253,7 @@ extension TweetViewController: TXTableViewDataSource {
             ) as! TweetTableViewCell
             
             cell.configure(withTweet: tweet)
+            cell.interactionsHandler = self
             
             return cell
         case Section.comments.rawValue:
@@ -299,6 +301,29 @@ extension TweetViewController: TXTableViewDelegate {
     }
 }
 
+// MARK: TweetTableViewCellInteractionsHandler
+extension TweetViewController: TweetTableViewCellInteractionsHandler {
+    func didPressProfileImage(_ tweetTableViewCell: TweetTableViewCell) {
+        print(#function)
+    }
+    
+    func didPressDetails(_ tweetTableViewCell: TweetTableViewCell) {
+        print(#function)
+    }
+    
+    func didPressLike(_ tweetTableViewCell: TweetTableViewCell) {
+        let likesViewController = LikesViewController()
+        
+        likesViewController.populate(withTweet: tweet)
+        
+        navigationController?.pushViewController(
+            likesViewController,
+            animated: true
+        )
+    }
+}
+
+// MARK: CommentTableViewCellInteractionsHandler
 extension TweetViewController: CommentTableViewCellInteractionsHandler {
     func didPressProfileImage(_ commentTableViewCell: CommentTableViewCell) {
         switch state {
