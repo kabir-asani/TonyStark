@@ -62,12 +62,7 @@ class CommentTableViewCell: TXTableViewCell {
         
         combinedStackView.pin(
             to: self,
-            withInsets: TXEdgeInsets(
-                top: 16,
-                right: 16,
-                bottom: 16,
-                left: 16
-            )
+            withInsets: .all(16)
         )
     }
     
