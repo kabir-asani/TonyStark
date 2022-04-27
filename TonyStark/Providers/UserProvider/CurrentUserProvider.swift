@@ -7,15 +7,18 @@
 
 import Foundation
 
-
-enum CurrentUserFailure: Error {
-    case unknown
-}
-
 class CurrentUserProvider: Provider {
+    static let shared = CurrentUserProvider()
+    
+    enum CurrentUserFailure: Error {
+        case unknown
+    }
+    
     private(set) var isLoggedIn: Bool = false
     
     private(set) var user: User!
+    
+    private init() { }
     
     func bootUp() async {
         user = User(

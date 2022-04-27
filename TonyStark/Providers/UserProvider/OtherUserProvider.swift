@@ -8,5 +8,7 @@
 import Foundation
 
 class OtherUserProvider {
+    static let shared = OtherUserProvider()
     
+    private init() { }
 }

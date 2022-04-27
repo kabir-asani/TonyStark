@@ -24,7 +24,7 @@ class TweetViewController: TXViewController {
     }
     
     private var tweet: Tweet!
-    private var state: Result<Paginated<Comment>, CommentsFailure> = .success(.default())
+    private var state: Result<Paginated<Comment>, CommentsProvider.CommentsFailure> = .success(.default())
     private var options: TweetViewControllerOptions!
     
     // Declare

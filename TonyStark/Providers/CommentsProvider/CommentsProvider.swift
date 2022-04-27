@@ -7,12 +7,15 @@
 
 import Foundation
 
-enum CommentsFailure: Error {
-    
-}
 
 class CommentsProvider {
     static let shared = CommentsProvider()
+    
+    enum CommentsFailure: Error {
+        
+    }
+    
+    private init() { }
     
     func comments() async -> Result<Paginated<Comment>, CommentsFailure> {
         var comments: [Comment] = []
