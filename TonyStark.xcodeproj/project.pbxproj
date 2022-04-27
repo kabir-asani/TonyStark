@@ -51,6 +51,7 @@
 		163D2DA428191DDC00CE5646 /* PartialUserTableViewCellTrailingHeaderLeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2DA328191DDC00CE5646 /* PartialUserTableViewCellTrailingHeaderLeading.swift */; };
 		163D2DA728191DF200CE5646 /* PartialUserTableViewCellTrailingHeaderTrailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2DA628191DF200CE5646 /* PartialUserTableViewCellTrailingHeaderTrailing.swift */; };
 		163D2DAA2819258300CE5646 /* SocialsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2DA92819258300CE5646 /* SocialsProvider.swift */; };
+		163D2DAE281927D200CE5646 /* LikesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2DAD281927D200CE5646 /* LikesViewController.swift */; };
 		164828D22815C96E002C6C06 /* TXMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164828D12815C96E002C6C06 /* TXMenu.swift */; };
 		164828D52815D097002C6C06 /* LikesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164828D42815D097002C6C06 /* LikesProvider.swift */; };
 		164828D82815D678002C6C06 /* TXBundledImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164828D72815D678002C6C06 /* TXBundledImage.swift */; };
@@ -166,6 +167,7 @@
 		163D2DA328191DDC00CE5646 /* PartialUserTableViewCellTrailingHeaderLeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialUserTableViewCellTrailingHeaderLeading.swift; sourceTree = "<group>"; };
 		163D2DA628191DF200CE5646 /* PartialUserTableViewCellTrailingHeaderTrailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialUserTableViewCellTrailingHeaderTrailing.swift; sourceTree = "<group>"; };
 		163D2DA92819258300CE5646 /* SocialsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialsProvider.swift; sourceTree = "<group>"; };
+		163D2DAD281927D200CE5646 /* LikesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesViewController.swift; sourceTree = "<group>"; };
 		164828D12815C96E002C6C06 /* TXMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXMenu.swift; sourceTree = "<group>"; };
 		164828D42815D097002C6C06 /* LikesProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesProvider.swift; sourceTree = "<group>"; };
 		164828D72815D678002C6C06 /* TXBundledImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXBundledImage.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 				160437C927E1B70600EA615F /* ComposeViewController */,
 				1610D944280F49D100739208 /* EditUserDetailsViewController */,
 				16CFD1C528172DF90020341B /* TweetViewController */,
+				163D2DAC281927C700CE5646 /* LikesViewController */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -262,12 +265,12 @@
 		160437A627E1AD7A00EA615F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				163D2D9028191BD600CE5646 /* PartialUserTableViewCell */,
 				1691E450280EA8BD00BA223D /* Core */,
 				16BB01142813A2D400532323 /* SocialDetails */,
 				165ED0262811D4640022D822 /* CommentInputBar */,
 				16993CD7280C42BB00FFE71B /* CurrentUserTableViewCell */,
 				16BB010728139DF200532323 /* OtherUserTableViewCell */,
+				163D2D9028191BD600CE5646 /* PartialUserTableViewCell */,
 				16308636280881780061BE31 /* PartialTweetTableViewCell */,
 				16D3DFD028166CCE0083B7E9 /* TweetTableViewCell */,
 				16FDA06D280FF359004BB3C4 /* CommentTableViewCell */,
@@ -614,6 +617,14 @@
 				163D2DA92819258300CE5646 /* SocialsProvider.swift */,
 			);
 			path = SocialsProvider;
+			sourceTree = "<group>";
+		};
+		163D2DAC281927C700CE5646 /* LikesViewController */ = {
+			isa = PBXGroup;
+			children = (
+				163D2DAD281927D200CE5646 /* LikesViewController.swift */,
+			);
+			path = LikesViewController;
 			sourceTree = "<group>";
 		};
 		164828C72815BC27002C6C06 /* Events */ = {
@@ -1294,6 +1305,7 @@
 				160437D127E1B79300EA615F /* ExploreViewController.swift in Sources */,
 				16993CDC280C443E00FFE71B /* TXSegmentedControl.swift in Sources */,
 				1611237F2806C9FD00908D98 /* Comment.swift in Sources */,
+				163D2DAE281927D200CE5646 /* LikesViewController.swift in Sources */,
 				16D3DFDE28166F710083B7E9 /* TweetTableViewCellHeaderLeading.swift in Sources */,
 				1610D946280F49E200739208 /* EditUserDetailsViewController.swift in Sources */,
 				1630863B280883900061BE31 /* UIView.swift in Sources */,
