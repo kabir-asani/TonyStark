@@ -56,7 +56,7 @@ class PartialUserTableViewCellTrailing: TXView {
         combinedStack.axis = .vertical
         combinedStack.distribution = .fillEqually
         combinedStack.alignment = .fill
-        combinedStack.spacing = 16
+        combinedStack.spacing = 8
         
         return combinedStack
     }

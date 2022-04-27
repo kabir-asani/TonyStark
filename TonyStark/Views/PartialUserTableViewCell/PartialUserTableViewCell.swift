@@ -8,6 +8,10 @@
 import UIKit
 
 class PartialUserTableViewCell: TXTableViewCell {
+    override class var reuseIdentifier: String {
+        String(describing: PartialUserTableViewCell.self)
+    }
+    
     // Declare
     private let leading: PartialUserTableViewCellLeading = {
         let leading = PartialUserTableViewCellLeading()
@@ -35,11 +39,16 @@ class PartialUserTableViewCell: TXTableViewCell {
             reuseIdentifier: reuseIdentifier
         )
         
+        arrangeBaseView()
         arrangeSubviews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func arrangeBaseView() {
+        selectionStyle = .none
     }
     
     private func arrangeSubviews() {
@@ -63,9 +72,9 @@ class PartialUserTableViewCell: TXTableViewCell {
         
         combinedStack.enableAutolayout()
         combinedStack.axis = .horizontal
-        combinedStack.distribution = .equalSpacing
+        combinedStack.distribution = .fill
         combinedStack.alignment = .top
-        combinedStack.spacing = 8
+        combinedStack.spacing = 16
         
         return combinedStack
     }
