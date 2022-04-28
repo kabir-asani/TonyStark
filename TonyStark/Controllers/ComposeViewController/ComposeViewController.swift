@@ -65,10 +65,22 @@ class ComposeViewController: TXTabBarController {
     }
     
     private func configureComposableTextView() {
+        composableTextView.delegate = self
+        
+        composableTextView.textContainer.lineFragmentPadding = 0
+        
         composableTextView.pin(
             to: view,
             withInsets: .all(16),
             byBeingSafeAreaAware: true
+        )
+        
+        composableTextView.text = "What's happening?"
+        composableTextView.textColor = UIColor.lightGray
+
+        composableTextView.selectedTextRange = composableTextView.textRange(
+            from: composableTextView.beginningOfDocument,
+            to: composableTextView.beginningOfDocument
         )
     }
     
@@ -80,5 +92,41 @@ class ComposeViewController: TXTabBarController {
     
     @objc private func onCancelPressed(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
+    }
+}
+
+extension ComposeViewController: TXTextViewDelegate {
+    func textView(
+        _ textView: UITextView,
+        shouldChangeTextIn range: NSRange, replacementText text: String
+    ) -> Bool {
+        let currentText = textView.text! as String
+        let updatedText = (currentText as NSString).replacingCharacters(in: range, with: text)
+
+        if updatedText.isEmpty {
+            textView.text = "What's happening?"
+            textView.textColor = .lightGray
+
+            textView.selectedTextRange = textView.textRange(
+                from: textView.beginningOfDocument,
+                to: textView.beginningOfDocument
+            )
+        } else if textView.textColor == .lightGray && !text.isEmpty {
+            textView.textColor = .label
+            textView.text = text
+        } else {
+            return true
+        }
+        
+        return false
+    }
+    
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        if textView.textColor == .lightGray {
+            textView.selectedTextRange = textView.textRange(
+                from: textView.beginningOfDocument,
+                to: textView.beginningOfDocument
+            )
+        }
     }
 }
