@@ -252,8 +252,8 @@ extension TweetViewController: TXTableViewDataSource {
                 for: indexPath
             ) as! TweetTableViewCell
             
-            cell.configure(withTweet: tweet)
             cell.interactionsHandler = self
+            cell.configure(withTweet: tweet)
             
             return cell
         case Section.comments.rawValue:
@@ -303,15 +303,49 @@ extension TweetViewController: TXTableViewDelegate {
 
 // MARK: TweetTableViewCellInteractionsHandler
 extension TweetViewController: TweetTableViewCellInteractionsHandler {
-    func didPressProfileImage(_ tweetTableViewCell: TweetTableViewCell) {
-        print(#function)
+    func didPressProfileImage(_ cell: TweetTableViewCell) {
+        let user = tweet.author
+        
+        if user.id == UserProvider.current.user.id {
+            navigationController?.popViewController(animated: true)
+            
+            let event =  HomeViewTabSwitchEvent(tab: HomeViewController.TabItem.user)
+            
+            TXEventBroker.shared.emit(event: event)
+        } else {
+            let otherUserViewController = OtherUserViewController()
+            
+            otherUserViewController.populate(withUser: user)
+            
+            navigationController?.pushViewController(
+                otherUserViewController,
+                animated: true
+            )
+        }
     }
     
-    func didPressDetails(_ tweetTableViewCell: TweetTableViewCell) {
-        print(#function)
+    func didPressDetails(_ cell: TweetTableViewCell) {
+        let user = tweet.author
+        
+        if user.id == UserProvider.current.user.id {
+            navigationController?.popViewController(animated: true)
+            
+            let event =  HomeViewTabSwitchEvent(tab: HomeViewController.TabItem.user)
+            
+            TXEventBroker.shared.emit(event: event)
+        } else {
+            let otherUserViewController = OtherUserViewController()
+            
+            otherUserViewController.populate(withUser: user)
+            
+            navigationController?.pushViewController(
+                otherUserViewController,
+                animated: true
+            )
+        }
     }
     
-    func didPressLike(_ tweetTableViewCell: TweetTableViewCell) {
+    func didPressLike(_ cell: TweetTableViewCell) {
         let likesViewController = LikesViewController()
         
         likesViewController.populate(withTweet: tweet)

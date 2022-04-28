@@ -8,11 +8,11 @@
 import UIKit
 
 protocol TweetTableViewCellInteractionsHandler: AnyObject {
-    func didPressProfileImage(_ tweetTableViewCell: TweetTableViewCell)
+    func didPressProfileImage(_ cell: TweetTableViewCell)
     
-    func didPressDetails(_ tweetTableViewCell: TweetTableViewCell)
+    func didPressDetails(_ cell: TweetTableViewCell)
     
-    func didPressLike(_ tweetTableViewCell: TweetTableViewCell)
+    func didPressLike(_ cell: TweetTableViewCell)
 }
 
 class TweetTableViewCell: TXTableViewCell {
