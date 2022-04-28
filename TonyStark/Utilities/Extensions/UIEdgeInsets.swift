@@ -12,7 +12,7 @@ extension UIEdgeInsets {
         get {
             return UIEdgeInsets(
                 top: 0,
-                left: Double.infinity,
+                left: 0,
                 bottom: 0,
                 right: 0
             )

@@ -179,7 +179,7 @@ extension FeedViewController: TXTableViewDelegate {
         switch state {
         case .success(let paginated):
             if indexPath.row  == paginated.page.count - 1 {
-                cell.separatorInset = .empty
+                cell.separatorInset = .leading(.infinity)
             } else {
                 cell.separatorInset = .leading(20)
             }
