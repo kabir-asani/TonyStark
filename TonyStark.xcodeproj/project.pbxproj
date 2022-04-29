@@ -116,6 +116,7 @@
 		16DEB9562806089E00140E63 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DEB9552806089E00140E63 /* Tweet.swift */; };
 		16E56676281BF0A00071100C /* Compose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E56675281BF0A00071100C /* Compose.swift */; };
 		16E5667F281C05B80071100C /* ComposeBottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E5667E281C05B80071100C /* ComposeBottomBar.swift */; };
+		16E56684281C2D5A0071100C /* SearchProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E56683281C2D5A0071100C /* SearchProvider.swift */; };
 		16F219FE281BDC160013A750 /* FollowersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F219FD281BDC160013A750 /* FollowersViewController.swift */; };
 		16F21A01281BDC2F0013A750 /* FollowingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F21A00281BDC2F0013A750 /* FollowingsViewController.swift */; };
 		16FDA06F280FF367004BB3C4 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA06E280FF367004BB3C4 /* CommentTableViewCell.swift */; };
@@ -240,6 +241,7 @@
 		16DEB9552806089E00140E63 /* Tweet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		16E56675281BF0A00071100C /* Compose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compose.swift; sourceTree = "<group>"; };
 		16E5667E281C05B80071100C /* ComposeBottomBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeBottomBar.swift; sourceTree = "<group>"; };
+		16E56683281C2D5A0071100C /* SearchProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchProvider.swift; sourceTree = "<group>"; };
 		16F219FD281BDC160013A750 /* FollowersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersViewController.swift; sourceTree = "<group>"; };
 		16F21A00281BDC2F0013A750 /* FollowingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingsViewController.swift; sourceTree = "<group>"; };
 		16FDA06E280FF367004BB3C4 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
@@ -1135,6 +1137,7 @@
 		16DEB9512806081300140E63 /* SearchProvider */ = {
 			isa = PBXGroup;
 			children = (
+				16E56683281C2D5A0071100C /* SearchProvider.swift */,
 			);
 			path = SearchProvider;
 			sourceTree = "<group>";
@@ -1394,6 +1397,7 @@
 				163D2DA428191DDC00CE5646 /* PartialUserTableViewCellTrailingHeaderLeading.swift in Sources */,
 				16E5667F281C05B80071100C /* ComposeBottomBar.swift in Sources */,
 				167DE008280D569400670BAD /* PartialTweetViewCellLeading.swift in Sources */,
+				16E56684281C2D5A0071100C /* SearchProvider.swift in Sources */,
 				16D8F976280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift in Sources */,
 				16493D232812B56D004912BB /* UIEdgeInsetsX.swift in Sources */,
 				160437CF27E1B77B00EA615F /* FeedViewController.swift in Sources */,
