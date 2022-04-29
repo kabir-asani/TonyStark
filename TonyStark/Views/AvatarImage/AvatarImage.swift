@@ -7,11 +7,10 @@
 
 import UIKit
 
-class ProfileImage: TXView {
+class AvatarImage: TXView {
     enum Size: Double {
         case large = 40
-        case medium = 22
-        case small = 12
+        case small = 20
     }
     
     // Declare

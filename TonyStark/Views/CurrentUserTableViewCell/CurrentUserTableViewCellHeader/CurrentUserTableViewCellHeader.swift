@@ -11,11 +11,10 @@ class CurrentUserTableViewCellHeader: TXView {
     // Declare
     private var onEditPressed: (() -> Void)?
     
-    let profileImage: TXImageView = {
-        let profileImage = TXCircularImageView(radius: 40)
+    let profileImage: AvatarImage = {
+        let profileImage = AvatarImage(size: .large)
         
         profileImage.enableAutolayout()
-        profileImage.backgroundColor = .lightGray
         
         return profileImage
     }()
@@ -88,23 +87,8 @@ class CurrentUserTableViewCellHeader: TXView {
     ) {
         self.onEditPressed = onEditPressed
         
-        configureProfileImage(withImageURL: user.image)
+        profileImage.configure(withImageURL: user.image)
         configureEditButton()
-    }
-    
-    private func configureProfileImage(withImageURL imageURL: String) {
-        Task {
-            let image = await TXImageProvider.shared.image(imageURL)
-            
-            DispatchQueue.main.async {
-                [weak self] in
-                guard let strongSelf = self, let image = image else {
-                    return
-                }
-                
-                strongSelf.profileImage.image = image
-            }
-        }
     }
     
     private func configureEditButton() {

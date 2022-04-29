@@ -11,11 +11,10 @@ class OtherUserTableViewCellHeader: TXView {
     // Declare
     private var onFollowPressed: (() -> Void)?
     
-    let profileImage: TXImageView = {
-        let profileImage = TXCircularImageView(radius: 40)
+    let profileImage: AvatarImage = {
+        let profileImage = AvatarImage(size: .large)
         
         profileImage.enableAutolayout()
-        profileImage.backgroundColor = .lightGray
         
         return profileImage
     }()
@@ -76,23 +75,8 @@ class OtherUserTableViewCellHeader: TXView {
     ) {
         self.onFollowPressed = onFollowPressed
         
-        configureProfileImage(withImageURL: user.image)
+        profileImage.configure(withImageURL: user.image)
         configureFollowButton(withViewables: user.viewables)
-    }
-    
-    private func configureProfileImage(withImageURL imageURL: String) {
-        Task {
-            let image = await TXImageProvider.shared.image(imageURL)
-            
-            DispatchQueue.main.async {
-                [weak self] in
-                guard let strongSelf = self, let image = image else {
-                    return
-                }
-                
-                strongSelf.profileImage.image = image
-            }
-        }
     }
     
     private func configureFollowButton(withViewables viewables: UserViewables) {

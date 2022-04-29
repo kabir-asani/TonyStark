@@ -10,14 +10,10 @@ import UIKit
 
 class PartialTweetViewCellLeading: UIView {
     // Declare
-    private var onProfileImagePressed: (() -> Void)?
-    
-    private let profileImage: TXCircularImageView = {
-        let profileImage = TXCircularImageView(radius: 22)
+    private let profileImage: AvatarImage = {
+        let profileImage = AvatarImage(size: .small)
         
         profileImage.enableAutolayout()
-        profileImage.backgroundColor = .lightGray
-        profileImage.isUserInteractionEnabled = true
         
         return profileImage
     }()
@@ -33,15 +29,6 @@ class PartialTweetViewCellLeading: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(
-        withTweet tweet: Tweet,
-        onProfileImagePressed: @escaping () -> Void
-    ) {
-        self.onProfileImagePressed = onProfileImagePressed
-        
-        configureProfileImage(withImageURL: tweet.author.image)
-    }
-    
     private func arrangeSubviews() {
         addSubview(profileImage)
         
@@ -49,30 +36,15 @@ class PartialTweetViewCellLeading: UIView {
     }
     
     // Configure
-    private func configureProfileImage(
-        withImageURL imageURL: String
+    func configure(
+        withTweet tweet: Tweet,
+        onProfileImagePressed: @escaping () -> Void
     ) {
-        profileImage.addTapGestureRecognizer(
-            target: self,
-            action: #selector(onProfileImagePressed(_:))
+        profileImage.configure(
+            withImageURL: tweet.author.image,
+            onPressed: onProfileImagePressed
         )
-        
-        Task {
-            let image = await TXImageProvider.shared.image(imageURL)
-            
-            DispatchQueue.main.async {
-                [weak self] in
-                guard let strongSelf = self, let image = image else {
-                    return
-                }
-                
-                strongSelf.profileImage.image = image
-            }
-        }
     }
     
     // Interact
-    @objc private func onProfileImagePressed(_ sender: UITapGestureRecognizer) {
-        onProfileImagePressed?()
-    }
 }

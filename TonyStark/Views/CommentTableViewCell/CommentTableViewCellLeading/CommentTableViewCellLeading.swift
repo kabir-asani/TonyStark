@@ -9,15 +9,10 @@ import UIKit
 
 class CommentTableViewCellLeading: TXView {
     // Declare
-    private var onProfileImagePressed: (() -> Void)?
-    
-    private let profileImage: TXImageView = {
-        let profileImage = TXCircularImageView(
-            radius: 20
-        )
+    private let profileImage: AvatarImage = {
+        let profileImage = AvatarImage(size: .small)
         
         profileImage.enableAutolayout()
-        profileImage.isUserInteractionEnabled = true
         
         return profileImage
     }()
@@ -44,35 +39,11 @@ class CommentTableViewCellLeading: TXView {
         withComment comment: Comment,
         onProfileImagePressed: @escaping () -> Void
     ) {
-        self.onProfileImagePressed = onProfileImagePressed
-        
-        configureProfileImage(withImageURL: comment.author.image)
-    }
-    
-    func configureProfileImage(withImageURL imageURL: String) {
-        profileImage.addTapGestureRecognizer(
-            target: self,
-            action: #selector(onProfileImagePressed(_:))
+        profileImage.configure(
+            withImageURL: comment.author.image,
+            onPressed: onProfileImagePressed
         )
-        
-        Task {
-            let image = await TXImageProvider.shared.image(imageURL)
-            
-            if let image = image {
-                DispatchQueue.main.async {
-                    [weak self] in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    
-                    strongSelf.profileImage.image = image
-                }
-            }
-        }
     }
     
     // Interact
-    @objc private func onProfileImagePressed(_ sender: UITapGestureRecognizer) {
-        onProfileImagePressed?()
-    }
 }

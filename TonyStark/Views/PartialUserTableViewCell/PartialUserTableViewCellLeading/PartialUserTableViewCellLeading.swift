@@ -9,13 +9,10 @@ import UIKit
 
 class PartialUserTableViewCellLeading: TXView {
     // Declare
-    private var onProfileImagePressed: (() -> Void)?
-    
-    private var profileImage: TXImageView = {
-        let profileImage = TXCircularImageView(radius: 22)
+    private var profileImage: AvatarImage = {
+        let profileImage = AvatarImage(size: .small)
         
         profileImage.enableAutolayout()
-        profileImage.isUserInteractionEnabled = true
         
         return profileImage
     }()
@@ -39,21 +36,12 @@ class PartialUserTableViewCellLeading: TXView {
     
     // Configure
     func configure(
-        withUser user: User
+        withUser user: User,
+        onPressed: @escaping () -> Void
     ) {
-        Task {
-            let image = await TXImageProvider.shared.image(user.image)
-            
-            if let image = image {
-                DispatchQueue.main.async {
-                    [weak self] in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    
-                    strongSelf.profileImage.image = image
-                }
-            }
-        }
+        profileImage.configure(
+            withImageURL: user.image,
+            onPressed: onPressed
+        )
     }
 }

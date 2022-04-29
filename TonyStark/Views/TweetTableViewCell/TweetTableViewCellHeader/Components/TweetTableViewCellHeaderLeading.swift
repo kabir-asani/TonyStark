@@ -9,13 +9,10 @@ import UIKit
 
 class TweetTableViewCellHeaderLeading: TXView {
     // Declare
-    private var onProfileImagePressed: (() -> Void)?
-    
-    private var profileImage: TXImageView = {
-        let profileImage = TXCircularImageView(radius: 22)
+    private var profileImage: AvatarImage = {
+        let profileImage = AvatarImage(size: .small)
         
         profileImage.enableAutolayout()
-        profileImage.isUserInteractionEnabled = true
         
         return profileImage
     }()
@@ -33,11 +30,6 @@ class TweetTableViewCellHeaderLeading: TXView {
     
     private func arrangeSubviews() {
         addSubview(profileImage)
-        
-        profileImage.addTapGestureRecognizer(
-            target: self,
-            action: #selector(onProfileImagePressed(_:))
-        )
             
         profileImage.pin(to: self)
     }
@@ -47,26 +39,11 @@ class TweetTableViewCellHeaderLeading: TXView {
         withTweet tweet: Tweet,
         onProfileImagePressed: @escaping () -> Void
     ) {
-        self.onProfileImagePressed = onProfileImagePressed
-        
-        Task {
-            let image = await TXImageProvider.shared.image(tweet.author.image)
-            
-            if let image = image {
-                DispatchQueue.main.async {
-                    [weak self] in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    
-                    strongSelf.profileImage.image = image
-                }
-            }
-        }
+        profileImage.configure(
+            withImageURL: tweet.author.image,
+            onPressed: onProfileImagePressed
+        )
     }
     
     // Interact
-    @objc private func onProfileImagePressed(_ sender: UITapGestureRecognizer) {
-        onProfileImagePressed?()
-    }
 }

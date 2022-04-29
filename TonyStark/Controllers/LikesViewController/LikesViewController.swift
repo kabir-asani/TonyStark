@@ -105,6 +105,7 @@ extension LikesViewController: TXTableViewDataSource {
                 for: indexPath
             ) as! PartialUserTableViewCell
             
+            cell.interactionsHandler = self
             cell.configure(withUser: paginated.page[indexPath.row])
             
             return cell
@@ -138,5 +139,33 @@ extension LikesViewController: TXTableViewDelegate {
         estimatedHeightForRowAt indexPath: IndexPath
     ) -> CGFloat {
         return TXTableView.automaticDimension
+    }
+}
+
+extension LikesViewController: PartialUserTableViewCellInteractionsHandler {
+    func didPressProfileImage(_ cell: PartialUserTableViewCell) {
+        switch state {
+        case .success(let paginated):
+            let user = paginated.page[cell.indexPath.row]
+            
+            if user.id == UserProvider.current.user.id {
+                navigationController?.popViewController(animated: true)
+                
+                let event =  HomeViewTabSwitchEvent(tab: HomeViewController.TabItem.user)
+                
+                TXEventBroker.shared.emit(event: event)
+            } else {
+                let otherUserViewController = OtherUserViewController()
+                
+                otherUserViewController.populate(withUser: user)
+                
+                navigationController?.pushViewController(
+                    otherUserViewController,
+                    animated: true
+                )
+            }
+        default:
+            break
+        }
     }
 }

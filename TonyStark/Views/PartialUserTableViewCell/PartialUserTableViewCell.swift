@@ -7,12 +7,18 @@
 
 import UIKit
 
+protocol PartialUserTableViewCellInteractionsHandler: AnyObject {
+    func didPressProfileImage(_ cell: PartialUserTableViewCell)
+}
+
 class PartialUserTableViewCell: TXTableViewCell {
     override class var reuseIdentifier: String {
         String(describing: PartialUserTableViewCell.self)
     }
     
     // Declare
+    weak var interactionsHandler: PartialUserTableViewCellInteractionsHandler?
+    
     private let leading: PartialUserTableViewCellLeading = {
         let leading = PartialUserTableViewCellLeading()
         
@@ -81,7 +87,15 @@ class PartialUserTableViewCell: TXTableViewCell {
     
     // Configure
     func configure(withUser user: User) {
-        leading.configure(withUser: user)
+        leading.configure(withUser: user) {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.interactionsHandler?.didPressProfileImage(strongSelf)
+        }
+        
         trailing.configure(withUser: user)
     }
     
