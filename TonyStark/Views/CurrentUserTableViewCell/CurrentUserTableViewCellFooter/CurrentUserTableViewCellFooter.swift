@@ -14,8 +14,7 @@ class CurrentUserTableViewCellFooter: TXView {
     }
     
     // Declare
-    
-    let followersSocialDetails: SocialDetails = {
+    private let followersSocialDetails: SocialDetails = {
         let followersSocialDetails = SocialDetails()
         
         followersSocialDetails.identifier = SocialDetailsIdentifier.followers.rawValue
@@ -25,7 +24,7 @@ class CurrentUserTableViewCellFooter: TXView {
         return followersSocialDetails
     }()
     
-    let followingsSocialDetails: SocialDetails = {
+    private let followingsSocialDetails: SocialDetails = {
         let followingsSocialDetails = SocialDetails()
         
         followingsSocialDetails.identifier = SocialDetailsIdentifier.followings.rawValue

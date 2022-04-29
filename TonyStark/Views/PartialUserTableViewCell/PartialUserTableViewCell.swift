@@ -64,7 +64,10 @@ class PartialUserTableViewCell: TXTableViewCell {
         
         combinedStackView.pin(
             to: self,
-            withInsets: .all(16)
+            withInsets: .symmetric(
+                horizontal: 16,
+                vertical: 8
+            )
         )
     }
     

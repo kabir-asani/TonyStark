@@ -11,7 +11,7 @@ class CurrentUserTableViewCellHeader: TXView {
     // Declare
     private var onEditPressed: (() -> Void)?
     
-    let profileImage: AvatarImage = {
+    private let profileImage: AvatarImage = {
         let profileImage = AvatarImage(size: .large)
         
         profileImage.enableAutolayout()
@@ -19,7 +19,7 @@ class CurrentUserTableViewCellHeader: TXView {
         return profileImage
     }()
     
-    let editButton: TXButton = {
+    private let editButton: TXButton = {
         let editButton = TXButton()
         
         editButton.enableAutolayout()

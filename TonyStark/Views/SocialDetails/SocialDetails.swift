@@ -11,7 +11,7 @@ class SocialDetails: TXView {
     // Declare
     private var onPressed: (() -> Void)?
     
-    let leadingText: TXLabel = {
+    private let leadingText: TXLabel = {
         let leadingText = TXLabel()
         
         leadingText.enableAutolayout()
@@ -23,7 +23,7 @@ class SocialDetails: TXView {
         return leadingText
     }()
     
-    let trailingText: TXLabel = {
+    private let trailingText: TXLabel = {
         let trailingText = TXLabel()
         
         trailingText.enableAutolayout()

@@ -10,24 +10,17 @@ import UIKit
 class PartialUserTableViewCellTrailingHeaderLeading: TXView {
     // Declare
     private let nameText: TXLabel = {
-        let nameText = TXLabel()
+        let nameText: TXLabel = .name()
         
         nameText.enableAutolayout()
-        nameText.adjustsFontSizeToFitWidth = false
-        nameText.numberOfLines = 0
-        nameText.font = .systemFont(ofSize: 16, weight: .bold)
         
         return nameText
     }()
     
     private let usernameText: TXLabel = {
-        let usernameText = TXLabel()
+        let usernameText: TXLabel = .username()
         
         usernameText.enableAutolayout()
-        usernameText.adjustsFontSizeToFitWidth = false
-        usernameText.numberOfLines = 0
-        usernameText.font = .systemFont(ofSize: 16, weight: .regular)
-        usernameText.textColor = .gray
         
         return usernameText
     }()
@@ -71,7 +64,7 @@ class PartialUserTableViewCellTrailingHeaderLeading: TXView {
     // Configure
     func configure(withUser user: User) {
         nameText.text = user.name
-        usernameText.text = user.username
+        usernameText.text = "@" + user.username
     }
     
     // Interact

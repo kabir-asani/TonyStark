@@ -23,7 +23,7 @@ class OtherUserTableViewCell: TXTableViewCell {
     
     weak var interactionsHandler: OtherUserTableViewCellInteractionsHandler?
     
-    let header: OtherUserTableViewCellHeader = {
+    private let header: OtherUserTableViewCellHeader = {
         let header = OtherUserTableViewCellHeader()
         
         header.enableAutolayout()
@@ -31,7 +31,7 @@ class OtherUserTableViewCell: TXTableViewCell {
         return header
     }()
     
-    let body: OtherUserTableViewCellBody = {
+    private let body: OtherUserTableViewCellBody = {
         let body = OtherUserTableViewCellBody()
         
         body.enableAutolayout()
@@ -39,7 +39,7 @@ class OtherUserTableViewCell: TXTableViewCell {
         return body
     }()
     
-    let footer: OtherUserTableViewCellFooter = {
+    private let footer: OtherUserTableViewCellFooter = {
         let footer = OtherUserTableViewCellFooter()
         
         footer.enableAutolayout()

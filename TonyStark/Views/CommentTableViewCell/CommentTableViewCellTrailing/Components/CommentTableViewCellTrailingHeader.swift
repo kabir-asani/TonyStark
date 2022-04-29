@@ -9,24 +9,18 @@ import UIKit
 
 class CommentTableViewCellTrailingHeader: TXView {
     // Declare
-    let nameText: TXLabel = {
-        let nameText = TXLabel()
+    private let nameText: TXLabel = {
+        let nameText: TXLabel = .name()
         
         nameText.enableAutolayout()
-        nameText.numberOfLines = 1
-        nameText.font = .systemFont(ofSize: 16, weight: .bold)
         
         return nameText
     }()
     
-    let usernameText: TXLabel = {
-        let usernameText = TXLabel()
+    private let usernameText: TXLabel = {
+        let usernameText: TXLabel = .username()
         
         usernameText.enableAutolayout()
-        usernameText.lineBreakMode = .byTruncatingTail
-        usernameText.numberOfLines = 1
-        usernameText.textColor = .gray
-        usernameText.font = .systemFont(ofSize: 16, weight: .regular)
         
         return usernameText
     }()
@@ -70,15 +64,15 @@ class CommentTableViewCellTrailingHeader: TXView {
     
     // Configure
     func configure(withComment comment: Comment) {
-        configureAuthorNameText(withText: comment.author.name)
-        configureTimeText(withText: comment.author.username)
+        configureNameText(withText: comment.author.name)
+        configureUsernameText(withText: comment.author.username)
     }
     
-    private func configureAuthorNameText(withText text: String) {
-        nameText.text = text
+    private func configureNameText(withText text: String) {
+        nameText.text = "@" + text
     }
     
-    private func configureTimeText(withText text: String) {
+    private func configureUsernameText(withText text: String) {
         usernameText.text = text
     }
     

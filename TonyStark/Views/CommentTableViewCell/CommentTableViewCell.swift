@@ -17,7 +17,7 @@ class CommentTableViewCell: TXTableViewCell {
     
     weak var interactionsHandler: CommentTableViewCellInteractionsHandler?
     
-    let leading: CommentTableViewCellLeading = {
+    private let leading: CommentTableViewCellLeading = {
         let leading = CommentTableViewCellLeading()
         
         leading.enableAutolayout()
@@ -25,7 +25,7 @@ class CommentTableViewCell: TXTableViewCell {
         return leading
     }()
     
-    let trailing: CommentTableViewCellTrailing = {
+    private let trailing: CommentTableViewCellTrailing = {
         let trailing = CommentTableViewCellTrailing()
         
         trailing.enableAutolayout()

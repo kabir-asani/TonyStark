@@ -28,7 +28,7 @@ class CommentTableViewCellLeading: TXView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func arrangeSubviews() {
+    private func arrangeSubviews() {
         addSubview(profileImage)
         
         profileImage.pin(to: self)

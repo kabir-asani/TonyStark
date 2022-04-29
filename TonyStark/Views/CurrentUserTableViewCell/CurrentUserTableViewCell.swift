@@ -23,7 +23,7 @@ class CurrentUserTableViewCell: TXTableViewCell {
     
     weak var interactionsHandler: CurrentUserTableViewCellInteractionsHandler?
     
-    let header: CurrentUserTableViewCellHeader = {
+    private let header: CurrentUserTableViewCellHeader = {
         let header = CurrentUserTableViewCellHeader()
         
         header.enableAutolayout()
@@ -31,7 +31,7 @@ class CurrentUserTableViewCell: TXTableViewCell {
         return header
     }()
     
-    let body: CurrentUserTableViewCellBody = {
+    private let body: CurrentUserTableViewCellBody = {
         let body = CurrentUserTableViewCellBody()
         
         body.enableAutolayout()
@@ -39,7 +39,7 @@ class CurrentUserTableViewCell: TXTableViewCell {
         return body
     }()
     
-    let footer: CurrentUserTableViewCellFooter = {
+    private let footer: CurrentUserTableViewCellFooter = {
         let footer = CurrentUserTableViewCellFooter()
         
         footer.enableAutolayout()

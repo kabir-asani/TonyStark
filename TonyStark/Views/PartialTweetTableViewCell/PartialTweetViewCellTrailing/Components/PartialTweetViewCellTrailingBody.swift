@@ -10,12 +10,9 @@ import UIKit
 class PartialTweetViewCellTrailingBody: TXView {
     // Declare
     private let tweetText: TXLabel = {
-        let tweetText = TXLabel()
+        let tweetText: TXLabel = .tweet()
         
         tweetText.enableAutolayout()
-        tweetText.adjustsFontSizeToFitWidth = false
-        tweetText.numberOfLines = 0
-        tweetText.font = .systemFont(ofSize: 16, weight: .regular)
         
         return tweetText
     }()

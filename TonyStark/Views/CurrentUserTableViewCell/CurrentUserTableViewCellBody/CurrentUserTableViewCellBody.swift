@@ -9,33 +9,26 @@ import UIKit
 
 class CurrentUserTableViewCellBody: TXView {
     // Declare
-    let nameText: TXLabel = {
-        let nameText = TXLabel()
+    private let nameText: TXLabel = {
+        let nameText: TXLabel = .name()
         
         nameText.enableAutolayout()
-        nameText.numberOfLines = 0
-        nameText.font = .systemFont(ofSize: 16, weight: .bold)
         
         return nameText
     }()
     
-    let usernameText: TXLabel = {
-        let usernameText = TXLabel()
+    private let usernameText: TXLabel = {
+        let usernameText: TXLabel = .username()
         
         usernameText.enableAutolayout()
-        usernameText.numberOfLines = 0
-        usernameText.font = .systemFont(ofSize: 16, weight: .regular)
-        usernameText.textColor = .gray
         
         return usernameText
     }()
     
-    let bioText: TXLabel = {
-        let bioText = TXLabel()
+    private let bioText: TXLabel = {
+        let bioText: TXLabel = .bio()
         
         bioText.enableAutolayout()
-        bioText.numberOfLines = 0
-        bioText.font = .systemFont(ofSize: 16, weight: .regular)
         
         return bioText
     }()

@@ -11,7 +11,7 @@ class OtherUserTableViewCellHeader: TXView {
     // Declare
     private var onFollowPressed: (() -> Void)?
     
-    let profileImage: AvatarImage = {
+    private let profileImage: AvatarImage = {
         let profileImage = AvatarImage(size: .large)
         
         profileImage.enableAutolayout()
@@ -19,7 +19,7 @@ class OtherUserTableViewCellHeader: TXView {
         return profileImage
     }()
     
-    let followButton: TXButton = {
+    private let followButton: TXButton = {
         let followButton = TXButton()
         
         followButton.enableAutolayout()

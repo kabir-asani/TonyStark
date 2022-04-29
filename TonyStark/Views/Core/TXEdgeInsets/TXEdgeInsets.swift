@@ -25,4 +25,16 @@ extension TXEdgeInsets {
             left: inset
         )
     }
+    
+    static func symmetric(
+        horizontal horizontalInset: Double,
+        vertical verticalInset: Double
+    ) -> TXEdgeInsets {
+        return TXEdgeInsets(
+            top: verticalInset,
+            right: horizontalInset,
+            bottom: verticalInset,
+            left: horizontalInset
+        )
+    }
 }
