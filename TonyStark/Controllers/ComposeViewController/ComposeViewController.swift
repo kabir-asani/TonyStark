@@ -72,12 +72,16 @@ class ComposeViewController: TXViewController {
             action: #selector(onCancelPressed(_:))
         )
         
-        navigationItem.rightBarButtonItem = TXBarButtonItem(
+        let tweetBarButtonItem = TXBarButtonItem(
             title: "Tweet",
             style: .done,
             target: self,
             action: #selector(onDonePressed(_:))
         )
+        
+        tweetBarButtonItem.tintColor = .systemBlue
+        
+        navigationItem.rightBarButtonItem = tweetBarButtonItem
     }
     
     private func configureCompose() {
