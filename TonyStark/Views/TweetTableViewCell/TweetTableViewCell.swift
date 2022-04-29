@@ -13,6 +13,8 @@ protocol TweetTableViewCellInteractionsHandler: AnyObject {
     func didPressDetails(_ cell: TweetTableViewCell)
     
     func didPressLike(_ cell: TweetTableViewCell)
+    
+    func didPressLikeDetails(_ cell: TweetTableViewCell)
 }
 
 class TweetTableViewCell: TXTableViewCell {
@@ -124,6 +126,13 @@ class TweetTableViewCell: TXTableViewCell {
         body.configure(withTweet: tweet)
         
         footer.configure(withTweet: tweet) {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.interactionsHandler?.didPressLikeDetails(strongSelf)
+        } onLikePressed: {
             [weak self] in
             guard let strongSelf = self else {
                 return

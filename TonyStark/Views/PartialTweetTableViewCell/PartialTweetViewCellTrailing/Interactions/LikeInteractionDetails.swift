@@ -78,20 +78,20 @@ class LikeInteractionDetails: TXView {
     ) {
         self.onLikePressed = onLikePressed
         
-        configure(
-            likeButtonWith: tweet.viewables.liked
+        configureLikeButton(
+            with: tweet.viewables.liked
         )
         
-        configure(
-            likeTextWith: (
+        configureLikeText(
+            withData: (
                 likesCount: tweet.meta.likesCount,
                 isLiked: tweet.viewables.liked
             )
         )
     }
     
-    private func configure(
-        likeButtonWith isLiked: Bool
+    private func configureLikeButton(
+        with isLiked: Bool
     ) {
         likeButton.setImage(
             UIImage(
@@ -113,8 +113,8 @@ class LikeInteractionDetails: TXView {
         )
     }
     
-    private func configure(
-        likeTextWith data: (
+    private func configureLikeText(
+        withData data: (
             likesCount: Int,
             isLiked: Bool
         )

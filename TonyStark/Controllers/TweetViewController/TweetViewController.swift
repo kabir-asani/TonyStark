@@ -346,6 +346,10 @@ extension TweetViewController: TweetTableViewCellInteractionsHandler {
     }
     
     func didPressLike(_ cell: TweetTableViewCell) {
+        print(#function)
+    }
+    
+    func didPressLikeDetails(_ cell: TweetTableViewCell) {
         let likesViewController = LikesViewController()
         
         likesViewController.populate(withTweet: tweet)

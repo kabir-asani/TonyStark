@@ -55,7 +55,7 @@ class TweetTableViewCellFooter: TXView {
         combinedStack.enableAutolayout()
         combinedStack.axis = .vertical
         combinedStack.distribution = .equalSpacing
-        combinedStack.alignment = .leading
+        combinedStack.alignment = .fill
         combinedStack.spacing = 8
         
         return combinedStack
@@ -64,12 +64,14 @@ class TweetTableViewCellFooter: TXView {
     // Configure
     func configure(
         withTweet tweet: Tweet,
+        onLikeDetailsPressed: @escaping () -> Void,
         onLikePressed: @escaping () -> Void
     ) {
         header.configure(withTweet: tweet)
         footer.configure(
             withTweet: tweet,
-            onPressed: onLikePressed
+            onLikeDetailsPressed: onLikeDetailsPressed,
+            onLikePressed: onLikePressed
         )
     }
     
