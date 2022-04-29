@@ -11,7 +11,7 @@ class BookmarksProvider: Provider {
     static let shared = BookmarksProvider()
     
     enum BookmarksFailure: Error {
-        
+        case unknown
     }
     
     private init() { }

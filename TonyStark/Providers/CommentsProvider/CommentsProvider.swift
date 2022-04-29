@@ -12,7 +12,7 @@ class CommentsProvider {
     static let shared = CommentsProvider()
     
     enum CommentsFailure: Error {
-        
+        case unknown
     }
     
     private init() { }

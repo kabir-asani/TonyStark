@@ -11,7 +11,7 @@ class LikesProvider: Provider {
     static let shared = LikesProvider()
     
     enum LikesFailure: Error {
-        
+        case unknown
     }
     
     private init() { }

@@ -12,11 +12,11 @@ class SocialsProvider: Provider {
     static let shared: SocialsProvider = SocialsProvider()
     
     enum FollowersFailure: Error {
-        
+        case unknown
     }
     
     enum FollowingsFailure: Error {
-        
+        case unknown
     }
     
     private init() { }

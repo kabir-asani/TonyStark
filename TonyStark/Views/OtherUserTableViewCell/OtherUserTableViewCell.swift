@@ -8,7 +8,7 @@
 import UIKit
 
 protocol OtherUserTableViewCellInteractionsHandler: AnyObject {
-    func didPressEdit(_ cell: OtherUserTableViewCell)
+    func didPressFollow(_ cell: OtherUserTableViewCell)
     
     func didPressFollowers(_ cell: OtherUserTableViewCell)
     
@@ -112,7 +112,7 @@ class OtherUserTableViewCell: TXTableViewCell {
                 return
             }
             
-            strongSelf.interactionsHandler?.didPressEdit(strongSelf)
+            strongSelf.interactionsHandler?.didPressFollow(strongSelf)
         }
         
         body.configure(withUser: user)

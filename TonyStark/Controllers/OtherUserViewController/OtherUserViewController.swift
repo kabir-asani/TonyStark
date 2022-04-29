@@ -42,6 +42,7 @@ class OtherUserViewController: TXViewController {
     }
     
     private func configureNavigationBar() {
+        navigationItem.backButtonTitle = ""
         navigationItem.largeTitleDisplayMode = .never
     }
     
@@ -75,7 +76,6 @@ class OtherUserViewController: TXViewController {
 // MARK: TXScrollViewDelegate
 extension OtherUserViewController: TXScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(#function)
         let currentYOffset = scrollView.contentOffset.y
         
         if currentYOffset < 40 {
@@ -137,6 +137,7 @@ extension OtherUserViewController: TXTableViewDataSource {
                 for: indexPath
             ) as! OtherUserTableViewCell
             
+            cell.interactionsHandler = self
             cell.configure(withUser: user)
             
             return cell
@@ -166,4 +167,34 @@ extension OtherUserViewController: TXTableViewDataSource {
 // MARK: TXTableViewDelegate
 extension OtherUserViewController: TXTableViewDelegate {
     
+}
+
+extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
+    func didPressFollow(_ cell: OtherUserTableViewCell) {
+        
+    }
+    
+    func didPressFollowers(_ cell: OtherUserTableViewCell) {
+        let followersViewController = FollowersViewController()
+        
+        followersViewController.populate(
+            withUser: UserProvider.current.user
+        )
+        
+        navigationController?.pushViewController(
+            followersViewController, animated: true
+        )
+    }
+    
+    func didPressFollowings(_ cell: OtherUserTableViewCell) {
+        let followingsViewController = FollowingsViewController()
+        
+        followingsViewController.populate(
+            withUser: UserProvider.current.user
+        )
+        
+        navigationController?.pushViewController(
+            followingsViewController, animated: true
+        )
+    }
 }
