@@ -38,6 +38,7 @@ class LikesViewController: TXViewController {
     }
     
     func configureNavigationBar() {
+        navigationItem.title = "Likes"
         navigationItem.largeTitleDisplayMode = .never
     }
     
