@@ -64,7 +64,7 @@ class ComposeBottomBar: TXView {
     func configure(
         withCurrentCount current: Int
     ) {
-        countText.text = "\(280 - current) / 280"
+        countText.text = "\(current) / 280"
         countText.textColor = current <= 250 ? .secondaryLabel : .systemRed
     }
     
