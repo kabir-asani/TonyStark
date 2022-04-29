@@ -73,7 +73,10 @@ class FeedViewController: TXViewController {
         
         tableView.tableHeaderView = TXView(frame: .zero)
         
-        tableView.pin(to: view)
+        tableView.pin(
+            to: view,
+            byBeingSafeAreaAware: true
+        )
     }
     
     private func configureFloatingActionButton() {

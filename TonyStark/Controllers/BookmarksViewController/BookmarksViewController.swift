@@ -50,7 +50,10 @@ class BookmarksViewController: TXViewController {
             forCellReuseIdentifier: PartialTweetTableViewCell.reuseIdentifier
         )
         
-        tableView.pin(to: view)
+        tableView.pin(
+            to: view,
+            byBeingSafeAreaAware: true
+        )
     }
     
     // Populate

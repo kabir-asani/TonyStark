@@ -50,7 +50,10 @@ class FollowersViewController: TXViewController {
             forCellReuseIdentifier: PartialUserTableViewCell.reuseIdentifier
         )
         
-        tableView.pin(to: view)
+        tableView.pin(
+            to: view,
+            byBeingSafeAreaAware: true
+        )
     }
     
     // Populate
