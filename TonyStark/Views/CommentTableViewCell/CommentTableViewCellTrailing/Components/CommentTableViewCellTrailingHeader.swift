@@ -48,8 +48,7 @@ class CommentTableViewCellTrailingHeader: TXView {
         let combinedStack = TXStackView(
             arrangedSubviews: [
                 nameText,
-                usernameText,
-                TXStackView.spacer
+                usernameText
             ]
         )
         
@@ -69,11 +68,11 @@ class CommentTableViewCellTrailingHeader: TXView {
     }
     
     private func configureNameText(withText text: String) {
-        nameText.text = "@" + text
+        nameText.text = text
     }
     
     private func configureUsernameText(withText text: String) {
-        usernameText.text = text
+        usernameText.text = "@" + text
     }
     
     // Interact

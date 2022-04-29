@@ -61,7 +61,7 @@ class OtherUserTableViewCellFooter: TXView {
             arrangedSubviews: [
                 followersSocialDetails,
                 followingsSocialDetails,
-                TXStackView.spacer,
+                .spacer,
             ]
         )
         

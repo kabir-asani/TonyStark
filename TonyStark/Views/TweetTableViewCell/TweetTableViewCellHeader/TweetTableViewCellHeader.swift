@@ -57,7 +57,7 @@ class TweetTableViewCellHeader: TXView {
             arrangedSubviews: [
                 leading,
                 middle,
-                TXStackView.spacer,
+                .spacer,
                 trailing
             ]
         )

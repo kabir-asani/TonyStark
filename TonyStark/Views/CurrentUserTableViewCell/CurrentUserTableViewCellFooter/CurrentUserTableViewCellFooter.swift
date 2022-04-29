@@ -59,7 +59,7 @@ class CurrentUserTableViewCellFooter: TXView {
             arrangedSubviews: [
                 followersSocialDetails,
                 followingsSocialDetails,
-                TXStackView.spacer,
+                .spacer
             ]
         )
         

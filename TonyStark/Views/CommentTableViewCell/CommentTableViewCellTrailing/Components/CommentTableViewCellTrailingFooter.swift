@@ -10,10 +10,9 @@ import UIKit
 class CommentTableViewCellTrailingFooter: TXView {
     // Declare
     let commentText: TXLabel = {
-        let commentText = TXLabel()
+        let commentText: TXLabel = .comment()
         
         commentText.enableAutolayout()
-        commentText.numberOfLines = 0
         
         return commentText
     }()

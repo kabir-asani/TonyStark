@@ -55,7 +55,7 @@ class CommentInteractionDetails: TXView {
             arrangedSubviews: [
                 commentButton,
                 commentsCountText,
-                TXStackView.spacer
+                .spacer
             ]
         )
         

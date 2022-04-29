@@ -49,7 +49,7 @@ class PartialTweetViewCellTrailingHeader: TXView {
             arrangedSubviews: [
                 nameText,
                 usernameText,
-                TXStackView.spacer
+                .spacer
             ]
         )
         

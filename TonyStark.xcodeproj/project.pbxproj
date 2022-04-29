@@ -94,7 +94,6 @@
 		16BB01132813A2B800532323 /* OtherUserTableViewCellHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB01122813A2B800532323 /* OtherUserTableViewCellHeader.swift */; };
 		16BB01172813A53600532323 /* OtherUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB01162813A53600532323 /* OtherUserViewController.swift */; };
 		16BB011C2813A89200532323 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB011B2813A89200532323 /* Events.swift */; };
-		16CC9A5428099500002647CE /* UIStackViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CC9A5328099500002647CE /* UIStackViewX.swift */; };
 		16CFD1C728172E040020341B /* TweetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CFD1C628172E040020341B /* TweetViewController.swift */; };
 		16D237AD28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D237AC28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift */; };
 		16D3C5E22810306100B8A2CC /* DateX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3C5E12810306100B8A2CC /* DateX.swift */; };
@@ -215,7 +214,6 @@
 		16BB01122813A2B800532323 /* OtherUserTableViewCellHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserTableViewCellHeader.swift; sourceTree = "<group>"; };
 		16BB01162813A53600532323 /* OtherUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserViewController.swift; sourceTree = "<group>"; };
 		16BB011B2813A89200532323 /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
-		16CC9A5328099500002647CE /* UIStackViewX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackViewX.swift; sourceTree = "<group>"; };
 		16CFD1C628172E040020341B /* TweetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetViewController.swift; sourceTree = "<group>"; };
 		16D237AC28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXLocalStorageAssistant.swift; sourceTree = "<group>"; };
 		16D3C5E12810306100B8A2CC /* DateX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateX.swift; sourceTree = "<group>"; };
@@ -277,6 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				1691E450280EA8BD00BA223D /* Core */,
+				167224D0281BC1B9005D79EB /* Extensions */,
 				168992A5281B134A00D5D85C /* AvatarImage */,
 				16BB01142813A2D400532323 /* SocialDetails */,
 				165ED0262811D4640022D822 /* CommentInputBar */,
@@ -286,7 +285,6 @@
 				16308636280881780061BE31 /* PartialTweetTableViewCell */,
 				16D3DFD028166CCE0083B7E9 /* TweetTableViewCell */,
 				16FDA06D280FF359004BB3C4 /* CommentTableViewCell */,
-				167224D0281BC1B9005D79EB /* Extensions */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -577,7 +575,6 @@
 			isa = PBXGroup;
 			children = (
 				1630863A280883900061BE31 /* UIViewX.swift */,
-				16CC9A5328099500002647CE /* UIStackViewX.swift */,
 				167C3A47280C99A3004E9B4D /* UITableViewX.swift */,
 				16493D222812B56D004912BB /* UIEdgeInsetsX.swift */,
 				16DBF5C22817E90600E92DE5 /* UIViewControllerX.swift */,
@@ -1329,7 +1326,6 @@
 				1610D933280F351B00739208 /* PartialTweetViewCellTrailingHeader.swift in Sources */,
 				1610D93A280F358900739208 /* PartialTweetViewCellTrailingFooter.swift in Sources */,
 				160437AD27E1ADE700EA615F /* TXTabBarController.swift in Sources */,
-				16CC9A5428099500002647CE /* UIStackViewX.swift in Sources */,
 				161123832806CAC300908D98 /* Social.swift in Sources */,
 				16FDA07A280FF5B7004BB3C4 /* CommentTableViewCellTrailingFooter.swift in Sources */,
 				169E280027EB896800B72006 /* TXNetworkAssistant.swift in Sources */,

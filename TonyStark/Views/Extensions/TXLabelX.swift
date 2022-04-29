@@ -51,4 +51,15 @@ extension TXLabel {
         
         return tweetText
     }
+    
+    static func comment() -> TXLabel {
+        let commentText = TXLabel()
+        
+        commentText.font = .systemFont(ofSize: 16, weight: .regular)
+        commentText.textColor = .label
+        commentText.numberOfLines = 0
+        commentText.adjustsFontSizeToFitWidth = false
+        
+        return commentText
+    }
 }

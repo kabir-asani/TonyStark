@@ -49,7 +49,7 @@ class PartialUserTableViewCellTrailingHeader: TXView {
         let combinedStack = TXStackView(
             arrangedSubviews: [
                 leading,
-                TXStackView.spacer,
+                .spacer,
                 trailing
             ]
         )

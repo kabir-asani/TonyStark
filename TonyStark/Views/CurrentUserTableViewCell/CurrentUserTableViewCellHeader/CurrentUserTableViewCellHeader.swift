@@ -67,7 +67,7 @@ class CurrentUserTableViewCellHeader: TXView {
         let combinedStack = TXStackView(
             arrangedSubviews: [
                 profileImage,
-                TXStackView.spacer,
+                .spacer,
                 editButton
             ]
         )

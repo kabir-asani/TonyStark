@@ -12,6 +12,10 @@ extension UIView {
     func enableAutolayout() {
         self.translatesAutoresizingMaskIntoConstraints = false
     }
+    
+    static var spacer: UIView {
+        UIView()
+    }
 }
 
 // MARK: Pin

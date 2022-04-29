@@ -53,7 +53,7 @@ class LikeInteractionDetails: TXView {
             arrangedSubviews: [
                 likeButton,
                 likesCountText,
-                TXStackView.spacer
+                .spacer
             ]
         )
         
