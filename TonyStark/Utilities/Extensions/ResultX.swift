@@ -1,16 +1,13 @@
 //
-//  SwiftX.swift
+//  ResultX.swift
 //  TonyStark
 //
-//  Created by Mohammed Sadiq on 28/04/22.
+//  Created by Mohammed Sadiq on 29/04/22.
 //
 
 import Foundation
 
-enum Result<Success, Failure> {
-    case success(_: Success)
-    case failure(_: Failure)
-    
+extension Result {
     func map<T>(
         onSuccess: (_ success: Success) -> T,
         onFailure: (_ failure: Failure) -> T
