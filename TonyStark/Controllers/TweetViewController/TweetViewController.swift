@@ -131,10 +131,22 @@ class TweetViewController: TXViewController {
         
         tableView.keyboardDismissMode = .onDrag
         
-        tableView.pin(toTopOf: view, byBeingSafeAreaAware: true)
-        tableView.pin(toLeftOf: view, byBeingSafeAreaAware: true)
-        tableView.pin(toRightOf: view, byBeingSafeAreaAware: true)
-        tableView.attach(bottomToTopOf: bottomInputBar, byBeingSafeAreaAware: true)
+        tableView.pin(
+            toTopOf: view,
+            byBeingSafeAreaAware: true
+        )
+        tableView.pin(
+            toLeftOf: view,
+            byBeingSafeAreaAware: true
+        )
+        tableView.pin(
+            toRightOf: view,
+            byBeingSafeAreaAware: true
+        )
+        tableView.attach(
+            bottomToTopOf: bottomInputBar,
+            byBeingSafeAreaAware: true
+        )
     }
     
     private func configureCommentInputBar() {
@@ -160,14 +172,26 @@ class TweetViewController: TXViewController {
     private func configureSeparator() {
         separator.fixHeight(to: 0.5)
         
-        separator.pin(toRightOf: bottomInputBar, byBeingSafeAreaAware: true)
-        separator.pin(toLeftOf: bottomInputBar, byBeingSafeAreaAware: true)
+        separator.pin(
+            toRightOf: bottomInputBar,
+            byBeingSafeAreaAware: true
+        )
+        separator.pin(
+            toLeftOf: bottomInputBar,
+            byBeingSafeAreaAware: true
+        )
     }
     
     private func configureBottomInputBar() {
         bottomInputBar.fixHeight(to: 50)
-        bottomInputBar.pin(toRightOf: view, byBeingSafeAreaAware: true)
-        bottomInputBar.pin(toLeftOf: view, byBeingSafeAreaAware: true)
+        bottomInputBar.pin(
+            toRightOf: view,
+            byBeingSafeAreaAware: true
+        )
+        bottomInputBar.pin(
+            toLeftOf: view,
+            byBeingSafeAreaAware: true
+        )
         bottomInputBar.pin(
             toBottomOf: view,
             byBeingSafeAreaAware: true

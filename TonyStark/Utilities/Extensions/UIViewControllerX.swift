@@ -35,6 +35,8 @@ extension UIViewController {
         
         let constraint = view.constraints.first { constraint in
             constraint.secondAnchor == view.safeAreaLayoutGuide.bottomAnchor
+            ||
+            constraint.secondAnchor == view.bottomAnchor
         }
         
         if let constraint = constraint {
@@ -65,6 +67,8 @@ extension UIViewController {
     @objc func onKeyboardWillHide(_ notification: Notification) {
         let constraint = view.constraints.first { constraint in
             constraint.secondAnchor == view.safeAreaLayoutGuide.bottomAnchor
+            ||
+            constraint.secondAnchor == view.bottomAnchor
         }
         
         if let constraint = constraint {

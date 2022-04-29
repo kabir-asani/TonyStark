@@ -7,18 +7,31 @@
 
 import UIKit
 
-class ComposeViewController: TXTabBarController {
+class ComposeViewController: TXViewController {
     // Declare
-    private let composableTextView: TXTextView = {
-        let composableTextView = TXTextView()
+    private let compose: Compose = {
+        let compose = Compose()
         
-        composableTextView.enableAutolayout()
-        composableTextView.font = .systemFont(
-            ofSize: 16,
-            weight: .regular
-        )
-
-        return composableTextView
+        compose.enableAutolayout()
+        
+        return compose
+    }()
+    
+    private let separator: TXView = {
+        let separator = TXView()
+        
+        separator.enableAutolayout()
+        separator.backgroundColor = .separator
+        
+        return separator
+    }()
+    
+    private let composeBottomBar: ComposeBottomBar = {
+        let composeBottomBar = ComposeBottomBar()
+        
+        composeBottomBar.enableAutolayout()
+        
+        return composeBottomBar
     }()
     
     // Configure
@@ -28,28 +41,31 @@ class ComposeViewController: TXTabBarController {
         addSubviews()
         
         configureNavigationBar()
-        configureComposableTextView()
+        configureCompose()
+        configureSeparator()
+        configureComposeBottomBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        composableTextView.becomeFirstResponder()
+        addKeyboardListenersToAdjustConstraintsOnBottomMostView()
+        compose.focusTextView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        composableTextView.resignFirstResponder()
+        removeKeyboardListeners()
     }
     
     private func addSubviews() {
-        view.addSubview(composableTextView)
+        view.addSubview(compose)
+        view.addSubview(separator)
+        view.addSubview(composeBottomBar)
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "Compose"
-        
         navigationItem.leftBarButtonItem = TXBarButtonItem(
             barButtonSystemItem: .cancel,
             target: self,
@@ -64,23 +80,69 @@ class ComposeViewController: TXTabBarController {
         )
     }
     
-    private func configureComposableTextView() {
-        composableTextView.delegate = self
+    private func configureCompose() {
+        compose.configure(
+            withUser: UserProvider.current.user
+        ) {
+            [weak self] text in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.composeBottomBar.configure(withCurrentCount: text.count)
+        }
         
-        composableTextView.textContainer.lineFragmentPadding = 0
-        
-        composableTextView.pin(
-            to: view,
-            withInsets: .all(16),
+        compose.pin(
+            toTopOf: view,
+            withInset: 16,
             byBeingSafeAreaAware: true
         )
+        compose.pin(
+            toLeftOf: view,
+            withInset: 16,
+            byBeingSafeAreaAware: true
+        )
+        compose.pin(
+            toRightOf: view,
+            withInset: 16,
+            byBeingSafeAreaAware: true
+        )
+        compose.attach(
+            bottomToTopOf: separator,
+            byBeingSafeAreaAware: true
+        )
+    }
+    
+    private func configureSeparator() {
+        separator.fixHeight(to: 1)
         
-        composableTextView.text = "What's happening?"
-        composableTextView.textColor = UIColor.lightGray
-
-        composableTextView.selectedTextRange = composableTextView.textRange(
-            from: composableTextView.beginningOfDocument,
-            to: composableTextView.beginningOfDocument
+        separator.pin(
+            toRightOf: view,
+            byBeingSafeAreaAware: true
+        )
+        separator.pin(
+            toLeftOf: view,
+            byBeingSafeAreaAware: true
+        )
+        separator.attach(
+            bottomToTopOf: composeBottomBar,
+            byBeingSafeAreaAware: true
+        )
+    }
+    
+    private func configureComposeBottomBar() {
+        composeBottomBar.configure(withCurrentCount: 0)
+        
+        composeBottomBar.pin(
+            toLeftOf: view,
+            byBeingSafeAreaAware: true
+        )
+        composeBottomBar.pin(
+            toRightOf: view,
+            byBeingSafeAreaAware: true
+        )
+        composeBottomBar.pin(
+            toBottomOf: view
         )
     }
     
@@ -92,41 +154,5 @@ class ComposeViewController: TXTabBarController {
     
     @objc private func onCancelPressed(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
-    }
-}
-
-extension ComposeViewController: TXTextViewDelegate {
-    func textView(
-        _ textView: UITextView,
-        shouldChangeTextIn range: NSRange, replacementText text: String
-    ) -> Bool {
-        let currentText = textView.text! as String
-        let updatedText = (currentText as NSString).replacingCharacters(in: range, with: text)
-
-        if updatedText.isEmpty {
-            textView.text = "What's happening?"
-            textView.textColor = .lightGray
-
-            textView.selectedTextRange = textView.textRange(
-                from: textView.beginningOfDocument,
-                to: textView.beginningOfDocument
-            )
-        } else if textView.textColor == .lightGray && !text.isEmpty {
-            textView.textColor = .label
-            textView.text = text
-        } else {
-            return true
-        }
-        
-        return false
-    }
-    
-    func textViewDidChangeSelection(_ textView: UITextView) {
-        if textView.textColor == .lightGray {
-            textView.selectedTextRange = textView.textRange(
-                from: textView.beginningOfDocument,
-                to: textView.beginningOfDocument
-            )
-        }
     }
 }

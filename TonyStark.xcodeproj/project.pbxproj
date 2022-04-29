@@ -114,6 +114,8 @@
 		16DBF5C32817E90600E92DE5 /* UIViewControllerX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBF5C22817E90600E92DE5 /* UIViewControllerX.swift */; };
 		16DBF5C62817EEF700E92DE5 /* TXScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBF5C52817EEF700E92DE5 /* TXScrollViewController.swift */; };
 		16DEB9562806089E00140E63 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DEB9552806089E00140E63 /* Tweet.swift */; };
+		16E56676281BF0A00071100C /* Compose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E56675281BF0A00071100C /* Compose.swift */; };
+		16E5667F281C05B80071100C /* ComposeBottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E5667E281C05B80071100C /* ComposeBottomBar.swift */; };
 		16F219FE281BDC160013A750 /* FollowersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F219FD281BDC160013A750 /* FollowersViewController.swift */; };
 		16F21A01281BDC2F0013A750 /* FollowingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F21A00281BDC2F0013A750 /* FollowingsViewController.swift */; };
 		16FDA06F280FF367004BB3C4 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA06E280FF367004BB3C4 /* CommentTableViewCell.swift */; };
@@ -236,6 +238,8 @@
 		16DBF5C22817E90600E92DE5 /* UIViewControllerX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerX.swift; sourceTree = "<group>"; };
 		16DBF5C52817EEF700E92DE5 /* TXScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXScrollViewController.swift; sourceTree = "<group>"; };
 		16DEB9552806089E00140E63 /* Tweet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
+		16E56675281BF0A00071100C /* Compose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compose.swift; sourceTree = "<group>"; };
+		16E5667E281C05B80071100C /* ComposeBottomBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeBottomBar.swift; sourceTree = "<group>"; };
 		16F219FD281BDC160013A750 /* FollowersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersViewController.swift; sourceTree = "<group>"; };
 		16F21A00281BDC2F0013A750 /* FollowingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingsViewController.swift; sourceTree = "<group>"; };
 		16FDA06E280FF367004BB3C4 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
@@ -283,8 +287,10 @@
 				1691E450280EA8BD00BA223D /* Core */,
 				167224D0281BC1B9005D79EB /* Extensions */,
 				168992A5281B134A00D5D85C /* AvatarImage */,
-				16BB01142813A2D400532323 /* SocialDetails */,
+				16E56674281BF0980071100C /* Compose */,
+				16E5667D281C05AA0071100C /* ComposeBottomBar */,
 				165ED0262811D4640022D822 /* CommentInputBar */,
+				16BB01142813A2D400532323 /* SocialDetails */,
 				16993CD7280C42BB00FFE71B /* CurrentUserTableViewCell */,
 				16BB010728139DF200532323 /* OtherUserTableViewCell */,
 				163D2D9028191BD600CE5646 /* PartialUserTableViewCell */,
@@ -1148,6 +1154,22 @@
 			path = FeedProvider;
 			sourceTree = "<group>";
 		};
+		16E56674281BF0980071100C /* Compose */ = {
+			isa = PBXGroup;
+			children = (
+				16E56675281BF0A00071100C /* Compose.swift */,
+			);
+			path = Compose;
+			sourceTree = "<group>";
+		};
+		16E5667D281C05AA0071100C /* ComposeBottomBar */ = {
+			isa = PBXGroup;
+			children = (
+				16E5667E281C05B80071100C /* ComposeBottomBar.swift */,
+			);
+			path = ComposeBottomBar;
+			sourceTree = "<group>";
+		};
 		16F219FC281BDC010013A750 /* FollowersViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1292,6 +1314,7 @@
 				16BB01112813A2B200532323 /* OtherUserTableViewCellBody.swift in Sources */,
 				16D3C5E52810314B00B8A2CC /* TXEventBroker.swift in Sources */,
 				160437B127E1AE2600EA615F /* TXTableViewController.swift in Sources */,
+				16E56676281BF0A00071100C /* Compose.swift in Sources */,
 				167224D3281BC1CB005D79EB /* TXLabelX.swift in Sources */,
 				16DBF5C62817EEF700E92DE5 /* TXScrollViewController.swift in Sources */,
 				16CFD1C728172E040020341B /* TweetViewController.swift in Sources */,
@@ -1369,6 +1392,7 @@
 				165ED0282811D4770022D822 /* CommentInputBar.swift in Sources */,
 				160437AB27E1ADCF00EA615F /* TXNavigationController.swift in Sources */,
 				163D2DA428191DDC00CE5646 /* PartialUserTableViewCellTrailingHeaderLeading.swift in Sources */,
+				16E5667F281C05B80071100C /* ComposeBottomBar.swift in Sources */,
 				167DE008280D569400670BAD /* PartialTweetViewCellLeading.swift in Sources */,
 				16D8F976280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift in Sources */,
 				16493D232812B56D004912BB /* UIEdgeInsetsX.swift in Sources */,
