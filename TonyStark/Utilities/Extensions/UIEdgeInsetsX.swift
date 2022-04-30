@@ -19,6 +19,15 @@ extension UIEdgeInsets {
         }
     }
     
+    static func all(_ inset: Double) -> UIEdgeInsets {
+        return UIEdgeInsets(
+            top: inset,
+            left: inset,
+            bottom: -inset,
+            right: -inset
+        )
+    }
+    
     static func leading(_ inset: Double) -> UIEdgeInsets {
         return UIEdgeInsets(
             top: 0,
