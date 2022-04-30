@@ -47,6 +47,7 @@
 		162C3790281D1A81000A8C0C /* EditNameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C378F281D1A81000A8C0C /* EditNameTableViewCell.swift */; };
 		162C3793281D1D65000A8C0C /* EditUsernameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C3792281D1D65000A8C0C /* EditUsernameTableViewCell.swift */; };
 		162C3796281D1F97000A8C0C /* EditBioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C3795281D1F97000A8C0C /* EditBioTableViewCell.swift */; };
+		162C3799281D22EA000A8C0C /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C3798281D22EA000A8C0C /* AuthenticationViewController.swift */; };
 		16308638280881810061BE31 /* PartialTweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16308637280881810061BE31 /* PartialTweetTableViewCell.swift */; };
 		1630863B280883900061BE31 /* UIViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1630863A280883900061BE31 /* UIViewX.swift */; };
 		163D2D9228191BE100CE5646 /* PartialUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2D9128191BE100CE5646 /* PartialUserTableViewCell.swift */; };
@@ -86,6 +87,8 @@
 		168992A7281B135000D5D85C /* AvatarImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168992A6281B135000D5D85C /* AvatarImage.swift */; };
 		1691E453280EA8D800BA223D /* TXView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1691E452280EA8D800BA223D /* TXView.swift */; };
 		1691E456280EABAE00BA223D /* TXStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1691E455280EABAE00BA223D /* TXStackView.swift */; };
+		1696A07F281D742500C88604 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1696A07E281D742500C88604 /* MainViewController.swift */; };
+		1696A082281D7D6E00C88604 /* RoundedButtonWithLeadingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1696A081281D7D6E00C88604 /* RoundedButtonWithLeadingImage.swift */; };
 		16993CD6280C41FE00FFE71B /* TXSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16993CD5280C41FE00FFE71B /* TXSearchController.swift */; };
 		16993CD9280C42CD00FFE71B /* CurrentUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16993CD8280C42CD00FFE71B /* CurrentUserTableViewCell.swift */; };
 		16993CDC280C443E00FFE71B /* TXSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16993CDB280C443E00FFE71B /* TXSegmentedControl.swift */; };
@@ -176,6 +179,7 @@
 		162C378F281D1A81000A8C0C /* EditNameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNameTableViewCell.swift; sourceTree = "<group>"; };
 		162C3792281D1D65000A8C0C /* EditUsernameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUsernameTableViewCell.swift; sourceTree = "<group>"; };
 		162C3795281D1F97000A8C0C /* EditBioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBioTableViewCell.swift; sourceTree = "<group>"; };
+		162C3798281D22EA000A8C0C /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
 		16308637280881810061BE31 /* PartialTweetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialTweetTableViewCell.swift; sourceTree = "<group>"; };
 		1630863A280883900061BE31 /* UIViewX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewX.swift; sourceTree = "<group>"; };
 		163D2D9128191BE100CE5646 /* PartialUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialUserTableViewCell.swift; sourceTree = "<group>"; };
@@ -215,6 +219,8 @@
 		168992A6281B135000D5D85C /* AvatarImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImage.swift; sourceTree = "<group>"; };
 		1691E452280EA8D800BA223D /* TXView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXView.swift; sourceTree = "<group>"; };
 		1691E455280EABAE00BA223D /* TXStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXStackView.swift; sourceTree = "<group>"; };
+		1696A07E281D742500C88604 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		1696A081281D7D6E00C88604 /* RoundedButtonWithLeadingImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButtonWithLeadingImage.swift; sourceTree = "<group>"; };
 		16993CD5280C41FE00FFE71B /* TXSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXSearchController.swift; sourceTree = "<group>"; };
 		16993CD8280C42CD00FFE71B /* CurrentUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCell.swift; sourceTree = "<group>"; };
 		16993CDB280C443E00FFE71B /* TXSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXSegmentedControl.swift; sourceTree = "<group>"; };
@@ -276,8 +282,10 @@
 		160437A527E1AD7200EA615F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1696A07D281D73ED00C88604 /* MainViewController */,
 				160437A827E1AD8900EA615F /* Core */,
 				1610D950280F4F1F00739208 /* Extras */,
+				162C3797281D22D9000A8C0C /* AuthenticationViewController */,
 				160437C427E1B62D00EA615F /* HomeViewController */,
 				16BB01152813A52000532323 /* OtherUserViewController */,
 				160437C927E1B70600EA615F /* ComposeViewController */,
@@ -294,6 +302,7 @@
 		160437A627E1AD7A00EA615F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1696A080281D7D6B00C88604 /* RoundedButtonWithLeadingImage */,
 				162C3794281D1F8D000A8C0C /* EditBioTableViewCell */,
 				162C3791281D1D5A000A8C0C /* EditUsernameTableViewCell */,
 				162C378E281D1A74000A8C0C /* EditNameTableViewCell */,
@@ -619,6 +628,14 @@
 			path = EditBioTableViewCell;
 			sourceTree = "<group>";
 		};
+		162C3797281D22D9000A8C0C /* AuthenticationViewController */ = {
+			isa = PBXGroup;
+			children = (
+				162C3798281D22EA000A8C0C /* AuthenticationViewController.swift */,
+			);
+			path = AuthenticationViewController;
+			sourceTree = "<group>";
+		};
 		16308636280881780061BE31 /* PartialTweetTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -923,6 +940,22 @@
 				1691E455280EABAE00BA223D /* TXStackView.swift */,
 			);
 			path = TXStackView;
+			sourceTree = "<group>";
+		};
+		1696A07D281D73ED00C88604 /* MainViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1696A07E281D742500C88604 /* MainViewController.swift */,
+			);
+			path = MainViewController;
+			sourceTree = "<group>";
+		};
+		1696A080281D7D6B00C88604 /* RoundedButtonWithLeadingImage */ = {
+			isa = PBXGroup;
+			children = (
+				1696A081281D7D6E00C88604 /* RoundedButtonWithLeadingImage.swift */,
+			);
+			path = RoundedButtonWithLeadingImage;
 			sourceTree = "<group>";
 		};
 		16993CD4280C41F700FFE71B /* TXSearchController */ = {
@@ -1400,6 +1433,7 @@
 				160437CD27E1B76200EA615F /* ComposeViewController.swift in Sources */,
 				16493D212812B372004912BB /* TXTextView.swift in Sources */,
 				160437BD27E1AF5100EA615F /* TXCollectionViewCell.swift in Sources */,
+				162C3799281D22EA000A8C0C /* AuthenticationViewController.swift in Sources */,
 				16993CD9280C42CD00FFE71B /* CurrentUserTableViewCell.swift in Sources */,
 				161347E628194DE1004AA245 /* BookmarksProvider.swift in Sources */,
 				160437D527E1B7C200EA615F /* CurrentUserViewController.swift in Sources */,
@@ -1429,12 +1463,14 @@
 				16DEB9562806089E00140E63 /* Tweet.swift in Sources */,
 				167DE001280D55F900670BAD /* LikeInteractionDetails.swift in Sources */,
 				165ED02E2811D85C0022D822 /* TXEdgeInsets.swift in Sources */,
+				1696A07F281D742500C88604 /* MainViewController.swift in Sources */,
 				160437B327E1AE3300EA615F /* TXCollectionViewController.swift in Sources */,
 				161123812806CA4100908D98 /* Bookmark.swift in Sources */,
 				16FDA07F280FFD0B004BB3C4 /* CurrentUserProvider.swift in Sources */,
 				1659263E27E1C55100A1C9F2 /* TXBarButtonItem.swift in Sources */,
 				16FDA06F280FF367004BB3C4 /* CommentTableViewCell.swift in Sources */,
 				160437CB27E1B73300EA615F /* HomeViewController.swift in Sources */,
+				1696A082281D7D6E00C88604 /* RoundedButtonWithLeadingImage.swift in Sources */,
 				160437BB27E1AED700EA615F /* TXTableViewCell.swift in Sources */,
 				16D3C5E82810347400B8A2CC /* Provider.swift in Sources */,
 				1610D936280F354A00739208 /* TXLabel.swift in Sources */,
