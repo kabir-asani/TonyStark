@@ -118,7 +118,10 @@ class CurrentUserViewController: TXViewController {
             title: "Log Out?",
             style: .destructive
         ) { action in
-            // TODO:
+            Task {
+                await UserProvider.current.logOut()
+                TXEventBroker.shared.emit(event: AuthenticationEvent())
+            }
         }
         
         let cancelAction = UIAlertAction(

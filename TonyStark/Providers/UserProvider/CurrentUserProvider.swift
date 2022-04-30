@@ -21,6 +21,14 @@ class CurrentUserProvider: Provider {
     private init() { }
     
     func bootUp() async {
+        
+    }
+    
+    func bootDown() async {
+        // Do nothing
+    }
+    
+    func logIn() async {
         user = User(
             id: "mzaink",
             name: "Zain Khan",
@@ -43,7 +51,9 @@ class CurrentUserProvider: Provider {
         isLoggedIn = true
     }
     
-    func bootDown() async {
-        // Do nothing
+    func logOut() async {
+        user = nil
+        
+        isLoggedIn = false
     }
 }

@@ -50,18 +50,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func configure(windowWithWindowScene windowScene: UIWindowScene) {
         window = UIWindow(windowScene: windowScene)
         
+        window?.rootViewController = MainViewController()
+        
+        window?.makeKeyAndVisible()
+        
         Task {
-            [weak self] in
-            
-            guard let strongSelf = self else {
-                return
-            }
-            
             await ProvidersRegistry.shared.bootUp()
-    
-            strongSelf.window?.rootViewController = HomeViewController()
             
-            strongSelf.window?.makeKeyAndVisible()
+            if UserProvider.current.isLoggedIn {
+                TXEventBroker.shared.emit(event: HomeEvent())
+            } else {
+                TXEventBroker.shared.emit(event: AuthenticationEvent())
+            }
         }
     }
 }
