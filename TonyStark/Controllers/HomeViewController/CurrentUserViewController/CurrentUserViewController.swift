@@ -297,10 +297,12 @@ extension CurrentUserViewController: TXScrollViewDelegate {
 // MARK: CurrentUserDetailsTableViewCellDelegate
 extension CurrentUserViewController: CurrentUserTableViewCellInteractionsHandler {
     func didPressEdit(_ cell: CurrentUserTableViewCell) {
+        let editUserDetailsViewController = EditUserDetailsViewController()
+        
+        editUserDetailsViewController.populate(withUser: UserProvider.current.user)
+        
         let navigationViewController = TXNavigationController(
-            rootViewController: EditUserDetailsViewController(
-                style: .insetGrouped
-            )
+            rootViewController: editUserDetailsViewController
         )
         
         navigationViewController.modalPresentationStyle = .fullScreen
