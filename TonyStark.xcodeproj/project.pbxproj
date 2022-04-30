@@ -88,7 +88,7 @@
 		1691E453280EA8D800BA223D /* TXView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1691E452280EA8D800BA223D /* TXView.swift */; };
 		1691E456280EABAE00BA223D /* TXStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1691E455280EABAE00BA223D /* TXStackView.swift */; };
 		1696A07F281D742500C88604 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1696A07E281D742500C88604 /* MainViewController.swift */; };
-		1696A082281D7D6E00C88604 /* RoundedButtonWithLeadingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1696A081281D7D6E00C88604 /* RoundedButtonWithLeadingImage.swift */; };
+		1696A082281D7D6E00C88604 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1696A081281D7D6E00C88604 /* RoundedButton.swift */; };
 		16993CD6280C41FE00FFE71B /* TXSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16993CD5280C41FE00FFE71B /* TXSearchController.swift */; };
 		16993CD9280C42CD00FFE71B /* CurrentUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16993CD8280C42CD00FFE71B /* CurrentUserTableViewCell.swift */; };
 		16993CDC280C443E00FFE71B /* TXSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16993CDB280C443E00FFE71B /* TXSegmentedControl.swift */; };
@@ -220,7 +220,7 @@
 		1691E452280EA8D800BA223D /* TXView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXView.swift; sourceTree = "<group>"; };
 		1691E455280EABAE00BA223D /* TXStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXStackView.swift; sourceTree = "<group>"; };
 		1696A07E281D742500C88604 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		1696A081281D7D6E00C88604 /* RoundedButtonWithLeadingImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButtonWithLeadingImage.swift; sourceTree = "<group>"; };
+		1696A081281D7D6E00C88604 /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 		16993CD5280C41FE00FFE71B /* TXSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXSearchController.swift; sourceTree = "<group>"; };
 		16993CD8280C42CD00FFE71B /* CurrentUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCell.swift; sourceTree = "<group>"; };
 		16993CDB280C443E00FFE71B /* TXSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXSegmentedControl.swift; sourceTree = "<group>"; };
@@ -302,7 +302,7 @@
 		160437A627E1AD7A00EA615F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1696A080281D7D6B00C88604 /* RoundedButtonWithLeadingImage */,
+				1696A080281D7D6B00C88604 /* RoundedButton */,
 				162C3794281D1F8D000A8C0C /* EditBioTableViewCell */,
 				162C3791281D1D5A000A8C0C /* EditUsernameTableViewCell */,
 				162C378E281D1A74000A8C0C /* EditNameTableViewCell */,
@@ -950,12 +950,12 @@
 			path = MainViewController;
 			sourceTree = "<group>";
 		};
-		1696A080281D7D6B00C88604 /* RoundedButtonWithLeadingImage */ = {
+		1696A080281D7D6B00C88604 /* RoundedButton */ = {
 			isa = PBXGroup;
 			children = (
-				1696A081281D7D6E00C88604 /* RoundedButtonWithLeadingImage.swift */,
+				1696A081281D7D6E00C88604 /* RoundedButton.swift */,
 			);
-			path = RoundedButtonWithLeadingImage;
+			path = RoundedButton;
 			sourceTree = "<group>";
 		};
 		16993CD4280C41F700FFE71B /* TXSearchController */ = {
@@ -1470,7 +1470,7 @@
 				1659263E27E1C55100A1C9F2 /* TXBarButtonItem.swift in Sources */,
 				16FDA06F280FF367004BB3C4 /* CommentTableViewCell.swift in Sources */,
 				160437CB27E1B73300EA615F /* HomeViewController.swift in Sources */,
-				1696A082281D7D6E00C88604 /* RoundedButtonWithLeadingImage.swift in Sources */,
+				1696A082281D7D6E00C88604 /* RoundedButton.swift in Sources */,
 				160437BB27E1AED700EA615F /* TXTableViewCell.swift in Sources */,
 				16D3C5E82810347400B8A2CC /* Provider.swift in Sources */,
 				1610D936280F354A00739208 /* TXLabel.swift in Sources */,

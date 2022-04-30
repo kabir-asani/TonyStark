@@ -41,16 +41,16 @@ class AuthenticationViewController: TXViewController {
         return taglineText
     }()
     
-    private let googleButton: RoundedButtonWithLeadingImage = {
-        let googleButton = RoundedButtonWithLeadingImage()
+    private let googleButton: RoundedButton = {
+        let googleButton = RoundedButton()
         
         googleButton.enableAutolayout()
         
         return googleButton
     }()
     
-    private let appleButton: RoundedButtonWithLeadingImage = {
-        let appleButton = RoundedButtonWithLeadingImage()
+    private let appleButton: RoundedButton = {
+        let appleButton = RoundedButton()
         
         appleButton.enableAutolayout()
         

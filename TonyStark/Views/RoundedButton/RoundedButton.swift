@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RoundedButtonWithLeadingImage: TXView {
+class RoundedButton: TXView {
     // Declare
     private var onPressed: (() -> Void)?
     
