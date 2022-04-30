@@ -112,10 +112,65 @@ extension UIView {
             )
         ])
     }
+    
+    func pin(
+        horizontallySymmetricTo view: UIView,
+        withInset inset: Double? = nil,
+        byBeingSafeAreaAware safeAreaEnabled: Bool = false
+    ) {
+        NSLayoutConstraint.activate([
+            self.leadingAnchor.constraint(
+                equalTo: safeAreaEnabled
+                ? view.safeAreaLayoutGuide.leadingAnchor
+                : view.leadingAnchor,
+                constant: inset ?? 0
+            ),
+            self.trailingAnchor.constraint(
+                equalTo: safeAreaEnabled
+                ? view.safeAreaLayoutGuide.trailingAnchor
+                : view.trailingAnchor,
+                constant: -(inset ?? 0)
+            )
+        ])
+    }
+    
+    func pin(
+        verticallySymmetricTo view: UIView,
+        withInset inset: Double? = nil,
+        byBeingSafeAreaAware safeAreaEnabled: Bool = false
+    ) {
+        NSLayoutConstraint.activate([
+            self.topAnchor.constraint(
+                equalTo: safeAreaEnabled
+                ? view.safeAreaLayoutGuide.topAnchor
+                : view.topAnchor,
+                constant: inset ?? 0
+            ),
+            self.bottomAnchor.constraint(
+                equalTo: safeAreaEnabled
+                ? view.safeAreaLayoutGuide.bottomAnchor
+                : view.bottomAnchor,
+                constant: -(inset ?? 0)
+            )
+        ])
+    }
 }
 
 // MARK: Alignment
 extension UIView {
+    func align(
+        toCenterOf view: UIView
+    ) {
+        NSLayoutConstraint.activate([
+            self.centerXAnchor.constraint(
+                equalTo: view.centerXAnchor
+            ),
+            self.centerYAnchor.constraint(
+                equalTo: view.centerYAnchor
+            )
+        ])
+    }
+    
     func align(
         toVerticalCenterOf view: UIView
     ) {
@@ -149,7 +204,7 @@ extension UIView {
                 equalTo: safeAreaEnabled
                 ? view.safeAreaLayoutGuide.bottomAnchor
                 : view.bottomAnchor,
-                constant: -(margin ?? 0)
+                constant: margin ?? 0
             )
         ])
     }
