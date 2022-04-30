@@ -65,7 +65,9 @@ class ComposeBottomBar: TXView {
         withCurrentCount current: Int
     ) {
         countText.text = "\(current) / 280"
-        countText.textColor = current <= 250 ? .secondaryLabel : .systemRed
+        countText.textColor = current <= 250
+        ? .secondaryLabel
+        : .systemRed
     }
     
     // Interact

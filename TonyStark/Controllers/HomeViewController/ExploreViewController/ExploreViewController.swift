@@ -163,6 +163,40 @@ extension ExploreViewController: TXTableViewDelegate {
     ) -> CGFloat {
         return TXTableView.automaticDimension
     }
+    
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        tableView.deselectRow(
+            at: indexPath,
+            animated: true
+        )
+        
+        switch state {
+        case .success(let paginated):
+            let user = paginated.page[indexPath.row]
+            
+            if user.id == UserProvider.current.user.id {
+                navigationController?.popViewController(animated: true)
+                
+                let event =  HomeViewTabSwitchEvent(tab: HomeViewController.TabItem.user)
+                
+                TXEventBroker.shared.emit(event: event)
+            } else {
+                let otherUserViewController = OtherUserViewController()
+                
+                otherUserViewController.populate(withUser: user)
+                
+                navigationController?.pushViewController(
+                    otherUserViewController,
+                    animated: true
+                )
+            }
+        default:
+            break
+        }
+    }
 }
 
 extension ExploreViewController: PartialUserTableViewCellInteractionsHandler {
