@@ -33,6 +33,10 @@ class EditProfileImageTableViewCell: TXTableViewCell {
             .systemBlue,
             for: .normal
         )
+        editButton.setTitleColor(
+            .systemBlue.withAlphaComponent(0.8),
+            for: .highlighted
+        )
         
         return editButton
     }()

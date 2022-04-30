@@ -8,6 +8,13 @@
 import UIKit
 
 class EditUserDetailsViewController: TXViewController {
+    enum Editables: Int, CaseIterable {
+        case profilePicture
+        case name
+        case username
+        case bio
+    }
+    
     // Declare
     private var user: User!
     
@@ -104,7 +111,7 @@ extension EditUserDetailsViewController: TXTableViewDataSource {
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        return 4
+        return Editables.allCases.count
     }
     
     func tableView(
@@ -112,7 +119,7 @@ extension EditUserDetailsViewController: TXTableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         switch indexPath.row {
-        case 0:
+        case Editables.profilePicture.rawValue:
             let cell = tableView.dequeueReusableCellWithIndexPath(
                 withIdentifier: EditProfileImageTableViewCell.reuseIdentifier,
                 for: indexPath
@@ -121,8 +128,7 @@ extension EditUserDetailsViewController: TXTableViewDataSource {
             cell.configure(withImageURL: user.image)
             
             return cell
-            
-        case 1:
+        case Editables.name.rawValue:
             let cell = tableView.dequeueReusableCellWithIndexPath(
                 withIdentifier: EditNameTableViewCell.reuseIdentifier,
                 for: indexPath
@@ -131,7 +137,7 @@ extension EditUserDetailsViewController: TXTableViewDataSource {
             cell.configure(withText: user.name)
             
             return cell
-        case 2:
+        case Editables.username.rawValue:
             let cell = tableView.dequeueReusableCellWithIndexPath(
                 withIdentifier: EditUsernameTableViewCell.reuseIdentifier,
                 for: indexPath
@@ -140,7 +146,7 @@ extension EditUserDetailsViewController: TXTableViewDataSource {
             cell.configure(withText: user.username)
             
             return cell
-        case 3:
+        case Editables.bio.rawValue:
             let cell = tableView.dequeueReusableCellWithIndexPath(
                 withIdentifier: EditBioTableViewCell.reuseIdentifier,
                 for: indexPath
@@ -165,5 +171,17 @@ extension EditUserDetailsViewController: TXTableViewDelegate {
             at: indexPath,
             animated: true
         )
+        
+        switch indexPath.row {
+        case Editables.username.rawValue:
+            // TODO:
+            break
+        case Editables.bio.rawValue:
+            // TODO:
+            break
+        default:
+            // Do nothing
+            break
+        }
     }
 }

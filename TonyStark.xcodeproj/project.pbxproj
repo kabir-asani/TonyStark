@@ -302,11 +302,6 @@
 		160437A627E1AD7A00EA615F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1696A080281D7D6B00C88604 /* RoundedButton */,
-				162C3794281D1F8D000A8C0C /* EditBioTableViewCell */,
-				162C3791281D1D5A000A8C0C /* EditUsernameTableViewCell */,
-				162C378E281D1A74000A8C0C /* EditNameTableViewCell */,
-				162C378B281D15BC000A8C0C /* EditProfileImageTableViewCell */,
 				1691E450280EA8BD00BA223D /* Core */,
 				167224D0281BC1B9005D79EB /* Extensions */,
 				168992A5281B134A00D5D85C /* AvatarImage */,
@@ -314,6 +309,11 @@
 				16E5667D281C05AA0071100C /* ComposeBottomBar */,
 				165ED0262811D4640022D822 /* CommentInputBar */,
 				16BB01142813A2D400532323 /* SocialDetails */,
+				1696A080281D7D6B00C88604 /* RoundedButton */,
+				162C3794281D1F8D000A8C0C /* EditBioTableViewCell */,
+				162C3791281D1D5A000A8C0C /* EditUsernameTableViewCell */,
+				162C378E281D1A74000A8C0C /* EditNameTableViewCell */,
+				162C378B281D15BC000A8C0C /* EditProfileImageTableViewCell */,
 				16993CD7280C42BB00FFE71B /* CurrentUserTableViewCell */,
 				16BB010728139DF200532323 /* OtherUserTableViewCell */,
 				163D2D9028191BD600CE5646 /* PartialUserTableViewCell */,
