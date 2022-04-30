@@ -9,5 +9,15 @@ import Foundation
 import UIKit
 
 struct TXBundledImage {
-    static let twitterX = UIImage(named: "TwitterX")
+    static var twitterX: UIImage {
+        UIImage(named: "TwitterX")!
+    }
+    
+    static var google: UIImage {
+        UIImage(named: "GoogleLogo")!
+    }
+    
+    static var apple: UIImage {
+        UIImage(named: "AppleLogo")!
+    }
 }
