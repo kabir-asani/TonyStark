@@ -63,7 +63,7 @@ class EditBioViewController: TXViewController {
 // MARK: TXTableViewDataSource
 extension EditBioViewController: TXTableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 0
+        return 1
     }
     
     func tableView(
