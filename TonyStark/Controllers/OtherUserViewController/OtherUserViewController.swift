@@ -81,11 +81,11 @@ extension OtherUserViewController: TXScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let currentYOffset = scrollView.contentOffset.y
         
-        if currentYOffset < 40 {
+        if currentYOffset < 120 {
             navigationItem.title = nil
         }
         
-        if currentYOffset > 40 && navigationItem.title == nil {
+        if currentYOffset > 120 && navigationItem.title == nil {
             navigationItem.title = user.name
         }
     }
