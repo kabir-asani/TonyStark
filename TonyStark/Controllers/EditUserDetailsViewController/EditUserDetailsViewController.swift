@@ -174,8 +174,12 @@ extension EditUserDetailsViewController: TXTableViewDelegate {
         
         switch indexPath.row {
         case Editables.username.rawValue:
-            // TODO:
-            break
+            let editUsernameViewController = EditUsernameViewController()
+            
+            navigationController?.pushViewController(
+                editUsernameViewController,
+                animated: true
+            )
         case Editables.bio.rawValue:
             // TODO:
             break
