@@ -22,6 +22,7 @@ class ComposeViewController: TXViewController {
         
         separator.enableAutolayout()
         separator.backgroundColor = .separator
+        separator.fixHeight(to: 1)
         
         return separator
     }()
@@ -118,8 +119,6 @@ class ComposeViewController: TXViewController {
     }
     
     private func configureSeparator() {
-        separator.fixHeight(to: 1)
-        
         separator.pin(
             toRightOf: view,
             byBeingSafeAreaAware: true

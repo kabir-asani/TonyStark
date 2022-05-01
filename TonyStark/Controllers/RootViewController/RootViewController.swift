@@ -10,7 +10,7 @@ import Foundation
 class HomeEvent: TXEvent { }
 class AuthenticationEvent: TXEvent { }
 
-class MainViewController: TXNavigationController {
+class RootViewController: TXNavigationController {
     init() {
         super.init(rootViewController: TXViewController())
     }
@@ -42,7 +42,9 @@ class MainViewController: TXNavigationController {
                     [HomeViewController()],
                     animated: true
                 )
-            } else {
+            }
+            
+            if event is AuthenticationEvent {
                 strongSelf.setViewControllers(
                     [AuthenticationViewController()],
                     animated: false

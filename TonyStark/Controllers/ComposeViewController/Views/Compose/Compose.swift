@@ -10,6 +10,7 @@ import UIKit
 class Compose: TXView {
     // Declare
     private static let placeholder: String = "What's happening?"
+    
     private var onTextChanged: ((_ text: String) -> Void)?
     
     private var profileImage: AvatarImage = {
