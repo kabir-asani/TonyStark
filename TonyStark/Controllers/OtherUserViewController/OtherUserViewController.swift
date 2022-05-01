@@ -154,6 +154,7 @@ extension OtherUserViewController: TXTableViewDataSource {
                 
                 let tweet = success.page[indexPath.row]
                 
+                cell.interactionsHandler = self
                 cell.configure(withTweet: tweet)
                 
                 return cell
@@ -169,7 +170,51 @@ extension OtherUserViewController: TXTableViewDataSource {
 
 // MARK: TXTableViewDelegate
 extension OtherUserViewController: TXTableViewDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        if indexPath.section == Section.tweets.rawValue {
+            switch state {
+            case .success(let paginated):
+                if indexPath.row  == paginated.page.count - 1 {
+                    cell.separatorInset = .leading(.infinity)
+                } else {
+                    cell.separatorInset = .leading(20)
+                }
+            default:
+                break
+            }
+        }
+    }
     
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        tableView.deselectRow(
+            at: indexPath,
+            animated: true
+        )
+        
+        if indexPath.section == Section.tweets.rawValue {
+            switch state {
+            case .success(let paginated):
+                let tweet = paginated.page[indexPath.row]
+                
+                let tweetViewController = TweetViewController()
+                tweetViewController.populate(withTweet: tweet)
+                
+                navigationController?.pushViewController(
+                    tweetViewController,
+                    animated: true
+                )
+            default:
+                break
+            }
+        }
+    }
 }
 
 extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
@@ -199,5 +244,63 @@ extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
         navigationController?.pushViewController(
             followingsViewController, animated: true
         )
+    }
+}
+
+// MARK: PartialTweetTableViewCellInteractionsHandler
+extension OtherUserViewController: PartialTweetTableViewCellInteractionsHandler {
+    func didPressLike(_ cell: PartialTweetTableViewCell) {
+        print(#function)
+    }
+    
+    func didPressComment(_ cell: PartialTweetTableViewCell) {
+        switch state {
+        case .success(let paginated):
+            let tweet = paginated.page[cell.indexPath.row]
+            
+            let tweetViewController = TweetViewController()
+            
+            tweetViewController.populate(
+                withTweet: tweet,
+                options: TweetViewControllerOptions(
+                    autoFocus: true
+                )
+            )
+            
+            navigationController?.pushViewController(
+                tweetViewController,
+                animated: true
+            )
+        default:
+            break
+        }
+    }
+    
+    func didPressProfileImage(_ cell: PartialTweetTableViewCell) {
+        print(#function)
+    }
+    
+    func didPressBookmarksOption(_ cell: PartialTweetTableViewCell) {
+        print(#function)
+    }
+    
+    func didPressFollowOption(_ cell: PartialTweetTableViewCell) {
+        print(#function)
+    }
+    
+    func didPressOption(_ cell: PartialTweetTableViewCell) {
+        switch state {
+        case .success(let paginated):
+            let alert = TweetOptionsAlertViewController.regular()
+            
+            alert.configure(withTweet: paginated.page[cell.indexPath.row])
+            
+            present(
+                alert,
+                animated: true
+            )
+        default:
+            break
+        }
     }
 }
