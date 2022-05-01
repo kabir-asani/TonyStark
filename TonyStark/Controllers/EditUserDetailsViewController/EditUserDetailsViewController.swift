@@ -181,8 +181,12 @@ extension EditUserDetailsViewController: TXTableViewDelegate {
                 animated: true
             )
         case Editables.bio.rawValue:
-            // TODO:
-            break
+            let editBioViewController = EditBioViewController()
+            
+            navigationController?.pushViewController(
+                editBioViewController,
+                animated: true
+            )
         default:
             // Do nothing
             break
