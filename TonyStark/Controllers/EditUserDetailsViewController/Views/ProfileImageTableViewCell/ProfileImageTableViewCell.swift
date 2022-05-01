@@ -1,5 +1,5 @@
 //
-//  EditNameTableViewCell.swift
+//  EditProfileImageTableViewCell.swift
 //  TonyStark
 //
 //  Created by Mohammed Sadiq on 30/04/22.
@@ -7,31 +7,38 @@
 
 import UIKit
 
-class EditNameTableViewCell: TXTableViewCell {
+class ProfileImageTableViewCell: TXTableViewCell {
     // Declare
     override class var reuseIdentifier: String {
-        String(describing: EditNameTableViewCell.self)
+        String(describing: ProfileImageTableViewCell.self)
     }
     
-    private let leading: TXLabel = {
-        let leading = TXLabel()
+    private let profileImage: AvatarImage = {
+        let profileImage = AvatarImage(size: .large)
         
-        leading.enableAutolayout()
-        leading.text = "Name"
-        leading.numberOfLines = 1
+        profileImage.enableAutolayout()
         
-        leading.fixWidth(to: 100)
-        
-        return leading
+        return profileImage
     }()
     
-    private let trailing: TXTextField = {
-        let trailing = TXTextField()
+    private let editButton: TXButton = {
+        let editButton = TXButton()
         
-        trailing.enableAutolayout()
-        trailing.placeholder = "Add your name"
+        editButton.enableAutolayout()
+        editButton.setTitle(
+            "Change profile picture",
+            for: .normal
+        )
+        editButton.setTitleColor(
+            .systemBlue,
+            for: .normal
+        )
+        editButton.setTitleColor(
+            .systemBlue.withAlphaComponent(0.8),
+            for: .highlighted
+        )
         
-        return trailing
+        return editButton
     }()
     
     // Arrange
@@ -70,14 +77,14 @@ class EditNameTableViewCell: TXTableViewCell {
     private func makeCombinedStackView() -> TXStackView {
         let combinedStack = TXStackView(
             arrangedSubviews: [
-                leading,
-                trailing
+                profileImage,
+                editButton
             ]
         )
         
         combinedStack.enableAutolayout()
-        combinedStack.axis = .horizontal
-        combinedStack.distribution = .fill
+        combinedStack.axis = .vertical
+        combinedStack.distribution = .equalSpacing
         combinedStack.alignment = .center
         combinedStack.spacing = 16
         
@@ -85,8 +92,8 @@ class EditNameTableViewCell: TXTableViewCell {
     }
     
     // Configure
-    func configure(withText text: String) {
-        trailing.text = text
+    func configure(withImageURL imageURL: String) {
+        profileImage.configure(withImageURL: imageURL)
     }
     
     // Interact

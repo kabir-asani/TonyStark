@@ -7,10 +7,10 @@
 
 import UIKit
 
-class EditBioTableViewCell: TXTableViewCell {
+class BioTableViewCell: TXTableViewCell {
     // Declare
     override class var reuseIdentifier: String {
-        String(describing: EditBioTableViewCell.self)
+        String(describing: BioTableViewCell.self)
     }
     
     private let leading: TXLabel = {

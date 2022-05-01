@@ -7,10 +7,10 @@
 
 import UIKit
 
-class EditUsernameTableViewCell: TXTableViewCell {
+class UsernameTableViewCell: TXTableViewCell {
     // Declare
     override class var reuseIdentifier: String {
-        String(describing: EditUsernameTableViewCell.self)
+        String(describing: UsernameTableViewCell.self)
     }
     
     private let leading: TXLabel = {

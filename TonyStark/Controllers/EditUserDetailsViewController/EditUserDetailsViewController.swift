@@ -64,20 +64,20 @@ class EditUserDetailsViewController: TXViewController {
         tableView.keyboardDismissMode = .onDrag
         
         tableView.register(
-            EditProfileImageTableViewCell.self,
-            forCellReuseIdentifier: EditProfileImageTableViewCell.reuseIdentifier
+            ProfileImageTableViewCell.self,
+            forCellReuseIdentifier: ProfileImageTableViewCell.reuseIdentifier
         )
         tableView.register(
-            EditNameTableViewCell.self,
-            forCellReuseIdentifier: EditNameTableViewCell.reuseIdentifier
+            NameTableViewCell.self,
+            forCellReuseIdentifier: NameTableViewCell.reuseIdentifier
         )
         tableView.register(
-            EditUsernameTableViewCell.self,
-            forCellReuseIdentifier: EditUsernameTableViewCell.reuseIdentifier
+            UsernameTableViewCell.self,
+            forCellReuseIdentifier: UsernameTableViewCell.reuseIdentifier
         )
         tableView.register(
-            EditBioTableViewCell.self,
-            forCellReuseIdentifier: EditBioTableViewCell.reuseIdentifier
+            BioTableViewCell.self,
+            forCellReuseIdentifier: BioTableViewCell.reuseIdentifier
         )
         
         tableView.pin(
@@ -121,36 +121,36 @@ extension EditUserDetailsViewController: TXTableViewDataSource {
         switch indexPath.row {
         case Editables.profilePicture.rawValue:
             let cell = tableView.dequeueReusableCellWithIndexPath(
-                withIdentifier: EditProfileImageTableViewCell.reuseIdentifier,
+                withIdentifier: ProfileImageTableViewCell.reuseIdentifier,
                 for: indexPath
-            ) as! EditProfileImageTableViewCell
+            ) as! ProfileImageTableViewCell
             
             cell.configure(withImageURL: user.image)
             
             return cell
         case Editables.name.rawValue:
             let cell = tableView.dequeueReusableCellWithIndexPath(
-                withIdentifier: EditNameTableViewCell.reuseIdentifier,
+                withIdentifier: NameTableViewCell.reuseIdentifier,
                 for: indexPath
-            ) as! EditNameTableViewCell
+            ) as! NameTableViewCell
             
             cell.configure(withText: user.name)
             
             return cell
         case Editables.username.rawValue:
             let cell = tableView.dequeueReusableCellWithIndexPath(
-                withIdentifier: EditUsernameTableViewCell.reuseIdentifier,
+                withIdentifier: UsernameTableViewCell.reuseIdentifier,
                 for: indexPath
-            ) as! EditUsernameTableViewCell
+            ) as! UsernameTableViewCell
             
             cell.configure(withText: user.username)
             
             return cell
         case Editables.bio.rawValue:
             let cell = tableView.dequeueReusableCellWithIndexPath(
-                withIdentifier: EditBioTableViewCell.reuseIdentifier,
+                withIdentifier: BioTableViewCell.reuseIdentifier,
                 for: indexPath
-            ) as! EditBioTableViewCell
+            ) as! BioTableViewCell
             
             cell.configure(withText: user.bio)
             
