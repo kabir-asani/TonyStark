@@ -63,7 +63,19 @@ class EditUsernameViewController: TXViewController {
 // MARK: TXTableViewDataSource
 extension EditUsernameViewController: TXTableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 0
+        return 1
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        titleForHeaderInSection section: Int
+    ) -> String? {
+        switch section {
+        case 0:
+            return "Username"
+        default:
+            return nil
+        }
     }
     
     func tableView(
