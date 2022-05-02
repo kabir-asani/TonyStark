@@ -292,8 +292,8 @@
 		160437A527E1AD7200EA615F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				160437A827E1AD8900EA615F /* Core */,
-				1610D950280F4F1F00739208 /* Extras */,
+				160437A827E1AD8900EA615F /* CoreControllers */,
+				1610D950280F4F1F00739208 /* ExtraControllers */,
 				1696A07D281D73ED00C88604 /* RootViewController */,
 				162C3797281D22D9000A8C0C /* AuthenticationViewController */,
 				160437C427E1B62D00EA615F /* HomeViewController */,
@@ -337,7 +337,7 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		160437A827E1AD8900EA615F /* Core */ = {
+		160437A827E1AD8900EA615F /* CoreControllers */ = {
 			isa = PBXGroup;
 			children = (
 				16DBF5C42817EEE400E92DE5 /* TXScrollViewController */,
@@ -349,7 +349,7 @@
 				160437B927E1AEA600EA615F /* TXCollectionViewController */,
 				160437BF27E1B0C800EA615F /* TXPageViewController */,
 			);
-			path = Core;
+			path = CoreControllers;
 			sourceTree = "<group>";
 		};
 		160437B527E1AE8C00EA615F /* TXNavigationController */ = {
@@ -537,12 +537,12 @@
 			path = EditUserDetailsViewController;
 			sourceTree = "<group>";
 		};
-		1610D950280F4F1F00739208 /* Extras */ = {
+		1610D950280F4F1F00739208 /* ExtraControllers */ = {
 			isa = PBXGroup;
 			children = (
 				1610D940280F44D100739208 /* TweetOptionsAlertViewController */,
 			);
-			path = Extras;
+			path = ExtraControllers;
 			sourceTree = "<group>";
 		};
 		161250E527DBB56E006BCE5A = {
