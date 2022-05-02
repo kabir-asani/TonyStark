@@ -50,7 +50,7 @@ class OtherUserViewController: TXViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.tableHeaderView = TXView(frame: .zero)
+        tableView.addBufferOnHeader(withHeight: 0)
         
         tableView.register(
             OtherUserTableViewCell.self,

@@ -74,7 +74,7 @@ class TweetViewController: TXViewController {
         configureSeparator()
         configureBottomInputBar()
         
-        populateTableViewWithComments()
+        populateTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -117,7 +117,7 @@ class TweetViewController: TXViewController {
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.tableHeaderView = TXView(frame: .zero)
+        tableView.addBufferOnHeader(withHeight: 0)
         
         tableView.register(
             TweetTableViewCell.self,
@@ -224,8 +224,8 @@ class TweetViewController: TXViewController {
 
 // MARK: TXTableViewDataSource
 extension TweetViewController: TXTableViewDataSource {
-    private func populateTableViewWithComments() {
-        tableView.showActivityIndicatorAtTheBottomOfTableView()
+    private func populateTableView() {
+        tableView.beginPaginating()
         
         Task {
             [weak self] in
@@ -235,7 +235,7 @@ extension TweetViewController: TXTableViewDataSource {
             
             let result = await CommentsProvider.shared.comments()
             
-            strongSelf.tableView.hideActivityIndicatorAtTheBottomOfTableView()
+            strongSelf.tableView.endPaginating()
             
             strongSelf.state = result
             strongSelf.tableView.reloadData()

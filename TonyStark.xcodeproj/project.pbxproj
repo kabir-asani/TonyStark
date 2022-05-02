@@ -115,6 +115,7 @@
 		16D3DFDE28166F710083B7E9 /* TweetTableViewCellHeaderLeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFDD28166F710083B7E9 /* TweetTableViewCellHeaderLeading.swift */; };
 		16D3DFE028166F770083B7E9 /* TweetTableViewCellHeaderMiddle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFDF28166F770083B7E9 /* TweetTableViewCellHeaderMiddle.swift */; };
 		16D3DFE228166F800083B7E9 /* TweetTableViewCellHeaderTrailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFE128166F800083B7E9 /* TweetTableViewCellHeaderTrailing.swift */; };
+		16D8AACC281F118500EEC440 /* TXActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8AACB281F118500EEC440 /* TXActivityIndicatorView.swift */; };
 		16D8F976280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F975280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift */; };
 		16D8F978280D7BDD000545EC /* CurrentUserTableViewCellBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F977280D7BDD000545EC /* CurrentUserTableViewCellBody.swift */; };
 		16D8F97A280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F979280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift */; };
@@ -249,6 +250,7 @@
 		16D3DFDD28166F710083B7E9 /* TweetTableViewCellHeaderLeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCellHeaderLeading.swift; sourceTree = "<group>"; };
 		16D3DFDF28166F770083B7E9 /* TweetTableViewCellHeaderMiddle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCellHeaderMiddle.swift; sourceTree = "<group>"; };
 		16D3DFE128166F800083B7E9 /* TweetTableViewCellHeaderTrailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCellHeaderTrailing.swift; sourceTree = "<group>"; };
+		16D8AACB281F118500EEC440 /* TXActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXActivityIndicatorView.swift; sourceTree = "<group>"; };
 		16D8F975280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCellHeader.swift; sourceTree = "<group>"; };
 		16D8F977280D7BDD000545EC /* CurrentUserTableViewCellBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCellBody.swift; sourceTree = "<group>"; };
 		16D8F979280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCellFooter.swift; sourceTree = "<group>"; };
@@ -1003,6 +1005,7 @@
 		1691E450280EA8BD00BA223D /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				16D8AACA281F117D00EEC440 /* TXActivityIndicatorView */,
 				16DBF5BB2817E06B00E92DE5 /* TXScrollView */,
 				164828D02815C966002C6C06 /* TXMenu */,
 				164828CE2815C19B002C6C06 /* TXCollectionViewCell */,
@@ -1253,6 +1256,14 @@
 				16D3DFE128166F800083B7E9 /* TweetTableViewCellHeaderTrailing.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		16D8AACA281F117D00EEC440 /* TXActivityIndicatorView */ = {
+			isa = PBXGroup;
+			children = (
+				16D8AACB281F118500EEC440 /* TXActivityIndicatorView.swift */,
+			);
+			path = TXActivityIndicatorView;
 			sourceTree = "<group>";
 		};
 		16DBF5BB2817E06B00E92DE5 /* TXScrollView */ = {
@@ -1513,6 +1524,7 @@
 				167DE003280D561200670BAD /* CommentInteractionDetails.swift in Sources */,
 				167DE005280D562D00670BAD /* PartialTweetOptions.swift in Sources */,
 				16F219FE281BDC160013A750 /* FollowersViewController.swift in Sources */,
+				16D8AACC281F118500EEC440 /* TXActivityIndicatorView.swift in Sources */,
 				1610D93D280F397300739208 /* TXColor.swift in Sources */,
 				1667093E2817B7AA00889B0C /* TweetTableViewCellFooterHeader.swift in Sources */,
 				16FDA075280FF465004BB3C4 /* CommentTableViewCellTrailing.swift in Sources */,

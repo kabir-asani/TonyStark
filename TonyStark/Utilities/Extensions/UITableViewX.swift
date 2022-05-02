@@ -9,14 +9,14 @@ import Foundation
 import UIKit
 
 extension UITableView {
-    func showActivityIndicatorAtTheBottomOfTableView() {
+    func beginPaginating() {
         DispatchQueue.main.async {
             [weak self] in
             guard let strongSelf = self else {
                 return
             }
             
-            let activityIndicator = UIActivityIndicatorView(
+            let activityIndicator = TXActivityIndicatorView(
                 frame: .init(
                     x: 0,
                     y: 0,
@@ -31,7 +31,69 @@ extension UITableView {
         }
     }
     
-    func hideActivityIndicatorAtTheBottomOfTableView() {
+    func endPaginating() {
+        DispatchQueue.main.async {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.tableFooterView = nil
+        }
+    }
+    
+    func addBufferOnHeader(withHeight height: Double) {
+        DispatchQueue.main.async {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            let buffer = TXView(
+                frame: .init(
+                    x: 0,
+                    y: 0,
+                    width: 0,
+                    height: height
+                )
+            )
+            
+            strongSelf.tableHeaderView = buffer
+        }
+    }
+    
+    func removeBufferOnHeader() {
+        DispatchQueue.main.async {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.tableHeaderView = nil
+        }
+    }
+    
+    func addBufferOnFooter(withHeight height: Double) {
+        DispatchQueue.main.async {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            let buffer = TXView(
+                frame: .init(
+                    x: 0,
+                    y: 0,
+                    width: 0,
+                    height: height
+                )
+            )
+            
+            strongSelf.tableFooterView = buffer
+        }
+    }
+    
+    func removeBufferOnFooter() {
         DispatchQueue.main.async {
             [weak self] in
             guard let strongSelf = self else {

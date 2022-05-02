@@ -46,7 +46,7 @@ class FeedViewController: TXViewController {
         configureTableView()
         configureFloatingActionButton()
         
-        populateTableViewWithFeed()
+        populateTableView()
     }
     
     private func addSubviews() {
@@ -71,7 +71,7 @@ class FeedViewController: TXViewController {
             forCellReuseIdentifier: PartialTweetTableViewCell.reuseIdentifier
         )
         
-        tableView.tableHeaderView = TXView(frame: .zero)
+        tableView.addBufferOnHeader(withHeight: 0)
         
         tableView.pin(
             to: view,
@@ -115,8 +115,8 @@ class FeedViewController: TXViewController {
 
 // MARK: TXTableViewDataSource
 extension FeedViewController: TXTableViewDataSource {
-    private func populateTableViewWithFeed() {
-        tableView.showActivityIndicatorAtTheBottomOfTableView()
+    private func populateTableView() {
+        tableView.beginPaginating()
         
         Task {
             [weak self] in
@@ -126,7 +126,7 @@ extension FeedViewController: TXTableViewDataSource {
             
             let result = await TweetsProvider.shared.tweets()
             
-            strongSelf.tableView.hideActivityIndicatorAtTheBottomOfTableView()
+            strongSelf.tableView.endPaginating()
             
             strongSelf.state = result
             strongSelf.tableView.reloadData()

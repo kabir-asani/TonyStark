@@ -16,6 +16,53 @@ extension UIView {
     static var spacer: UIView {
         UIView()
     }
+    
+    static func squareSpacer(
+        withSide side: Double
+    ) -> UIView{
+        let view = UIView()
+        
+        view.enableAutolayout()
+        view.fixWidth(to: side)
+        view.fixHeight(to: side)
+        
+        return view
+    }
+    
+    static func spacer(
+        withWidth width: Double,
+        withHeight height: Double
+    ) -> UIView {
+        let view = UIView()
+        
+        view.enableAutolayout()
+        view.fixWidth(to: width)
+        view.fixHeight(to: height)
+        
+        return view
+    }
+    
+    static func horizontalSpacer(
+        withWidth width: Double
+    ) -> UIView {
+        let view = UIView()
+        
+        view.enableAutolayout()
+        view.fixWidth(to: width)
+        
+        return view
+    }
+    
+    static func verticalSpacer(
+        withHeight height: Double
+    ) -> UIView {
+        let view = UIView()
+        
+        view.enableAutolayout()
+        view.fixHeight(to: height)
+        
+        return view
+    }
 }
 
 // MARK: Pin
@@ -182,7 +229,7 @@ extension UIView {
     }
     
     func align(
-        toHorizonCenterOf view: UIView
+        toHorizontalCenterOf view: UIView
     ) {
         NSLayoutConstraint.activate([
             self.centerXAnchor.constraint(
