@@ -154,7 +154,7 @@ extension FollowingsViewController: PartialUserTableViewCellInteractionsHandler 
             if user.id == UserProvider.current.user.id {
                 navigationController?.popViewController(animated: true)
                 
-                let event =  HomeViewTabSwitchEvent(tab: HomeViewController.TabItem.user)
+                let event =  HomeTabSwitchEvent(tab: HomeViewController.TabItem.user)
                 
                 TXEventBroker.shared.emit(event: event)
             } else {

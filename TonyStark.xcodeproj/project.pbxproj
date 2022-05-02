@@ -105,7 +105,6 @@
 		16BB01112813A2B200532323 /* OtherUserTableViewCellBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB01102813A2B200532323 /* OtherUserTableViewCellBody.swift */; };
 		16BB01132813A2B800532323 /* OtherUserTableViewCellHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB01122813A2B800532323 /* OtherUserTableViewCellHeader.swift */; };
 		16BB01172813A53600532323 /* OtherUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB01162813A53600532323 /* OtherUserViewController.swift */; };
-		16BB011C2813A89200532323 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB011B2813A89200532323 /* Events.swift */; };
 		16CFD1C728172E040020341B /* TweetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CFD1C628172E040020341B /* TweetViewController.swift */; };
 		16D237AD28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D237AC28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift */; };
 		16D3C5E22810306100B8A2CC /* DateX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3C5E12810306100B8A2CC /* DateX.swift */; };
@@ -243,7 +242,6 @@
 		16BB01102813A2B200532323 /* OtherUserTableViewCellBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserTableViewCellBody.swift; sourceTree = "<group>"; };
 		16BB01122813A2B800532323 /* OtherUserTableViewCellHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserTableViewCellHeader.swift; sourceTree = "<group>"; };
 		16BB01162813A53600532323 /* OtherUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserViewController.swift; sourceTree = "<group>"; };
-		16BB011B2813A89200532323 /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		16CFD1C628172E040020341B /* TweetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetViewController.swift; sourceTree = "<group>"; };
 		16D237AC28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXLocalStorageAssistant.swift; sourceTree = "<group>"; };
 		16D3C5E12810306100B8A2CC /* DateX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateX.swift; sourceTree = "<group>"; };
@@ -406,7 +404,6 @@
 			isa = PBXGroup;
 			children = (
 				166C3253281E8393009D6961 /* ViewControllers */,
-				164828C72815BC27002C6C06 /* Events */,
 				160437CA27E1B73300EA615F /* HomeViewController.swift */,
 			);
 			path = HomeViewController;
@@ -730,14 +727,6 @@
 				163D2DAD281927D200CE5646 /* LikesViewController.swift */,
 			);
 			path = LikesViewController;
-			sourceTree = "<group>";
-		};
-		164828C72815BC27002C6C06 /* Events */ = {
-			isa = PBXGroup;
-			children = (
-				16BB011B2813A89200532323 /* Events.swift */,
-			);
-			path = Events;
 			sourceTree = "<group>";
 		};
 		164828CB2815C167002C6C06 /* TXBarButtonItem */ = {
@@ -1574,7 +1563,6 @@
 				163D2DA728191DF200CE5646 /* PartialUserTableViewCellTrailingHeaderTrailing.swift in Sources */,
 				16D237AD28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift in Sources */,
 				164828D52815D097002C6C06 /* LikesProvider.swift in Sources */,
-				16BB011C2813A89200532323 /* Events.swift in Sources */,
 				165E54F227E77F9C00D3BA0D /* TXImageProvider.swift in Sources */,
 				1610D933280F351B00739208 /* PartialTweetViewCellTrailingHeader.swift in Sources */,
 				1610D93A280F358900739208 /* PartialTweetViewCellTrailingFooter.swift in Sources */,

@@ -7,6 +7,14 @@
 
 import UIKit
 
+class HomeTabSwitchEvent: TXEvent {
+    let tab: HomeViewController.TabItem
+    
+    init(tab: HomeViewController.TabItem) {
+        self.tab = tab
+    }
+}
+
 class HomeViewController: TXTabBarController {
     // Declare
     enum TabItem: Int {
@@ -31,7 +39,7 @@ class HomeViewController: TXTabBarController {
                 return
             }
             
-            if let event = event as? HomeViewTabSwitchEvent {
+            if let event = event as? HomeTabSwitchEvent {
                 strongSelf.selectedIndex = event.tab.rawValue
             }
         }
