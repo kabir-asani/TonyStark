@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol EditBioViewControllerInteractionsHandler: AnyObject {
+    func didPressDone(withText text: String)
+}
+
 class EditBioViewController: TXViewController {
     // Declare
+    weak var interactionsHandler: EditBioViewControllerInteractionsHandler?
+    
     private var bio: String!
     
     private let tableView: TXTableView = {
@@ -81,7 +87,7 @@ class EditBioViewController: TXViewController {
     
     // Interact
     @objc private func onDonePressed(_ sender: TXBarButtonItem) {
-        print(#function)
+        interactionsHandler?.didPressDone(withText: bio)
     }
 }
 
