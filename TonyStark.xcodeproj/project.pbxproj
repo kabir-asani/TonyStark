@@ -43,6 +43,8 @@
 		161250FE27DBB56F006BCE5A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161250FC27DBB56F006BCE5A /* LaunchScreen.storyboard */; };
 		161347E32819433B004AA245 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161347E22819433B004AA245 /* BookmarksViewController.swift */; };
 		161347E628194DE1004AA245 /* BookmarksProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161347E528194DE1004AA245 /* BookmarksProvider.swift */; };
+		16237AEE281FABD200837064 /* EdtiBioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16237AED281FABD200837064 /* EdtiBioTableViewCell.swift */; };
+		16237AF1281FB49600837064 /* StringX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16237AF0281FB49600837064 /* StringX.swift */; };
 		162C378D281D15D8000A8C0C /* ProfileImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C378C281D15D8000A8C0C /* ProfileImageTableViewCell.swift */; };
 		162C3790281D1A81000A8C0C /* NameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C378F281D1A81000A8C0C /* NameTableViewCell.swift */; };
 		162C3793281D1D65000A8C0C /* UsernameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C3792281D1D65000A8C0C /* UsernameTableViewCell.swift */; };
@@ -178,6 +180,8 @@
 		161250FF27DBB56F006BCE5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		161347E22819433B004AA245 /* BookmarksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
 		161347E528194DE1004AA245 /* BookmarksProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksProvider.swift; sourceTree = "<group>"; };
+		16237AED281FABD200837064 /* EdtiBioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdtiBioTableViewCell.swift; sourceTree = "<group>"; };
+		16237AF0281FB49600837064 /* StringX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringX.swift; sourceTree = "<group>"; };
 		162C378C281D15D8000A8C0C /* ProfileImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageTableViewCell.swift; sourceTree = "<group>"; };
 		162C378F281D1A81000A8C0C /* NameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTableViewCell.swift; sourceTree = "<group>"; };
 		162C3792281D1D65000A8C0C /* UsernameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameTableViewCell.swift; sourceTree = "<group>"; };
@@ -293,9 +297,9 @@
 				1696A07D281D73ED00C88604 /* RootViewController */,
 				162C3797281D22D9000A8C0C /* AuthenticationViewController */,
 				160437C427E1B62D00EA615F /* HomeViewController */,
+				1610D944280F49D100739208 /* EditUserDetailsViewController */,
 				16BB01152813A52000532323 /* OtherUserViewController */,
 				160437C927E1B70600EA615F /* ComposeViewController */,
-				1610D944280F49D100739208 /* EditUserDetailsViewController */,
 				16CFD1C528172DF90020341B /* TweetViewController */,
 				161347E1281942C2004AA245 /* BookmarksViewController */,
 				163D2DAC281927C700CE5646 /* LikesViewController */,
@@ -651,6 +655,7 @@
 				16DBF5C22817E90600E92DE5 /* UIViewControllerX.swift */,
 				16D3C5E12810306100B8A2CC /* DateX.swift */,
 				167224D5281BC73C005D79EB /* ResultX.swift */,
+				16237AF0281FB49600837064 /* StringX.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -957,6 +962,7 @@
 		166C325F281E86B5009D6961 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				16237AED281FABD200837064 /* EdtiBioTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1601,6 +1607,7 @@
 				160437D127E1B79300EA615F /* ExploreViewController.swift in Sources */,
 				16993CDC280C443E00FFE71B /* TXSegmentedControl.swift in Sources */,
 				1611237F2806C9FD00908D98 /* Comment.swift in Sources */,
+				16237AEE281FABD200837064 /* EdtiBioTableViewCell.swift in Sources */,
 				163D2DAE281927D200CE5646 /* LikesViewController.swift in Sources */,
 				16D3DFDE28166F710083B7E9 /* TweetTableViewCellHeaderLeading.swift in Sources */,
 				1610D946280F49E200739208 /* EditUserDetailsViewController.swift in Sources */,
@@ -1613,6 +1620,7 @@
 				163D2DAA2819258300CE5646 /* SocialsProvider.swift in Sources */,
 				165ED0312811E41A0022D822 /* TXVisualEffectView.swift in Sources */,
 				16FDA078280FF5A4004BB3C4 /* CommentTableViewCellTrailingHeader.swift in Sources */,
+				16237AF1281FB49600837064 /* StringX.swift in Sources */,
 				16DBF5C32817E90600E92DE5 /* UIViewControllerX.swift in Sources */,
 				16BB010F2813A2AB00532323 /* OtherUserTableViewCellFooter.swift in Sources */,
 				160437C127E1B0DE00EA615F /* TXPageViewController.swift in Sources */,

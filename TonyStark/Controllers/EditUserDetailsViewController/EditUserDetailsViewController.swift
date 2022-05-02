@@ -183,6 +183,8 @@ extension EditUserDetailsViewController: TXTableViewDelegate {
         case Editables.bio.rawValue:
             let editBioViewController = EditBioViewController()
             
+            editBioViewController.populate(withBio: user.bio)
+            
             navigationController?.pushViewController(
                 editBioViewController,
                 animated: true
