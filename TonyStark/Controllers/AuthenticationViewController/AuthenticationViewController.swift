@@ -9,52 +9,12 @@ import UIKit
 
 class AuthenticationViewController: TXViewController {
     // Declare
-    private let scroll: TXScrollView = {
-        let scroll = TXScrollView()
+    private let tableView: TXTableView = {
+        let tableView = TXTableView()
         
-        scroll.enableAutolayout()
+        tableView.enableAutolayout()
         
-        return scroll
-    }()
-    
-    private let twitterXLogo: TXImageView = {
-        let twitterXLogo = TXImageView(image: TXBundledImage.twitterX)
-        
-        twitterXLogo.enableAutolayout()
-        twitterXLogo.contentMode = .scaleAspectFill
-        twitterXLogo.squareOff(withSide: 80)
-        
-        return twitterXLogo
-    }()
-    
-    private let taglineText: TXLabel = {
-        let taglineText = TXLabel()
-        
-        taglineText.enableAutolayout()
-        taglineText.font = .systemFont(
-            ofSize: 40,
-            weight: .black
-        )
-        taglineText.numberOfLines = 0
-        taglineText.text = "Cherish the world better than ever!"
-        
-        return taglineText
-    }()
-    
-    private let googleButton: RoundedButton = {
-        let googleButton = RoundedButton()
-        
-        googleButton.enableAutolayout()
-        
-        return googleButton
-    }()
-    
-    private let appleButton: RoundedButton = {
-        let appleButton = RoundedButton()
-        
-        appleButton.enableAutolayout()
-        
-        return appleButton
+        return tableView
     }()
     
     // Configure
@@ -63,21 +23,12 @@ class AuthenticationViewController: TXViewController {
         
         addSubviews()
         
-        configureScroll()
         configureNavigationBar()
-        configureTwitterXLogo()
-        configureTaglineText()
-        configureGoogleButton()
-        configureAppleButton()
+        configureTableView()
     }
     
     private func addSubviews() {
-        scroll.addSubview(twitterXLogo)
-        scroll.addSubview(taglineText)
-        scroll.addSubview(googleButton)
-        scroll.addSubview(appleButton)
-        
-        view.addSubview(scroll)
+        view.addSubview(tableView)
     }
     
     private func configureNavigationBar() {
@@ -88,96 +39,113 @@ class AuthenticationViewController: TXViewController {
         navigationItem.titleView = titleImage
     }
     
-    private func configureScroll() {
-        scroll.pin(
+    private func configureTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        tableView.addBufferOnHeader(withHeight: 0)
+        
+        tableView.register(
+            TwitterXLogoTableViewCell.self,
+            forCellReuseIdentifier: TwitterXLogoTableViewCell.reuseIdentifier
+        )
+        tableView.register(
+            TaglineTableViewCell.self,
+            forCellReuseIdentifier: TaglineTableViewCell.reuseIdentifier
+        )
+        tableView.register(
+            ActionsTableViewCell.self,
+            forCellReuseIdentifier: ActionsTableViewCell.reuseIdentifier
+        )
+        
+        tableView.pin(
             to: view,
             byBeingSafeAreaAware: true
         )
     }
     
-    private func configureTwitterXLogo() {
-        twitterXLogo.pin(
-            toLeftOf: scroll,
-            withInset: 16,
-            byBeingSafeAreaAware: true
-        )
-        twitterXLogo.pin(
-            toTopOf: scroll,
-            withInset: 20,
-            byBeingSafeAreaAware: true
-        )
-    }
-    
-    private func configureTaglineText() {
-        taglineText.attach(
-            topToBottomOf: twitterXLogo,
-            withMargin: 80,
-            byBeingSafeAreaAware: true
-        )
-        taglineText.pin(
-            horizontallySymmetricTo: scroll,
-            withInset: 16,
-            byBeingSafeAreaAware: true
-        )
-    }
-    
-    private func configureGoogleButton() {
-        googleButton.configure(
-            withData: (
-                image: TXBundledImage.google,
-                text: "Continue with Google"
-            )
-        ) {
-            Task {
-                await UserProvider.current.logIn()
-                
-                if UserProvider.current.isLoggedIn {
-                    TXEventBroker.shared.emit(event: HomeEvent())
-                }
-            }
-        }
-        
-        googleButton.attach(
-            topToBottomOf: taglineText,
-            withMargin: 160,
-            byBeingSafeAreaAware: true
-        )
-        googleButton.pin(
-            horizontallySymmetricTo: scroll,
-            withInset: 16,
-            byBeingSafeAreaAware: true
-        )
-    }
-    
-    private func configureAppleButton() {
-        appleButton.configure(
-            withData: (
-                image: TXBundledImage.apple,
-                text: "Continue with Apple"
-            )
-        ) {
-            Task {
-                await UserProvider.current.logIn()
-                
-                if UserProvider.current.isLoggedIn {
-                    TXEventBroker.shared.emit(event: HomeEvent())
-                }
-            }
-        }
-        
-        appleButton.attach(
-            topToBottomOf: googleButton,
-            withMargin: 16,
-            byBeingSafeAreaAware: true
-        )
-        appleButton.pin(
-            horizontallySymmetricTo: scroll,
-            withInset: 16,
-            byBeingSafeAreaAware: true
-        )
-    }
     
     // Populate
     
     // Interact
+}
+
+// MARK: TXTableViewDataSource
+extension AuthenticationViewController: TXTableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        numberOfRowsInSection section: Int
+    ) -> Int {
+        return 3
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
+        switch indexPath.row {
+        case 0:
+            let cell = tableView.dequeueReusableCellWithIndexPath(
+                withIdentifier: TwitterXLogoTableViewCell.reuseIdentifier,
+                for: indexPath
+            ) as! TwitterXLogoTableViewCell
+            
+            return cell
+        case 1:
+            let cell = tableView.dequeueReusableCellWithIndexPath(
+                withIdentifier: TaglineTableViewCell.reuseIdentifier,
+                for: indexPath
+            ) as! TaglineTableViewCell
+            
+            return cell
+        case 2:
+            let cell = tableView.dequeueReusableCellWithIndexPath(
+                withIdentifier: ActionsTableViewCell.reuseIdentifier,
+                for: indexPath
+            ) as! ActionsTableViewCell
+            
+            cell.interactionsHandler = self
+            
+            return cell
+        default:
+            fatalError("This row shouldn't be constructured at all")
+        }
+    }
+}
+
+// MARK: TXTableViewDelegate
+extension AuthenticationViewController: TXTableViewDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        estimatedHeightForRowAt indexPath: IndexPath
+    ) -> CGFloat {
+        TXTableView.automaticDimension
+    }
+}
+
+
+extension AuthenticationViewController: ActionsTableViewCellInteractionsHandler {
+    func onContinueWithGooglePressed() {
+        Task {
+            await UserProvider.current.logIn()
+            
+            if UserProvider.current.isLoggedIn {
+                TXEventBroker.shared.emit(event: HomeEvent())
+            }
+        }
+    }
+    
+    func onContinueWithApplePressed() {
+        Task {
+            await UserProvider.current.logIn()
+            
+            if UserProvider.current.isLoggedIn {
+                TXEventBroker.shared.emit(event: HomeEvent())
+            }
+        }
+    }
 }
