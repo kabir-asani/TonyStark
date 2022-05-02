@@ -66,6 +66,7 @@ class EditBioViewController: TXViewController {
         tableView.delegate = self
         
         tableView.addBufferOnHeader(withHeight: 0)
+        tableView.keyboardDismissMode = .onDrag
         
         tableView.register(
             EditBioTableViewCell.self,
@@ -83,6 +84,12 @@ class EditBioViewController: TXViewController {
         self.bio = bio
         
         navigationItem.title = "Bio (\(120 - bio.count))"
+        
+        if bio.isEmpty {
+            navigationItem.rightBarButtonItem?.isEnabled = false
+        } else {
+            navigationItem.rightBarButtonItem?.isEnabled = true
+        }
     }
     
     // Interact

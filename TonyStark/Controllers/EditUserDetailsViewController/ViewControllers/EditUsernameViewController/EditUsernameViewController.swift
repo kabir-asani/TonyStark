@@ -9,8 +9,13 @@ import UIKit
 
 class EditUsernameViewController: TXViewController {
     // Declare
+    private var username: String!
+    
     private let tableView: TXTableView = {
-        let tableView = TXTableView()
+        let tableView = TXTableView(
+            frame: .zero,
+            style: .insetGrouped
+        )
         
         tableView.enableAutolayout()
         
@@ -44,7 +49,13 @@ class EditUsernameViewController: TXViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.tableHeaderView = .init(frame: .zero)
+        tableView.addBufferOnHeader(withHeight: 0)
+        tableView.keyboardDismissMode = .onDrag
+        
+        tableView.register(
+            EditUsernameTableViewCell.self,
+            forCellReuseIdentifier: EditUsernameTableViewCell.reuseIdentifier
+        )
         
         tableView.pin(
             to: view,
@@ -53,6 +64,15 @@ class EditUsernameViewController: TXViewController {
     }
     
     // Populate
+    func populate(withUsername username: String) {
+        self.username = username
+        
+        if username.isEmpty {
+            navigationItem.rightBarButtonItem?.isEnabled = false
+        } else {
+            navigationItem.rightBarButtonItem?.isEnabled = true
+        }
+    }
     
     // Interact
     @objc private func onDonePressed(_ sender: TXBarButtonItem) {
@@ -68,11 +88,11 @@ extension EditUsernameViewController: TXTableViewDataSource {
     
     func tableView(
         _ tableView: UITableView,
-        titleForHeaderInSection section: Int
+        titleForFooterInSection section: Int
     ) -> String? {
         switch section {
         case 0:
-            return "Username"
+            return "Username is a unique and cool way to identify yourself"
         default:
             return nil
         }
@@ -82,18 +102,41 @@ extension EditUsernameViewController: TXTableViewDataSource {
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        return 0
+        return 1
     }
     
     func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCellWithIndexPath(
+            withIdentifier: EditUsernameTableViewCell.reuseIdentifier,
+            for: indexPath
+        ) as! EditUsernameTableViewCell
+        
+        cell.delegate = self
+        cell.configure(withText: username)
+        
+        return cell
     }
 }
 
 // MARK: TXTextViewDelegate
 extension EditUsernameViewController: TXTableViewDelegate {
-    
+    func tableView(
+        _ tableView: UITableView,
+        estimatedHeightForRowAt indexPath: IndexPath
+    ) -> CGFloat {
+        return TXTableView.automaticDimension
+    }
+}
+
+// MARK:
+extension EditUsernameViewController: EditUsernameTableViewCellDelegate {
+    func cell(
+        _ cell: EditUsernameTableViewCell,
+        didChangeText text: String
+    ) {
+        populate(withUsername: text)
+    }
 }

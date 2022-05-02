@@ -14,13 +14,6 @@ protocol EditBioTableViewCellDelegate: AnyObject {
     )
 }
 
-protocol EditBioTableViewCellInteractionsHandler: AnyObject {
-    func cell(
-        _ cell: EditBioTableViewCell,
-        didPressDoneWithUpdatedText text: String
-    )
-}
-
 class EditBioTableViewCell: TXTableViewCell {
     // Declare
     override class var reuseIdentifier: String {
@@ -28,7 +21,6 @@ class EditBioTableViewCell: TXTableViewCell {
     }
     
     weak var delegate: EditBioTableViewCellDelegate?
-    weak var interactionsHandler: EditBioTableViewCellInteractionsHandler?
     
     private let bioText: TXTextView = {
         let bioText = TXTextView()

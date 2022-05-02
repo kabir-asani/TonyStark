@@ -176,6 +176,8 @@ extension EditUserDetailsViewController: TXTableViewDelegate {
         case Editables.username.rawValue:
             let editUsernameViewController = EditUsernameViewController()
             
+            editUsernameViewController.populate(withUsername: user.username)
+            
             navigationController?.pushViewController(
                 editUsernameViewController,
                 animated: true
