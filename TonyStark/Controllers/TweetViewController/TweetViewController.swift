@@ -80,7 +80,7 @@ class TweetViewController: TXViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        addKeyboardListenersToAdjustConstraintsOnBottomMostView()
+        startKeyboardAwareness()
         
         tabBarController?.tabBar.clipsToBounds = true
     }
@@ -88,7 +88,7 @@ class TweetViewController: TXViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        removeKeyboardListeners()
+        stopKeyboardAwareness()
         
         tabBarController?.tabBar.clipsToBounds = false
     }

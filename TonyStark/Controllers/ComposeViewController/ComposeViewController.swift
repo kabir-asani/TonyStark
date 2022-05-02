@@ -50,14 +50,14 @@ class ComposeViewController: TXViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        addKeyboardListenersToAdjustConstraintsOnBottomMostView()
+        startKeyboardAwareness()
         compose.focusTextView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        removeKeyboardListeners()
+        stopKeyboardAwareness()
     }
     
     private func addSubviews() {
@@ -145,7 +145,8 @@ class ComposeViewController: TXViewController {
             byBeingSafeAreaAware: true
         )
         composeBottomBar.pin(
-            toBottomOf: view
+            toBottomOf: view,
+            byBeingSafeAreaAware: true
         )
     }
     
