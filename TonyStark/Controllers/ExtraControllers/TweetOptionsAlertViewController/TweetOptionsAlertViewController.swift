@@ -41,19 +41,21 @@ class TweetOptionsAlertViewController: UIAlertController {
         
         addAction(bookmarkAction)
         
-        let followAction = UIAlertAction(
-            title: tweet.author.viewables.follower ? "Remove follow" : "Follow",
-            style: .default
-        ) {
-            [weak self] action in
-            guard let strongSelf = self else {
-                return
+        if tweet.author.id != UserProvider.current.user.id {
+            let followAction = UIAlertAction(
+                title: tweet.author.viewables.follower ? "Remove follow" : "Follow",
+                style: .default
+            ) {
+                [weak self] action in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.interactionsHandler?.didPressFollow(strongSelf)
             }
             
-            strongSelf.interactionsHandler?.didPressFollow(strongSelf)
+            addAction(followAction)
         }
-        
-        addAction(followAction)
         
         let cancelAction = UIAlertAction(
             title: "Cancel",

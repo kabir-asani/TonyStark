@@ -59,12 +59,7 @@ class PartialTweetOptions: UIView {
         self.onBookmarkPressed = onBookmarkPressed
         self.onFollowPressed = onFollowPressed
         
-        configureOptionsButton(
-            withData: (
-                isBookmarked: tweet.viewables.bookmarked,
-                isFollower: tweet.author.viewables.follower
-            )
-        )
+        configureOptionsButton(withTweet: tweet)
     }
     
     @available (iOS, deprecated: 14.0)
@@ -79,31 +74,34 @@ class PartialTweetOptions: UIView {
     }
     
     @available(iOS 14.0, *)
-    private func configureOptionsButton(
-        withData data: (
-            isBookmarked: Bool,
-            isFollower: Bool
-        )
-    ) {
+    private func configureOptionsButton(withTweet tweet: Tweet) {
         optionsButton.showsMenuAsPrimaryAction = true
-        optionsButton.menu = TXMenu(
-            children: [
+        
+        var children = [
+            UIAction(
+                title: tweet.viewables.bookmarked ? "Remove bookmark" : "Bookmark",
+                image: UIImage(
+                    systemName: tweet.viewables.bookmarked
+                    ? "bookmark.fill"
+                    : "bookmark"
+                )
+            ) { [weak self] action in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.onBookmarkPressed?()
+            }
+        ]
+        
+        if tweet.author.id != UserProvider.current.user.id {
+            children.append(
                 UIAction(
-                    title: data.isBookmarked ? "Remove bookmark" : "Bookmark",
-                    image: UIImage(systemName: data.isBookmarked ? "bookmark.fill" : "bookmark")
-                ) { [weak self] action in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    
-                    strongSelf.onBookmarkPressed?()
-                },
-                UIAction(
-                    title: data.isFollower
+                    title: tweet.author.viewables.follower
                     ? "Unfollow"
                     : "Follow",
                     image: UIImage(
-                        systemName: data.isFollower
+                        systemName: tweet.author.viewables.follower
                         ? "person.badge.plus.fill"
                         : "person.badge.plus"
                     )
@@ -114,8 +112,10 @@ class PartialTweetOptions: UIView {
                     
                     strongSelf.onFollowPressed?()
                 }
-            ]
-        )
+            )
+        }
+        
+        optionsButton.menu = TXMenu(children: children)
     }
     
     // Interact
