@@ -10,24 +10,11 @@ import Foundation
 class HomeEvent: TXEvent { }
 class AuthenticationEvent: TXEvent { }
 
-class RootViewController: TXNavigationController {
-    init() {
-        super.init(rootViewController: TXViewController())
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+class RootViewController: TXViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureNavigationBar()
         configureEventListener()
-    }
-    
-    private func configureNavigationBar() {
-        navigationBar.isHidden = true
     }
     
     private func configureEventListener() {
@@ -38,16 +25,29 @@ class RootViewController: TXNavigationController {
             }
             
             if event is HomeEvent {
-                strongSelf.setViewControllers(
-                    [HomeViewController()],
+                strongSelf.dismiss(animated: true)
+                
+                
+                let homeViewController = HomeViewController()
+                homeViewController.modalPresentationStyle = .fullScreen
+                homeViewController.modalTransitionStyle = .crossDissolve
+                
+                strongSelf.present(
+                    homeViewController,
                     animated: true
                 )
             }
             
             if event is AuthenticationEvent {
-                strongSelf.setViewControllers(
-                    [AuthenticationViewController()],
-                    animated: false
+                strongSelf.dismiss(animated: true)
+                
+                let authenticationViewController = AuthenticationViewController()
+                authenticationViewController.modalPresentationStyle = .fullScreen
+                authenticationViewController.modalTransitionStyle = .crossDissolve
+                
+                strongSelf.present(
+                    authenticationViewController,
+                    animated: true
                 )
             }
         }
