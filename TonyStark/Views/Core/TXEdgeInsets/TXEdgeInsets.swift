@@ -27,8 +27,8 @@ extension TXEdgeInsets {
     }
     
     static func symmetric(
-        horizontal horizontalInset: Double,
-        vertical verticalInset: Double
+        horizontal horizontalInset: Double = 0,
+        vertical verticalInset: Double = 0
     ) -> TXEdgeInsets {
         return TXEdgeInsets(
             top: verticalInset,
