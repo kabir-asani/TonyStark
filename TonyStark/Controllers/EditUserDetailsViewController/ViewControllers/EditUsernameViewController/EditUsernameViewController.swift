@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol EditUsernameViewControllerInteractionsHandler: AnyObject {
+    func didPressDone(withUpdateUsername username: String)
+}
+
 class EditUsernameViewController: TXViewController {
     // Declare
+    weak var interactionsHandler: EditUsernameViewControllerInteractionsHandler?
+    
     private var username: String!
     
     private let tableView: TXTableView = {
@@ -29,6 +35,18 @@ class EditUsernameViewController: TXViewController {
         addSubviews()
         configureNavigationBar()
         configureTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        startKeyboardAwareness()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        stopKeyboardAwareness()
     }
     
     private func addSubviews() {
@@ -76,7 +94,9 @@ class EditUsernameViewController: TXViewController {
     
     // Interact
     @objc private func onDonePressed(_ sender: TXBarButtonItem) {
-        print(#function)
+        // TOOD: Validate username
+        
+        interactionsHandler?.didPressDone(withUpdateUsername: username)
     }
 }
 

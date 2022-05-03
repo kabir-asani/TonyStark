@@ -134,6 +134,7 @@ extension EditUserDetailsViewController: TXTableViewDataSource {
                 for: indexPath
             ) as! NameTableViewCell
             
+            cell.delegate = self
             cell.configure(withText: user.name)
             
             return cell
@@ -176,6 +177,7 @@ extension EditUserDetailsViewController: TXTableViewDelegate {
         case Editables.username.rawValue:
             let editUsernameViewController = EditUsernameViewController()
             
+            editUsernameViewController.interactionsHandler = self
             editUsernameViewController.populate(withUsername: user.username)
             
             navigationController?.pushViewController(
@@ -185,6 +187,7 @@ extension EditUserDetailsViewController: TXTableViewDelegate {
         case Editables.bio.rawValue:
             let editBioViewController = EditBioViewController()
             
+            editBioViewController.interactionsHandler = self
             editBioViewController.populate(withBio: user.bio)
             
             navigationController?.pushViewController(
@@ -194,6 +197,34 @@ extension EditUserDetailsViewController: TXTableViewDelegate {
         default:
             // Do nothing
             break
+        }
+    }
+}
+
+// MARK:
+extension EditUserDetailsViewController: EditUsernameViewControllerInteractionsHandler {
+    func didPressDone(withUpdateUsername username: String) {
+        user = user.copyWith(username: username)
+    }
+}
+
+// MARK:
+extension EditUserDetailsViewController: EditBioViewControllerInteractionsHandler {
+    func didPressDone(withUpdateBio bio: String) {
+        user = user.copyWith(bio: bio)
+    }
+}
+
+extension EditUserDetailsViewController: NameTableViewCellDelegate {
+    func cell(
+        _ cell: NameTableViewCell,
+        didChangeName name: String
+    ) {
+        if name.isEmpty {
+            navigationItem.rightBarButtonItem?.isEnabled = false
+        } else {
+            navigationItem.rightBarButtonItem?.isEnabled = true
+            user = user.copyWith(name: name)
         }
     }
 }

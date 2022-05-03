@@ -7,8 +7,17 @@
 
 import UIKit
 
+protocol NameTableViewCellDelegate: AnyObject {
+    func cell(
+        _ cell: NameTableViewCell,
+        didChangeName name: String
+    )
+}
+
 class NameTableViewCell: TXTableViewCell {
     // Declare
+    weak var delegate: NameTableViewCellDelegate?
+    
     override class var reuseIdentifier: String {
         String(describing: NameTableViewCell.self)
     }
@@ -57,6 +66,8 @@ class NameTableViewCell: TXTableViewCell {
     }
     
     private func arrangeSubviews() {
+        arrangeTrailing()
+        
         let combinedStackView = makeCombinedStackView()
         
         addSubview(combinedStackView)
@@ -84,6 +95,16 @@ class NameTableViewCell: TXTableViewCell {
         return combinedStack
     }
     
+    private func arrangeTrailing() {
+        trailing.delegate = self
+        
+        trailing.addTarget(
+            self,
+            action: #selector(textFieldDidChange(_:)),
+            for: .editingChanged
+        )
+    }
+    
     // Configure
     func configure(withText text: String) {
         trailing.text = text
@@ -91,3 +112,31 @@ class NameTableViewCell: TXTableViewCell {
     
     // Interact
 }
+
+// MARK: TXTextFieldDelegate
+extension NameTableViewCell: TXTextFieldDelegate {
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        if let text = textField.text {
+            delegate?.cell(
+                self,
+                didChangeName: text
+            )
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let text = textField.text {
+            delegate?.cell(
+                self,
+                didChangeName: text
+            )
+        }
+    }
+}
+

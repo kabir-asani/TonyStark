@@ -8,7 +8,7 @@
 import UIKit
 
 protocol EditBioViewControllerInteractionsHandler: AnyObject {
-    func didPressDone(withText text: String)
+    func didPressDone(withUpdateBio bio: String)
 }
 
 class EditBioViewController: TXViewController {
@@ -94,7 +94,7 @@ class EditBioViewController: TXViewController {
     
     // Interact
     @objc private func onDonePressed(_ sender: TXBarButtonItem) {
-        interactionsHandler?.didPressDone(withText: bio)
+        interactionsHandler?.didPressDone(withUpdateBio: bio)
     }
 }
 

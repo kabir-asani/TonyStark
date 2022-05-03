@@ -606,12 +606,12 @@
 			path = ProfileImageTableViewCell;
 			sourceTree = "<group>";
 		};
-		162C378E281D1A74000A8C0C /* EditNameTableViewCell */ = {
+		162C378E281D1A74000A8C0C /* NameTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
 				162C378F281D1A81000A8C0C /* NameTableViewCell.swift */,
 			);
-			path = EditNameTableViewCell;
+			path = NameTableViewCell;
 			sourceTree = "<group>";
 		};
 		162C3791281D1D5A000A8C0C /* UsernameTableViewCell */ = {
@@ -874,9 +874,9 @@
 		166C324B281E8142009D6961 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				162C378E281D1A74000A8C0C /* NameTableViewCell */,
 				162C3794281D1F8D000A8C0C /* BioTableViewCell */,
 				162C3791281D1D5A000A8C0C /* UsernameTableViewCell */,
-				162C378E281D1A74000A8C0C /* EditNameTableViewCell */,
 				162C378B281D15BC000A8C0C /* ProfileImageTableViewCell */,
 			);
 			path = Views;
