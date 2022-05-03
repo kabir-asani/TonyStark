@@ -47,17 +47,31 @@ class TwitterXLogoTableViewCell: TXTableViewCell {
     }
     
     private func arrangeSubviews() {
-        addSubview(twitterXLogo)
+        let combinedStackView = makeCombinedStackView()
         
-        arrangeTwitterXLogo()
+        addSubview(combinedStackView)
+        
+        combinedStackView.pin(
+            to: self,
+            withInsets: .symmetric(horizontal: 16)
+        )
     }
     
-    private func arrangeTwitterXLogo() {
-        twitterXLogo.pin(
-            toLeftOf: self,
-            withInset: 16
+    private func makeCombinedStackView() -> TXStackView {
+        let combinedStack = TXStackView(
+            arrangedSubviews: [
+                twitterXLogo,
+                .spacer
+            ]
         )
-        twitterXLogo.pin(verticallySymmetricTo: self)
+        
+        combinedStack.enableAutolayout()
+        combinedStack.axis = .horizontal
+        combinedStack.distribution = .fill
+        combinedStack.alignment = .leading
+        combinedStack.spacing = 16
+        
+        return combinedStack
     }
     
     // Configure
