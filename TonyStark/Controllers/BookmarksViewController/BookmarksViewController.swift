@@ -8,7 +8,7 @@
 import UIKit
 
 class BookmarksViewController: TXViewController {
-    private var state: Result<Paginated<Tweet>, BookmarksProvider.BookmarksFailure> = .success(.default())
+    private var state: Result<Paginated<Tweet>, BookmarksFailure> = .success(.default())
     
     // Declare
     private let tableView: TXTableView = {

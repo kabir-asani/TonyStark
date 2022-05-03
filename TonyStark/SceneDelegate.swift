@@ -57,7 +57,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         Task {
             await ProvidersRegistry.shared.bootUp()
             
-            if UserProvider.current.isLoggedIn {
+            if UserProvider.current.user != nil {
                 TXEventBroker.shared.emit(event: HomeEvent())
             } else {
                 TXEventBroker.shared.emit(event: AuthenticationEvent())

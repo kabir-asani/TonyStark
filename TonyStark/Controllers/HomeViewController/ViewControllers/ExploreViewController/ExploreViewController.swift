@@ -9,7 +9,7 @@ import UIKit
 
 class ExploreViewController: TXViewController {
     // Decalre
-    private var state: Result<Paginated<User>, SearchProvider.SearchFailure> = .success(.default())
+    private var state: Result<Paginated<User>, SearchFailure> = .success(.default())
     
     private let searchBarController: TXSearchController = {
         let searchBarController = TXSearchController()
@@ -177,7 +177,7 @@ extension ExploreViewController: TXTableViewDelegate {
         case .success(let paginated):
             let user = paginated.page[indexPath.row]
             
-            if user.id == UserProvider.current.user.id {
+            if user.id == UserProvider.current.user!.id {
                 navigationController?.popViewController(animated: true)
                 
                 let event =  HomeTabSwitchEvent(tab: HomeViewController.TabItem.user)
@@ -205,7 +205,7 @@ extension ExploreViewController: PartialUserTableViewCellInteractionsHandler {
         case .success(let paginated):
             let user = paginated.page[cell.indexPath.row]
             
-            if user.id == UserProvider.current.user.id {
+            if user.id == UserProvider.current.user!.id {
                 navigationController?.popViewController(animated: true)
                 
                 let event =  HomeTabSwitchEvent(tab: HomeViewController.TabItem.user)

@@ -10,7 +10,7 @@ import UIKit
 class FollowersViewController: TXViewController {
     // Declare
     private var user: User!
-    private var state: Result<Paginated<User>, SocialsProvider.FollowersFailure> = .success(.default())
+    private var state: Result<Paginated<User>, FollowersFailure> = .success(.default())
     
     private let tableView: TXTableView = {
         let tableView = TXTableView()
@@ -151,7 +151,7 @@ extension FollowersViewController: PartialUserTableViewCellInteractionsHandler {
         case .success(let paginated):
             let user = paginated.page[cell.indexPath.row]
             
-            if user.id == UserProvider.current.user.id {
+            if user.id == UserProvider.current.user!.id {
                 navigationController?.popViewController(animated: true)
                 
                 let event =  HomeTabSwitchEvent(tab: HomeViewController.TabItem.user)

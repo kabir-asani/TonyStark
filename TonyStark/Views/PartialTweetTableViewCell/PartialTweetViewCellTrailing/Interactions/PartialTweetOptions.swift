@@ -94,7 +94,7 @@ class PartialTweetOptions: UIView {
             }
         ]
         
-        if tweet.author.id != UserProvider.current.user.id {
+        if tweet.author.id != UserProvider.current.user!.id {
             children.append(
                 UIAction(
                     title: tweet.author.viewables.follower

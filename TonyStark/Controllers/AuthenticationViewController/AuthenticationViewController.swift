@@ -64,7 +64,6 @@ class AuthenticationViewController: TXViewController {
         )
     }
     
-    
     // Populate
     
     // Interact
@@ -131,20 +130,28 @@ extension AuthenticationViewController: TXTableViewDelegate {
 extension AuthenticationViewController: ActionsTableViewCellInteractionsHandler {
     func onContinueWithGooglePressed() {
         Task {
-            await UserProvider.current.logIn()
+            let result = await UserProvider.current.logIn(with: .google)
             
-            if UserProvider.current.isLoggedIn {
+            switch result {
+            case .success():
                 TXEventBroker.shared.emit(event: HomeEvent())
+            case .failure(_):
+                // TODO: Implement failure cases
+                break
             }
         }
     }
     
     func onContinueWithApplePressed() {
         Task {
-            await UserProvider.current.logIn()
+            let result = await UserProvider.current.logIn(with: .apple)
             
-            if UserProvider.current.isLoggedIn {
+            switch result {
+            case .success():
                 TXEventBroker.shared.emit(event: HomeEvent())
+            case .failure(_):
+                // TODO: Implement failure cases
+                break
             }
         }
     }

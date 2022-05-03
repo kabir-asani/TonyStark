@@ -1,22 +1,18 @@
 //
-//  TweetsProvider.swift
+//  FeedProvider.swift
 //  TonyStark
 //
-//  Created by Mohammed Sadiq on 17/04/22.
+//  Created by Mohammed Sadiq on 03/05/22.
 //
 
 import Foundation
 
-protocol TweetsProviderProtocol: Provider {
-    func createTweet(withDetails details: ComposeDetails) async -> Result<Tweet, CreateTweetFailure>
-    
-    func deleteTweet() async -> Result<Void, CreateTweetFailure>
-    
-    func tweets(ofUserWithId userId: String) async -> Result<Paginated<Tweet>, TweetsFailure>
+protocol FeedProviderProtocol: Provider {
+    func feed() async -> Result<Paginated<Tweet>, FeedFailure>
 }
 
-class TweetsProvider: TweetsProviderProtocol {
-    static let shared = TweetsProvider()
+class FeedProvider: FeedProviderProtocol {
+    static let shared: FeedProviderProtocol = FeedProvider()
     
     private init() { }
     
@@ -28,47 +24,8 @@ class TweetsProvider: TweetsProviderProtocol {
         // Do nothing
     }
     
-    func createTweet(withDetails details: ComposeDetails) async -> Result<Tweet, CreateTweetFailure> {
-        let _: Void = await withUnsafeContinuation {
-            continuation in
-                
-            DispatchQueue
-                .global(qos: .background)
-                .asyncAfter(deadline: .now()) {
-                    continuation.resume(returning: Void())
-                }
-        }
-        
-        let tweet = Tweet(
-            id: "ar93hdkj",
-            text: details.text,
-            creationDate: .now(),
-            meta: .default(),
-            author: UserProvider.current.user!,
-            viewables: .default()
-        )
-        
-        return .success(tweet)
-    }
-    
-    func deleteTweet() async -> Result<Void, CreateTweetFailure> {
-        let _: Void = await withUnsafeContinuation {
-            continuation in
-                
-            DispatchQueue
-                .global(qos: .background)
-                .asyncAfter(deadline: .now()) {
-                    continuation.resume(returning: Void())
-                }
-        }
-        
-        return .success(Void())
-    }
-    
-    func tweets(ofUserWithId userId: String) async -> Result<Paginated<Tweet>, TweetsFailure> {
-        let paginated: Paginated<Tweet> = await withCheckedContinuation {
-            continuation in
-            
+    func feed() async -> Result<Paginated<Tweet>, FeedFailure> {
+        let paginated: Paginated<Tweet> = await withCheckedContinuation { continuation in
             DispatchQueue
                 .global(qos: .background)
                 .asyncAfter(deadline: .now()) {
@@ -264,13 +221,6 @@ class TweetsProvider: TweetsProviderProtocol {
                 }
         }
         
-        let filteredPaginated = Paginated<Tweet>(
-            page: paginated.page.filter { tweet in
-                tweet.author.id == userId
-            },
-            nextToken: nil
-        )
-        
-        return .success(filteredPaginated)
+        return .success(paginated)
     }
 }

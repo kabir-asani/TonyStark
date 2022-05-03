@@ -9,6 +9,5 @@ import Foundation
 
 class UserProvider {
     static let current = CurrentUserProvider.shared
-    static let other = OtherUserProvider.shared
 }
 

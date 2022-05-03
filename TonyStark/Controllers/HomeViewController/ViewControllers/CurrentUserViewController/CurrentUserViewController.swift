@@ -14,7 +14,7 @@ class CurrentUserViewController: TXViewController {
         case tweets = 1
     }
     
-    private var state: Result<Paginated<Tweet>, TweetsProvider.TweetsFailure> = .success(.default())
+    private var state: Result<Paginated<Tweet>, TweetsFailure> = .success(.default())
     
     private var tableView: TXTableView = {
         let tableView = TXTableView()
@@ -119,8 +119,16 @@ class CurrentUserViewController: TXViewController {
             style: .destructive
         ) { action in
             Task {
-                await UserProvider.current.logOut()
-                TXEventBroker.shared.emit(event: AuthenticationEvent())
+                let result = await UserProvider.current.logOut()
+                
+                switch result {
+                case .success():
+                    TXEventBroker.shared.emit(event: AuthenticationEvent())
+                case .failure(_):
+                    // TODO: Implement failure cases
+                    break
+                }
+                
             }
         }
         
@@ -153,7 +161,7 @@ extension CurrentUserViewController: TXTableViewDataSource {
                 return
             }
             
-            let result = await TweetsProvider.shared.tweets(of: "mzaink")
+            let result = await TweetsProvider.shared.tweets(ofUserWithId: UserProvider.current.user!.id)
             
             strongSelf.state = result
             strongSelf.tableView.reloadSections(
@@ -181,6 +189,7 @@ extension CurrentUserViewController: TXTableViewDataSource {
             case .success(let paginated):
                 return paginated.page.count
             case .failure(_):
+                // TODO: Implement failure cases
                 return 0
             }
         default:
@@ -208,7 +217,7 @@ extension CurrentUserViewController: TXTableViewDataSource {
             ) as! CurrentUserTableViewCell
             
             cell.interactionsHandler = self
-            cell.configure(withUser: UserProvider.current.user)
+            cell.configure(withUser: UserProvider.current.user!)
             
             return cell
             
@@ -225,6 +234,7 @@ extension CurrentUserViewController: TXTableViewDataSource {
                 
                 return cell
             case .failure(_):
+                // TODO: Implement failure cases
                 return UITableViewCell()
             }
         default:
@@ -292,7 +302,7 @@ extension CurrentUserViewController: TXScrollViewDelegate {
         }
         
         if currentYOffset > 120 && navigationItem.title == nil {
-            navigationItem.title = UserProvider.current.user.name
+            navigationItem.title = UserProvider.current.user!.name
         }
     }
 }
@@ -302,7 +312,7 @@ extension CurrentUserViewController: CurrentUserTableViewCellInteractionsHandler
     func didPressEdit(_ cell: CurrentUserTableViewCell) {
         let editUserDetailsViewController = EditUserDetailsViewController()
         
-        editUserDetailsViewController.populate(withUser: UserProvider.current.user)
+        editUserDetailsViewController.populate(withUser: UserProvider.current.user!)
         
         let navigationViewController = TXNavigationController(
             rootViewController: editUserDetailsViewController
@@ -320,7 +330,7 @@ extension CurrentUserViewController: CurrentUserTableViewCellInteractionsHandler
         let followersViewController = FollowersViewController()
         
         followersViewController.populate(
-            withUser: UserProvider.current.user
+            withUser: UserProvider.current.user!
         )
         
         navigationController?.pushViewController(
@@ -332,7 +342,7 @@ extension CurrentUserViewController: CurrentUserTableViewCellInteractionsHandler
         let followingsViewController = FollowingsViewController()
         
         followingsViewController.populate(
-            withUser: UserProvider.current.user
+            withUser: UserProvider.current.user!
         )
         
         navigationController?.pushViewController(

@@ -9,7 +9,7 @@ import UIKit
 
 class FeedViewController: TXViewController {
     // Decalre
-    private var state: Result<Paginated<Tweet>, TweetsProvider.TweetsFailure> = .success(.default())
+    private var state: Result<Paginated<Tweet>, FeedFailure> = .success(.default())
     
     private let tableView: TXTableView = {
         let tableView = TXTableView()
@@ -124,7 +124,7 @@ extension FeedViewController: TXTableViewDataSource {
                 return
             }
             
-            let result = await TweetsProvider.shared.tweets()
+            let result = await FeedProvider.shared.feed()
             
             strongSelf.tableView.endPaginating()
             
@@ -255,7 +255,7 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
             
             let user = tweet.author
             
-            if user.id == UserProvider.current.user.id {
+            if user.id == UserProvider.current.user!.id {
                 navigationController?.popViewController(animated: true)
                 
                 let event =  HomeTabSwitchEvent(tab: HomeViewController.TabItem.user)

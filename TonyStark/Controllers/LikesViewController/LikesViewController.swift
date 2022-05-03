@@ -11,7 +11,7 @@ class LikesViewController: TXViewController {
     private var tweet: Tweet!
     
     // Declare
-    private var state: Result<Paginated<User>, LikesProvider.LikesFailure> = .success(.default())
+    private var state: Result<Paginated<User>, LikesFailure> = .success(.default())
     
     let tableView: TXTableView = {
         let tableView = TXTableView()
@@ -152,7 +152,7 @@ extension LikesViewController: PartialUserTableViewCellInteractionsHandler {
         case .success(let paginated):
             let user = paginated.page[cell.indexPath.row]
             
-            if user.id == UserProvider.current.user.id {
+            if user.id == UserProvider.current.user!.id {
                 navigationController?.popViewController(animated: true)
                 
                 let event =  HomeTabSwitchEvent(tab: HomeViewController.TabItem.user)

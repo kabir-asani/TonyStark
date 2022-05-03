@@ -15,7 +15,7 @@ class OtherUserViewController: TXViewController {
     
     // Declare
     private var user: User!
-    private var state: Result<Paginated<Tweet>, TweetsProvider.TweetsFailure> = .success(.default())
+    private var state: Result<Paginated<Tweet>, TweetsFailure> = .success(.default())
     
     private let tableView: TXTableView = {
         let tableView = TXTableView()
@@ -100,7 +100,7 @@ extension OtherUserViewController: TXTableViewDataSource {
                 return
             }
             
-            let result = await TweetsProvider.shared.tweets(of: user.id)
+            let result = await TweetsProvider.shared.tweets(ofUserWithId: user.id)
             
             strongSelf.state = result
             strongSelf.tableView.reloadData()
@@ -226,7 +226,7 @@ extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
         let followersViewController = FollowersViewController()
         
         followersViewController.populate(
-            withUser: UserProvider.current.user
+            withUser: UserProvider.current.user!
         )
         
         navigationController?.pushViewController(
@@ -238,7 +238,7 @@ extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
         let followingsViewController = FollowingsViewController()
         
         followingsViewController.populate(
-            withUser: UserProvider.current.user
+            withUser: UserProvider.current.user!
         )
         
         navigationController?.pushViewController(

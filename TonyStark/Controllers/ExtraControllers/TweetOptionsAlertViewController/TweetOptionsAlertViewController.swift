@@ -41,7 +41,7 @@ class TweetOptionsAlertViewController: UIAlertController {
         
         addAction(bookmarkAction)
         
-        if tweet.author.id != UserProvider.current.user.id {
+        if tweet.author.id != UserProvider.current.user!.id {
             let followAction = UIAlertAction(
                 title: tweet.author.viewables.follower ? "Remove follow" : "Follow",
                 style: .default

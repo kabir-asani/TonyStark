@@ -24,7 +24,7 @@ class TweetViewController: TXViewController {
     }
     
     private var tweet: Tweet!
-    private var state: Result<Paginated<Comment>, CommentsProvider.CommentsFailure> = .success(.default())
+    private var state: Result<Paginated<Comment>, CommentsFailure> = .success(.default())
     private var options: TweetViewControllerOptions!
     
     // Declare
@@ -233,7 +233,7 @@ extension TweetViewController: TXTableViewDataSource {
                 return
             }
             
-            let result = await CommentsProvider.shared.comments()
+            let result = await CommentsProvider.shared.comments(ofTweetWithId: tweet.id)
             
             strongSelf.tableView.endPaginating()
             
@@ -330,7 +330,7 @@ extension TweetViewController: TweetTableViewCellInteractionsHandler {
     func didPressProfileImage(_ cell: TweetTableViewCell) {
         let user = tweet.author
         
-        if user.id == UserProvider.current.user.id {
+        if user.id == UserProvider.current.user!.id {
             navigationController?.popViewController(animated: true)
             
             let event =  HomeTabSwitchEvent(tab: HomeViewController.TabItem.user)
@@ -351,7 +351,7 @@ extension TweetViewController: TweetTableViewCellInteractionsHandler {
     func didPressDetails(_ cell: TweetTableViewCell) {
         let user = tweet.author
         
-        if user.id == UserProvider.current.user.id {
+        if user.id == UserProvider.current.user!.id {
             navigationController?.popViewController(animated: true)
             
             let event =  HomeTabSwitchEvent(tab: HomeViewController.TabItem.user)
@@ -394,7 +394,7 @@ extension TweetViewController: CommentTableViewCellInteractionsHandler {
             
             let user = comment.author
             
-            if user.id == UserProvider.current.user.id {
+            if user.id == UserProvider.current.user!.id {
                 navigationController?.popViewController(animated: true)
                 
                 let event =  HomeTabSwitchEvent(tab: HomeViewController.TabItem.user)
