@@ -920,9 +920,9 @@
 		166C3250281E82AC009D6961 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				16D27C6F281FE8CC00D2A2C3 /* ActionsTableViewCell */,
-				16D27C6C281FE8B200D2A2C3 /* TaglineTableViewCell */,
 				16D27C69281FE89C00D2A2C3 /* TwitterXLogoTableViewCell */,
+				16D27C6C281FE8B200D2A2C3 /* TaglineTableViewCell */,
+				16D27C6F281FE8CC00D2A2C3 /* ActionsTableViewCell */,
 			);
 			path = Views;
 			sourceTree = "<group>";
