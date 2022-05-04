@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol TXSearchControllerDelegate: UISearchControllerDelegate {
+    
+}
+
 class TXSearchController: UISearchController {
 
 }

@@ -41,6 +41,9 @@
 		161250F427DBB56E006BCE5A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161250F327DBB56E006BCE5A /* SceneDelegate.swift */; };
 		161250FB27DBB56F006BCE5A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 161250FA27DBB56F006BCE5A /* Assets.xcassets */; };
 		161250FE27DBB56F006BCE5A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161250FC27DBB56F006BCE5A /* LaunchScreen.storyboard */; };
+		16133F82282251A100171F68 /* SearchKeywordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16133F81282251A100171F68 /* SearchKeywordTableViewCell.swift */; };
+		16133F85282255EC00171F68 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16133F84282255EC00171F68 /* SearchResultsViewController.swift */; };
+		16133F882822589500171F68 /* TXSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16133F872822589500171F68 /* TXSearchBar.swift */; };
 		161347E32819433B004AA245 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161347E22819433B004AA245 /* BookmarksViewController.swift */; };
 		161347E628194DE1004AA245 /* BookmarksProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161347E528194DE1004AA245 /* BookmarksProvider.swift */; };
 		16237AEE281FABD200837064 /* EditBioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16237AED281FABD200837064 /* EditBioTableViewCell.swift */; };
@@ -196,6 +199,9 @@
 		161250FA27DBB56F006BCE5A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		161250FD27DBB56F006BCE5A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		161250FF27DBB56F006BCE5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		16133F81282251A100171F68 /* SearchKeywordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchKeywordTableViewCell.swift; sourceTree = "<group>"; };
+		16133F84282255EC00171F68 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
+		16133F872822589500171F68 /* TXSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXSearchBar.swift; sourceTree = "<group>"; };
 		161347E22819433B004AA245 /* BookmarksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
 		161347E528194DE1004AA245 /* BookmarksProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksProvider.swift; sourceTree = "<group>"; };
 		16237AED281FABD200837064 /* EditBioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBioTableViewCell.swift; sourceTree = "<group>"; };
@@ -473,6 +479,8 @@
 		160437C827E1B67700EA615F /* ExploreViewController */ = {
 			isa = PBXGroup;
 			children = (
+				16133F83282255DA00171F68 /* ViewControllers */,
+				16133F802822519500171F68 /* Views */,
 				160437D027E1B79300EA615F /* ExploreViewController.swift */,
 			);
 			path = ExploreViewController;
@@ -612,6 +620,30 @@
 				161250FF27DBB56F006BCE5A /* Info.plist */,
 			);
 			path = TonyStark;
+			sourceTree = "<group>";
+		};
+		16133F802822519500171F68 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				16133F81282251A100171F68 /* SearchKeywordTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		16133F83282255DA00171F68 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				16133F84282255EC00171F68 /* SearchResultsViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		16133F862822588E00171F68 /* TXSearchBar */ = {
+			isa = PBXGroup;
+			children = (
+				16133F872822589500171F68 /* TXSearchBar.swift */,
+			);
+			path = TXSearchBar;
 			sourceTree = "<group>";
 		};
 		161347E1281942C2004AA245 /* BookmarksViewController */ = {
@@ -1047,6 +1079,7 @@
 		1691E450280EA8BD00BA223D /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				16133F862822588E00171F68 /* TXSearchBar */,
 				16D8AACA281F117D00EEC440 /* TXActivityIndicatorView */,
 				16DBF5BB2817E06B00E92DE5 /* TXScrollView */,
 				164828D02815C966002C6C06 /* TXMenu */,
@@ -1569,6 +1602,7 @@
 				161123852806CBE100908D98 /* Paginated.swift in Sources */,
 				163D2D9D28191D2E00CE5646 /* PartialUserTableViewCellTrailingHeader.swift in Sources */,
 				162C3793281D1D65000A8C0C /* UsernameTableViewCell.swift in Sources */,
+				16133F82282251A100171F68 /* SearchKeywordTableViewCell.swift in Sources */,
 				1691E456280EABAE00BA223D /* TXStackView.swift in Sources */,
 				16FDA072280FF45B004BB3C4 /* CommentTableViewCellLeading.swift in Sources */,
 				16D3C5E22810306100B8A2CC /* DateX.swift in Sources */,
@@ -1613,6 +1647,7 @@
 				16BB01172813A53600532323 /* OtherUserViewController.swift in Sources */,
 				1610D938280F356C00739208 /* PartialTweetViewCellTrailingBody.swift in Sources */,
 				160437AF27E1AE0700EA615F /* TXViewController.swift in Sources */,
+				16133F85282255EC00171F68 /* SearchResultsViewController.swift in Sources */,
 				16993CE6280C4A0200FFE71B /* TXButton.swift in Sources */,
 				16D3DFDB28166D7F0083B7E9 /* TweetTableViewCellFooter.swift in Sources */,
 				167224D6281BC73C005D79EB /* ResultX.swift in Sources */,
@@ -1680,6 +1715,7 @@
 				16493D232812B56D004912BB /* UIEdgeInsetsX.swift in Sources */,
 				160437CF27E1B77B00EA615F /* FeedViewController.swift in Sources */,
 				160437D127E1B79300EA615F /* ExploreViewController.swift in Sources */,
+				16133F882822589500171F68 /* TXSearchBar.swift in Sources */,
 				16993CDC280C443E00FFE71B /* TXSegmentedControl.swift in Sources */,
 				1611237F2806C9FD00908D98 /* Comment.swift in Sources */,
 				16237AEE281FABD200837064 /* EditBioTableViewCell.swift in Sources */,

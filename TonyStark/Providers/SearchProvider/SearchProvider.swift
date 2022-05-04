@@ -9,10 +9,14 @@ import Foundation
 
 protocol SearchProviderProtocol: Provider {
     func search(withKeyword keyword: String) async -> Result<Paginated<User>, SearchFailure>
+    
+    func previousSearchKeywords() async -> Result<[String], PreviousSearchKeywordsFailure>
 }
 
 class SearchProvider: SearchProviderProtocol {
     static let shared: SearchProviderProtocol = SearchProvider()
+    
+    private static let keywordsStorageKey = "keywordsStorageKey"
     
     private init() { }
     
@@ -25,6 +29,8 @@ class SearchProvider: SearchProviderProtocol {
     }
     
     func search(withKeyword keyword: String) async -> Result<Paginated<User>, SearchFailure> {
+        await captureKeyword(keyword)
+        
         let paginated: Paginated<User> = await withCheckedContinuation {
             continuation in
             
@@ -129,5 +135,33 @@ class SearchProvider: SearchProviderProtocol {
         }
         
         return .success(paginated)
+    }
+    
+    private func captureKeyword(_ keyword: String) async {
+        do {
+            let previousKeywords: TXLocalStorageElement<[String]> = try await TXLocalStorageAssistant.shallow.retrieve(
+                key: SearchProvider.keywordsStorageKey
+            )
+            
+            var latestKeywords = previousKeywords.value
+            
+            latestKeywords.append(keyword)
+            
+            _ = try await TXLocalStorageAssistant.shallow.update(
+                key: SearchProvider.keywordsStorageKey,
+                value: latestKeywords
+            )
+        } catch {
+            // do nothing
+        }
+    }
+    
+    func previousSearchKeywords() async -> Result<[String], PreviousSearchKeywordsFailure> {
+        let previousSearchKeywords = [
+            "Hello World",
+            "Meh Meh"
+        ]
+        
+        return .success(previousSearchKeywords)
     }
 }

@@ -127,6 +127,7 @@ extension FeedViewController: TXTableViewDataSource {
             let result = await FeedProvider.shared.feed()
             
             strongSelf.tableView.endPaginating()
+            strongSelf.tableView.addBufferOnFooter(withHeight: 100)
             
             strongSelf.state = result
             strongSelf.tableView.reloadData()

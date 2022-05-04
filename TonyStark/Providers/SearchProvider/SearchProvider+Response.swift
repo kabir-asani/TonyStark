@@ -11,3 +11,7 @@ import Foundation
 enum SearchFailure: Error {
     case unknown
 }
+
+enum PreviousSearchKeywordsFailure: Error {
+    case unknown
+}

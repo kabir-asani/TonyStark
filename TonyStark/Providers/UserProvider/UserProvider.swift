@@ -10,4 +10,3 @@ import Foundation
 class UserProvider {
     static let current = CurrentUserProvider.shared
 }
-
