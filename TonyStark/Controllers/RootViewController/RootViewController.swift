@@ -25,7 +25,7 @@ class RootViewController: TXViewController {
             }
             
             if event is HomeEvent {
-                strongSelf.dismiss(animated: true)
+                strongSelf.dismiss(animated: false)
                 
                 
                 let homeViewController = HomeViewController()
@@ -39,7 +39,7 @@ class RootViewController: TXViewController {
             }
             
             if event is AuthenticationEvent {
-                strongSelf.dismiss(animated: true)
+                strongSelf.dismiss(animated: false)
                 
                 let authenticationViewController = AuthenticationViewController()
                 authenticationViewController.modalPresentationStyle = .fullScreen
