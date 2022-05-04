@@ -12,7 +12,10 @@ class ExploreViewController: TXViewController {
     private var state: Result<[String], PreviousSearchKeywordsFailure> = .success([])
     
     private let tableView: TXTableView = {
-        let tableView = TXTableView()
+        let tableView = TXTableView(
+            frame: .zero,
+            style: .insetGrouped
+        )
         
         tableView.enableAutolayout()
         
@@ -21,6 +24,8 @@ class ExploreViewController: TXViewController {
     
     private let searchBar: TXSearchBar = {
         let searchBar = TXSearchBar()
+        
+        searchBar.enableAutolayout()
         
         return searchBar
     }()
@@ -91,6 +96,20 @@ class ExploreViewController: TXViewController {
 
 // MARK: TXSearchBarDelegate
 extension ExploreViewController: TXSearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(
+            true,
+            animated: true
+        )
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(
+            false,
+            animated: true
+        )
+    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let keyword = searchBar.text {
             let searchResultsViewController = SearchViewController()
@@ -105,6 +124,11 @@ extension ExploreViewController: TXSearchBarDelegate {
             searchBar.text = ""
             searchBar.resignFirstResponder()
         }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
     }
 }
 
