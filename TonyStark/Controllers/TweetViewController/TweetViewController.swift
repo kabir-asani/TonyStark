@@ -333,7 +333,7 @@ extension TweetViewController: TweetTableViewCellInteractionsHandler {
         navigationController?.openUserViewController(withUser: user)
     }
     
-    func tweetCellDidPressDetails(_ cell: TweetTableViewCell) {
+    func tweetCellDidPressProfileDetails(_ cell: TweetTableViewCell) {
         let user = tweet.author
         
         navigationController?.openUserViewController(withUser: user)
@@ -353,6 +353,26 @@ extension TweetViewController: TweetTableViewCellInteractionsHandler {
             animated: true
         )
     }
+    
+    func tweetCellDidPressOptions(_ cell: TweetTableViewCell) {
+        let alert = TweetOptionsAlertViewController.regular()
+        
+        alert.interactionsHandler = self
+        alert.configure(withTweet: tweet)
+        
+        present(
+            alert,
+            animated: true
+        )
+    }
+    
+    func tweetCellDidPressBookmarkOption(_ cell: TweetTableViewCell) {
+        print(#function)
+    }
+    
+    func tweetCellDidPressFollowOption(_ cell: TweetTableViewCell) {
+        print(#function)
+    }
 }
 
 // MARK: CommentTableViewCellInteractionsHandler
@@ -368,5 +388,16 @@ extension TweetViewController: CommentTableViewCellInteractionsHandler {
         default:
             break
         }
+    }
+}
+
+// MARK:
+extension TweetViewController: TweetOptionsAlertViewControllerInteractionsHandler {
+    func tweetOptionsAlertViewControllerDidPressBookmark(_ controller: TweetOptionsAlertViewController) {
+        print(#function)
+    }
+    
+    func tweetOptionsAlertViewControllerDidPressFollow(_ controller: TweetOptionsAlertViewController) {
+        print(#function)
     }
 }

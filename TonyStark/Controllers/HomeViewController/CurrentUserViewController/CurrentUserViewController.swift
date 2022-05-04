@@ -397,6 +397,7 @@ extension CurrentUserViewController: PartialTweetTableViewCellInteractionsHandle
         case .success(let paginated):
             let alert = TweetOptionsAlertViewController.regular()
             
+            alert.interactionsHandler = self
             alert.configure(withTweet: paginated.page[cell.indexPath.row])
             
             present(
@@ -406,5 +407,16 @@ extension CurrentUserViewController: PartialTweetTableViewCellInteractionsHandle
         default:
             break
         }
+    }
+}
+
+// MARK: TweetOptionsAlertViewControllerInteractionsHandler
+extension CurrentUserViewController: TweetOptionsAlertViewControllerInteractionsHandler {
+    func tweetOptionsAlertViewControllerDidPressBookmark(_ controller: TweetOptionsAlertViewController) {
+        print(#function)
+    }
+    
+    func tweetOptionsAlertViewControllerDidPressFollow(_ controller: TweetOptionsAlertViewController) {
+        print(#function)
     }
 }

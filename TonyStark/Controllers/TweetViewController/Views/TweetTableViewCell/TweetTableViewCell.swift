@@ -10,11 +10,18 @@ import UIKit
 protocol TweetTableViewCellInteractionsHandler: AnyObject {
     func tweetCellDidPressProfileImage(_ cell: TweetTableViewCell)
     
-    func tweetCellDidPressDetails(_ cell: TweetTableViewCell)
+    func tweetCellDidPressProfileDetails(_ cell: TweetTableViewCell)
     
     func tweetCellDidPressLike(_ cell: TweetTableViewCell)
     
     func tweetCellDidPressLikeDetails(_ cell: TweetTableViewCell)
+    
+    func tweetCellDidPressBookmarkOption(_ cell: TweetTableViewCell)
+    
+    func tweetCellDidPressFollowOption(_ cell: TweetTableViewCell)
+    
+    @available(iOS, deprecated: 14)
+    func tweetCellDidPressOptions(_ cell: TweetTableViewCell)
 }
 
 class TweetTableViewCell: TXTableViewCell {
@@ -105,23 +112,65 @@ class TweetTableViewCell: TXTableViewCell {
     func configure(
         withTweet tweet: Tweet
     ) {
-        header.configure(
-            withTweet: tweet
-        ) {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
+        if #available(iOS 14, *) {
+            header.configure(
+                withTweet: tweet
+            ) {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.interactionsHandler?.tweetCellDidPressProfileImage(strongSelf)
+            } onDetailsPressed: {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.interactionsHandler?.tweetCellDidPressProfileDetails(strongSelf)
+            } onBookmarksPressed: {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.interactionsHandler?.tweetCellDidPressBookmarkOption(strongSelf)
+            } onFollowPressed: {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.interactionsHandler?.tweetCellDidPressFollowOption(strongSelf)
             }
-            
-            strongSelf.interactionsHandler?.tweetCellDidPressProfileImage(strongSelf)
-        } onDetailsPressed: {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
+        } else {
+            header.configure(
+                withTweet: tweet
+            ) {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.interactionsHandler?.tweetCellDidPressProfileImage(strongSelf)
+            } onDetailsPressed: {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.interactionsHandler?.tweetCellDidPressProfileDetails(strongSelf)
+            } onOptionsPressed: {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.interactionsHandler?.tweetCellDidPressOptions(strongSelf)
             }
-            
-            strongSelf.interactionsHandler?.tweetCellDidPressDetails(strongSelf)
         }
+        
         
         body.configure(withTweet: tweet)
         

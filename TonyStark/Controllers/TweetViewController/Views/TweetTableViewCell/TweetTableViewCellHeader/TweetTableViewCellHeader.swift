@@ -72,10 +72,13 @@ class TweetTableViewCellHeader: TXView {
     }
     
     // Configure
+    @available(iOS 14, *)
     func configure(
         withTweet tweet: Tweet,
         onProfileImagePressed: @escaping () -> Void,
-        onDetailsPressed: @escaping () -> Void
+        onDetailsPressed: @escaping () -> Void,
+        onBookmarksPressed: @escaping () -> Void,
+        onFollowPressed: @escaping () -> Void
     ) {
         leading.configure(
             withTweet: tweet,
@@ -87,7 +90,31 @@ class TweetTableViewCellHeader: TXView {
             onPressed: onDetailsPressed
         )
         
-        trailing.configure(withTweet: tweet)
+        trailing.configure(
+            withTweet: tweet,
+            onBookmarkPressed: onBookmarksPressed,
+            onFollowPressed: onFollowPressed
+        )
+    }
+    
+    @available(iOS, deprecated: 14)
+    func configure(
+        withTweet tweet: Tweet,
+        onProfileImagePressed: @escaping () -> Void,
+        onDetailsPressed: @escaping () -> Void,
+        onOptionsPressed: @escaping () -> Void
+    ) {
+        leading.configure(
+            withTweet: tweet,
+            onProfileImagePressed: onProfileImagePressed
+        )
+        
+        middle.configure(
+            withTweet: tweet,
+            onPressed: onDetailsPressed
+        )
+        
+        trailing.configure(onOptionsPressed: onOptionsPressed)
     }
     
     // Interact
