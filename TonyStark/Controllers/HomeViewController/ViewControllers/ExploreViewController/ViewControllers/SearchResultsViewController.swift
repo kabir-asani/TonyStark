@@ -50,7 +50,7 @@ class SearchResultsViewController: TXViewController {
     
     private func configureSearchBar() {
         searchBar.delegate = self
-        searchBar.placeholder = "Search"
+        searchBar.placeholder = "Search for someone"
     }
     
     private func configureTableView() {

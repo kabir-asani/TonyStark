@@ -38,6 +38,18 @@ class ExploreViewController: TXViewController {
         populateTableView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        startKeyboardAwareness()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        stopKeyboardAwareness()
+    }
+    
     private func addSubviews() {
         view.addSubview(tableView)
     }
@@ -46,11 +58,12 @@ class ExploreViewController: TXViewController {
         navigationItem.backButtonTitle = ""
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.titleView = searchBar
+        navigationItem.hidesSearchBarWhenScrolling = true
     }
     
     private func configureSearchBar() {
         searchBar.delegate = self
-        searchBar.placeholder = "Searching for someone?"
+        searchBar.placeholder = "Search for someone"
     }
     
     private func configureTableView() {
@@ -58,6 +71,7 @@ class ExploreViewController: TXViewController {
         tableView.delegate = self
         
         tableView.tableHeaderView = .init(frame: .zero)
+        tableView.keyboardDismissMode = .onDrag
         
         tableView.register(
             SearchKeywordTableViewCell.self,
@@ -88,6 +102,7 @@ extension ExploreViewController: TXSearchBarDelegate {
             )
             
             searchBar.text = ""
+            searchBar.resignFirstResponder()
         }
     }
 }
@@ -191,6 +206,8 @@ extension ExploreViewController: TXTableViewDelegate {
                 searchResultsViewController,
                 animated: true
             )
+            
+            searchBar.resignFirstResponder()
         default:
             break
         }
