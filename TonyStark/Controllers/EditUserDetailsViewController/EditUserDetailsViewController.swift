@@ -120,18 +120,18 @@ extension EditUserDetailsViewController: TXTableViewDataSource {
     ) -> UITableViewCell {
         switch indexPath.row {
         case Editables.profilePicture.rawValue:
-            let cell = tableView.dequeueReusableCellWithIndexPath(
+            let cell = tableView.dequeueReusableCell(
                 withIdentifier: ProfileImageTableViewCell.reuseIdentifier,
-                for: indexPath
+                assigning: indexPath
             ) as! ProfileImageTableViewCell
             
             cell.configure(withImageURL: user.image)
             
             return cell
         case Editables.name.rawValue:
-            let cell = tableView.dequeueReusableCellWithIndexPath(
+            let cell = tableView.dequeueReusableCell(
                 withIdentifier: NameTableViewCell.reuseIdentifier,
-                for: indexPath
+                assigning: indexPath
             ) as! NameTableViewCell
             
             cell.delegate = self
@@ -139,18 +139,18 @@ extension EditUserDetailsViewController: TXTableViewDataSource {
             
             return cell
         case Editables.username.rawValue:
-            let cell = tableView.dequeueReusableCellWithIndexPath(
+            let cell = tableView.dequeueReusableCell(
                 withIdentifier: UsernameTableViewCell.reuseIdentifier,
-                for: indexPath
+                assigning: indexPath
             ) as! UsernameTableViewCell
             
             cell.configure(withText: user.username)
             
             return cell
         case Editables.bio.rawValue:
-            let cell = tableView.dequeueReusableCellWithIndexPath(
+            let cell = tableView.dequeueReusableCell(
                 withIdentifier: BioTableViewCell.reuseIdentifier,
-                for: indexPath
+                assigning: indexPath
             ) as! BioTableViewCell
             
             cell.configure(withText: user.bio)

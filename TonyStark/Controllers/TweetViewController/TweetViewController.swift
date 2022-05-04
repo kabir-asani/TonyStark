@@ -271,9 +271,9 @@ extension TweetViewController: TXTableViewDataSource {
     ) -> UITableViewCell {
         switch indexPath.section {
         case Section.tweet.rawValue:
-            let cell = tableView.dequeueReusableCellWithIndexPath(
+            let cell = tableView.dequeueReusableCell(
                 withIdentifier: TweetTableViewCell.reuseIdentifier,
-                for: indexPath
+                assigning: indexPath
             ) as! TweetTableViewCell
             
             cell.interactionsHandler = self
@@ -285,9 +285,9 @@ extension TweetViewController: TXTableViewDataSource {
             case .success(let paginated):
                 let comment = paginated.page[indexPath.row]
                 
-                let cell = tableView.dequeueReusableCellWithIndexPath(
+                let cell = tableView.dequeueReusableCell(
                     withIdentifier: CommentTableViewCell.reuseIdentifer,
-                    for: indexPath
+                    assigning: indexPath
                 ) as! CommentTableViewCell
                 
                 cell.interactionsHandler = self

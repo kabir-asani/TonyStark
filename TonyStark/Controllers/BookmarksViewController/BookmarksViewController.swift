@@ -100,9 +100,9 @@ extension BookmarksViewController: TXTableViewDataSource {
     ) -> UITableViewCell {
         switch state {
         case .success(let paginated):
-            let cell = tableView.dequeueReusableCellWithIndexPath(
+            let cell = tableView.dequeueReusableCell(
                 withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
-                for: indexPath
+                assigning: indexPath
             ) as! PartialTweetTableViewCell
             
             let tweet = paginated.page[indexPath.row]

@@ -479,8 +479,8 @@
 		160437C827E1B67700EA615F /* ExploreViewController */ = {
 			isa = PBXGroup;
 			children = (
-				16133F83282255DA00171F68 /* ViewControllers */,
 				16133F802822519500171F68 /* Views */,
+				16133F83282255DA00171F68 /* ViewControllers */,
 				160437D027E1B79300EA615F /* ExploreViewController.swift */,
 			);
 			path = ExploreViewController;

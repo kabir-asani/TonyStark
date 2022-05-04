@@ -88,23 +88,23 @@ extension AuthenticationViewController: TXTableViewDataSource {
     ) -> UITableViewCell {
         switch indexPath.row {
         case 0:
-            let cell = tableView.dequeueReusableCellWithIndexPath(
+            let cell = tableView.dequeueReusableCell(
                 withIdentifier: TwitterXLogoTableViewCell.reuseIdentifier,
-                for: indexPath
+                assigning: indexPath
             ) as! TwitterXLogoTableViewCell
             
             return cell
         case 1:
-            let cell = tableView.dequeueReusableCellWithIndexPath(
+            let cell = tableView.dequeueReusableCell(
                 withIdentifier: TaglineTableViewCell.reuseIdentifier,
-                for: indexPath
+                assigning: indexPath
             ) as! TaglineTableViewCell
             
             return cell
         case 2:
-            let cell = tableView.dequeueReusableCellWithIndexPath(
+            let cell = tableView.dequeueReusableCell(
                 withIdentifier: ActionsTableViewCell.reuseIdentifier,
-                for: indexPath
+                assigning: indexPath
             ) as! ActionsTableViewCell
             
             cell.interactionsHandler = self

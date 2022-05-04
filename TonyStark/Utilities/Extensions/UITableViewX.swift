@@ -104,9 +104,9 @@ extension UITableView {
         }
     }
     
-    func dequeueReusableCellWithIndexPath(
+    func dequeueReusableCell(
         withIdentifier identifier: String,
-        for indexPath: IndexPath
+        assigning indexPath: IndexPath
     ) -> TXTableViewCell {
         let cell = dequeueReusableCell(
             withIdentifier: identifier,

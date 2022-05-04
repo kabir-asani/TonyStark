@@ -127,9 +127,9 @@ extension EditBioViewController: TXTableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIndexPath(
+        let cell = tableView.dequeueReusableCell(
             withIdentifier: EditBioTableViewCell.reuseIdentifier,
-            for: indexPath
+            assigning: indexPath
         ) as! EditBioTableViewCell
         
         cell.delegate = self

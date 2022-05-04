@@ -102,9 +102,9 @@ extension FollowingsViewController: TXTableViewDataSource {
         return state.map { success in
             let user = success.page[indexPath.row]
             
-            let cell = tableView.dequeueReusableCellWithIndexPath(
+            let cell = tableView.dequeueReusableCell(
                 withIdentifier: PartialUserTableViewCell.reuseIdentifier,
-                for: indexPath
+                assigning: indexPath
             ) as! PartialUserTableViewCell
             
             cell.interactionsHandler = self

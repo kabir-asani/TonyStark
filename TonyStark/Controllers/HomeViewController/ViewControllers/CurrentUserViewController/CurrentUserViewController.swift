@@ -211,9 +211,9 @@ extension CurrentUserViewController: TXTableViewDataSource {
     ) -> UITableViewCell {
         switch indexPath.section {
         case Section.profile.rawValue:
-            let cell = tableView.dequeueReusableCellWithIndexPath(
+            let cell = tableView.dequeueReusableCell(
                 withIdentifier: CurrentUserTableViewCell.reuseIdentifier,
-                for: indexPath
+                assigning: indexPath
             ) as! CurrentUserTableViewCell
             
             cell.interactionsHandler = self
@@ -224,9 +224,9 @@ extension CurrentUserViewController: TXTableViewDataSource {
         case Section.tweets.rawValue:
             switch state {
             case .success(let paginated):
-                let cell = tableView.dequeueReusableCellWithIndexPath(
+                let cell = tableView.dequeueReusableCell(
                     withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
-                    for: indexPath
+                    assigning: indexPath
                 ) as! PartialTweetTableViewCell
                 
                 cell.interactionsHandler = self

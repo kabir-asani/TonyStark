@@ -104,9 +104,9 @@ extension LikesViewController: TXTableViewDataSource {
     ) -> UITableViewCell {
         switch state {
         case .success(let paginated):
-            let cell = tableView.dequeueReusableCellWithIndexPath(
+            let cell = tableView.dequeueReusableCell(
                 withIdentifier: PartialUserTableViewCell.reuseIdentifier,
-                for: indexPath
+                assigning: indexPath
             ) as! PartialUserTableViewCell
             
             cell.interactionsHandler = self

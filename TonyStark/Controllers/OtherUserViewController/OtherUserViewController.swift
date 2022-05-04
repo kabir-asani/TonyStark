@@ -135,9 +135,9 @@ extension OtherUserViewController: TXTableViewDataSource {
     ) -> UITableViewCell {
         switch indexPath.section {
         case Section.profile.rawValue:
-            let cell = tableView.dequeueReusableCellWithIndexPath(
+            let cell = tableView.dequeueReusableCell(
                 withIdentifier: OtherUserTableViewCell.reuseIdentifier,
-                for: indexPath
+                assigning: indexPath
             ) as! OtherUserTableViewCell
             
             cell.interactionsHandler = self
@@ -147,9 +147,9 @@ extension OtherUserViewController: TXTableViewDataSource {
             
         case Section.tweets.rawValue:
             return state.map { success in
-                let cell = tableView.dequeueReusableCellWithIndexPath(
+                let cell = tableView.dequeueReusableCell(
                     withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
-                    for: indexPath
+                    assigning: indexPath
                 ) as! PartialTweetTableViewCell
                 
                 let tweet = success.page[indexPath.row]
