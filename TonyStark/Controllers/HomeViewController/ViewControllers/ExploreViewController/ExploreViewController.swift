@@ -7,21 +7,29 @@
 
 import UIKit
 
-class ExploreViewController: TXTableViewController {
+class ExploreViewController: TXViewController {
     // Declare
     private var state: Result<[String], PreviousSearchKeywordsFailure> = .success([])
     
-    private let searchBarController: TXSearchController = {
-        let searchBarController = TXSearchController()
+    private let tableView: TXTableView = {
+        let tableView = TXTableView()
         
-        searchBarController.showsSearchResultsController = false
+        tableView.enableAutolayout()
         
-        return searchBarController
+        return tableView
+    }()
+    
+    private let searchBar: TXSearchBar = {
+        let searchBar = TXSearchBar()
+        
+        return searchBar
     }()
     
     // Configure
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        addSubviews()
         
         configureNavigationBar()
         configureSearchBar()
@@ -30,25 +38,35 @@ class ExploreViewController: TXTableViewController {
         populateTableView()
     }
     
+    private func addSubviews() {
+        view.addSubview(tableView)
+    }
+    
     private func configureNavigationBar() {
-        navigationItem.title = "Explore"
         navigationItem.backButtonTitle = ""
         navigationItem.largeTitleDisplayMode = .never
+        navigationItem.titleView = searchBar
     }
     
     private func configureSearchBar() {
-        navigationItem.searchController = searchBarController
-        
-        searchBarController.searchBar.delegate = self
-        searchBarController.didMove(toParent: self)
+        searchBar.delegate = self
+        searchBar.placeholder = "Searching for someone?"
     }
     
     private func configureTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        
         tableView.tableHeaderView = .init(frame: .zero)
         
         tableView.register(
             SearchKeywordTableViewCell.self,
             forCellReuseIdentifier: SearchKeywordTableViewCell.reuseIdentifier
+        )
+        
+        tableView.pin(
+            to: view,
+            byBeingSafeAreaAware: true
         )
     }
     
@@ -57,12 +75,24 @@ class ExploreViewController: TXTableViewController {
     // Interact
 }
 
-extension ExploreViewController: UISearchBarDelegate {
+extension ExploreViewController: TXSearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print(#function)
+        if let keyword = searchBar.text {
+            let searchResultsViewController = SearchResultsViewController()
+            
+            searchResultsViewController.populate(withKeyword: keyword)
+            
+            navigationController?.pushViewController(
+                searchResultsViewController,
+                animated: true
+            )
+            
+            searchBar.text = ""
+        }
     }
 }
 
+// MARK: TXTableViewDataSource
 extension ExploreViewController: TXTableViewDataSource {
     private func populateTableView() {
         Task {
@@ -78,11 +108,11 @@ extension ExploreViewController: TXTableViewDataSource {
         }
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(
+    func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
@@ -93,29 +123,30 @@ extension ExploreViewController: TXTableViewDataSource {
         }
     }
     
-    override func tableView(
+    func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         return state.map { success in
             let keyword = success[indexPath.row]
             
-            let cell = tableView.dequeueReusableCellWithIndexPath(
+            let cell = tableView.dequeueReusableCell(
                 withIdentifier: SearchKeywordTableViewCell.reuseIdentifier,
-                for: indexPath
+                assigning: indexPath
             ) as! SearchKeywordTableViewCell
             
             cell.configure(withKeyword: keyword)
             
             return cell
         } onFailure: { failure in
-            return UITableViewCell()
+            return TXTableViewCell()
         }
     }
 }
 
+// MARK:
 extension ExploreViewController: TXTableViewDelegate {
-    override func tableView(
+    func tableView(
         _ tableView: UITableView,
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
@@ -132,14 +163,14 @@ extension ExploreViewController: TXTableViewDelegate {
         }
     }
     
-    override func tableView(
+    func tableView(
         _ tableView: UITableView,
         estimatedHeightForRowAt indexPath: IndexPath
     ) -> CGFloat {
         return TXTableView.automaticDimension
     }
     
-    override func tableView(
+    func tableView(
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
