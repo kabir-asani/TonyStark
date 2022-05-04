@@ -203,20 +203,26 @@ extension EditUserDetailsViewController: TXTableViewDelegate {
 
 // MARK:
 extension EditUserDetailsViewController: EditUsernameViewControllerInteractionsHandler {
-    func didPressDone(withUpdateUsername username: String) {
+    func editUsernameViewController(
+        _ controller: EditUsernameViewController,
+        didUpdateUsername username: String
+    ) {
         user = user.copyWith(username: username)
     }
 }
 
 // MARK:
 extension EditUserDetailsViewController: EditBioViewControllerInteractionsHandler {
-    func didPressDone(withUpdateBio bio: String) {
+    func editBioViewController(
+        _ controller: EditBioViewController,
+        didUpdateBio bio: String
+    ) {
         user = user.copyWith(bio: bio)
     }
 }
 
 extension EditUserDetailsViewController: NameTableViewCellDelegate {
-    func cell(
+    func nameCell(
         _ cell: NameTableViewCell,
         didChangeName name: String
     ) {

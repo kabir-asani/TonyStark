@@ -8,7 +8,7 @@
 import UIKit
 
 protocol NameTableViewCellDelegate: AnyObject {
-    func cell(
+    func nameCell(
         _ cell: NameTableViewCell,
         didChangeName name: String
     )
@@ -117,7 +117,7 @@ class NameTableViewCell: TXTableViewCell {
 extension NameTableViewCell: TXTextFieldDelegate {
     @objc func textFieldDidChange(_ textField: UITextField) {
         if let text = textField.text {
-            delegate?.cell(
+            delegate?.nameCell(
                 self,
                 didChangeName: text
             )
@@ -132,7 +132,7 @@ extension NameTableViewCell: TXTextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let text = textField.text {
-            delegate?.cell(
+            delegate?.nameCell(
                 self,
                 didChangeName: text
             )

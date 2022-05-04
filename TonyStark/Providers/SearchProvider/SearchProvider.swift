@@ -36,7 +36,7 @@ class SearchProvider: SearchProviderProtocol {
             
             DispatchQueue
                 .global(qos: .background)
-                .asyncAfter(deadline: .now() + 4) {
+                .asyncAfter(deadline: .now()) {
                     let users: [User] = [
                         User(
                             id: "sadiyakhan",

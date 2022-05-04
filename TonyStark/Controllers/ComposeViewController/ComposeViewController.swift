@@ -9,8 +9,8 @@ import UIKit
 
 class ComposeViewController: TXViewController {
     // Declare
-    private let compose: Compose = {
-        let compose = Compose()
+    private let compose: Composer = {
+        let compose = Composer()
         
         compose.enableAutolayout()
         
@@ -88,14 +88,9 @@ class ComposeViewController: TXViewController {
     private func configureCompose() {
         compose.configure(
             withUser: UserProvider.current.user!
-        ) {
-            [weak self] text in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            strongSelf.composeBottomBar.configure(withCurrentCount: text.count)
-        }
+        )
+        
+        compose.delegate = self
         
         compose.pin(
             toTopOf: view,
@@ -158,5 +153,15 @@ class ComposeViewController: TXViewController {
     
     @objc private func onCancelPressed(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
+    }
+}
+
+// MARK: ComposerDelegate
+extension ComposeViewController: ComposerDelegate {
+    func composer(
+        _ composer: Composer,
+        didChangeText text: String
+    ) {
+        composeBottomBar.configure(withCurrentCount: text.count)
     }
 }

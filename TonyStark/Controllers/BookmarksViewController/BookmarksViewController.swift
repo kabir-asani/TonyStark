@@ -61,7 +61,6 @@ class BookmarksViewController: TXViewController {
     // Interact
 }
 
-
 // MARK: TXTableViewDataSource
 extension BookmarksViewController: TXTableViewDataSource {
     func populateTableView() {

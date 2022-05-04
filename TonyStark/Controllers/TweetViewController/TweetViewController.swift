@@ -7,25 +7,25 @@
 
 import UIKit
 
-struct TweetViewControllerOptions {
-    static var `default`: TweetViewControllerOptions {
-        TweetViewControllerOptions(
-            autoFocus: false
-        )
+class TweetViewController: TXViewController {
+    struct Options {
+        static func `default`() -> Options {
+            .init(
+                autoFocus: false
+            )
+        }
+        
+        let autoFocus: Bool
     }
     
-    let autoFocus: Bool
-}
-
-class TweetViewController: TXViewController {
     enum Section: Int, CaseIterable {
         case tweet
         case comments
     }
     
-    private var tweet: Tweet!
+    private var tweet: Tweet = .default()
     private var state: Result<Paginated<Comment>, CommentsFailure> = .success(.default())
-    private var options: TweetViewControllerOptions!
+    private var options: Options = .default()
     
     // Declare
     private let tableView: TXTableView = {
@@ -201,7 +201,7 @@ class TweetViewController: TXViewController {
     // Populate
     func populate(
         withTweet tweet: Tweet,
-        options: TweetViewControllerOptions = .default
+        options: Options = .default()
     ) {
         self.tweet = tweet
         self.options = options
@@ -327,53 +327,23 @@ extension TweetViewController: TXTableViewDelegate {
 
 // MARK: TweetTableViewCellInteractionsHandler
 extension TweetViewController: TweetTableViewCellInteractionsHandler {
-    func didPressProfileImage(_ cell: TweetTableViewCell) {
+    func tweetCellDidPressProfileImage(_ cell: TweetTableViewCell) {
         let user = tweet.author
         
-        if user.id == UserProvider.current.user!.id {
-            navigationController?.popViewController(animated: true)
-            
-            let event =  HomeTabSwitchEvent(tab: HomeViewController.TabItem.user)
-            
-            TXEventBroker.shared.emit(event: event)
-        } else {
-            let otherUserViewController = OtherUserViewController()
-            
-            otherUserViewController.populate(withUser: user)
-            
-            navigationController?.pushViewController(
-                otherUserViewController,
-                animated: true
-            )
-        }
+        navigationController?.openUserViewController(withUser: user)
     }
     
-    func didPressDetails(_ cell: TweetTableViewCell) {
+    func tweetCellDidPressDetails(_ cell: TweetTableViewCell) {
         let user = tweet.author
         
-        if user.id == UserProvider.current.user!.id {
-            navigationController?.popViewController(animated: true)
-            
-            let event =  HomeTabSwitchEvent(tab: HomeViewController.TabItem.user)
-            
-            TXEventBroker.shared.emit(event: event)
-        } else {
-            let otherUserViewController = OtherUserViewController()
-            
-            otherUserViewController.populate(withUser: user)
-            
-            navigationController?.pushViewController(
-                otherUserViewController,
-                animated: true
-            )
-        }
+        navigationController?.openUserViewController(withUser: user)
     }
     
-    func didPressLike(_ cell: TweetTableViewCell) {
+    func tweetCellDidPressLike(_ cell: TweetTableViewCell) {
         print(#function)
     }
     
-    func didPressLikeDetails(_ cell: TweetTableViewCell) {
+    func tweetCellDidPressLikeDetails(_ cell: TweetTableViewCell) {
         let likesViewController = LikesViewController()
         
         likesViewController.populate(withTweet: tweet)
@@ -387,29 +357,14 @@ extension TweetViewController: TweetTableViewCellInteractionsHandler {
 
 // MARK: CommentTableViewCellInteractionsHandler
 extension TweetViewController: CommentTableViewCellInteractionsHandler {
-    func didPressProfileImage(_ commentTableViewCell: CommentTableViewCell) {
+    func commentCellDidPressProfileImage(_ commentTableViewCell: CommentTableViewCell) {
         switch state {
         case .success(let paginated):
             let comment = paginated.page[commentTableViewCell.indexPath.row]
             
             let user = comment.author
             
-            if user.id == UserProvider.current.user!.id {
-                navigationController?.popViewController(animated: true)
-                
-                let event =  HomeTabSwitchEvent(tab: HomeViewController.TabItem.user)
-                
-                TXEventBroker.shared.emit(event: event)
-            } else {
-                let otherUserViewController = OtherUserViewController()
-                
-                otherUserViewController.populate(withUser: user)
-                
-                navigationController?.pushViewController(
-                    otherUserViewController,
-                    animated: true
-                )
-            }
+            navigationController?.openUserViewController(withUser: user)
         default:
             break
         }

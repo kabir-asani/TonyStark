@@ -8,7 +8,7 @@
 import UIKit
 
 class LikesViewController: TXViewController {
-    private var tweet: Tweet!
+    private var tweet: Tweet = .default()
     
     // Declare
     private var state: Result<Paginated<User>, LikesFailure> = .success(.default())
@@ -146,28 +146,14 @@ extension LikesViewController: TXTableViewDelegate {
     }
 }
 
+// MARK: PartialUserTableViewCellInteractionsHandler
 extension LikesViewController: PartialUserTableViewCellInteractionsHandler {
-    func didPressProfileImage(_ cell: PartialUserTableViewCell) {
+    func partialUserCellDidPressProfileImage(_ cell: PartialUserTableViewCell) {
         switch state {
         case .success(let paginated):
             let user = paginated.page[cell.indexPath.row]
             
-            if user.id == UserProvider.current.user!.id {
-                navigationController?.popViewController(animated: true)
-                
-                let event =  HomeTabSwitchEvent(tab: HomeViewController.TabItem.user)
-                
-                TXEventBroker.shared.emit(event: event)
-            } else {
-                let otherUserViewController = OtherUserViewController()
-                
-                otherUserViewController.populate(withUser: user)
-                
-                navigationController?.pushViewController(
-                    otherUserViewController,
-                    animated: true
-                )
-            }
+            navigationController?.openUserViewController(withUser: user)
         default:
             break
         }

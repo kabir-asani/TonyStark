@@ -1,46 +1,46 @@
 //
-//  OtherUserTableViewCell.swift
+//  ProfileTableViewCell.swift
 //  TonyStark
 //
-//  Created by Mohammed Sadiq on 23/04/22.
+//  Created by Mohammed Sadiq on 17/04/22.
 //
 
 import UIKit
 
-protocol OtherUserTableViewCellInteractionsHandler: AnyObject {
-    func otherUserCellDidPressFollow(_ cell: OtherUserTableViewCell)
+protocol CurrentUserTableViewCellInteractionsHandler: AnyObject {
+    func currentUserCellDidPressEdit(_ cell: CurrentUserTableViewCell)
     
-    func otherUserCellDidPressFollowers(_ cell: OtherUserTableViewCell)
+    func currentUserCellDidPressFollowers(_ cell: CurrentUserTableViewCell)
     
-    func otherUserCellDidPressFollowings(_ cell: OtherUserTableViewCell)
+    func currentUserCellDidPressFollowings(_ cell: CurrentUserTableViewCell)
 }
 
-class OtherUserTableViewCell: TXTableViewCell {
+class CurrentUserTableViewCell: TXTableViewCell {
     // Declare
     override class var reuseIdentifier: String {
-        String(describing: OtherUserTableViewCell.self)
+        String(describing: CurrentUserTableViewCell.self)
     }
     
-    weak var interactionsHandler: OtherUserTableViewCellInteractionsHandler?
+    weak var interactionsHandler: CurrentUserTableViewCellInteractionsHandler?
     
-    private let header: OtherUserTableViewCellHeader = {
-        let header = OtherUserTableViewCellHeader()
+    private let header: CurrentUserTableViewCellHeader = {
+        let header = CurrentUserTableViewCellHeader()
         
         header.enableAutolayout()
         
         return header
     }()
     
-    private let body: OtherUserTableViewCellBody = {
-        let body = OtherUserTableViewCellBody()
+    private let body: CurrentUserTableViewCellBody = {
+        let body = CurrentUserTableViewCellBody()
         
         body.enableAutolayout()
         
         return body
     }()
     
-    private let footer: OtherUserTableViewCellFooter = {
-        let footer = OtherUserTableViewCellFooter()
+    private let footer: CurrentUserTableViewCellFooter = {
+        let footer = CurrentUserTableViewCellFooter()
         
         footer.enableAutolayout()
         
@@ -112,7 +112,7 @@ class OtherUserTableViewCell: TXTableViewCell {
                 return
             }
             
-            strongSelf.interactionsHandler?.otherUserCellDidPressFollow(strongSelf)
+            strongSelf.interactionsHandler?.currentUserCellDidPressEdit(strongSelf)
         }
         
         body.configure(withUser: user)
@@ -125,14 +125,14 @@ class OtherUserTableViewCell: TXTableViewCell {
                 return
             }
             
-            strongSelf.interactionsHandler?.otherUserCellDidPressFollowers(strongSelf)
+            strongSelf.interactionsHandler?.currentUserCellDidPressFollowers(strongSelf)
         } onFollowingsPressed: {
             [weak self] in
             guard let strongSelf = self else {
                 return
             }
             
-            strongSelf.interactionsHandler?.otherUserCellDidPressFollowings(strongSelf)
+            strongSelf.interactionsHandler?.currentUserCellDidPressFollowings(strongSelf)
         }
     }
 }

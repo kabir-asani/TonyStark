@@ -50,7 +50,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func configure(windowWithWindowScene windowScene: UIWindowScene) {
         window = UIWindow(windowScene: windowScene)
         
-        window?.rootViewController = RootViewController()
+        window?.rootViewController = RunnerViewController()
         
         window?.makeKeyAndVisible()
         

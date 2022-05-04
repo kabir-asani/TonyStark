@@ -8,13 +8,13 @@
 import UIKit
 
 protocol TweetTableViewCellInteractionsHandler: AnyObject {
-    func didPressProfileImage(_ cell: TweetTableViewCell)
+    func tweetCellDidPressProfileImage(_ cell: TweetTableViewCell)
     
-    func didPressDetails(_ cell: TweetTableViewCell)
+    func tweetCellDidPressDetails(_ cell: TweetTableViewCell)
     
-    func didPressLike(_ cell: TweetTableViewCell)
+    func tweetCellDidPressLike(_ cell: TweetTableViewCell)
     
-    func didPressLikeDetails(_ cell: TweetTableViewCell)
+    func tweetCellDidPressLikeDetails(_ cell: TweetTableViewCell)
 }
 
 class TweetTableViewCell: TXTableViewCell {
@@ -113,14 +113,14 @@ class TweetTableViewCell: TXTableViewCell {
                 return
             }
             
-            strongSelf.interactionsHandler?.didPressProfileImage(strongSelf)
+            strongSelf.interactionsHandler?.tweetCellDidPressProfileImage(strongSelf)
         } onDetailsPressed: {
             [weak self] in
             guard let strongSelf = self else {
                 return
             }
             
-            strongSelf.interactionsHandler?.didPressDetails(strongSelf)
+            strongSelf.interactionsHandler?.tweetCellDidPressDetails(strongSelf)
         }
         
         body.configure(withTweet: tweet)
@@ -131,14 +131,14 @@ class TweetTableViewCell: TXTableViewCell {
                 return
             }
             
-            strongSelf.interactionsHandler?.didPressLikeDetails(strongSelf)
+            strongSelf.interactionsHandler?.tweetCellDidPressLikeDetails(strongSelf)
         } onLikePressed: {
             [weak self] in
             guard let strongSelf = self else {
                 return
             }
             
-            strongSelf.interactionsHandler?.didPressLike(strongSelf)
+            strongSelf.interactionsHandler?.tweetCellDidPressLike(strongSelf)
         }
     }
     

@@ -1,23 +1,22 @@
 //
-//  OtherUserViewController.swift
+//  ProfileViewController.swift
 //  TonyStark
 //
-//  Created by Mohammed Sadiq on 23/04/22.
+//  Created by Mohammed Sadiq on 16/03/22.
 //
 
 import UIKit
 
-class OtherUserViewController: TXViewController {
+class CurrentUserViewController: TXViewController {
+    // Declare
     enum Section: Int, CaseIterable {
-        case profile
-        case tweets
+        case profile = 0
+        case tweets = 1
     }
     
-    // Declare
-    private(set) var user: User!
     private var state: Result<Paginated<Tweet>, TweetsFailure> = .success(.default())
     
-    private let tableView: TXTableView = {
+    private var tableView: TXTableView = {
         let tableView = TXTableView()
         
         tableView.enableAutolayout()
@@ -43,7 +42,12 @@ class OtherUserViewController: TXViewController {
     
     private func configureNavigationBar() {
         navigationItem.backButtonTitle = ""
-        navigationItem.largeTitleDisplayMode = .never
+        navigationItem.rightBarButtonItem = TXBarButtonItem(
+            image: UIImage(systemName: "line.3.horizontal"),
+            style: .plain,
+            target: self,
+            action: #selector(onActionPressed(_:))
+        )
     }
     
     private func configureTableView() {
@@ -53,8 +57,8 @@ class OtherUserViewController: TXViewController {
         tableView.addBufferOnHeader(withHeight: 0)
         
         tableView.register(
-            OtherUserTableViewCell.self,
-            forCellReuseIdentifier: OtherUserTableViewCell.reuseIdentifier
+            CurrentUserTableViewCell.self,
+            forCellReuseIdentifier: CurrentUserTableViewCell.reuseIdentifier
         )
         
         tableView.register(
@@ -69,45 +73,107 @@ class OtherUserViewController: TXViewController {
     }
     
     // Populate
-    func populate(withUser user: User) {
-        self.user = user
-    }
     
     // Interact
-}
-
-// MARK: TXScrollViewDelegate
-extension OtherUserViewController: TXScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let currentYOffset = scrollView.contentOffset.y
+    @objc private func onActionPressed(
+        _ sender: UIBarButtonItem
+    ) {
+        let alert = UIAlertController(
+            title: nil,
+            message: nil,
+            preferredStyle: .actionSheet
+        )
         
-        if currentYOffset < 120 {
-            navigationItem.title = nil
+        let appInformationAction = UIAlertAction(
+            title: "App Information",
+            style: .default
+        ) { action in
+            // TODO:
         }
         
-        if currentYOffset > 120 && navigationItem.title == nil {
-            navigationItem.title = user.name
+        let developerInformationAction = UIAlertAction(
+            title: "Developer Information",
+            style: .default
+        ) { action in
+            // TODO:
         }
+        
+        let bookmarksAction = UIAlertAction(
+            title: "Bookmarks",
+            style: .default
+        ) { [weak self] action in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            let bookmarksViewController = BookmarksViewController()
+            
+            strongSelf.navigationController?.pushViewController(
+                bookmarksViewController,
+                animated: true
+            )
+        }
+    
+        let logOutAction = UIAlertAction(
+            title: "Log Out?",
+            style: .destructive
+        ) { action in
+            Task {
+                let result = await UserProvider.current.logOut()
+                
+                switch result {
+                case .success():
+                    TXEventBroker.shared.emit(event: AuthenticationEvent())
+                case .failure(_):
+                    // TODO: Implement failure cases
+                    break
+                }
+                
+            }
+        }
+        
+        let cancelAction = UIAlertAction(
+            title: "Cancel",
+            style: .cancel
+        ) { action in
+            alert.dismiss(animated: true)
+        }
+        
+        alert.addAction(appInformationAction)
+        alert.addAction(developerInformationAction)
+        alert.addAction(bookmarksAction)
+        alert.addAction(logOutAction)
+        alert.addAction(cancelAction)
+        
+        present(
+            alert,
+            animated: true
+        )
     }
 }
 
 // MARK: TXTableViewDataSource
-extension OtherUserViewController: TXTableViewDataSource {
-    func populateTableView() {
+extension CurrentUserViewController: TXTableViewDataSource {
+    private func populateTableView() {
         Task {
             [weak self] in
             guard let strongSelf = self else {
                 return
             }
             
-            let result = await TweetsProvider.shared.tweets(ofUserWithId: user.id)
+            let result = await TweetsProvider.shared.tweets(ofUserWithId: UserProvider.current.user!.id)
             
             strongSelf.state = result
-            strongSelf.tableView.reloadData()
+            strongSelf.tableView.reloadSections(
+                [Section.tweets.rawValue],
+                with: .automatic
+            )
         }
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(
+        in tableView: UITableView
+    ) -> Int {
         return Section.allCases.count
     }
     
@@ -119,14 +185,24 @@ extension OtherUserViewController: TXTableViewDataSource {
         case Section.profile.rawValue:
             return 1
         case Section.tweets.rawValue:
-            return state.map { success in
-                success.page.count
-            } onFailure: { failure in
-                0
+            switch state {
+            case .success(let paginated):
+                return paginated.page.count
+            case .failure(_):
+                // TODO: Implement failure cases
+                return 0
             }
         default:
-            fatalError("Only two sections can exists. Something has gone wrong.")
+            fatalError()
         }
+        
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        estimatedHeightForRowAt indexPath: IndexPath
+    ) -> CGFloat {
+        return UITableView.automaticDimension
     }
     
     func tableView(
@@ -136,40 +212,39 @@ extension OtherUserViewController: TXTableViewDataSource {
         switch indexPath.section {
         case Section.profile.rawValue:
             let cell = tableView.dequeueReusableCell(
-                withIdentifier: OtherUserTableViewCell.reuseIdentifier,
+                withIdentifier: CurrentUserTableViewCell.reuseIdentifier,
                 assigning: indexPath
-            ) as! OtherUserTableViewCell
+            ) as! CurrentUserTableViewCell
             
             cell.interactionsHandler = self
-            cell.configure(withUser: user)
+            cell.configure(withUser: UserProvider.current.user!)
             
             return cell
             
         case Section.tweets.rawValue:
-            return state.map { success in
+            switch state {
+            case .success(let paginated):
                 let cell = tableView.dequeueReusableCell(
                     withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
                     assigning: indexPath
                 ) as! PartialTweetTableViewCell
                 
-                let tweet = success.page[indexPath.row]
-                
                 cell.interactionsHandler = self
-                cell.configure(withTweet: tweet)
+                cell.configure(withTweet: paginated.page[indexPath.row])
                 
                 return cell
-            } onFailure: { failure in
+            case .failure(_):
+                // TODO: Implement failure cases
                 return UITableViewCell()
             }
-            
         default:
-            fatalError("Only two sections can exists. Something has gone wrong.")
+            fatalError()
         }
     }
 }
 
 // MARK: TXTableViewDelegate
-extension OtherUserViewController: TXTableViewDelegate {
+extension CurrentUserViewController: TXTableViewDelegate {
     func tableView(
         _ tableView: UITableView,
         willDisplay cell: UITableViewCell,
@@ -217,13 +292,41 @@ extension OtherUserViewController: TXTableViewDelegate {
     }
 }
 
-// MARK: OtherUserTableViewCellInteractionsHandler
-extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
-    func otherUserCellDidPressFollow(_ cell: OtherUserTableViewCell) {
+// MARK: TXScrollViewDelegate
+extension CurrentUserViewController: TXScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let currentYOffset = scrollView.contentOffset.y
         
+        if currentYOffset < 120 {
+            navigationItem.title = nil
+        }
+        
+        if currentYOffset > 120 && navigationItem.title == nil {
+            navigationItem.title = UserProvider.current.user!.name
+        }
+    }
+}
+
+// MARK: CurrentUserDetailsTableViewCellDelegate
+extension CurrentUserViewController: CurrentUserTableViewCellInteractionsHandler {
+    func currentUserCellDidPressEdit(_ cell: CurrentUserTableViewCell) {
+        let editUserDetailsViewController = EditUserDetailsViewController()
+        
+        editUserDetailsViewController.populate(withUser: UserProvider.current.user!)
+        
+        let navigationViewController = TXNavigationController(
+            rootViewController: editUserDetailsViewController
+        )
+        
+        navigationViewController.modalPresentationStyle = .fullScreen
+        
+        present(
+            navigationViewController,
+            animated: true
+        )
     }
     
-    func otherUserCellDidPressFollowers(_ cell: OtherUserTableViewCell) {
+    func currentUserCellDidPressFollowers(_ cell: CurrentUserTableViewCell) {
         let followersViewController = FollowersViewController()
         
         followersViewController.populate(
@@ -235,7 +338,7 @@ extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
         )
     }
     
-    func otherUserCellDidPressFollowings(_ cell: OtherUserTableViewCell) {
+    func currentUserCellDidPressFollowings(_ cell: CurrentUserTableViewCell) {
         let followingsViewController = FollowingsViewController()
         
         followingsViewController.populate(
@@ -249,7 +352,7 @@ extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
 }
 
 // MARK: PartialTweetTableViewCellInteractionsHandler
-extension OtherUserViewController: PartialTweetTableViewCellInteractionsHandler {
+extension CurrentUserViewController: PartialTweetTableViewCellInteractionsHandler {
     func partialTweetCellDidPressLike(_ cell: PartialTweetTableViewCell) {
         print(#function)
     }
@@ -278,7 +381,7 @@ extension OtherUserViewController: PartialTweetTableViewCellInteractionsHandler 
     }
     
     func partialTweetCellDidPressProfileImage(_ cell: PartialTweetTableViewCell) {
-        navigationController?.openUserViewController(withUser: user)
+        print(#function)
     }
     
     func partialTweetCellDidPressBookmarksOption(_ cell: PartialTweetTableViewCell) {

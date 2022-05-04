@@ -1,16 +1,16 @@
 //
-//  FollowingsViewController.swift
+//  SearchResultsViewController.swift
 //  TonyStark
 //
-//  Created by Mohammed Sadiq on 29/04/22.
+//  Created by Mohammed Sadiq on 04/05/22.
 //
 
 import UIKit
 
-class FollowingsViewController: TXViewController {
+class SearchViewController: TXViewController {
     // Declare
-    private var user: User = .default()
-    private var state: Result<Paginated<User>, FollowingsFailure> = .success(.default())
+    private var keyword: String!
+    private var state: Result<Paginated<User>, SearchFailure> = .success(.default())
     
     private let tableView: TXTableView = {
         let tableView = TXTableView()
@@ -20,6 +20,12 @@ class FollowingsViewController: TXViewController {
         return tableView
     }()
     
+    private let searchBar: TXSearchBar = {
+        let searchBar = TXSearchBar()
+        
+        return searchBar
+    }()
+    
     // Configure
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +33,7 @@ class FollowingsViewController: TXViewController {
         addSubviews()
         
         configureNavigationBar()
+        configureSearchBar()
         configureTableView()
         
         populateTableView()
@@ -37,12 +44,19 @@ class FollowingsViewController: TXViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "Followings"
+        navigationItem.backButtonTitle = ""
+        navigationItem.titleView = searchBar
+    }
+    
+    private func configureSearchBar() {
+        searchBar.delegate = self
+        searchBar.placeholder = "Search for someone"
     }
     
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
+        
         tableView.addBufferOnHeader(withHeight: 0)
         
         tableView.register(
@@ -57,23 +71,46 @@ class FollowingsViewController: TXViewController {
     }
     
     // Populate
-    func populate(withUser user: User) {
-        self.user = user
+    func populate(withKeyword keyword: String) {
+        self.keyword = keyword
+        searchBar.text = keyword
     }
     
     // Interact
 }
 
+// MARK: TXSearchBarDelegate
+extension SearchViewController: TXSearchBarDelegate {
+    func searchBar(
+        _ searchBar: UISearchBar,
+        textDidChange searchText: String
+    ) {
+        self.keyword = searchText
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        
+        populateTableView()
+    }
+}
+
 // MARK: TXTableViewDataSource
-extension FollowingsViewController: TXTableViewDataSource {
+extension SearchViewController: TXTableViewDataSource {
     private func populateTableView() {
+        state = .success(.default())
+        tableView.reloadData()
+        tableView.beginPaginating()
+        
         Task {
             [weak self] in
             guard let strongSelf = self else {
                 return
             }
             
-            let result = await SocialsProvider.shared.followings()
+            let result = await SearchProvider.shared.search(withKeyword: keyword)
+            
+            strongSelf.tableView.endPaginating()
             
             strongSelf.state = result
             strongSelf.tableView.reloadData()
@@ -112,47 +149,45 @@ extension FollowingsViewController: TXTableViewDataSource {
             
             return cell
         } onFailure: { failure in
-            return UITableViewCell()
+            return TXTableViewCell()
         }
     }
 }
 
 // MARK: TXTableViewDelegate
-extension FollowingsViewController: TXTableViewDelegate {
+extension SearchViewController: TXTableViewDelegate {
     func tableView(
         _ tableView: UITableView,
-        willDisplay cell: UITableViewCell,
-        forRowAt indexPath: IndexPath
+        didSelectRowAt indexPath: IndexPath
     ) {
+        tableView.deselectRow(
+            at: indexPath,
+            animated: true
+        )
+        
         switch state {
         case .success(let paginated):
-            if indexPath.row  == paginated.page.count - 1 {
-                cell.separatorInset = .leading(.infinity)
-            } else {
-                cell.separatorInset = .leading(20)
-            }
-        default:
+            let user = paginated.page[indexPath.row]
+            
+            navigationController?.openUserViewController(withUser: user)
+        case .failure(_):
+            // TODO: Handle failure cases
             break
         }
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
-        estimatedHeightForRowAt indexPath: IndexPath
-    ) -> CGFloat {
-        return TXTableView.automaticDimension
     }
 }
 
 // MARK: PartialUserTableViewCellInteractionsHandler
-extension FollowingsViewController: PartialUserTableViewCellInteractionsHandler {
+extension SearchViewController: PartialUserTableViewCellInteractionsHandler {
     func partialUserCellDidPressProfileImage(_ cell: PartialUserTableViewCell) {
+        
         switch state {
         case .success(let paginated):
             let user = paginated.page[cell.indexPath.row]
             
             navigationController?.openUserViewController(withUser: user)
-        default:
+        case .failure(_):
+            // TODO: Handle failure cases
             break
         }
     }

@@ -54,8 +54,8 @@ class AuthenticationViewController: TXViewController {
             forCellReuseIdentifier: TaglineTableViewCell.reuseIdentifier
         )
         tableView.register(
-            ActionsTableViewCell.self,
-            forCellReuseIdentifier: ActionsTableViewCell.reuseIdentifier
+            AuthenticationActionsTableViewCell.self,
+            forCellReuseIdentifier: AuthenticationActionsTableViewCell.reuseIdentifier
         )
         
         tableView.pin(
@@ -103,9 +103,9 @@ extension AuthenticationViewController: TXTableViewDataSource {
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(
-                withIdentifier: ActionsTableViewCell.reuseIdentifier,
+                withIdentifier: AuthenticationActionsTableViewCell.reuseIdentifier,
                 assigning: indexPath
-            ) as! ActionsTableViewCell
+            ) as! AuthenticationActionsTableViewCell
             
             cell.interactionsHandler = self
             
@@ -126,9 +126,9 @@ extension AuthenticationViewController: TXTableViewDelegate {
     }
 }
 
-
-extension AuthenticationViewController: ActionsTableViewCellInteractionsHandler {
-    func onContinueWithGooglePressed() {
+// MARK: AuthenticationActionsTableViewCellInteractionsHandler
+extension AuthenticationViewController: AuthenticationActionsTableViewCellInteractionsHandler {
+    func authenticationActionsCellDidContinueWithGoogle() {
         Task {
             let result = await UserProvider.current.logIn(with: .google)
             
@@ -142,7 +142,7 @@ extension AuthenticationViewController: ActionsTableViewCellInteractionsHandler 
         }
     }
     
-    func onContinueWithApplePressed() {
+    func authenticationActionsCellDidContinueWithApple() {
         Task {
             let result = await UserProvider.current.logIn(with: .apple)
             

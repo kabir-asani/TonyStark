@@ -1,32 +1,34 @@
 //
-//  CommentTableViewCell.swift
+//  PartialUserTableViewCell.swift
 //  TonyStark
 //
-//  Created by Mohammed Sadiq on 20/04/22.
+//  Created by Mohammed Sadiq on 27/04/22.
 //
 
 import UIKit
 
-protocol CommentTableViewCellInteractionsHandler: AnyObject {
-    func commentCellDidPressProfileImage(_ commentTableViewCell: CommentTableViewCell)
+protocol PartialUserTableViewCellInteractionsHandler: AnyObject {
+    func partialUserCellDidPressProfileImage(_ cell: PartialUserTableViewCell)
 }
 
-class CommentTableViewCell: TXTableViewCell {
+class PartialUserTableViewCell: TXTableViewCell {
+    override class var reuseIdentifier: String {
+        String(describing: PartialUserTableViewCell.self)
+    }
+    
     // Declare
-    static let reuseIdentifer = String(describing: CommentTableViewCell.self)
+    weak var interactionsHandler: PartialUserTableViewCellInteractionsHandler?
     
-    weak var interactionsHandler: CommentTableViewCellInteractionsHandler?
-    
-    private let leading: CommentTableViewCellLeading = {
-        let leading = CommentTableViewCellLeading()
+    private let leading: PartialUserTableViewCellLeading = {
+        let leading = PartialUserTableViewCellLeading()
         
         leading.enableAutolayout()
         
         return leading
     }()
     
-    private let trailing: CommentTableViewCellTrailing = {
-        let trailing = CommentTableViewCellTrailing()
+    private let trailing: PartialUserTableViewCellTrailing = {
+        let trailing = PartialUserTableViewCellTrailing()
         
         trailing.enableAutolayout()
         
@@ -62,7 +64,10 @@ class CommentTableViewCell: TXTableViewCell {
         
         combinedStackView.pin(
             to: self,
-            withInsets: .all(16)
+            withInsets: .symmetric(
+                horizontal: 16,
+                vertical: 8
+            )
         )
     }
     
@@ -84,20 +89,17 @@ class CommentTableViewCell: TXTableViewCell {
     }
     
     // Configure
-    func configure(withComment comment: Comment) {
-        leading.configure(
-            withComment: comment
-        ) {
+    func configure(withUser user: User) {
+        leading.configure(withUser: user) {
             [weak self] in
-            
             guard let strongSelf = self else {
                 return
             }
             
-            strongSelf.interactionsHandler?.commentCellDidPressProfileImage(strongSelf)
+            strongSelf.interactionsHandler?.partialUserCellDidPressProfileImage(strongSelf)
         }
         
-        trailing.configure(withComment: comment)
+        trailing.configure(withUser: user)
     }
     
     // Interact
