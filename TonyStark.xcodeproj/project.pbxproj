@@ -344,7 +344,6 @@
 		160437A527E1AD7200EA615F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				1618F8EB2822EB7300C1358E /* ReusableViews */,
 				160437A827E1AD8900EA615F /* CoreViewControllers */,
 				1696A07D281D73ED00C88604 /* RunnerViewController */,
 				162C3797281D22D9000A8C0C /* AuthenticationViewController */,
@@ -607,6 +606,7 @@
 				16C45FF127E76F2100F592A2 /* Utilities */,
 				16DEB94D2806079E00140E63 /* DataStrores */,
 				160437A727E1AD8400EA615F /* Models */,
+				1618F8EB2822EB7300C1358E /* Views */,
 				160437A527E1AD7200EA615F /* Controllers */,
 				161250F127DBB56E006BCE5A /* AppDelegate.swift */,
 				161250F327DBB56E006BCE5A /* SceneDelegate.swift */,
@@ -667,7 +667,7 @@
 			path = SearchViewController;
 			sourceTree = "<group>";
 		};
-		1618F8EB2822EB7300C1358E /* ReusableViews */ = {
+		1618F8EB2822EB7300C1358E /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				1691E450280EA8BD00BA223D /* Core */,
@@ -677,7 +677,7 @@
 				163D2D9028191BD600CE5646 /* PartialUserTableViewCell */,
 				16308636280881780061BE31 /* PartialTweetTableViewCell */,
 			);
-			path = ReusableViews;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		162C378B281D15BC000A8C0C /* ProfileImageTableViewCell */ = {
