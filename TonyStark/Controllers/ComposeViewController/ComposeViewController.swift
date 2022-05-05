@@ -87,7 +87,7 @@ class ComposeViewController: TXViewController {
     
     private func configureCompose() {
         compose.configure(
-            withUser: UserProvider.current.user!
+            withUser: CurrentUserDataStore.shared.user!
         )
         
         compose.delegate = self

@@ -119,7 +119,7 @@ class CurrentUserViewController: TXViewController {
             style: .destructive
         ) { action in
             Task {
-                let result = await UserProvider.current.logOut()
+                let result = await CurrentUserDataStore.shared.logOut()
                 
                 switch result {
                 case .success():
@@ -161,7 +161,7 @@ extension CurrentUserViewController: TXTableViewDataSource {
                 return
             }
             
-            let result = await TweetsProvider.shared.tweets(ofUserWithId: UserProvider.current.user!.id)
+            let result = await TweetsDataStore.shared.tweets(ofUserWithId: CurrentUserDataStore.shared.user!.id)
             
             strongSelf.state = result
             strongSelf.tableView.reloadSections(
@@ -217,7 +217,7 @@ extension CurrentUserViewController: TXTableViewDataSource {
             ) as! CurrentUserTableViewCell
             
             cell.interactionsHandler = self
-            cell.configure(withUser: UserProvider.current.user!)
+            cell.configure(withUser: CurrentUserDataStore.shared.user!)
             
             return cell
             
@@ -302,7 +302,7 @@ extension CurrentUserViewController: TXScrollViewDelegate {
         }
         
         if currentYOffset > 120 && navigationItem.title == nil {
-            navigationItem.title = UserProvider.current.user!.name
+            navigationItem.title = CurrentUserDataStore.shared.user!.name
         }
     }
 }
@@ -312,7 +312,7 @@ extension CurrentUserViewController: CurrentUserTableViewCellInteractionsHandler
     func currentUserCellDidPressEdit(_ cell: CurrentUserTableViewCell) {
         let editUserDetailsViewController = EditUserDetailsViewController()
         
-        editUserDetailsViewController.populate(withUser: UserProvider.current.user!)
+        editUserDetailsViewController.populate(withUser: CurrentUserDataStore.shared.user!)
         
         let navigationViewController = TXNavigationController(
             rootViewController: editUserDetailsViewController
@@ -330,7 +330,7 @@ extension CurrentUserViewController: CurrentUserTableViewCellInteractionsHandler
         let followersViewController = FollowersViewController()
         
         followersViewController.populate(
-            withUser: UserProvider.current.user!
+            withUser: CurrentUserDataStore.shared.user!
         )
         
         navigationController?.pushViewController(
@@ -342,7 +342,7 @@ extension CurrentUserViewController: CurrentUserTableViewCellInteractionsHandler
         let followingsViewController = FollowingsViewController()
         
         followingsViewController.populate(
-            withUser: UserProvider.current.user!
+            withUser: CurrentUserDataStore.shared.user!
         )
         
         navigationController?.pushViewController(

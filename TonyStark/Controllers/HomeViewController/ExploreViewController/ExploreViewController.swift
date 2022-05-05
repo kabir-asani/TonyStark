@@ -141,7 +141,7 @@ extension ExploreViewController: TXTableViewDataSource {
                 return
             }
 
-            let result = await SearchProvider.shared.previousSearchKeywords()
+            let result = await SearchDataStore.shared.previousSearchKeywords()
 
             strongSelf.state = result
             strongSelf.tableView.reloadData()

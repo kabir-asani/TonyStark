@@ -108,7 +108,7 @@ extension SearchViewController: TXTableViewDataSource {
                 return
             }
             
-            let result = await SearchProvider.shared.search(withKeyword: keyword)
+            let result = await SearchDataStore.shared.search(withKeyword: keyword)
             
             strongSelf.tableView.endPaginating()
             

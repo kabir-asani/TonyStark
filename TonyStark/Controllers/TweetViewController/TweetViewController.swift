@@ -233,7 +233,7 @@ extension TweetViewController: TXTableViewDataSource {
                 return
             }
             
-            let result = await CommentsProvider.shared.comments(ofTweetWithId: tweet.id)
+            let result = await CommentsDataStore.shared.comments(ofTweetWithId: tweet.id)
             
             strongSelf.tableView.endPaginating()
             

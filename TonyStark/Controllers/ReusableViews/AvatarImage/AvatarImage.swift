@@ -57,7 +57,7 @@ class AvatarImage: TXView {
         self.onPressed = onPressed
         
         Task {
-            let image = await TXImageProvider.shared.image(imageURL)
+            let image = await TXImageDataStore.shared.image(imageURL)
             
             if let image = image {
                 DispatchQueue.main.async {

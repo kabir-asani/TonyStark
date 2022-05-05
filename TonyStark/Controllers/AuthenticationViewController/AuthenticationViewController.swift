@@ -130,7 +130,7 @@ extension AuthenticationViewController: TXTableViewDelegate {
 extension AuthenticationViewController: AuthenticationActionsTableViewCellInteractionsHandler {
     func authenticationActionsCellDidContinueWithGoogle() {
         Task {
-            let result = await UserProvider.current.logIn(with: .google)
+            let result = await CurrentUserDataStore.shared.logIn(with: .google)
             
             switch result {
             case .success():
@@ -144,7 +144,7 @@ extension AuthenticationViewController: AuthenticationActionsTableViewCellIntera
     
     func authenticationActionsCellDidContinueWithApple() {
         Task {
-            let result = await UserProvider.current.logIn(with: .apple)
+            let result = await CurrentUserDataStore.shared.logIn(with: .apple)
             
             switch result {
             case .success():

@@ -73,7 +73,7 @@ extension FollowingsViewController: TXTableViewDataSource {
                 return
             }
             
-            let result = await SocialsProvider.shared.followings()
+            let result = await SocialsDataStore.shared.followings()
             
             strongSelf.state = result
             strongSelf.tableView.reloadData()

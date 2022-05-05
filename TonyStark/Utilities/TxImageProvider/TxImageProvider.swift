@@ -1,5 +1,5 @@
 //
-//  TxImageProvider.swift
+//  TxImageDataStore.swift
 //  TonyStark
 //
 //  Created by Mohammed Sadiq on 20/03/22.
@@ -7,14 +7,14 @@
 
 import UIKit
 
-protocol TXImageProviderProtocol {
+protocol TXImageDataStoreProtocol {
     func image(
         _ urlString: String
     ) async -> UIImage?
 }
 
-class TXImageProvider: TXImageProviderProtocol {
-    static let shared: TXImageProviderProtocol = TXImageProvider()
+class TXImageDataStore: TXImageDataStoreProtocol {
+    static let shared: TXImageDataStoreProtocol = TXImageDataStore()
     
     private let cache = NSCache<NSString, UIImage>()
     

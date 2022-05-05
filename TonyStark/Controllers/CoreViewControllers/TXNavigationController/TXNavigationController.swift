@@ -27,7 +27,7 @@ class TXNavigationController: UINavigationController {
 
 extension UINavigationController {
     func openUserViewController(withUser user: User) {
-        if user.id == UserProvider.current.user!.id {
+        if user.id == CurrentUserDataStore.shared.user!.id {
             let event = HomeTabSwitchEvent(tab: HomeViewController.TabItem.user)
             
             TXEventBroker.shared.emit(event: event)

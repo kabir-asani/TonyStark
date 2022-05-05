@@ -70,7 +70,7 @@ extension BookmarksViewController: TXTableViewDataSource {
                 return
             }
             
-            let result = await BookmarksProvider.shared.bookmarks()
+            let result = await BookmarksDataStore.shared.bookmarks()
             
             strongSelf.state = result
             strongSelf.tableView.reloadData()

@@ -88,7 +88,7 @@ class TweetTableViewCellHeaderTrailing: TXView {
             }
         ]
         
-        if tweet.author.id != UserProvider.current.user!.id {
+        if tweet.author.id != CurrentUserDataStore.shared.user!.id {
             children.append(
                 UIAction(
                     title: tweet.author.viewables.follower

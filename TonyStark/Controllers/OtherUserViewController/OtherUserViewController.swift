@@ -100,7 +100,7 @@ extension OtherUserViewController: TXTableViewDataSource {
                 return
             }
             
-            let result = await TweetsProvider.shared.tweets(ofUserWithId: user.id)
+            let result = await TweetsDataStore.shared.tweets(ofUserWithId: user.id)
             
             strongSelf.state = result
             strongSelf.tableView.reloadData()
@@ -227,7 +227,7 @@ extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
         let followersViewController = FollowersViewController()
         
         followersViewController.populate(
-            withUser: UserProvider.current.user!
+            withUser: CurrentUserDataStore.shared.user!
         )
         
         navigationController?.pushViewController(
@@ -239,7 +239,7 @@ extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
         let followingsViewController = FollowingsViewController()
         
         followingsViewController.populate(
-            withUser: UserProvider.current.user!
+            withUser: CurrentUserDataStore.shared.user!
         )
         
         navigationController?.pushViewController(
