@@ -10,6 +10,7 @@
 		16021AC42823BC5500C28EAD /* NotificationsDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16021AC32823BC5500C28EAD /* NotificationsDataStore.swift */; };
 		16021AC62823BC5D00C28EAD /* NotificationsDataStore+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16021AC52823BC5D00C28EAD /* NotificationsDataStore+Request.swift */; };
 		16021AC82823BC6400C28EAD /* NotificationsDataStore+Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16021AC72823BC6400C28EAD /* NotificationsDataStore+Response.swift */; };
+		16021ACA2823BF0200C28EAD /* RemoteNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16021AC92823BF0200C28EAD /* RemoteNotification.swift */; };
 		160437AB27E1ADCF00EA615F /* TXNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437AA27E1ADCF00EA615F /* TXNavigationController.swift */; };
 		160437AD27E1ADE700EA615F /* TXTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437AC27E1ADE700EA615F /* TXTabBarController.swift */; };
 		160437AF27E1AE0700EA615F /* TXViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437AE27E1AE0700EA615F /* TXViewController.swift */; };
@@ -170,6 +171,7 @@
 		16021AC32823BC5500C28EAD /* NotificationsDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsDataStore.swift; sourceTree = "<group>"; };
 		16021AC52823BC5D00C28EAD /* NotificationsDataStore+Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationsDataStore+Request.swift"; sourceTree = "<group>"; };
 		16021AC72823BC6400C28EAD /* NotificationsDataStore+Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationsDataStore+Response.swift"; sourceTree = "<group>"; };
+		16021AC92823BF0200C28EAD /* RemoteNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNotification.swift; sourceTree = "<group>"; };
 		160437AA27E1ADCF00EA615F /* TXNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXNavigationController.swift; sourceTree = "<group>"; };
 		160437AC27E1ADE700EA615F /* TXTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTabBarController.swift; sourceTree = "<group>"; };
 		160437AE27E1AE0700EA615F /* TXViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXViewController.swift; sourceTree = "<group>"; };
@@ -371,6 +373,7 @@
 				161123802806CA4100908D98 /* Bookmark.swift */,
 				161123822806CAC300908D98 /* Social.swift */,
 				161123842806CBE100908D98 /* Paginated.swift */,
+				16021AC92823BF0200C28EAD /* RemoteNotification.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1614,6 +1617,7 @@
 				16E3C13C28217334009CC8E7 /* CommentsDataStore+Request.swift in Sources */,
 				167224D3281BC1CB005D79EB /* TXLabelX.swift in Sources */,
 				16D27C6B281FE89F00D2A2C3 /* TwitterXLogoTableViewCell.swift in Sources */,
+				16021ACA2823BF0200C28EAD /* RemoteNotification.swift in Sources */,
 				16DBF5C62817EEF700E92DE5 /* TXScrollViewController.swift in Sources */,
 				16CFD1C728172E040020341B /* TweetViewController.swift in Sources */,
 				165ED0252811CC760022D822 /* TXTableView.swift in Sources */,
