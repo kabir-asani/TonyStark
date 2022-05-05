@@ -57,6 +57,7 @@
 		162C3799281D22EA000A8C0C /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C3798281D22EA000A8C0C /* AuthenticationViewController.swift */; };
 		16308638280881810061BE31 /* PartialTweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16308637280881810061BE31 /* PartialTweetTableViewCell.swift */; };
 		1630863B280883900061BE31 /* UIViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1630863A280883900061BE31 /* UIViewX.swift */; };
+		163A09F32823B8FB008CDCED /* TXPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A09F22823B8FB008CDCED /* TXPresentationController.swift */; };
 		163D2D9228191BE100CE5646 /* PartialUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2D9128191BE100CE5646 /* PartialUserTableViewCell.swift */; };
 		163D2D9828191C9900CE5646 /* PartialUserTableViewCellLeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2D9728191C9900CE5646 /* PartialUserTableViewCellLeading.swift */; };
 		163D2D9B28191D2800CE5646 /* PartialUserTableViewCellTrailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2D9A28191D2800CE5646 /* PartialUserTableViewCellTrailing.swift */; };
@@ -216,6 +217,7 @@
 		162C3798281D22EA000A8C0C /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
 		16308637280881810061BE31 /* PartialTweetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialTweetTableViewCell.swift; sourceTree = "<group>"; };
 		1630863A280883900061BE31 /* UIViewX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewX.swift; sourceTree = "<group>"; };
+		163A09F22823B8FB008CDCED /* TXPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXPresentationController.swift; sourceTree = "<group>"; };
 		163D2D9128191BE100CE5646 /* PartialUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialUserTableViewCell.swift; sourceTree = "<group>"; };
 		163D2D9728191C9900CE5646 /* PartialUserTableViewCellLeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialUserTableViewCellLeading.swift; sourceTree = "<group>"; };
 		163D2D9A28191D2800CE5646 /* PartialUserTableViewCellTrailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialUserTableViewCellTrailing.swift; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 		160437A827E1AD8900EA615F /* CoreViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				163A09F12823B8EE008CDCED /* TXPresentationController */,
 				16DBF5C42817EEE400E92DE5 /* TXScrollViewController */,
 				16993CD4280C41F700FFE71B /* TXSearchController */,
 				160437B527E1AE8C00EA615F /* TXNavigationController */,
@@ -733,6 +736,14 @@
 				16237AF0281FB49600837064 /* StringX.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		163A09F12823B8EE008CDCED /* TXPresentationController */ = {
+			isa = PBXGroup;
+			children = (
+				163A09F22823B8FB008CDCED /* TXPresentationController.swift */,
+			);
+			path = TXPresentationController;
 			sourceTree = "<group>";
 		};
 		163D2D9028191BD600CE5646 /* PartialUserTableViewCell */ = {
@@ -1594,6 +1605,7 @@
 				16FDA072280FF45B004BB3C4 /* CommentTableViewCellLeading.swift in Sources */,
 				16D3C5E22810306100B8A2CC /* DateX.swift in Sources */,
 				160437D327E1B7B100EA615F /* NotificationsViewController.swift in Sources */,
+				163A09F32823B8FB008CDCED /* TXPresentationController.swift in Sources */,
 				16D3DFD728166D740083B7E9 /* TweetTableViewCellHeader.swift in Sources */,
 				16BB01112813A2B200532323 /* OtherUserTableViewCellBody.swift in Sources */,
 				16D3C5E52810314B00B8A2CC /* TXEventBroker.swift in Sources */,
