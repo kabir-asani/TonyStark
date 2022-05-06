@@ -7,6 +7,10 @@
 
 import UIKit
 
+class ComposeTweetEvent: TXEvent {
+    
+}
+
 class FeedViewController: TXViewController {
     // Declare
     private var state: Result<Paginated<Tweet>, FeedFailure> = .success(.default())
@@ -37,12 +41,27 @@ class FeedViewController: TXViewController {
         
         addSubviews()
         
+        configureEventListener()
+        
         configureNavigationBar()
         configureTableView()
         configureRefreshControl()
         configureFloatingActionButton()
         
         populateTableView()
+    }
+    
+    private func configureEventListener() {
+        TXEventBroker.shared.listen {
+            [weak self] event in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            if event is ComposeTweetEvent {
+                strongSelf.openComposeViewController()
+            }
+        }
     }
     
     private func addSubviews() {
@@ -114,6 +133,14 @@ class FeedViewController: TXViewController {
     
     // Interact
     @objc private func onComposePressed(_ sender: UITapGestureRecognizer) {
+        openComposeViewController()
+    }
+    
+    @objc private func onRefreshControllerChanged(_ refreshControl: TXRefreshControl) {
+        populateTableView()
+    }
+    
+    private func openComposeViewController() {
         let composeViewController = TXNavigationController(
             rootViewController: ComposeViewController()
         )
@@ -121,10 +148,6 @@ class FeedViewController: TXViewController {
         composeViewController.modalPresentationStyle = .fullScreen
         
         present(composeViewController, animated: true)
-    }
-    
-    @objc private func onRefreshControllerChanged(_ refreshControl: TXRefreshControl) {
-        populateTableView()
     }
 }
 
