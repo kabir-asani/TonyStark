@@ -73,6 +73,7 @@
 		163D2DA728191DF200CE5646 /* PartialUserTableViewCell+Trailing+Header+Trailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2DA628191DF200CE5646 /* PartialUserTableViewCell+Trailing+Header+Trailing.swift */; };
 		163D2DAA2819258300CE5646 /* SocialsDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2DA92819258300CE5646 /* SocialsDataStore.swift */; };
 		163D2DAE281927D200CE5646 /* LikesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2DAD281927D200CE5646 /* LikesViewController.swift */; };
+		163FD5EF28251C03003E0409 /* EmptyTweetsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163FD5EE28251C03003E0409 /* EmptyTweetsTableViewCell.swift */; };
 		164828D22815C96E002C6C06 /* TXMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164828D12815C96E002C6C06 /* TXMenu.swift */; };
 		164828D52815D097002C6C06 /* LikesDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164828D42815D097002C6C06 /* LikesDataStore.swift */; };
 		164828D82815D678002C6C06 /* TXBundledImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164828D72815D678002C6C06 /* TXBundledImage.swift */; };
@@ -240,6 +241,7 @@
 		163D2DA628191DF200CE5646 /* PartialUserTableViewCell+Trailing+Header+Trailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialUserTableViewCell+Trailing+Header+Trailing.swift"; sourceTree = "<group>"; };
 		163D2DA92819258300CE5646 /* SocialsDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialsDataStore.swift; sourceTree = "<group>"; };
 		163D2DAD281927D200CE5646 /* LikesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesViewController.swift; sourceTree = "<group>"; };
+		163FD5EE28251C03003E0409 /* EmptyTweetsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTweetsTableViewCell.swift; sourceTree = "<group>"; };
 		164828D12815C96E002C6C06 /* TXMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXMenu.swift; sourceTree = "<group>"; };
 		164828D42815D097002C6C06 /* LikesDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesDataStore.swift; sourceTree = "<group>"; };
 		164828D72815D678002C6C06 /* TXBundledImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXBundledImage.swift; sourceTree = "<group>"; };
@@ -946,6 +948,14 @@
 			path = LikesViewController;
 			sourceTree = "<group>";
 		};
+		163FD5ED28251BF8003E0409 /* EmptyTweetsTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				163FD5EE28251C03003E0409 /* EmptyTweetsTableViewCell.swift */,
+			);
+			path = EmptyTweetsTableViewCell;
+			sourceTree = "<group>";
+		};
 		164828CB2815C167002C6C06 /* TXBarButtonItem */ = {
 			isa = PBXGroup;
 			children = (
@@ -1100,6 +1110,7 @@
 		166C324D281E8247009D6961 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				163FD5ED28251BF8003E0409 /* EmptyTweetsTableViewCell */,
 				16993CD7280C42BB00FFE71B /* CurrentUserTableViewCell */,
 			);
 			path = Views;
@@ -1761,6 +1772,7 @@
 				16D8F97A280D7BFD000545EC /* CurrentUserTableViewCell+Footer.swift in Sources */,
 				168992A7281B135000D5D85C /* AvatarImage.swift in Sources */,
 				160437CD27E1B76200EA615F /* ComposeViewController.swift in Sources */,
+				163FD5EF28251C03003E0409 /* EmptyTweetsTableViewCell.swift in Sources */,
 				16493D212812B372004912BB /* TXTextView.swift in Sources */,
 				160437BD27E1AF5100EA615F /* TXCollectionViewCell.swift in Sources */,
 				162C3799281D22EA000A8C0C /* AuthenticationViewController.swift in Sources */,
