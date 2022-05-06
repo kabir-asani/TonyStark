@@ -102,6 +102,8 @@
 		1691E453280EA8D800BA223D /* TXView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1691E452280EA8D800BA223D /* TXView.swift */; };
 		1691E456280EABAE00BA223D /* TXStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1691E455280EABAE00BA223D /* TXStackView.swift */; };
 		1696A07F281D742500C88604 /* RunnerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1696A07E281D742500C88604 /* RunnerViewController.swift */; };
+		16983AD22824C1780025C397 /* TXShallowLocalStorageAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16983AD12824C1780025C397 /* TXShallowLocalStorageAssistant.swift */; };
+		16983AD42824C1960025C397 /* TXExtensiveLocalStorageAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16983AD32824C1960025C397 /* TXExtensiveLocalStorageAssistant.swift */; };
 		16993CD6280C41FE00FFE71B /* TXSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16993CD5280C41FE00FFE71B /* TXSearchController.swift */; };
 		16993CD9280C42CD00FFE71B /* CurrentUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16993CD8280C42CD00FFE71B /* CurrentUserTableViewCell.swift */; };
 		16993CDC280C443E00FFE71B /* TXSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16993CDB280C443E00FFE71B /* TXSegmentedControl.swift */; };
@@ -266,6 +268,8 @@
 		1691E452280EA8D800BA223D /* TXView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXView.swift; sourceTree = "<group>"; };
 		1691E455280EABAE00BA223D /* TXStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXStackView.swift; sourceTree = "<group>"; };
 		1696A07E281D742500C88604 /* RunnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerViewController.swift; sourceTree = "<group>"; };
+		16983AD12824C1780025C397 /* TXShallowLocalStorageAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXShallowLocalStorageAssistant.swift; sourceTree = "<group>"; };
+		16983AD32824C1960025C397 /* TXExtensiveLocalStorageAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXExtensiveLocalStorageAssistant.swift; sourceTree = "<group>"; };
 		16993CD5280C41FE00FFE71B /* TXSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXSearchController.swift; sourceTree = "<group>"; };
 		16993CD8280C42CD00FFE71B /* CurrentUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCell.swift; sourceTree = "<group>"; };
 		16993CDB280C443E00FFE71B /* TXSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXSegmentedControl.swift; sourceTree = "<group>"; };
@@ -1284,6 +1288,8 @@
 			isa = PBXGroup;
 			children = (
 				16D237AC28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift */,
+				16983AD12824C1780025C397 /* TXShallowLocalStorageAssistant.swift */,
+				16983AD32824C1960025C397 /* TXExtensiveLocalStorageAssistant.swift */,
 			);
 			path = TXLocalStorageAssistant;
 			sourceTree = "<group>";
@@ -1619,6 +1625,7 @@
 				160437D327E1B7B100EA615F /* NotificationsViewController.swift in Sources */,
 				163A09F32823B8FB008CDCED /* TXPresentationController.swift in Sources */,
 				16D3DFD728166D740083B7E9 /* TweetTableViewCellHeader.swift in Sources */,
+				16983AD42824C1960025C397 /* TXExtensiveLocalStorageAssistant.swift in Sources */,
 				16BB01112813A2B200532323 /* OtherUserTableViewCellBody.swift in Sources */,
 				16D3C5E52810314B00B8A2CC /* TXEventBroker.swift in Sources */,
 				160437B127E1AE2600EA615F /* TXTableViewController.swift in Sources */,
@@ -1727,6 +1734,7 @@
 				16493D232812B56D004912BB /* UIEdgeInsetsX.swift in Sources */,
 				160437CF27E1B77B00EA615F /* FeedViewController.swift in Sources */,
 				160437D127E1B79300EA615F /* ExploreViewController.swift in Sources */,
+				16983AD22824C1780025C397 /* TXShallowLocalStorageAssistant.swift in Sources */,
 				16133F882822589500171F68 /* TXSearchBar.swift in Sources */,
 				16993CDC280C443E00FFE71B /* TXSegmentedControl.swift in Sources */,
 				1611237F2806C9FD00908D98 /* Comment.swift in Sources */,
