@@ -23,24 +23,24 @@ class OtherUserTableViewCell: TXTableViewCell {
     
     weak var interactionsHandler: OtherUserTableViewCellInteractionsHandler?
     
-    private let header: OtherUserTableViewCellHeader = {
-        let header = OtherUserTableViewCellHeader()
+    private let header: Header = {
+        let header = Header()
         
         header.enableAutolayout()
         
         return header
     }()
     
-    private let body: OtherUserTableViewCellBody = {
-        let body = OtherUserTableViewCellBody()
+    private let body: Body = {
+        let body = Body()
         
         body.enableAutolayout()
         
         return body
     }()
     
-    private let footer: OtherUserTableViewCellFooter = {
-        let footer = OtherUserTableViewCellFooter()
+    private let footer: Footer = {
+        let footer = Footer()
         
         footer.enableAutolayout()
         

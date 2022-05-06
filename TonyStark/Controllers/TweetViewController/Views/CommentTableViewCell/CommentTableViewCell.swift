@@ -17,16 +17,16 @@ class CommentTableViewCell: TXTableViewCell {
     
     weak var interactionsHandler: CommentTableViewCellInteractionsHandler?
     
-    private let leading: CommentTableViewCellLeading = {
-        let leading = CommentTableViewCellLeading()
+    private let leading: Leading = {
+        let leading = Leading()
         
         leading.enableAutolayout()
         
         return leading
     }()
     
-    private let trailing: CommentTableViewCellTrailing = {
-        let trailing = CommentTableViewCellTrailing()
+    private let trailing: Trailing = {
+        let trailing = Trailing()
         
         trailing.enableAutolayout()
         

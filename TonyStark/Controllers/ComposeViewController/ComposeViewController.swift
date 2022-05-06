@@ -27,12 +27,12 @@ class ComposeViewController: TXViewController {
         return separator
     }()
     
-    private let composeBottomBar: ComposeBottomBar = {
-        let composeBottomBar = ComposeBottomBar()
+    private let composeDetailsBar: ComposeDetailsBar = {
+        let composeDetailsBar = ComposeDetailsBar()
         
-        composeBottomBar.enableAutolayout()
+        composeDetailsBar.enableAutolayout()
         
-        return composeBottomBar
+        return composeDetailsBar
     }()
     
     // Configure
@@ -63,7 +63,7 @@ class ComposeViewController: TXViewController {
     private func addSubviews() {
         view.addSubview(compose)
         view.addSubview(separator)
-        view.addSubview(composeBottomBar)
+        view.addSubview(composeDetailsBar)
     }
     
     private func configureNavigationBar() {
@@ -123,23 +123,23 @@ class ComposeViewController: TXViewController {
             byBeingSafeAreaAware: true
         )
         separator.attach(
-            bottomToTopOf: composeBottomBar,
+            bottomToTopOf: composeDetailsBar,
             byBeingSafeAreaAware: true
         )
     }
     
     private func configureComposeBottomBar() {
-        composeBottomBar.configure(withCurrentCount: 0)
+        composeDetailsBar.configure(withCurrentCount: 0)
         
-        composeBottomBar.pin(
+        composeDetailsBar.pin(
             toLeftOf: view,
             byBeingSafeAreaAware: true
         )
-        composeBottomBar.pin(
+        composeDetailsBar.pin(
             toRightOf: view,
             byBeingSafeAreaAware: true
         )
-        composeBottomBar.pin(
+        composeDetailsBar.pin(
             toBottomOf: view,
             byBeingSafeAreaAware: true
         )
@@ -162,6 +162,6 @@ extension ComposeViewController: ComposerDelegate {
         _ composer: Composer,
         didChangeText text: String
     ) {
-        composeBottomBar.configure(withCurrentCount: text.count)
+        composeDetailsBar.configure(withCurrentCount: text.count)
     }
 }

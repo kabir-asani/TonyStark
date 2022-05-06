@@ -19,16 +19,16 @@ class PartialUserTableViewCell: TXTableViewCell {
     // Declare
     weak var interactionsHandler: PartialUserTableViewCellInteractionsHandler?
     
-    private let leading: PartialUserTableViewCellLeading = {
-        let leading = PartialUserTableViewCellLeading()
+    private let leading: Leading = {
+        let leading = Leading()
         
         leading.enableAutolayout()
         
         return leading
     }()
     
-    private let trailing: PartialUserTableViewCellTrailing = {
-        let trailing = PartialUserTableViewCellTrailing()
+    private let trailing: Trailing = {
+        let trailing = Trailing()
         
         trailing.enableAutolayout()
         

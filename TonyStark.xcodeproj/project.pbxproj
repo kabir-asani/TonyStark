@@ -28,10 +28,10 @@
 		160437D527E1B7C200EA615F /* CurrentUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437D427E1B7C200EA615F /* CurrentUserViewController.swift */; };
 		160437D727E1B83700EA615F /* TXPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437D627E1B83700EA615F /* TXPageControl.swift */; };
 		160437D927E1B87B00EA615F /* TXTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437D827E1B87B00EA615F /* TXTabBarItem.swift */; };
-		1610D933280F351B00739208 /* PartialTweetViewCellTrailingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D932280F351B00739208 /* PartialTweetViewCellTrailingHeader.swift */; };
+		1610D933280F351B00739208 /* PartialTweetTableViewCell+Trailing+Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D932280F351B00739208 /* PartialTweetTableViewCell+Trailing+Header.swift */; };
 		1610D936280F354A00739208 /* TXLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D935280F354A00739208 /* TXLabel.swift */; };
-		1610D938280F356C00739208 /* PartialTweetViewCellTrailingBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D937280F356C00739208 /* PartialTweetViewCellTrailingBody.swift */; };
-		1610D93A280F358900739208 /* PartialTweetViewCellTrailingFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D939280F358900739208 /* PartialTweetViewCellTrailingFooter.swift */; };
+		1610D938280F356C00739208 /* PartialTweetTableViewCell+Trailing+Body.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D937280F356C00739208 /* PartialTweetTableViewCell+Trailing+Body.swift */; };
+		1610D93A280F358900739208 /* PartialTweetTableViewCell+Trailing+Footer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D939280F358900739208 /* PartialTweetTableViewCell+Trailing+Footer.swift */; };
 		1610D93D280F397300739208 /* TXColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D93C280F397300739208 /* TXColor.swift */; };
 		1610D943280F44E300739208 /* TweetOptionsAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D942280F44E300739208 /* TweetOptionsAlertViewController.swift */; };
 		1610D946280F49E200739208 /* EditUserDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D945280F49E200739208 /* EditUserDetailsViewController.swift */; };
@@ -55,6 +55,7 @@
 		16237AEE281FABD200837064 /* EditBioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16237AED281FABD200837064 /* EditBioTableViewCell.swift */; };
 		16237AF1281FB49600837064 /* StringX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16237AF0281FB49600837064 /* StringX.swift */; };
 		16237AF3281FB71000837064 /* EditUsernameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16237AF2281FB71000837064 /* EditUsernameTableViewCell.swift */; };
+		162832C82824D71700A17680 /* EmptyFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162832C72824D71700A17680 /* EmptyFeedTableViewCell.swift */; };
 		162C378D281D15D8000A8C0C /* ProfileImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C378C281D15D8000A8C0C /* ProfileImageTableViewCell.swift */; };
 		162C3790281D1A81000A8C0C /* NameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C378F281D1A81000A8C0C /* NameTableViewCell.swift */; };
 		162C3793281D1D65000A8C0C /* UsernameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C3792281D1D65000A8C0C /* UsernameTableViewCell.swift */; };
@@ -64,12 +65,12 @@
 		1630863B280883900061BE31 /* UIViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1630863A280883900061BE31 /* UIViewX.swift */; };
 		163A09F32823B8FB008CDCED /* TXPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A09F22823B8FB008CDCED /* TXPresentationController.swift */; };
 		163D2D9228191BE100CE5646 /* PartialUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2D9128191BE100CE5646 /* PartialUserTableViewCell.swift */; };
-		163D2D9828191C9900CE5646 /* PartialUserTableViewCellLeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2D9728191C9900CE5646 /* PartialUserTableViewCellLeading.swift */; };
-		163D2D9B28191D2800CE5646 /* PartialUserTableViewCellTrailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2D9A28191D2800CE5646 /* PartialUserTableViewCellTrailing.swift */; };
-		163D2D9D28191D2E00CE5646 /* PartialUserTableViewCellTrailingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2D9C28191D2E00CE5646 /* PartialUserTableViewCellTrailingHeader.swift */; };
-		163D2D9F28191D3300CE5646 /* PartialUserTableViewCellTrailingFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2D9E28191D3300CE5646 /* PartialUserTableViewCellTrailingFooter.swift */; };
-		163D2DA428191DDC00CE5646 /* PartialUserTableViewCellTrailingHeaderLeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2DA328191DDC00CE5646 /* PartialUserTableViewCellTrailingHeaderLeading.swift */; };
-		163D2DA728191DF200CE5646 /* PartialUserTableViewCellTrailingHeaderTrailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2DA628191DF200CE5646 /* PartialUserTableViewCellTrailingHeaderTrailing.swift */; };
+		163D2D9828191C9900CE5646 /* PartialUserTableViewCell+Leading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2D9728191C9900CE5646 /* PartialUserTableViewCell+Leading.swift */; };
+		163D2D9B28191D2800CE5646 /* PartialUserTableViewCell+Trailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2D9A28191D2800CE5646 /* PartialUserTableViewCell+Trailing.swift */; };
+		163D2D9D28191D2E00CE5646 /* PartialUserTableViewCell+Trailing+Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2D9C28191D2E00CE5646 /* PartialUserTableViewCell+Trailing+Header.swift */; };
+		163D2D9F28191D3300CE5646 /* PartialUserTableViewCell+Trailing+Footer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2D9E28191D3300CE5646 /* PartialUserTableViewCell+Trailing+Footer.swift */; };
+		163D2DA428191DDC00CE5646 /* PartialUserTableViewCell+Trailing+Header+Leading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2DA328191DDC00CE5646 /* PartialUserTableViewCell+Trailing+Header+Leading.swift */; };
+		163D2DA728191DF200CE5646 /* PartialUserTableViewCell+Trailing+Header+Trailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2DA628191DF200CE5646 /* PartialUserTableViewCell+Trailing+Header+Trailing.swift */; };
 		163D2DAA2819258300CE5646 /* SocialsDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2DA92819258300CE5646 /* SocialsDataStore.swift */; };
 		163D2DAE281927D200CE5646 /* LikesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2DAD281927D200CE5646 /* LikesViewController.swift */; };
 		164828D22815C96E002C6C06 /* TXMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164828D12815C96E002C6C06 /* TXMenu.swift */; };
@@ -84,19 +85,19 @@
 		165ED02B2811D4A60022D822 /* TXTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ED02A2811D4A60022D822 /* TXTextField.swift */; };
 		165ED02E2811D85C0022D822 /* TXEdgeInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ED02D2811D85C0022D822 /* TXEdgeInsets.swift */; };
 		165ED0312811E41A0022D822 /* TXVisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ED0302811E41A0022D822 /* TXVisualEffectView.swift */; };
-		1667093B2817B79E00889B0C /* TweetTableViewCellFooterFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1667093A2817B79E00889B0C /* TweetTableViewCellFooterFooter.swift */; };
-		1667093E2817B7AA00889B0C /* TweetTableViewCellFooterHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1667093D2817B7AA00889B0C /* TweetTableViewCellFooterHeader.swift */; };
+		1667093B2817B79E00889B0C /* TweetTableViewCell+Footer+Footer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1667093A2817B79E00889B0C /* TweetTableViewCell+Footer+Footer.swift */; };
+		1667093E2817B7AA00889B0C /* TweetTableViewCell+Footer+Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1667093D2817B7AA00889B0C /* TweetTableViewCell+Footer+Header.swift */; };
 		166C324A281E7F24009D6961 /* EditUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166C3249281E7F24009D6961 /* EditUsernameViewController.swift */; };
 		166C325E281E8551009D6961 /* EditBioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166C325D281E8551009D6961 /* EditBioViewController.swift */; };
 		167224D3281BC1CB005D79EB /* TXLabelX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167224D2281BC1CB005D79EB /* TXLabelX.swift */; };
 		167224D6281BC73C005D79EB /* ResultX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167224D5281BC73C005D79EB /* ResultX.swift */; };
 		167C3A44280C80C6004E9B4D /* TweetsDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C3A43280C80C6004E9B4D /* TweetsDataStore.swift */; };
 		167C3A48280C99A3004E9B4D /* UITableViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C3A47280C99A3004E9B4D /* UITableViewX.swift */; };
-		167DE001280D55F900670BAD /* LikeInteractionDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167DE000280D55F900670BAD /* LikeInteractionDetails.swift */; };
-		167DE003280D561200670BAD /* CommentInteractionDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167DE002280D561200670BAD /* CommentInteractionDetails.swift */; };
-		167DE005280D562D00670BAD /* PartialTweetOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167DE004280D562D00670BAD /* PartialTweetOptions.swift */; };
-		167DE008280D569400670BAD /* PartialTweetViewCellLeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167DE007280D569400670BAD /* PartialTweetViewCellLeading.swift */; };
-		167DE00A280D56B100670BAD /* PartialTweetTableViewCellTrailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167DE009280D56B100670BAD /* PartialTweetTableViewCellTrailing.swift */; };
+		167DE001280D55F900670BAD /* PartialTweetTableViewCell+Trailing+Footer+LikeInteractionDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167DE000280D55F900670BAD /* PartialTweetTableViewCell+Trailing+Footer+LikeInteractionDetails.swift */; };
+		167DE003280D561200670BAD /* PartialTweetTableViewCell+Trailing+Footer+CommentInteractionDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167DE002280D561200670BAD /* PartialTweetTableViewCell+Trailing+Footer+CommentInteractionDetails.swift */; };
+		167DE005280D562D00670BAD /* PartialTweetTableViewCell+Trailing+Footer+PartialTweetOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167DE004280D562D00670BAD /* PartialTweetTableViewCell+Trailing+Footer+PartialTweetOptions.swift */; };
+		167DE008280D569400670BAD /* PartialTweetTableViewCell+Leading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167DE007280D569400670BAD /* PartialTweetTableViewCell+Leading.swift */; };
+		167DE00A280D56B100670BAD /* PartialTweetTableViewCell+Trailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167DE009280D56B100670BAD /* PartialTweetTableViewCell+Trailing.swift */; };
 		1688D3F927FD7B3B00F9C366 /* TXNetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1688D3F827FD7B3B00F9C366 /* TXNetworkMonitor.swift */; };
 		168992A7281B135000D5D85C /* AvatarImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168992A6281B135000D5D85C /* AvatarImage.swift */; };
 		1691E453280EA8D800BA223D /* TXView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1691E452280EA8D800BA223D /* TXView.swift */; };
@@ -111,9 +112,9 @@
 		16993CE6280C4A0200FFE71B /* TXButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16993CE5280C4A0200FFE71B /* TXButton.swift */; };
 		169E280027EB896800B72006 /* TXNetworkAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169E27FF27EB896800B72006 /* TXNetworkAssistant.swift */; };
 		16BB010D28139E3600532323 /* OtherUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB010C28139E3600532323 /* OtherUserTableViewCell.swift */; };
-		16BB010F2813A2AB00532323 /* OtherUserTableViewCellFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB010E2813A2AB00532323 /* OtherUserTableViewCellFooter.swift */; };
-		16BB01112813A2B200532323 /* OtherUserTableViewCellBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB01102813A2B200532323 /* OtherUserTableViewCellBody.swift */; };
-		16BB01132813A2B800532323 /* OtherUserTableViewCellHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB01122813A2B800532323 /* OtherUserTableViewCellHeader.swift */; };
+		16BB010F2813A2AB00532323 /* OtherUserTableViewCell+Footer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB010E2813A2AB00532323 /* OtherUserTableViewCell+Footer.swift */; };
+		16BB01112813A2B200532323 /* OtherUserTableViewCell+Body.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB01102813A2B200532323 /* OtherUserTableViewCell+Body.swift */; };
+		16BB01132813A2B800532323 /* OtherUserTableViewCell+Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB01122813A2B800532323 /* OtherUserTableViewCell+Header.swift */; };
 		16BB01172813A53600532323 /* OtherUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB01162813A53600532323 /* OtherUserViewController.swift */; };
 		16C03C6128211D5300E7005B /* CurrentUserDataStore+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C03C6028211D5300E7005B /* CurrentUserDataStore+Request.swift */; };
 		16CFD1C728172E040020341B /* TweetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CFD1C628172E040020341B /* TweetViewController.swift */; };
@@ -125,12 +126,12 @@
 		16D3C5E52810314B00B8A2CC /* TXEventBroker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3C5E42810314B00B8A2CC /* TXEventBroker.swift */; };
 		16D3C5E82810347400B8A2CC /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3C5E72810347400B8A2CC /* DataStore.swift */; };
 		16D3DFD228166CDD0083B7E9 /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFD128166CDD0083B7E9 /* TweetTableViewCell.swift */; };
-		16D3DFD728166D740083B7E9 /* TweetTableViewCellHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFD628166D740083B7E9 /* TweetTableViewCellHeader.swift */; };
-		16D3DFD928166D790083B7E9 /* TweetTableViewCellBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFD828166D790083B7E9 /* TweetTableViewCellBody.swift */; };
-		16D3DFDB28166D7F0083B7E9 /* TweetTableViewCellFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFDA28166D7F0083B7E9 /* TweetTableViewCellFooter.swift */; };
-		16D3DFDE28166F710083B7E9 /* TweetTableViewCellHeaderLeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFDD28166F710083B7E9 /* TweetTableViewCellHeaderLeading.swift */; };
-		16D3DFE028166F770083B7E9 /* TweetTableViewCellHeaderMiddle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFDF28166F770083B7E9 /* TweetTableViewCellHeaderMiddle.swift */; };
-		16D3DFE228166F800083B7E9 /* TweetTableViewCellHeaderTrailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFE128166F800083B7E9 /* TweetTableViewCellHeaderTrailing.swift */; };
+		16D3DFD728166D740083B7E9 /* TweetTableViewCell+Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFD628166D740083B7E9 /* TweetTableViewCell+Header.swift */; };
+		16D3DFD928166D790083B7E9 /* TweetTableViewCell+Body.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFD828166D790083B7E9 /* TweetTableViewCell+Body.swift */; };
+		16D3DFDB28166D7F0083B7E9 /* TweetTableViewCell+Footer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFDA28166D7F0083B7E9 /* TweetTableViewCell+Footer.swift */; };
+		16D3DFDE28166F710083B7E9 /* TweetTableViewCell+Header+Leading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFDD28166F710083B7E9 /* TweetTableViewCell+Header+Leading.swift */; };
+		16D3DFE028166F770083B7E9 /* TweetTableViewCell+Header+Middle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFDF28166F770083B7E9 /* TweetTableViewCell+Header+Middle.swift */; };
+		16D3DFE228166F800083B7E9 /* TweetTableViewCell+Header+Trailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFE128166F800083B7E9 /* TweetTableViewCell+Header+Trailing.swift */; };
 		16D8AACC281F118500EEC440 /* TXActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8AACB281F118500EEC440 /* TXActivityIndicatorView.swift */; };
 		16D8F976280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F975280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift */; };
 		16D8F978280D7BDD000545EC /* CurrentUserTableViewCellBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F977280D7BDD000545EC /* CurrentUserTableViewCellBody.swift */; };
@@ -157,15 +158,15 @@
 		16E3C148282177E6009CC8E7 /* BookmarksDataStore+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E3C147282177E6009CC8E7 /* BookmarksDataStore+Request.swift */; };
 		16E3C14A282177EC009CC8E7 /* BookmarksDataStore+Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E3C149282177EC009CC8E7 /* BookmarksDataStore+Response.swift */; };
 		16E56676281BF0A00071100C /* Composer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E56675281BF0A00071100C /* Composer.swift */; };
-		16E5667F281C05B80071100C /* ComposeBottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E5667E281C05B80071100C /* ComposeBottomBar.swift */; };
+		16E5667F281C05B80071100C /* ComposeDetailsBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E5667E281C05B80071100C /* ComposeDetailsBar.swift */; };
 		16E56684281C2D5A0071100C /* SearchDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E56683281C2D5A0071100C /* SearchDataStore.swift */; };
 		16F219FE281BDC160013A750 /* FollowersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F219FD281BDC160013A750 /* FollowersViewController.swift */; };
 		16F21A01281BDC2F0013A750 /* FollowingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F21A00281BDC2F0013A750 /* FollowingsViewController.swift */; };
 		16FDA06F280FF367004BB3C4 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA06E280FF367004BB3C4 /* CommentTableViewCell.swift */; };
-		16FDA072280FF45B004BB3C4 /* CommentTableViewCellLeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA071280FF45B004BB3C4 /* CommentTableViewCellLeading.swift */; };
-		16FDA075280FF465004BB3C4 /* CommentTableViewCellTrailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA074280FF465004BB3C4 /* CommentTableViewCellTrailing.swift */; };
-		16FDA078280FF5A4004BB3C4 /* CommentTableViewCellTrailingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA077280FF5A4004BB3C4 /* CommentTableViewCellTrailingHeader.swift */; };
-		16FDA07A280FF5B7004BB3C4 /* CommentTableViewCellTrailingFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA079280FF5B7004BB3C4 /* CommentTableViewCellTrailingFooter.swift */; };
+		16FDA072280FF45B004BB3C4 /* CommentTableViewCell+Leading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA071280FF45B004BB3C4 /* CommentTableViewCell+Leading.swift */; };
+		16FDA075280FF465004BB3C4 /* CommentTableViewCell+Trailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA074280FF465004BB3C4 /* CommentTableViewCell+Trailing.swift */; };
+		16FDA078280FF5A4004BB3C4 /* CommentTableViewCell+Trailing+Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA077280FF5A4004BB3C4 /* CommentTableViewCell+Trailing+Header.swift */; };
+		16FDA07A280FF5B7004BB3C4 /* CommentTableViewCell+Trailing+Footer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA079280FF5B7004BB3C4 /* CommentTableViewCell+Trailing+Footer.swift */; };
 		16FDA07D280FFCA0004BB3C4 /* CommentsDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA07C280FFCA0004BB3C4 /* CommentsDataStore.swift */; };
 		16FDA07F280FFD0B004BB3C4 /* CurrentUserDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA07E280FFD0B004BB3C4 /* CurrentUserDataStore.swift */; };
 /* End PBXBuildFile section */
@@ -192,10 +193,10 @@
 		160437D427E1B7C200EA615F /* CurrentUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserViewController.swift; sourceTree = "<group>"; };
 		160437D627E1B83700EA615F /* TXPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXPageControl.swift; sourceTree = "<group>"; };
 		160437D827E1B87B00EA615F /* TXTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTabBarItem.swift; sourceTree = "<group>"; };
-		1610D932280F351B00739208 /* PartialTweetViewCellTrailingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialTweetViewCellTrailingHeader.swift; sourceTree = "<group>"; };
+		1610D932280F351B00739208 /* PartialTweetTableViewCell+Trailing+Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialTweetTableViewCell+Trailing+Header.swift"; sourceTree = "<group>"; };
 		1610D935280F354A00739208 /* TXLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXLabel.swift; sourceTree = "<group>"; };
-		1610D937280F356C00739208 /* PartialTweetViewCellTrailingBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialTweetViewCellTrailingBody.swift; sourceTree = "<group>"; };
-		1610D939280F358900739208 /* PartialTweetViewCellTrailingFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialTweetViewCellTrailingFooter.swift; sourceTree = "<group>"; };
+		1610D937280F356C00739208 /* PartialTweetTableViewCell+Trailing+Body.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialTweetTableViewCell+Trailing+Body.swift"; sourceTree = "<group>"; };
+		1610D939280F358900739208 /* PartialTweetTableViewCell+Trailing+Footer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialTweetTableViewCell+Trailing+Footer.swift"; sourceTree = "<group>"; };
 		1610D93C280F397300739208 /* TXColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXColor.swift; sourceTree = "<group>"; };
 		1610D942280F44E300739208 /* TweetOptionsAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetOptionsAlertViewController.swift; sourceTree = "<group>"; };
 		1610D945280F49E200739208 /* EditUserDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserDetailsViewController.swift; sourceTree = "<group>"; };
@@ -221,6 +222,7 @@
 		16237AED281FABD200837064 /* EditBioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBioTableViewCell.swift; sourceTree = "<group>"; };
 		16237AF0281FB49600837064 /* StringX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringX.swift; sourceTree = "<group>"; };
 		16237AF2281FB71000837064 /* EditUsernameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUsernameTableViewCell.swift; sourceTree = "<group>"; };
+		162832C72824D71700A17680 /* EmptyFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyFeedTableViewCell.swift; sourceTree = "<group>"; };
 		162C378C281D15D8000A8C0C /* ProfileImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageTableViewCell.swift; sourceTree = "<group>"; };
 		162C378F281D1A81000A8C0C /* NameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTableViewCell.swift; sourceTree = "<group>"; };
 		162C3792281D1D65000A8C0C /* UsernameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameTableViewCell.swift; sourceTree = "<group>"; };
@@ -230,12 +232,12 @@
 		1630863A280883900061BE31 /* UIViewX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewX.swift; sourceTree = "<group>"; };
 		163A09F22823B8FB008CDCED /* TXPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXPresentationController.swift; sourceTree = "<group>"; };
 		163D2D9128191BE100CE5646 /* PartialUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialUserTableViewCell.swift; sourceTree = "<group>"; };
-		163D2D9728191C9900CE5646 /* PartialUserTableViewCellLeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialUserTableViewCellLeading.swift; sourceTree = "<group>"; };
-		163D2D9A28191D2800CE5646 /* PartialUserTableViewCellTrailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialUserTableViewCellTrailing.swift; sourceTree = "<group>"; };
-		163D2D9C28191D2E00CE5646 /* PartialUserTableViewCellTrailingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialUserTableViewCellTrailingHeader.swift; sourceTree = "<group>"; };
-		163D2D9E28191D3300CE5646 /* PartialUserTableViewCellTrailingFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialUserTableViewCellTrailingFooter.swift; sourceTree = "<group>"; };
-		163D2DA328191DDC00CE5646 /* PartialUserTableViewCellTrailingHeaderLeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialUserTableViewCellTrailingHeaderLeading.swift; sourceTree = "<group>"; };
-		163D2DA628191DF200CE5646 /* PartialUserTableViewCellTrailingHeaderTrailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialUserTableViewCellTrailingHeaderTrailing.swift; sourceTree = "<group>"; };
+		163D2D9728191C9900CE5646 /* PartialUserTableViewCell+Leading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialUserTableViewCell+Leading.swift"; sourceTree = "<group>"; };
+		163D2D9A28191D2800CE5646 /* PartialUserTableViewCell+Trailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialUserTableViewCell+Trailing.swift"; sourceTree = "<group>"; };
+		163D2D9C28191D2E00CE5646 /* PartialUserTableViewCell+Trailing+Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialUserTableViewCell+Trailing+Header.swift"; sourceTree = "<group>"; };
+		163D2D9E28191D3300CE5646 /* PartialUserTableViewCell+Trailing+Footer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialUserTableViewCell+Trailing+Footer.swift"; sourceTree = "<group>"; };
+		163D2DA328191DDC00CE5646 /* PartialUserTableViewCell+Trailing+Header+Leading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialUserTableViewCell+Trailing+Header+Leading.swift"; sourceTree = "<group>"; };
+		163D2DA628191DF200CE5646 /* PartialUserTableViewCell+Trailing+Header+Trailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialUserTableViewCell+Trailing+Header+Trailing.swift"; sourceTree = "<group>"; };
 		163D2DA92819258300CE5646 /* SocialsDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialsDataStore.swift; sourceTree = "<group>"; };
 		163D2DAD281927D200CE5646 /* LikesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesViewController.swift; sourceTree = "<group>"; };
 		164828D12815C96E002C6C06 /* TXMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXMenu.swift; sourceTree = "<group>"; };
@@ -250,19 +252,19 @@
 		165ED02A2811D4A60022D822 /* TXTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTextField.swift; sourceTree = "<group>"; };
 		165ED02D2811D85C0022D822 /* TXEdgeInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXEdgeInsets.swift; sourceTree = "<group>"; };
 		165ED0302811E41A0022D822 /* TXVisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXVisualEffectView.swift; sourceTree = "<group>"; };
-		1667093A2817B79E00889B0C /* TweetTableViewCellFooterFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCellFooterFooter.swift; sourceTree = "<group>"; };
-		1667093D2817B7AA00889B0C /* TweetTableViewCellFooterHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCellFooterHeader.swift; sourceTree = "<group>"; };
+		1667093A2817B79E00889B0C /* TweetTableViewCell+Footer+Footer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetTableViewCell+Footer+Footer.swift"; sourceTree = "<group>"; };
+		1667093D2817B7AA00889B0C /* TweetTableViewCell+Footer+Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetTableViewCell+Footer+Header.swift"; sourceTree = "<group>"; };
 		166C3249281E7F24009D6961 /* EditUsernameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUsernameViewController.swift; sourceTree = "<group>"; };
 		166C325D281E8551009D6961 /* EditBioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBioViewController.swift; sourceTree = "<group>"; };
 		167224D2281BC1CB005D79EB /* TXLabelX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXLabelX.swift; sourceTree = "<group>"; };
 		167224D5281BC73C005D79EB /* ResultX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultX.swift; sourceTree = "<group>"; };
 		167C3A43280C80C6004E9B4D /* TweetsDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetsDataStore.swift; sourceTree = "<group>"; };
 		167C3A47280C99A3004E9B4D /* UITableViewX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewX.swift; sourceTree = "<group>"; };
-		167DE000280D55F900670BAD /* LikeInteractionDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeInteractionDetails.swift; sourceTree = "<group>"; };
-		167DE002280D561200670BAD /* CommentInteractionDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInteractionDetails.swift; sourceTree = "<group>"; };
-		167DE004280D562D00670BAD /* PartialTweetOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialTweetOptions.swift; sourceTree = "<group>"; };
-		167DE007280D569400670BAD /* PartialTweetViewCellLeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialTweetViewCellLeading.swift; sourceTree = "<group>"; };
-		167DE009280D56B100670BAD /* PartialTweetTableViewCellTrailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialTweetTableViewCellTrailing.swift; sourceTree = "<group>"; };
+		167DE000280D55F900670BAD /* PartialTweetTableViewCell+Trailing+Footer+LikeInteractionDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialTweetTableViewCell+Trailing+Footer+LikeInteractionDetails.swift"; sourceTree = "<group>"; };
+		167DE002280D561200670BAD /* PartialTweetTableViewCell+Trailing+Footer+CommentInteractionDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialTweetTableViewCell+Trailing+Footer+CommentInteractionDetails.swift"; sourceTree = "<group>"; };
+		167DE004280D562D00670BAD /* PartialTweetTableViewCell+Trailing+Footer+PartialTweetOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialTweetTableViewCell+Trailing+Footer+PartialTweetOptions.swift"; sourceTree = "<group>"; };
+		167DE007280D569400670BAD /* PartialTweetTableViewCell+Leading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialTweetTableViewCell+Leading.swift"; sourceTree = "<group>"; };
+		167DE009280D56B100670BAD /* PartialTweetTableViewCell+Trailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialTweetTableViewCell+Trailing.swift"; sourceTree = "<group>"; };
 		1688D3F827FD7B3B00F9C366 /* TXNetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXNetworkMonitor.swift; sourceTree = "<group>"; };
 		168992A6281B135000D5D85C /* AvatarImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImage.swift; sourceTree = "<group>"; };
 		1691E452280EA8D800BA223D /* TXView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXView.swift; sourceTree = "<group>"; };
@@ -277,9 +279,9 @@
 		16993CE5280C4A0200FFE71B /* TXButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXButton.swift; sourceTree = "<group>"; };
 		169E27FF27EB896800B72006 /* TXNetworkAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXNetworkAssistant.swift; sourceTree = "<group>"; };
 		16BB010C28139E3600532323 /* OtherUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserTableViewCell.swift; sourceTree = "<group>"; };
-		16BB010E2813A2AB00532323 /* OtherUserTableViewCellFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserTableViewCellFooter.swift; sourceTree = "<group>"; };
-		16BB01102813A2B200532323 /* OtherUserTableViewCellBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserTableViewCellBody.swift; sourceTree = "<group>"; };
-		16BB01122813A2B800532323 /* OtherUserTableViewCellHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserTableViewCellHeader.swift; sourceTree = "<group>"; };
+		16BB010E2813A2AB00532323 /* OtherUserTableViewCell+Footer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OtherUserTableViewCell+Footer.swift"; sourceTree = "<group>"; };
+		16BB01102813A2B200532323 /* OtherUserTableViewCell+Body.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OtherUserTableViewCell+Body.swift"; sourceTree = "<group>"; };
+		16BB01122813A2B800532323 /* OtherUserTableViewCell+Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OtherUserTableViewCell+Header.swift"; sourceTree = "<group>"; };
 		16BB01162813A53600532323 /* OtherUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserViewController.swift; sourceTree = "<group>"; };
 		16C03C6028211D5300E7005B /* CurrentUserDataStore+Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrentUserDataStore+Request.swift"; sourceTree = "<group>"; };
 		16CFD1C628172E040020341B /* TweetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetViewController.swift; sourceTree = "<group>"; };
@@ -291,12 +293,12 @@
 		16D3C5E42810314B00B8A2CC /* TXEventBroker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXEventBroker.swift; sourceTree = "<group>"; };
 		16D3C5E72810347400B8A2CC /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		16D3DFD128166CDD0083B7E9 /* TweetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
-		16D3DFD628166D740083B7E9 /* TweetTableViewCellHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCellHeader.swift; sourceTree = "<group>"; };
-		16D3DFD828166D790083B7E9 /* TweetTableViewCellBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCellBody.swift; sourceTree = "<group>"; };
-		16D3DFDA28166D7F0083B7E9 /* TweetTableViewCellFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCellFooter.swift; sourceTree = "<group>"; };
-		16D3DFDD28166F710083B7E9 /* TweetTableViewCellHeaderLeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCellHeaderLeading.swift; sourceTree = "<group>"; };
-		16D3DFDF28166F770083B7E9 /* TweetTableViewCellHeaderMiddle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCellHeaderMiddle.swift; sourceTree = "<group>"; };
-		16D3DFE128166F800083B7E9 /* TweetTableViewCellHeaderTrailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCellHeaderTrailing.swift; sourceTree = "<group>"; };
+		16D3DFD628166D740083B7E9 /* TweetTableViewCell+Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetTableViewCell+Header.swift"; sourceTree = "<group>"; };
+		16D3DFD828166D790083B7E9 /* TweetTableViewCell+Body.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetTableViewCell+Body.swift"; sourceTree = "<group>"; };
+		16D3DFDA28166D7F0083B7E9 /* TweetTableViewCell+Footer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetTableViewCell+Footer.swift"; sourceTree = "<group>"; };
+		16D3DFDD28166F710083B7E9 /* TweetTableViewCell+Header+Leading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetTableViewCell+Header+Leading.swift"; sourceTree = "<group>"; };
+		16D3DFDF28166F770083B7E9 /* TweetTableViewCell+Header+Middle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetTableViewCell+Header+Middle.swift"; sourceTree = "<group>"; };
+		16D3DFE128166F800083B7E9 /* TweetTableViewCell+Header+Trailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetTableViewCell+Header+Trailing.swift"; sourceTree = "<group>"; };
 		16D8AACB281F118500EEC440 /* TXActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXActivityIndicatorView.swift; sourceTree = "<group>"; };
 		16D8F975280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCellHeader.swift; sourceTree = "<group>"; };
 		16D8F977280D7BDD000545EC /* CurrentUserTableViewCellBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCellBody.swift; sourceTree = "<group>"; };
@@ -323,15 +325,15 @@
 		16E3C147282177E6009CC8E7 /* BookmarksDataStore+Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BookmarksDataStore+Request.swift"; sourceTree = "<group>"; };
 		16E3C149282177EC009CC8E7 /* BookmarksDataStore+Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BookmarksDataStore+Response.swift"; sourceTree = "<group>"; };
 		16E56675281BF0A00071100C /* Composer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Composer.swift; sourceTree = "<group>"; };
-		16E5667E281C05B80071100C /* ComposeBottomBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeBottomBar.swift; sourceTree = "<group>"; };
+		16E5667E281C05B80071100C /* ComposeDetailsBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeDetailsBar.swift; sourceTree = "<group>"; };
 		16E56683281C2D5A0071100C /* SearchDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataStore.swift; sourceTree = "<group>"; };
 		16F219FD281BDC160013A750 /* FollowersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersViewController.swift; sourceTree = "<group>"; };
 		16F21A00281BDC2F0013A750 /* FollowingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingsViewController.swift; sourceTree = "<group>"; };
 		16FDA06E280FF367004BB3C4 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
-		16FDA071280FF45B004BB3C4 /* CommentTableViewCellLeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCellLeading.swift; sourceTree = "<group>"; };
-		16FDA074280FF465004BB3C4 /* CommentTableViewCellTrailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCellTrailing.swift; sourceTree = "<group>"; };
-		16FDA077280FF5A4004BB3C4 /* CommentTableViewCellTrailingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCellTrailingHeader.swift; sourceTree = "<group>"; };
-		16FDA079280FF5B7004BB3C4 /* CommentTableViewCellTrailingFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCellTrailingFooter.swift; sourceTree = "<group>"; };
+		16FDA071280FF45B004BB3C4 /* CommentTableViewCell+Leading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CommentTableViewCell+Leading.swift"; sourceTree = "<group>"; };
+		16FDA074280FF465004BB3C4 /* CommentTableViewCell+Trailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CommentTableViewCell+Trailing.swift"; sourceTree = "<group>"; };
+		16FDA077280FF5A4004BB3C4 /* CommentTableViewCell+Trailing+Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CommentTableViewCell+Trailing+Header.swift"; sourceTree = "<group>"; };
+		16FDA079280FF5B7004BB3C4 /* CommentTableViewCell+Trailing+Footer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CommentTableViewCell+Trailing+Footer.swift"; sourceTree = "<group>"; };
 		16FDA07C280FFCA0004BB3C4 /* CommentsDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsDataStore.swift; sourceTree = "<group>"; };
 		16FDA07E280FFD0B004BB3C4 /* CurrentUserDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserDataStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -470,6 +472,7 @@
 		160437C527E1B63800EA615F /* FeedViewController */ = {
 			isa = PBXGroup;
 			children = (
+				162832C62824D70C00A17680 /* Views */,
 				160437CE27E1B77B00EA615F /* FeedViewController.swift */,
 			);
 			path = FeedViewController;
@@ -535,30 +538,29 @@
 			path = CurrentUserTableViewCellFooter;
 			sourceTree = "<group>";
 		};
-		1610D92F280F34EC00739208 /* PartialTweetViewCellLeading */ = {
+		1610D92F280F34EC00739208 /* PartialTweetTableViewCell+Leading */ = {
 			isa = PBXGroup;
 			children = (
-				167DE007280D569400670BAD /* PartialTweetViewCellLeading.swift */,
+				167DE007280D569400670BAD /* PartialTweetTableViewCell+Leading.swift */,
 			);
-			path = PartialTweetViewCellLeading;
+			path = "PartialTweetTableViewCell+Leading";
 			sourceTree = "<group>";
 		};
-		1610D930280F34FC00739208 /* PartialTweetViewCellTrailing */ = {
+		1610D930280F34FC00739208 /* PartialTweetTableViewCell+Trailing */ = {
 			isa = PBXGroup;
 			children = (
-				167DDFFF280D55E800670BAD /* Interactions */,
 				1610D931280F351500739208 /* Components */,
-				167DE009280D56B100670BAD /* PartialTweetTableViewCellTrailing.swift */,
+				167DE009280D56B100670BAD /* PartialTweetTableViewCell+Trailing.swift */,
 			);
-			path = PartialTweetViewCellTrailing;
+			path = "PartialTweetTableViewCell+Trailing";
 			sourceTree = "<group>";
 		};
 		1610D931280F351500739208 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				1610D932280F351B00739208 /* PartialTweetViewCellTrailingHeader.swift */,
-				1610D937280F356C00739208 /* PartialTweetViewCellTrailingBody.swift */,
-				1610D939280F358900739208 /* PartialTweetViewCellTrailingFooter.swift */,
+				162832CA2824DA9A00A17680 /* PartialTweetTableViewCell+Trailing+Header */,
+				162832CB2824DAA100A17680 /* PartialTweetTableViewCell+Trailing+Body */,
+				162832CC2824DAA600A17680 /* PartialTweetTableViewCell+Trailing+Footer */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -694,6 +696,119 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		162832C62824D70C00A17680 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				162832C92824D71800A17680 /* EmptyFeedTableViewCell */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		162832C92824D71800A17680 /* EmptyFeedTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				162832C72824D71700A17680 /* EmptyFeedTableViewCell.swift */,
+			);
+			path = EmptyFeedTableViewCell;
+			sourceTree = "<group>";
+		};
+		162832CA2824DA9A00A17680 /* PartialTweetTableViewCell+Trailing+Header */ = {
+			isa = PBXGroup;
+			children = (
+				1610D932280F351B00739208 /* PartialTweetTableViewCell+Trailing+Header.swift */,
+			);
+			path = "PartialTweetTableViewCell+Trailing+Header";
+			sourceTree = "<group>";
+		};
+		162832CB2824DAA100A17680 /* PartialTweetTableViewCell+Trailing+Body */ = {
+			isa = PBXGroup;
+			children = (
+				1610D937280F356C00739208 /* PartialTweetTableViewCell+Trailing+Body.swift */,
+			);
+			path = "PartialTweetTableViewCell+Trailing+Body";
+			sourceTree = "<group>";
+		};
+		162832CC2824DAA600A17680 /* PartialTweetTableViewCell+Trailing+Footer */ = {
+			isa = PBXGroup;
+			children = (
+				167DDFFF280D55E800670BAD /* Interactions */,
+				1610D939280F358900739208 /* PartialTweetTableViewCell+Trailing+Footer.swift */,
+			);
+			path = "PartialTweetTableViewCell+Trailing+Footer";
+			sourceTree = "<group>";
+		};
+		162832CD2824E16E00A17680 /* PartialUserTableViewCell+Trailing+Header+Leading */ = {
+			isa = PBXGroup;
+			children = (
+				163D2DA328191DDC00CE5646 /* PartialUserTableViewCell+Trailing+Header+Leading.swift */,
+			);
+			path = "PartialUserTableViewCell+Trailing+Header+Leading";
+			sourceTree = "<group>";
+		};
+		162832CE2824E17500A17680 /* PartialUserTableViewCell+Trailing+Header+Trailing */ = {
+			isa = PBXGroup;
+			children = (
+				163D2DA628191DF200CE5646 /* PartialUserTableViewCell+Trailing+Header+Trailing.swift */,
+			);
+			path = "PartialUserTableViewCell+Trailing+Header+Trailing";
+			sourceTree = "<group>";
+		};
+		162832CF2824E1E800A17680 /* TweetTableViewCell+Footer+Footer */ = {
+			isa = PBXGroup;
+			children = (
+				1667093A2817B79E00889B0C /* TweetTableViewCell+Footer+Footer.swift */,
+			);
+			path = "TweetTableViewCell+Footer+Footer";
+			sourceTree = "<group>";
+		};
+		162832D02824E21000A17680 /* TweetTableViewCell+Footer+Header */ = {
+			isa = PBXGroup;
+			children = (
+				1667093D2817B7AA00889B0C /* TweetTableViewCell+Footer+Header.swift */,
+			);
+			path = "TweetTableViewCell+Footer+Header";
+			sourceTree = "<group>";
+		};
+		162832D12824E2E400A17680 /* TweetTableViewCell+Header+Trailing */ = {
+			isa = PBXGroup;
+			children = (
+				16D3DFE128166F800083B7E9 /* TweetTableViewCell+Header+Trailing.swift */,
+			);
+			path = "TweetTableViewCell+Header+Trailing";
+			sourceTree = "<group>";
+		};
+		162832D22824E2EA00A17680 /* TweetTableViewCell+Header+Middle */ = {
+			isa = PBXGroup;
+			children = (
+				16D3DFDF28166F770083B7E9 /* TweetTableViewCell+Header+Middle.swift */,
+			);
+			path = "TweetTableViewCell+Header+Middle";
+			sourceTree = "<group>";
+		};
+		162832D32824E2F000A17680 /* TweetTableViewCell+Header+Leading */ = {
+			isa = PBXGroup;
+			children = (
+				16D3DFDD28166F710083B7E9 /* TweetTableViewCell+Header+Leading.swift */,
+			);
+			path = "TweetTableViewCell+Header+Leading";
+			sourceTree = "<group>";
+		};
+		162832D42824E34E00A17680 /* CommentTableViewCell+Trailing+Header */ = {
+			isa = PBXGroup;
+			children = (
+				16FDA077280FF5A4004BB3C4 /* CommentTableViewCell+Trailing+Header.swift */,
+			);
+			path = "CommentTableViewCell+Trailing+Header";
+			sourceTree = "<group>";
+		};
+		162832D52824E35400A17680 /* CommentTableViewCell+Trailing+Footer */ = {
+			isa = PBXGroup;
+			children = (
+				16FDA079280FF5B7004BB3C4 /* CommentTableViewCell+Trailing+Footer.swift */,
+			);
+			path = "CommentTableViewCell+Trailing+Footer";
+			sourceTree = "<group>";
+		};
 		162C378B281D15BC000A8C0C /* ProfileImageTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -738,8 +853,8 @@
 		16308636280881780061BE31 /* PartialTweetTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				1610D92F280F34EC00739208 /* PartialTweetViewCellLeading */,
-				1610D930280F34FC00739208 /* PartialTweetViewCellTrailing */,
+				1610D92F280F34EC00739208 /* PartialTweetTableViewCell+Leading */,
+				1610D930280F34FC00739208 /* PartialTweetTableViewCell+Trailing */,
 				16308637280881810061BE31 /* PartialTweetTableViewCell.swift */,
 			);
 			path = PartialTweetTableViewCell;
@@ -770,55 +885,47 @@
 		163D2D9028191BD600CE5646 /* PartialUserTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				163D2D9428191C7300CE5646 /* PartialUserTableViewCellLeading */,
-				163D2D9528191C7800CE5646 /* PartialUserTableViewCellTrailing */,
+				163D2D9428191C7300CE5646 /* PartialUserTableViewCell+Leading */,
+				163D2D9528191C7800CE5646 /* PartialUserTableViewCell+Trailing */,
 				163D2D9128191BE100CE5646 /* PartialUserTableViewCell.swift */,
 			);
 			path = PartialUserTableViewCell;
 			sourceTree = "<group>";
 		};
-		163D2D9428191C7300CE5646 /* PartialUserTableViewCellLeading */ = {
+		163D2D9428191C7300CE5646 /* PartialUserTableViewCell+Leading */ = {
 			isa = PBXGroup;
 			children = (
-				163D2D9728191C9900CE5646 /* PartialUserTableViewCellLeading.swift */,
+				163D2D9728191C9900CE5646 /* PartialUserTableViewCell+Leading.swift */,
 			);
-			path = PartialUserTableViewCellLeading;
+			path = "PartialUserTableViewCell+Leading";
 			sourceTree = "<group>";
 		};
-		163D2D9528191C7800CE5646 /* PartialUserTableViewCellTrailing */ = {
+		163D2D9528191C7800CE5646 /* PartialUserTableViewCell+Trailing */ = {
 			isa = PBXGroup;
 			children = (
-				163D2DA028191DC100CE5646 /* PartialUserTableViewCellTrailingHeader */,
-				163D2DA128191DC600CE5646 /* PartialUserTableViewCellTrailingFooter */,
-				163D2D9A28191D2800CE5646 /* PartialUserTableViewCellTrailing.swift */,
+				163D2DA028191DC100CE5646 /* PartialUserTableViewCell+Trailing+Header */,
+				163D2DA128191DC600CE5646 /* PartialUserTableViewCell+Trailing+Footer */,
+				163D2D9A28191D2800CE5646 /* PartialUserTableViewCell+Trailing.swift */,
 			);
-			path = PartialUserTableViewCellTrailing;
+			path = "PartialUserTableViewCell+Trailing";
 			sourceTree = "<group>";
 		};
-		163D2DA028191DC100CE5646 /* PartialUserTableViewCellTrailingHeader */ = {
+		163D2DA028191DC100CE5646 /* PartialUserTableViewCell+Trailing+Header */ = {
 			isa = PBXGroup;
 			children = (
-				163D2DA228191DD200CE5646 /* Components */,
-				163D2D9C28191D2E00CE5646 /* PartialUserTableViewCellTrailingHeader.swift */,
+				162832CD2824E16E00A17680 /* PartialUserTableViewCell+Trailing+Header+Leading */,
+				162832CE2824E17500A17680 /* PartialUserTableViewCell+Trailing+Header+Trailing */,
+				163D2D9C28191D2E00CE5646 /* PartialUserTableViewCell+Trailing+Header.swift */,
 			);
-			path = PartialUserTableViewCellTrailingHeader;
+			path = "PartialUserTableViewCell+Trailing+Header";
 			sourceTree = "<group>";
 		};
-		163D2DA128191DC600CE5646 /* PartialUserTableViewCellTrailingFooter */ = {
+		163D2DA128191DC600CE5646 /* PartialUserTableViewCell+Trailing+Footer */ = {
 			isa = PBXGroup;
 			children = (
-				163D2D9E28191D3300CE5646 /* PartialUserTableViewCellTrailingFooter.swift */,
+				163D2D9E28191D3300CE5646 /* PartialUserTableViewCell+Trailing+Footer.swift */,
 			);
-			path = PartialUserTableViewCellTrailingFooter;
-			sourceTree = "<group>";
-		};
-		163D2DA228191DD200CE5646 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				163D2DA328191DDC00CE5646 /* PartialUserTableViewCellTrailingHeaderLeading.swift */,
-				163D2DA628191DF200CE5646 /* PartialUserTableViewCellTrailingHeaderTrailing.swift */,
-			);
-			path = Components;
+			path = "PartialUserTableViewCell+Trailing+Footer";
 			sourceTree = "<group>";
 		};
 		163D2DA82819257600CE5646 /* SocialsDataStore */ = {
@@ -961,15 +1068,6 @@
 			path = TXVisualEffectView;
 			sourceTree = "<group>";
 		};
-		166709392817B79900889B0C /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				1667093D2817B7AA00889B0C /* TweetTableViewCellFooterHeader.swift */,
-				1667093A2817B79E00889B0C /* TweetTableViewCellFooterFooter.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
 		166C3248281E7F14009D6961 /* EditUsernameViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -993,8 +1091,8 @@
 		166C324C281E8166009D6961 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				16E56674281BF0980071100C /* Compose */,
-				16E5667D281C05AA0071100C /* ComposeBottomBar */,
+				16E56674281BF0980071100C /* Composer */,
+				16E5667D281C05AA0071100C /* ComposeDetailsBar */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1071,9 +1169,9 @@
 		167DDFFF280D55E800670BAD /* Interactions */ = {
 			isa = PBXGroup;
 			children = (
-				167DE000280D55F900670BAD /* LikeInteractionDetails.swift */,
-				167DE002280D561200670BAD /* CommentInteractionDetails.swift */,
-				167DE004280D562D00670BAD /* PartialTweetOptions.swift */,
+				167DE000280D55F900670BAD /* PartialTweetTableViewCell+Trailing+Footer+LikeInteractionDetails.swift */,
+				167DE002280D561200670BAD /* PartialTweetTableViewCell+Trailing+Footer+CommentInteractionDetails.swift */,
+				167DE004280D562D00670BAD /* PartialTweetTableViewCell+Trailing+Footer+PartialTweetOptions.swift */,
 			);
 			path = Interactions;
 			sourceTree = "<group>";
@@ -1202,36 +1300,36 @@
 		16BB010728139DF200532323 /* OtherUserTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				16BB010B28139E2700532323 /* OtherUserTableViewCellHeader */,
-				16BB010A28139E1B00532323 /* OtherUserTableViewCellBody */,
-				16BB010928139E0F00532323 /* OtherUserTableViewCellFooter */,
+				16BB010B28139E2700532323 /* OtherUserTableViewCell+Header */,
+				16BB010A28139E1B00532323 /* OtherUserTableViewCell+Body */,
+				16BB010928139E0F00532323 /* OtherUserTableViewCell+Footer */,
 				16BB010C28139E3600532323 /* OtherUserTableViewCell.swift */,
 			);
 			path = OtherUserTableViewCell;
 			sourceTree = "<group>";
 		};
-		16BB010928139E0F00532323 /* OtherUserTableViewCellFooter */ = {
+		16BB010928139E0F00532323 /* OtherUserTableViewCell+Footer */ = {
 			isa = PBXGroup;
 			children = (
-				16BB010E2813A2AB00532323 /* OtherUserTableViewCellFooter.swift */,
+				16BB010E2813A2AB00532323 /* OtherUserTableViewCell+Footer.swift */,
 			);
-			path = OtherUserTableViewCellFooter;
+			path = "OtherUserTableViewCell+Footer";
 			sourceTree = "<group>";
 		};
-		16BB010A28139E1B00532323 /* OtherUserTableViewCellBody */ = {
+		16BB010A28139E1B00532323 /* OtherUserTableViewCell+Body */ = {
 			isa = PBXGroup;
 			children = (
-				16BB01102813A2B200532323 /* OtherUserTableViewCellBody.swift */,
+				16BB01102813A2B200532323 /* OtherUserTableViewCell+Body.swift */,
 			);
-			path = OtherUserTableViewCellBody;
+			path = "OtherUserTableViewCell+Body";
 			sourceTree = "<group>";
 		};
-		16BB010B28139E2700532323 /* OtherUserTableViewCellHeader */ = {
+		16BB010B28139E2700532323 /* OtherUserTableViewCell+Header */ = {
 			isa = PBXGroup;
 			children = (
-				16BB01122813A2B800532323 /* OtherUserTableViewCellHeader.swift */,
+				16BB01122813A2B800532323 /* OtherUserTableViewCell+Header.swift */,
 			);
-			path = OtherUserTableViewCellHeader;
+			path = "OtherUserTableViewCell+Header";
 			sourceTree = "<group>";
 		};
 		16BB01142813A2D400532323 /* SocialDetails */ = {
@@ -1337,48 +1435,41 @@
 		16D3DFD028166CCE0083B7E9 /* TweetTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				16D3DFD528166D6D0083B7E9 /* TweetTableViewCellHeader */,
-				16D3DFD428166D690083B7E9 /* TweetTableViewCellBody */,
-				16D3DFD328166D5E0083B7E9 /* TweetTableViewCellFooter */,
+				16D3DFD528166D6D0083B7E9 /* TweetTableViewCell+Header */,
+				16D3DFD428166D690083B7E9 /* TweetTableViewCell+Body */,
+				16D3DFD328166D5E0083B7E9 /* TweetTableViewCell+Footer */,
 				16D3DFD128166CDD0083B7E9 /* TweetTableViewCell.swift */,
 			);
 			path = TweetTableViewCell;
 			sourceTree = "<group>";
 		};
-		16D3DFD328166D5E0083B7E9 /* TweetTableViewCellFooter */ = {
+		16D3DFD328166D5E0083B7E9 /* TweetTableViewCell+Footer */ = {
 			isa = PBXGroup;
 			children = (
-				166709392817B79900889B0C /* Components */,
-				16D3DFDA28166D7F0083B7E9 /* TweetTableViewCellFooter.swift */,
+				162832D02824E21000A17680 /* TweetTableViewCell+Footer+Header */,
+				162832CF2824E1E800A17680 /* TweetTableViewCell+Footer+Footer */,
+				16D3DFDA28166D7F0083B7E9 /* TweetTableViewCell+Footer.swift */,
 			);
-			path = TweetTableViewCellFooter;
+			path = "TweetTableViewCell+Footer";
 			sourceTree = "<group>";
 		};
-		16D3DFD428166D690083B7E9 /* TweetTableViewCellBody */ = {
+		16D3DFD428166D690083B7E9 /* TweetTableViewCell+Body */ = {
 			isa = PBXGroup;
 			children = (
-				16D3DFD828166D790083B7E9 /* TweetTableViewCellBody.swift */,
+				16D3DFD828166D790083B7E9 /* TweetTableViewCell+Body.swift */,
 			);
-			path = TweetTableViewCellBody;
+			path = "TweetTableViewCell+Body";
 			sourceTree = "<group>";
 		};
-		16D3DFD528166D6D0083B7E9 /* TweetTableViewCellHeader */ = {
+		16D3DFD528166D6D0083B7E9 /* TweetTableViewCell+Header */ = {
 			isa = PBXGroup;
 			children = (
-				16D3DFDC28166E470083B7E9 /* Components */,
-				16D3DFD628166D740083B7E9 /* TweetTableViewCellHeader.swift */,
+				162832D32824E2F000A17680 /* TweetTableViewCell+Header+Leading */,
+				162832D22824E2EA00A17680 /* TweetTableViewCell+Header+Middle */,
+				162832D12824E2E400A17680 /* TweetTableViewCell+Header+Trailing */,
+				16D3DFD628166D740083B7E9 /* TweetTableViewCell+Header.swift */,
 			);
-			path = TweetTableViewCellHeader;
-			sourceTree = "<group>";
-		};
-		16D3DFDC28166E470083B7E9 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				16D3DFDD28166F710083B7E9 /* TweetTableViewCellHeaderLeading.swift */,
-				16D3DFDF28166F770083B7E9 /* TweetTableViewCellHeaderMiddle.swift */,
-				16D3DFE128166F800083B7E9 /* TweetTableViewCellHeaderTrailing.swift */,
-			);
-			path = Components;
+			path = "TweetTableViewCell+Header";
 			sourceTree = "<group>";
 		};
 		16D8AACA281F117D00EEC440 /* TXActivityIndicatorView */ = {
@@ -1462,20 +1553,20 @@
 			path = FeedDataStore;
 			sourceTree = "<group>";
 		};
-		16E56674281BF0980071100C /* Compose */ = {
+		16E56674281BF0980071100C /* Composer */ = {
 			isa = PBXGroup;
 			children = (
 				16E56675281BF0A00071100C /* Composer.swift */,
 			);
-			path = Compose;
+			path = Composer;
 			sourceTree = "<group>";
 		};
-		16E5667D281C05AA0071100C /* ComposeBottomBar */ = {
+		16E5667D281C05AA0071100C /* ComposeDetailsBar */ = {
 			isa = PBXGroup;
 			children = (
-				16E5667E281C05B80071100C /* ComposeBottomBar.swift */,
+				16E5667E281C05B80071100C /* ComposeDetailsBar.swift */,
 			);
-			path = ComposeBottomBar;
+			path = ComposeDetailsBar;
 			sourceTree = "<group>";
 		};
 		16F219FC281BDC010013A750 /* FollowersViewController */ = {
@@ -1497,37 +1588,29 @@
 		16FDA06D280FF359004BB3C4 /* CommentTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				16FDA070280FF44F004BB3C4 /* CommentTableViewCellLeading */,
-				16FDA073280FF45D004BB3C4 /* CommentTableViewCellTrailing */,
+				16FDA070280FF44F004BB3C4 /* CommentTableViewCell+Leading */,
+				16FDA073280FF45D004BB3C4 /* CommentTableViewCell+Trailing */,
 				16FDA06E280FF367004BB3C4 /* CommentTableViewCell.swift */,
 			);
 			path = CommentTableViewCell;
 			sourceTree = "<group>";
 		};
-		16FDA070280FF44F004BB3C4 /* CommentTableViewCellLeading */ = {
+		16FDA070280FF44F004BB3C4 /* CommentTableViewCell+Leading */ = {
 			isa = PBXGroup;
 			children = (
-				16FDA071280FF45B004BB3C4 /* CommentTableViewCellLeading.swift */,
+				16FDA071280FF45B004BB3C4 /* CommentTableViewCell+Leading.swift */,
 			);
-			path = CommentTableViewCellLeading;
+			path = "CommentTableViewCell+Leading";
 			sourceTree = "<group>";
 		};
-		16FDA073280FF45D004BB3C4 /* CommentTableViewCellTrailing */ = {
+		16FDA073280FF45D004BB3C4 /* CommentTableViewCell+Trailing */ = {
 			isa = PBXGroup;
 			children = (
-				16FDA076280FF595004BB3C4 /* Components */,
-				16FDA074280FF465004BB3C4 /* CommentTableViewCellTrailing.swift */,
+				162832D42824E34E00A17680 /* CommentTableViewCell+Trailing+Header */,
+				162832D52824E35400A17680 /* CommentTableViewCell+Trailing+Footer */,
+				16FDA074280FF465004BB3C4 /* CommentTableViewCell+Trailing.swift */,
 			);
-			path = CommentTableViewCellTrailing;
-			sourceTree = "<group>";
-		};
-		16FDA076280FF595004BB3C4 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				16FDA077280FF5A4004BB3C4 /* CommentTableViewCellTrailingHeader.swift */,
-				16FDA079280FF5B7004BB3C4 /* CommentTableViewCellTrailingFooter.swift */,
-			);
-			path = Components;
+			path = "CommentTableViewCell+Trailing";
 			sourceTree = "<group>";
 		};
 		16FDA07B280FFC97004BB3C4 /* CommentsDataStore */ = {
@@ -1616,17 +1699,17 @@
 			files = (
 				16E3C13428216C48009CC8E7 /* FeedDataStore+Request.swift in Sources */,
 				161123852806CBE100908D98 /* Paginated.swift in Sources */,
-				163D2D9D28191D2E00CE5646 /* PartialUserTableViewCellTrailingHeader.swift in Sources */,
+				163D2D9D28191D2E00CE5646 /* PartialUserTableViewCell+Trailing+Header.swift in Sources */,
 				162C3793281D1D65000A8C0C /* UsernameTableViewCell.swift in Sources */,
 				16133F82282251A100171F68 /* SearchedKeywordTableViewCell.swift in Sources */,
 				1691E456280EABAE00BA223D /* TXStackView.swift in Sources */,
-				16FDA072280FF45B004BB3C4 /* CommentTableViewCellLeading.swift in Sources */,
+				16FDA072280FF45B004BB3C4 /* CommentTableViewCell+Leading.swift in Sources */,
 				16D3C5E22810306100B8A2CC /* DateX.swift in Sources */,
 				160437D327E1B7B100EA615F /* NotificationsViewController.swift in Sources */,
 				163A09F32823B8FB008CDCED /* TXPresentationController.swift in Sources */,
-				16D3DFD728166D740083B7E9 /* TweetTableViewCellHeader.swift in Sources */,
+				16D3DFD728166D740083B7E9 /* TweetTableViewCell+Header.swift in Sources */,
 				16983AD42824C1960025C397 /* TXExtensiveLocalStorageAssistant.swift in Sources */,
-				16BB01112813A2B200532323 /* OtherUserTableViewCellBody.swift in Sources */,
+				16BB01112813A2B200532323 /* OtherUserTableViewCell+Body.swift in Sources */,
 				16D3C5E52810314B00B8A2CC /* TXEventBroker.swift in Sources */,
 				160437B127E1AE2600EA615F /* TXTableViewController.swift in Sources */,
 				16E3C144282176A9009CC8E7 /* SearchDataStore+Request.swift in Sources */,
@@ -1641,37 +1724,38 @@
 				165ED0252811CC760022D822 /* TXTableView.swift in Sources */,
 				16D8F97C280D7C13000545EC /* SocialDetails.swift in Sources */,
 				160437D927E1B87B00EA615F /* TXTabBarItem.swift in Sources */,
-				167DE00A280D56B100670BAD /* PartialTweetTableViewCellTrailing.swift in Sources */,
+				167DE00A280D56B100670BAD /* PartialTweetTableViewCell+Trailing.swift in Sources */,
 				16993CE3280C49E700FFE71B /* TXImageView.swift in Sources */,
 				16DBF5BD2817E07400E92DE5 /* TXScrollView.swift in Sources */,
 				1611237B2806C75A00908D98 /* User.swift in Sources */,
 				16993CD6280C41FE00FFE71B /* TXSearchController.swift in Sources */,
 				16FDA07D280FFCA0004BB3C4 /* CommentsDataStore.swift in Sources */,
-				167DE003280D561200670BAD /* CommentInteractionDetails.swift in Sources */,
-				167DE005280D562D00670BAD /* PartialTweetOptions.swift in Sources */,
+				167DE003280D561200670BAD /* PartialTweetTableViewCell+Trailing+Footer+CommentInteractionDetails.swift in Sources */,
+				167DE005280D562D00670BAD /* PartialTweetTableViewCell+Trailing+Footer+PartialTweetOptions.swift in Sources */,
 				16021AC42823BC5500C28EAD /* NotificationsDataStore.swift in Sources */,
 				16F219FE281BDC160013A750 /* FollowersViewController.swift in Sources */,
 				16D8AACC281F118500EEC440 /* TXActivityIndicatorView.swift in Sources */,
 				1610D93D280F397300739208 /* TXColor.swift in Sources */,
-				1667093E2817B7AA00889B0C /* TweetTableViewCellFooterHeader.swift in Sources */,
-				16FDA075280FF465004BB3C4 /* CommentTableViewCellTrailing.swift in Sources */,
+				1667093E2817B7AA00889B0C /* TweetTableViewCell+Footer+Header.swift in Sources */,
+				16FDA075280FF465004BB3C4 /* CommentTableViewCell+Trailing.swift in Sources */,
 				167C3A48280C99A3004E9B4D /* UITableViewX.swift in Sources */,
 				166C325E281E8551009D6961 /* EditBioViewController.swift in Sources */,
 				1691E453280EA8D800BA223D /* TXView.swift in Sources */,
 				16D3DFD228166CDD0083B7E9 /* TweetTableViewCell.swift in Sources */,
-				16D3DFD928166D790083B7E9 /* TweetTableViewCellBody.swift in Sources */,
+				16D3DFD928166D790083B7E9 /* TweetTableViewCell+Body.swift in Sources */,
 				16237AF3281FB71000837064 /* EditUsernameTableViewCell.swift in Sources */,
 				1611237D2806C99500908D98 /* Like.swift in Sources */,
 				16E3C14A282177EC009CC8E7 /* BookmarksDataStore+Response.swift in Sources */,
 				163D2D9228191BE100CE5646 /* PartialUserTableViewCell.swift in Sources */,
 				16BB01172813A53600532323 /* OtherUserViewController.swift in Sources */,
-				1610D938280F356C00739208 /* PartialTweetViewCellTrailingBody.swift in Sources */,
+				162832C82824D71700A17680 /* EmptyFeedTableViewCell.swift in Sources */,
+				1610D938280F356C00739208 /* PartialTweetTableViewCell+Trailing+Body.swift in Sources */,
 				160437AF27E1AE0700EA615F /* TXViewController.swift in Sources */,
 				16133F85282255EC00171F68 /* SearchViewController.swift in Sources */,
 				16993CE6280C4A0200FFE71B /* TXButton.swift in Sources */,
-				16D3DFDB28166D7F0083B7E9 /* TweetTableViewCellFooter.swift in Sources */,
+				16D3DFDB28166D7F0083B7E9 /* TweetTableViewCell+Footer.swift in Sources */,
 				167224D6281BC73C005D79EB /* ResultX.swift in Sources */,
-				16D3DFE028166F770083B7E9 /* TweetTableViewCellHeaderMiddle.swift in Sources */,
+				16D3DFE028166F770083B7E9 /* TweetTableViewCell+Header+Middle.swift in Sources */,
 				16D27C71281FE8CF00D2A2C3 /* AuthenticationActionsTableViewCell.swift in Sources */,
 				161250F227DBB56E006BCE5A /* AppDelegate.swift in Sources */,
 				16D8F97A280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift in Sources */,
@@ -1684,31 +1768,31 @@
 				16E3C14028217451009CC8E7 /* LikesDataStore+Request.swift in Sources */,
 				161347E628194DE1004AA245 /* BookmarksDataStore.swift in Sources */,
 				160437D527E1B7C200EA615F /* CurrentUserViewController.swift in Sources */,
-				16BB01132813A2B800532323 /* OtherUserTableViewCellHeader.swift in Sources */,
+				16BB01132813A2B800532323 /* OtherUserTableViewCell+Header.swift in Sources */,
 				16308638280881810061BE31 /* PartialTweetTableViewCell.swift in Sources */,
 				164828D22815C96E002C6C06 /* TXMenu.swift in Sources */,
-				163D2D9F28191D3300CE5646 /* PartialUserTableViewCellTrailingFooter.swift in Sources */,
+				163D2D9F28191D3300CE5646 /* PartialUserTableViewCell+Trailing+Footer.swift in Sources */,
 				161347E32819433B004AA245 /* BookmarksViewController.swift in Sources */,
 				160437D727E1B83700EA615F /* TXPageControl.swift in Sources */,
 				161123892806D29600908D98 /* Session.swift in Sources */,
 				161250F427DBB56E006BCE5A /* SceneDelegate.swift in Sources */,
 				16E3C12E28216B00009CC8E7 /* SocialsDataStore+Request.swift in Sources */,
-				163D2DA728191DF200CE5646 /* PartialUserTableViewCellTrailingHeaderTrailing.swift in Sources */,
+				163D2DA728191DF200CE5646 /* PartialUserTableViewCell+Trailing+Header+Trailing.swift in Sources */,
 				16D237AD28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift in Sources */,
 				164828D52815D097002C6C06 /* LikesDataStore.swift in Sources */,
 				16D27C6E281FE8BD00D2A2C3 /* TaglineTableViewCell.swift in Sources */,
 				165E54F227E77F9C00D3BA0D /* TXImageProvider.swift in Sources */,
-				1610D933280F351B00739208 /* PartialTweetViewCellTrailingHeader.swift in Sources */,
-				1610D93A280F358900739208 /* PartialTweetViewCellTrailingFooter.swift in Sources */,
+				1610D933280F351B00739208 /* PartialTweetTableViewCell+Trailing+Header.swift in Sources */,
+				1610D93A280F358900739208 /* PartialTweetTableViewCell+Trailing+Footer.swift in Sources */,
 				160437AD27E1ADE700EA615F /* TXTabBarController.swift in Sources */,
 				161123832806CAC300908D98 /* Social.swift in Sources */,
-				16FDA07A280FF5B7004BB3C4 /* CommentTableViewCellTrailingFooter.swift in Sources */,
+				16FDA07A280FF5B7004BB3C4 /* CommentTableViewCell+Trailing+Footer.swift in Sources */,
 				169E280027EB896800B72006 /* TXNetworkAssistant.swift in Sources */,
 				16E3C146282176AF009CC8E7 /* SearchDataStore+Response.swift in Sources */,
 				162C3790281D1A81000A8C0C /* NameTableViewCell.swift in Sources */,
 				1688D3F927FD7B3B00F9C366 /* TXNetworkMonitor.swift in Sources */,
 				16DEB9562806089E00140E63 /* Tweet.swift in Sources */,
-				167DE001280D55F900670BAD /* LikeInteractionDetails.swift in Sources */,
+				167DE001280D55F900670BAD /* PartialTweetTableViewCell+Trailing+Footer+LikeInteractionDetails.swift in Sources */,
 				16E3C13628216C50009CC8E7 /* FeedDataStore+Response.swift in Sources */,
 				165ED02E2811D85C0022D822 /* TXEdgeInsets.swift in Sources */,
 				1696A07F281D742500C88604 /* RunnerViewController.swift in Sources */,
@@ -1725,9 +1809,9 @@
 				1610D936280F354A00739208 /* TXLabel.swift in Sources */,
 				165ED0282811D4770022D822 /* CommentInputBar.swift in Sources */,
 				160437AB27E1ADCF00EA615F /* TXNavigationController.swift in Sources */,
-				163D2DA428191DDC00CE5646 /* PartialUserTableViewCellTrailingHeaderLeading.swift in Sources */,
-				16E5667F281C05B80071100C /* ComposeBottomBar.swift in Sources */,
-				167DE008280D569400670BAD /* PartialTweetViewCellLeading.swift in Sources */,
+				163D2DA428191DDC00CE5646 /* PartialUserTableViewCell+Trailing+Header+Leading.swift in Sources */,
+				16E5667F281C05B80071100C /* ComposeDetailsBar.swift in Sources */,
+				167DE008280D569400670BAD /* PartialTweetTableViewCell+Leading.swift in Sources */,
 				16E3C13828217223009CC8E7 /* TweetsDataStore+Request.swift in Sources */,
 				16E56684281C2D5A0071100C /* SearchDataStore.swift in Sources */,
 				16D8F976280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift in Sources */,
@@ -1743,31 +1827,31 @@
 				16E3C148282177E6009CC8E7 /* BookmarksDataStore+Request.swift in Sources */,
 				16E3C13E28217339009CC8E7 /* CommentsDataStore+Response.swift in Sources */,
 				163D2DAE281927D200CE5646 /* LikesViewController.swift in Sources */,
-				16D3DFDE28166F710083B7E9 /* TweetTableViewCellHeaderLeading.swift in Sources */,
+				16D3DFDE28166F710083B7E9 /* TweetTableViewCell+Header+Leading.swift in Sources */,
 				1610D946280F49E200739208 /* EditUserDetailsViewController.swift in Sources */,
 				1630863B280883900061BE31 /* UIViewX.swift in Sources */,
 				16BB010D28139E3600532323 /* OtherUserTableViewCell.swift in Sources */,
 				165ED02B2811D4A60022D822 /* TXTextField.swift in Sources */,
 				167C3A44280C80C6004E9B4D /* TweetsDataStore.swift in Sources */,
-				16D3DFE228166F800083B7E9 /* TweetTableViewCellHeaderTrailing.swift in Sources */,
+				16D3DFE228166F800083B7E9 /* TweetTableViewCell+Header+Trailing.swift in Sources */,
 				16E3C13028216B06009CC8E7 /* SocialsDataStore+Response.swift in Sources */,
-				1667093B2817B79E00889B0C /* TweetTableViewCellFooterFooter.swift in Sources */,
+				1667093B2817B79E00889B0C /* TweetTableViewCell+Footer+Footer.swift in Sources */,
 				163D2DAA2819258300CE5646 /* SocialsDataStore.swift in Sources */,
 				165ED0312811E41A0022D822 /* TXVisualEffectView.swift in Sources */,
-				16FDA078280FF5A4004BB3C4 /* CommentTableViewCellTrailingHeader.swift in Sources */,
+				16FDA078280FF5A4004BB3C4 /* CommentTableViewCell+Trailing+Header.swift in Sources */,
 				1618F8E92822E50600C1358E /* FloatingButton.swift in Sources */,
 				16E3C13228216C39009CC8E7 /* FeedDataStore.swift in Sources */,
 				16237AF1281FB49600837064 /* StringX.swift in Sources */,
 				16DBF5C32817E90600E92DE5 /* UIViewControllerX.swift in Sources */,
 				16021AC62823BC5D00C28EAD /* NotificationsDataStore+Request.swift in Sources */,
-				16BB010F2813A2AB00532323 /* OtherUserTableViewCellFooter.swift in Sources */,
+				16BB010F2813A2AB00532323 /* OtherUserTableViewCell+Footer.swift in Sources */,
 				160437C127E1B0DE00EA615F /* TXPageViewController.swift in Sources */,
 				16F21A01281BDC2F0013A750 /* FollowingsViewController.swift in Sources */,
 				1610D943280F44E300739208 /* TweetOptionsAlertViewController.swift in Sources */,
 				16021ACD2823C36A00C28EAD /* TXRefreshControl.swift in Sources */,
 				16E3C14228217455009CC8E7 /* LikesDataStore+Response.swift in Sources */,
-				163D2D9B28191D2800CE5646 /* PartialUserTableViewCellTrailing.swift in Sources */,
-				163D2D9828191C9900CE5646 /* PartialUserTableViewCellLeading.swift in Sources */,
+				163D2D9B28191D2800CE5646 /* PartialUserTableViewCell+Trailing.swift in Sources */,
+				163D2D9828191C9900CE5646 /* PartialUserTableViewCell+Leading.swift in Sources */,
 				162C3796281D1F97000A8C0C /* BioTableViewCell.swift in Sources */,
 				166C324A281E7F24009D6961 /* EditUsernameViewController.swift in Sources */,
 				16D8F978280D7BDD000545EC /* CurrentUserTableViewCellBody.swift in Sources */,

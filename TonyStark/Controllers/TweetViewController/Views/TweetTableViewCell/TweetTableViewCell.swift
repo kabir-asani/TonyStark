@@ -32,24 +32,24 @@ class TweetTableViewCell: TXTableViewCell {
     
     weak var interactionsHandler: TweetTableViewCellInteractionsHandler?
     
-    private let header: TweetTableViewCellHeader = {
-        let header = TweetTableViewCellHeader()
+    private let header: Header = {
+        let header = Header()
         
         header.enableAutolayout()
         
         return header
     }()
     
-    private let body: TweetTableViewCellBody = {
-        let body = TweetTableViewCellBody()
+    private let body: Body = {
+        let body = Body()
         
         body.enableAutolayout()
         
         return body
     }()
     
-    private let footer: TweetTableViewCellFooter = {
-        let footer = TweetTableViewCellFooter()
+    private let footer: Footer = {
+        let footer = Footer()
         
         footer.enableAutolayout()
         

@@ -32,16 +32,16 @@ class PartialTweetTableViewCell: TXTableViewCell {
     // Declare
     weak var interactionsHandler: PartialTweetTableViewCellInteractionsHandler?
     
-    private let leading: PartialTweetViewCellLeading = {
-        let leading = PartialTweetViewCellLeading()
+    private let leading: Leading = {
+        let leading = Leading()
         
         leading.enableAutolayout()
         
         return leading
     }()
     
-    private let trailing: PartialTweetViewCellTrailing = {
-        let trailing = PartialTweetViewCellTrailing()
+    private let trailing: Trailing = {
+        let trailing = Trailing()
         
         trailing.enableAutolayout()
         
