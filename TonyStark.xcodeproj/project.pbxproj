@@ -133,9 +133,9 @@
 		16D3DFE028166F770083B7E9 /* TweetTableViewCell+Header+Middle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFDF28166F770083B7E9 /* TweetTableViewCell+Header+Middle.swift */; };
 		16D3DFE228166F800083B7E9 /* TweetTableViewCell+Header+Trailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFE128166F800083B7E9 /* TweetTableViewCell+Header+Trailing.swift */; };
 		16D8AACC281F118500EEC440 /* TXActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8AACB281F118500EEC440 /* TXActivityIndicatorView.swift */; };
-		16D8F976280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F975280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift */; };
-		16D8F978280D7BDD000545EC /* CurrentUserTableViewCellBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F977280D7BDD000545EC /* CurrentUserTableViewCellBody.swift */; };
-		16D8F97A280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F979280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift */; };
+		16D8F976280D7BAE000545EC /* CurrentUserTableViewCell+Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F975280D7BAE000545EC /* CurrentUserTableViewCell+Header.swift */; };
+		16D8F978280D7BDD000545EC /* CurrentUserTableViewCell+Body.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F977280D7BDD000545EC /* CurrentUserTableViewCell+Body.swift */; };
+		16D8F97A280D7BFD000545EC /* CurrentUserTableViewCell+Footer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F979280D7BFD000545EC /* CurrentUserTableViewCell+Footer.swift */; };
 		16D8F97C280D7C13000545EC /* SocialDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F97B280D7C13000545EC /* SocialDetails.swift */; };
 		16DBF5BD2817E07400E92DE5 /* TXScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBF5BC2817E07400E92DE5 /* TXScrollView.swift */; };
 		16DBF5C32817E90600E92DE5 /* UIViewControllerX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBF5C22817E90600E92DE5 /* UIViewControllerX.swift */; };
@@ -300,9 +300,9 @@
 		16D3DFDF28166F770083B7E9 /* TweetTableViewCell+Header+Middle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetTableViewCell+Header+Middle.swift"; sourceTree = "<group>"; };
 		16D3DFE128166F800083B7E9 /* TweetTableViewCell+Header+Trailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetTableViewCell+Header+Trailing.swift"; sourceTree = "<group>"; };
 		16D8AACB281F118500EEC440 /* TXActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXActivityIndicatorView.swift; sourceTree = "<group>"; };
-		16D8F975280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCellHeader.swift; sourceTree = "<group>"; };
-		16D8F977280D7BDD000545EC /* CurrentUserTableViewCellBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCellBody.swift; sourceTree = "<group>"; };
-		16D8F979280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTableViewCellFooter.swift; sourceTree = "<group>"; };
+		16D8F975280D7BAE000545EC /* CurrentUserTableViewCell+Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrentUserTableViewCell+Header.swift"; sourceTree = "<group>"; };
+		16D8F977280D7BDD000545EC /* CurrentUserTableViewCell+Body.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrentUserTableViewCell+Body.swift"; sourceTree = "<group>"; };
+		16D8F979280D7BFD000545EC /* CurrentUserTableViewCell+Footer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrentUserTableViewCell+Footer.swift"; sourceTree = "<group>"; };
 		16D8F97B280D7C13000545EC /* SocialDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialDetails.swift; sourceTree = "<group>"; };
 		16DBF5BC2817E07400E92DE5 /* TXScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXScrollView.swift; sourceTree = "<group>"; };
 		16DBF5C22817E90600E92DE5 /* UIViewControllerX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerX.swift; sourceTree = "<group>"; };
@@ -514,28 +514,28 @@
 			path = ComposeViewController;
 			sourceTree = "<group>";
 		};
-		1610D92C280F34C200739208 /* CurrentUserTableViewCellHeader */ = {
+		1610D92C280F34C200739208 /* CurrentUserTableViewCell+Header */ = {
 			isa = PBXGroup;
 			children = (
-				16D8F975280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift */,
+				16D8F975280D7BAE000545EC /* CurrentUserTableViewCell+Header.swift */,
 			);
-			path = CurrentUserTableViewCellHeader;
+			path = "CurrentUserTableViewCell+Header";
 			sourceTree = "<group>";
 		};
-		1610D92D280F34D000739208 /* CurrentUserTableViewCellBody */ = {
+		1610D92D280F34D000739208 /* CurrentUserTableViewCell+Body */ = {
 			isa = PBXGroup;
 			children = (
-				16D8F977280D7BDD000545EC /* CurrentUserTableViewCellBody.swift */,
+				16D8F977280D7BDD000545EC /* CurrentUserTableViewCell+Body.swift */,
 			);
-			path = CurrentUserTableViewCellBody;
+			path = "CurrentUserTableViewCell+Body";
 			sourceTree = "<group>";
 		};
-		1610D92E280F34DE00739208 /* CurrentUserTableViewCellFooter */ = {
+		1610D92E280F34DE00739208 /* CurrentUserTableViewCell+Footer */ = {
 			isa = PBXGroup;
 			children = (
-				16D8F979280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift */,
+				16D8F979280D7BFD000545EC /* CurrentUserTableViewCell+Footer.swift */,
 			);
-			path = CurrentUserTableViewCellFooter;
+			path = "CurrentUserTableViewCell+Footer";
 			sourceTree = "<group>";
 		};
 		1610D92F280F34EC00739208 /* PartialTweetTableViewCell+Leading */ = {
@@ -1257,9 +1257,9 @@
 		16993CD7280C42BB00FFE71B /* CurrentUserTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				1610D92C280F34C200739208 /* CurrentUserTableViewCellHeader */,
-				1610D92D280F34D000739208 /* CurrentUserTableViewCellBody */,
-				1610D92E280F34DE00739208 /* CurrentUserTableViewCellFooter */,
+				1610D92C280F34C200739208 /* CurrentUserTableViewCell+Header */,
+				1610D92D280F34D000739208 /* CurrentUserTableViewCell+Body */,
+				1610D92E280F34DE00739208 /* CurrentUserTableViewCell+Footer */,
 				16993CD8280C42CD00FFE71B /* CurrentUserTableViewCell.swift */,
 			);
 			path = CurrentUserTableViewCell;
@@ -1758,7 +1758,7 @@
 				16D3DFE028166F770083B7E9 /* TweetTableViewCell+Header+Middle.swift in Sources */,
 				16D27C71281FE8CF00D2A2C3 /* AuthenticationActionsTableViewCell.swift in Sources */,
 				161250F227DBB56E006BCE5A /* AppDelegate.swift in Sources */,
-				16D8F97A280D7BFD000545EC /* CurrentUserTableViewCellFooter.swift in Sources */,
+				16D8F97A280D7BFD000545EC /* CurrentUserTableViewCell+Footer.swift in Sources */,
 				168992A7281B135000D5D85C /* AvatarImage.swift in Sources */,
 				160437CD27E1B76200EA615F /* ComposeViewController.swift in Sources */,
 				16493D212812B372004912BB /* TXTextView.swift in Sources */,
@@ -1814,7 +1814,7 @@
 				167DE008280D569400670BAD /* PartialTweetTableViewCell+Leading.swift in Sources */,
 				16E3C13828217223009CC8E7 /* TweetsDataStore+Request.swift in Sources */,
 				16E56684281C2D5A0071100C /* SearchDataStore.swift in Sources */,
-				16D8F976280D7BAE000545EC /* CurrentUserTableViewCellHeader.swift in Sources */,
+				16D8F976280D7BAE000545EC /* CurrentUserTableViewCell+Header.swift in Sources */,
 				16493D232812B56D004912BB /* UIEdgeInsetsX.swift in Sources */,
 				160437CF27E1B77B00EA615F /* FeedViewController.swift in Sources */,
 				160437D127E1B79300EA615F /* ExploreViewController.swift in Sources */,
@@ -1854,7 +1854,7 @@
 				163D2D9828191C9900CE5646 /* PartialUserTableViewCell+Leading.swift in Sources */,
 				162C3796281D1F97000A8C0C /* BioTableViewCell.swift in Sources */,
 				166C324A281E7F24009D6961 /* EditUsernameViewController.swift in Sources */,
-				16D8F978280D7BDD000545EC /* CurrentUserTableViewCellBody.swift in Sources */,
+				16D8F978280D7BDD000545EC /* CurrentUserTableViewCell+Body.swift in Sources */,
 				164828D82815D678002C6C06 /* TXBundledImage.swift in Sources */,
 				162C378D281D15D8000A8C0C /* ProfileImageTableViewCell.swift in Sources */,
 			);
