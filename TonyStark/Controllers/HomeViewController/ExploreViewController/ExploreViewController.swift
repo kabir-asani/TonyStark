@@ -34,13 +34,13 @@ class ExploreViewController: TXViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.delegate = self
+        
         addSubviews()
         
         configureNavigationBar()
         configureSearchBar()
         configureTableView()
-        
-        populateTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,6 +94,18 @@ class ExploreViewController: TXViewController {
     // Interact
 }
 
+extension ExploreViewController: TXNavigationControllerDelegate {
+    func navigationController(
+        _ navigationController: UINavigationController,
+        didShow viewController: UIViewController,
+        animated: Bool
+    ) {
+        if viewController === self {
+            populateTableView()
+        }
+    }
+}
+
 // MARK: TXSearchBarDelegate
 extension ExploreViewController: TXSearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -112,6 +124,10 @@ extension ExploreViewController: TXSearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let keyword = searchBar.text {
+            Task {
+                await SearchDataStore.shared.captureKeyword(keyword)
+            }
+            
             let searchResultsViewController = SearchViewController()
             
             searchResultsViewController.populate(withKeyword: keyword)
