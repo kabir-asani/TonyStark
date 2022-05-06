@@ -68,10 +68,13 @@ class CurrentUserViewController: TXViewController {
             CurrentUserTableViewCell.self,
             forCellReuseIdentifier: CurrentUserTableViewCell.reuseIdentifier
         )
-        
         tableView.register(
             PartialTweetTableViewCell.self,
             forCellReuseIdentifier: PartialTweetTableViewCell.reuseIdentifier
+        )
+        tableView.register(
+            EmptyTweetsTableViewCell.self,
+            forCellReuseIdentifier: EmptyTweetsTableViewCell.reuseIdentifier
         )
         
         tableView.pin(
@@ -211,7 +214,11 @@ extension CurrentUserViewController: TXTableViewDataSource {
         case Section.tweets.rawValue:
             switch state {
             case .success(let paginated):
-                return paginated.page.count
+                if paginated.page.isEmpty {
+                    return 1
+                } else {
+                    return paginated.page.count
+                }
             case .failure(_):
                 // TODO: Implement failure cases
                 return 0
@@ -248,15 +255,24 @@ extension CurrentUserViewController: TXTableViewDataSource {
         case Section.tweets.rawValue:
             switch state {
             case .success(let paginated):
-                let cell = tableView.dequeueReusableCell(
-                    withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
-                    assigning: indexPath
-                ) as! PartialTweetTableViewCell
-                
-                cell.interactionsHandler = self
-                cell.configure(withTweet: paginated.page[indexPath.row])
-                
-                return cell
+                if paginated.page.isEmpty {
+                    let cell = tableView.dequeueReusableCell(
+                        withIdentifier: EmptyTweetsTableViewCell.reuseIdentifier,
+                        assigning: indexPath
+                    ) as! EmptyTweetsTableViewCell
+                    
+                    return cell
+                } else {
+                    let cell = tableView.dequeueReusableCell(
+                        withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
+                        assigning: indexPath
+                    ) as! PartialTweetTableViewCell
+                    
+                    cell.interactionsHandler = self
+                    cell.configure(withTweet: paginated.page[indexPath.row])
+                    
+                    return cell
+                }
             case .failure(_):
                 // TODO: Implement failure cases
                 return UITableViewCell()
@@ -277,7 +293,7 @@ extension CurrentUserViewController: TXTableViewDelegate {
         if indexPath.section == Section.tweets.rawValue {
             switch state {
             case .success(let paginated):
-                if indexPath.row  == paginated.page.count - 1 {
+                if paginated.page.isEmpty || indexPath.row == paginated.page.count - 1 {
                     cell.separatorInset = .leading(.infinity)
                 } else {
                     cell.separatorInset = .leading(20)
@@ -300,15 +316,19 @@ extension CurrentUserViewController: TXTableViewDelegate {
         if indexPath.section == Section.tweets.rawValue {
             switch state {
             case .success(let paginated):
-                let tweet = paginated.page[indexPath.row]
-                
-                let tweetViewController = TweetViewController()
-                tweetViewController.populate(withTweet: tweet)
-                
-                navigationController?.pushViewController(
-                    tweetViewController,
-                    animated: true
-                )
+                if paginated.page.isEmpty {
+                    // Do nothing
+                } else {
+                    let tweet = paginated.page[indexPath.row]
+                    
+                    let tweetViewController = TweetViewController()
+                    tweetViewController.populate(withTweet: tweet)
+                    
+                    navigationController?.pushViewController(
+                        tweetViewController,
+                        animated: true
+                    )
+                }
             default:
                 break
             }
