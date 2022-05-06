@@ -81,4 +81,16 @@ extension UIEdgeInsets {
             right: 0
         )
     }
+    
+    static func symmetric(
+        horizontal horizontalInset: Double = 0,
+        vertical verticalInset: Double = 0
+    ) -> UIEdgeInsets {
+        return UIEdgeInsets(
+            top: verticalInset,
+            left: horizontalInset,
+            bottom: -verticalInset,
+            right: -horizontalInset
+        )
+    }
 }
