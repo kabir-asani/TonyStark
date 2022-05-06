@@ -124,10 +124,6 @@ extension ExploreViewController: TXSearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let keyword = searchBar.text {
-            Task {
-                await SearchDataStore.shared.captureKeyword(keyword)
-            }
-            
             let searchResultsViewController = SearchViewController()
             
             searchResultsViewController.populate(withKeyword: keyword)
