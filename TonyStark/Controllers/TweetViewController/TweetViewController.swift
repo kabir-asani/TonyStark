@@ -23,7 +23,7 @@ class TweetViewController: TXViewController {
         case comments
     }
     
-    private var tweet: Tweet = .default()
+    private(set) var tweet: Tweet = .default()
     private var state: Result<Paginated<Comment>, CommentsFailure> = .success(.default())
     private var options: Options = .default()
     

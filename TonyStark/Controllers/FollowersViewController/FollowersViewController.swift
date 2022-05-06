@@ -9,7 +9,7 @@ import UIKit
 
 class FollowersViewController: TXViewController {
     // Declare
-    private var user: User = .default()
+    private(set) var user: User = .default()
     private var state: Result<Paginated<User>, FollowersFailure> = .success(.default())
     
     private let tableView: TXTableView = {

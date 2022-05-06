@@ -16,7 +16,7 @@ class EditUserDetailsViewController: TXViewController {
     }
     
     // Declare
-    private var user: User!
+    private(set) var user: User!
     
     private let tableView: TXTableView = {
         let tableView = TXTableView()

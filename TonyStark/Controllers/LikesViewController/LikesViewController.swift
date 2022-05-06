@@ -8,7 +8,7 @@
 import UIKit
 
 class LikesViewController: TXViewController {
-    private var tweet: Tweet = .default()
+    private(set) var tweet: Tweet = .default()
     
     // Declare
     private var state: Result<Paginated<User>, LikesFailure> = .success(.default())
