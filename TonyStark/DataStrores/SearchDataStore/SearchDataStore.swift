@@ -10,6 +10,8 @@ import Foundation
 protocol SearchDataStoreProtocol: DataStore {
     func search(withKeyword keyword: String) async -> Result<Paginated<User>, SearchFailure>
     
+    func captureKeyword(_ keyword: String) async
+    
     func previousSearchKeywords() async -> Result<[String], PreviousSearchKeywordsFailure>
 }
 
@@ -29,8 +31,6 @@ class SearchDataStore: SearchDataStoreProtocol {
     }
     
     func search(withKeyword keyword: String) async -> Result<Paginated<User>, SearchFailure> {
-        await captureKeyword(keyword)
-        
         let paginated: Paginated<User> = await withCheckedContinuation {
             continuation in
             
@@ -137,31 +137,57 @@ class SearchDataStore: SearchDataStoreProtocol {
         return .success(paginated)
     }
     
-    private func captureKeyword(_ keyword: String) async {
+    func captureKeyword(_ keyword: String) async {
+        if await TXLocalStorageAssistant.shallow.exists(key: SearchDataStore.keywordsStorageKey) {
+            let previousKeywords: TXLocalStorageElement<[String]> = try! await TXLocalStorageAssistant.shallow.retrieve(
+                key: SearchDataStore.keywordsStorageKey
+            )
+            
+            do {
+                // We're storing only the latest 6
+                var latestKeywords = previousKeywords.value.count > 5
+                ? Array(previousKeywords.value[..<5])
+                : previousKeywords.value
+                
+                latestKeywords.insert(keyword, at: 0)
+                
+                let result = try await TXLocalStorageAssistant.shallow.update(
+                    key: SearchDataStore.keywordsStorageKey,
+                    value: latestKeywords
+                )
+                print(result)
+            } catch {
+                // Do nothing
+                print(error)
+            }
+        } else {
+            do {
+                let latestKeywords = [keyword]
+                
+                let result = try await TXLocalStorageAssistant.shallow.store(
+                    key: SearchDataStore.keywordsStorageKey,
+                    value: latestKeywords
+                )
+                print(result)
+            } catch {
+                // Do nothing
+                print(error)
+            }
+        }
+    }
+    
+    func previousSearchKeywords() async -> Result<[String], PreviousSearchKeywordsFailure> {
         do {
             let previousKeywords: TXLocalStorageElement<[String]> = try await TXLocalStorageAssistant.shallow.retrieve(
                 key: SearchDataStore.keywordsStorageKey
             )
             
-            var latestKeywords = previousKeywords.value
+            let latestKeywords = previousKeywords.value
             
-            latestKeywords.append(keyword)
-            
-            _ = try await TXLocalStorageAssistant.shallow.update(
-                key: SearchDataStore.keywordsStorageKey,
-                value: latestKeywords
-            )
+            return .success(latestKeywords)
         } catch {
             // do nothing
+            return .failure(.unknown)
         }
-    }
-    
-    func previousSearchKeywords() async -> Result<[String], PreviousSearchKeywordsFailure> {
-        let previousSearchKeywords = [
-            "Hello World",
-            "Meh Meh"
-        ]
-        
-        return .success(previousSearchKeywords)
     }
 }
