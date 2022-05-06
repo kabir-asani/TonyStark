@@ -11,12 +11,6 @@ class FeedViewController: TXViewController {
     // Declare
     private var state: Result<Paginated<Tweet>, FeedFailure> = .success(.default())
     
-    private let refreshControl: TXRefreshControl = {
-        let refreshControl = TXRefreshControl()
-        
-        return refreshControl
-    }()
-    
     private let tableView: TXTableView = {
         let tableView = TXTableView()
         
@@ -69,11 +63,15 @@ class FeedViewController: TXViewController {
         tableView.delegate = self
         
         tableView.addBufferOnHeader(withHeight: 0)
-        tableView.refreshControl = refreshControl
+        
 
         tableView.register(
             PartialTweetTableViewCell.self,
             forCellReuseIdentifier: PartialTweetTableViewCell.reuseIdentifier
+        )
+        tableView.register(
+            EmptyFeedTableViewCell.self,
+            forCellReuseIdentifier: EmptyFeedTableViewCell.reuseIdentifier
         )
         
         tableView.pin(
@@ -83,7 +81,9 @@ class FeedViewController: TXViewController {
     }
     
     private func configureRefreshControl() {
-        refreshControl.addTarget(
+        tableView.refreshControl = TXRefreshControl()
+        
+        tableView.refreshControl?.addTarget(
             self,
             action: #selector(onRefreshControllerChanged(_:)),
             for: .valueChanged
@@ -124,11 +124,7 @@ class FeedViewController: TXViewController {
     }
     
     @objc private func onRefreshControllerChanged(_ refreshControl: TXRefreshControl) {
-        if refreshControl.isRefreshing {
-            refreshControl.endRefreshing()
-        } else {
-            // TODO: Add refresh logic
-        }
+        populateTableView()
     }
 }
 
@@ -150,6 +146,7 @@ extension FeedViewController: TXTableViewDataSource {
             
             strongSelf.state = result
             strongSelf.tableView.reloadData()
+            strongSelf.tableView.refreshControl?.endRefreshing()
         }
     }
     
@@ -165,7 +162,11 @@ extension FeedViewController: TXTableViewDataSource {
     ) -> Int {
         switch state {
         case .success(let paginated):
-            return paginated.page.count
+            if paginated.page.count > 0 {
+                return paginated.page.count
+            } else {
+                return 1
+            }
         default:
             return 0
         }
@@ -177,15 +178,24 @@ extension FeedViewController: TXTableViewDataSource {
     ) -> UITableViewCell {
         switch state {
         case .success(let paginated):
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
-                assigning: indexPath
-            ) as! PartialTweetTableViewCell
-            
-            cell.interactionsHandler = self
-            cell.configure(withTweet: paginated.page[indexPath.row])
-            
-            return cell
+            if paginated.page.count > 0 {
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
+                    assigning: indexPath
+                ) as! PartialTweetTableViewCell
+                
+                cell.interactionsHandler = self
+                cell.configure(withTweet: paginated.page[indexPath.row])
+                
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: EmptyFeedTableViewCell.reuseIdentifier,
+                    assigning: indexPath
+                ) as! EmptyFeedTableViewCell
+                
+                return cell
+            }
         default:
             return UITableViewCell()
         }
@@ -201,7 +211,9 @@ extension FeedViewController: TXTableViewDelegate {
     ) {
         switch state {
         case .success(let paginated):
-            if indexPath.row  == paginated.page.count - 1 {
+            if paginated.page.count == 0 {
+                cell.separatorInset = .leading(.infinity)
+            } else if indexPath.row  == paginated.page.count - 1 {
                 cell.separatorInset = .leading(.infinity)
             } else {
                 cell.separatorInset = .leading(20)
@@ -223,16 +235,18 @@ extension FeedViewController: TXTableViewDelegate {
         
         switch state {
         case .success(let paginated):
-            let tweet = paginated.page[indexPath.row]
-            
-            let tweetViewController = TweetViewController()
-            
-            tweetViewController.populate(withTweet: tweet)
-            
-            navigationController?.pushViewController(
-                tweetViewController,
-                animated: true
-            )
+            if paginated.page.count > 0 {
+                let tweet = paginated.page[indexPath.row]
+                
+                let tweetViewController = TweetViewController()
+                
+                tweetViewController.populate(withTweet: tweet)
+                
+                navigationController?.pushViewController(
+                    tweetViewController,
+                    animated: true
+                )
+            }
         default:
             break
         }
