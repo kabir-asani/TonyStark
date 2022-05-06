@@ -17,9 +17,9 @@ class EmptyFeedTableViewCell: TXTableViewCell {
         let emptyFeedImage = TXImageView()
         
         emptyFeedImage.enableAutolayout()
-        emptyFeedImage.image = UIImage(systemName: "list.bullet.rectangle")
+        emptyFeedImage.image = UIImage(systemName: "hand.draw")
         emptyFeedImage.contentMode = .scaleAspectFit
-        emptyFeedImage.squareOff(withSide: 80)
+        emptyFeedImage.squareOff(withSide: 60)
         emptyFeedImage.tintColor = .label
         
         return emptyFeedImage
@@ -58,14 +58,20 @@ class EmptyFeedTableViewCell: TXTableViewCell {
     private let searchButton: TXButton = {
         let searchButton = TXButton()
         
-        searchButton.setTitleColor(
-            .systemBlue,
-            for: .normal
-        )
-        searchButton.setTitleColor(
-            .systemBlue.withAlphaComponent(0.8),
-            for: .highlighted
-        )
+        searchButton.enableAutolayout()
+        if #available(iOS 15.0, *) {
+            searchButton.tintColor = .systemBlue
+            searchButton.configuration = TXButton.Configuration.borderless()
+        } else {
+            searchButton.setTitleColor(
+                .white,
+                for: .normal
+            )
+            searchButton.setTitleColor(
+                .white.withAlphaComponent(0.8),
+                for: .highlighted
+            )
+        }
         
         return searchButton
     }()
@@ -81,11 +87,16 @@ class EmptyFeedTableViewCell: TXTableViewCell {
             reuseIdentifier: reuseIdentifier
         )
         
+        arrangeBaseView()
         arrangeSubviews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func arrangeBaseView() {
+        selectionStyle = .none
     }
     
     private func arrangeSubviews() {
