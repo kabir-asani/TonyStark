@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol TXNavigationControllerDelegate: UINavigationControllerDelegate {
+    
+}
+
 class TXNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
