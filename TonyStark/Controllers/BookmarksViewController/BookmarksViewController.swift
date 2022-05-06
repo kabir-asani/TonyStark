@@ -19,6 +19,12 @@ class BookmarksViewController: TXViewController {
         return tableView
     }()
     
+    private let refreshControl: TXRefreshControl = {
+        let refreshControl = TXRefreshControl()
+        
+        return refreshControl
+    }()
+    
     // Configure
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +33,7 @@ class BookmarksViewController: TXViewController {
         
         configureNavigationBar()
         configureTableView()
+        configureRefreshControl()
         
         populateTableView()
     }
@@ -44,6 +51,7 @@ class BookmarksViewController: TXViewController {
         tableView.delegate = self
         
         tableView.addBufferOnHeader(withHeight: 0)
+        tableView.refreshControl = refreshControl
         
         tableView.register(
             PartialTweetTableViewCell.self,
@@ -56,9 +64,24 @@ class BookmarksViewController: TXViewController {
         )
     }
     
+    private func configureRefreshControl() {
+        refreshControl.addTarget(
+            self,
+            action: #selector(onRefreshControllerChanged(_:)),
+            for: .valueChanged
+        )
+    }
+    
     // Populate
     
     // Interact
+    @objc private func onRefreshControllerChanged(_ refreshControl: TXRefreshControl) {
+        if refreshControl.isRefreshing {
+            refreshControl.endRefreshing()
+        } else {
+            // TODO: Add refresh logic
+        }
+    }
 }
 
 // MARK: TXTableViewDataSource

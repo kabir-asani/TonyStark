@@ -24,6 +24,12 @@ class CurrentUserViewController: TXViewController {
         return tableView
     }()
     
+    private let refreshControl: TXRefreshControl = {
+        let refreshControl = TXRefreshControl()
+        
+        return refreshControl
+    }()
+    
     // Configure
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +38,7 @@ class CurrentUserViewController: TXViewController {
         
         configureNavigationBar()
         configureTableView()
+        configureRefreshControl()
         
         populateTableView()
     }
@@ -55,6 +62,7 @@ class CurrentUserViewController: TXViewController {
         tableView.delegate = self
         
         tableView.addBufferOnHeader(withHeight: 0)
+        tableView.refreshControl = refreshControl
         
         tableView.register(
             CurrentUserTableViewCell.self,
@@ -69,6 +77,14 @@ class CurrentUserViewController: TXViewController {
         tableView.pin(
             to: view,
             byBeingSafeAreaAware: true
+        )
+    }
+    
+    private func configureRefreshControl() {
+        refreshControl.addTarget(
+            self,
+            action: #selector(onRefreshControllerChanged(_:)),
+            for: .valueChanged
         )
     }
     
@@ -149,6 +165,14 @@ class CurrentUserViewController: TXViewController {
             alert,
             animated: true
         )
+    }
+    
+    @objc private func onRefreshControllerChanged(_ refreshControl: TXRefreshControl) {
+        if refreshControl.isRefreshing {
+            refreshControl.endRefreshing()
+        } else {
+            // TODO: Add refresh logic
+        }
     }
 }
 

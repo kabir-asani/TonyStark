@@ -11,6 +11,12 @@ class FeedViewController: TXViewController {
     // Declare
     private var state: Result<Paginated<Tweet>, FeedFailure> = .success(.default())
     
+    private let refreshControl: TXRefreshControl = {
+        let refreshControl = TXRefreshControl()
+        
+        return refreshControl
+    }()
+    
     private let tableView: TXTableView = {
         let tableView = TXTableView()
         
@@ -39,6 +45,7 @@ class FeedViewController: TXViewController {
         
         configureNavigationBar()
         configureTableView()
+        configureRefreshControl()
         configureFloatingActionButton()
         
         populateTableView()
@@ -61,16 +68,25 @@ class FeedViewController: TXViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
+        tableView.addBufferOnHeader(withHeight: 0)
+        tableView.refreshControl = refreshControl
+
         tableView.register(
             PartialTweetTableViewCell.self,
             forCellReuseIdentifier: PartialTweetTableViewCell.reuseIdentifier
         )
         
-        tableView.addBufferOnHeader(withHeight: 0)
-        
         tableView.pin(
             to: view,
             byBeingSafeAreaAware: true
+        )
+    }
+    
+    private func configureRefreshControl() {
+        refreshControl.addTarget(
+            self,
+            action: #selector(onRefreshControllerChanged(_:)),
+            for: .valueChanged
         )
     }
     
@@ -105,6 +121,14 @@ class FeedViewController: TXViewController {
         composeViewController.modalPresentationStyle = .fullScreen
         
         present(composeViewController, animated: true)
+    }
+    
+    @objc private func onRefreshControllerChanged(_ refreshControl: TXRefreshControl) {
+        if refreshControl.isRefreshing {
+            refreshControl.endRefreshing()
+        } else {
+            // TODO: Add refresh logic
+        }
     }
 }
 

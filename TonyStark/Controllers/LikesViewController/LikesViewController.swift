@@ -13,12 +13,18 @@ class LikesViewController: TXViewController {
     // Declare
     private var state: Result<Paginated<User>, LikesFailure> = .success(.default())
     
-    let tableView: TXTableView = {
+    private let tableView: TXTableView = {
         let tableView = TXTableView()
         
         tableView.enableAutolayout()
         
         return tableView
+    }()
+    
+    private let refreshControl: TXRefreshControl = {
+        let refreshControl = TXRefreshControl()
+        
+        return refreshControl
     }()
     
     // Configure
@@ -29,23 +35,26 @@ class LikesViewController: TXViewController {
         
         configureNavigationBar()
         configureTableView()
+        configureRefreshControl()
         
         populateTableView()
     }
     
-    func addSubviews() {
+    private func addSubviews() {
         view.addSubview(tableView)
     }
     
-    func configureNavigationBar() {
+    private func configureNavigationBar() {
         navigationItem.title = "Likes"
         navigationItem.largeTitleDisplayMode = .never
     }
     
-    func configureTableView() {
+    private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
+        
         tableView.addBufferOnHeader(withHeight: 0)
+        tableView.refreshControl = refreshControl
         
         tableView.register(
             PartialUserTableViewCell.self,
@@ -58,12 +67,27 @@ class LikesViewController: TXViewController {
         )
     }
     
+    private func configureRefreshControl() {
+        refreshControl.addTarget(
+            self,
+            action: #selector(onRefreshControllerChanged(_:)),
+            for: .valueChanged
+        )
+    }
+    
     // Populate
     func populate(withTweet tweet: Tweet) {
         self.tweet = tweet
     }
     
     // Interact
+    @objc private func onRefreshControllerChanged(_ refreshControl: TXRefreshControl) {
+        if refreshControl.isRefreshing {
+            refreshControl.endRefreshing()
+        } else {
+            // TODO: Add refresh logic
+        }
+    }
 }
 
 // MARK: TXTableViewDataSource

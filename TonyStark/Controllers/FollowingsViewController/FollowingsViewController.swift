@@ -20,6 +20,12 @@ class FollowingsViewController: TXViewController {
         return tableView
     }()
     
+    private let refreshControl: TXRefreshControl = {
+        let refreshControl = TXRefreshControl()
+        
+        return refreshControl
+    }()
+    
     // Configure
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +34,7 @@ class FollowingsViewController: TXViewController {
         
         configureNavigationBar()
         configureTableView()
+        configureRefreshControl()
         
         populateTableView()
     }
@@ -43,7 +50,9 @@ class FollowingsViewController: TXViewController {
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
+        
         tableView.addBufferOnHeader(withHeight: 0)
+        tableView.refreshControl = refreshControl
         
         tableView.register(
             PartialUserTableViewCell.self,
@@ -56,12 +65,27 @@ class FollowingsViewController: TXViewController {
         )
     }
     
+    private func configureRefreshControl() {
+        refreshControl.addTarget(
+            self,
+            action: #selector(onRefreshControllerChanged(_:)),
+            for: .valueChanged
+        )
+    }
+    
     // Populate
     func populate(withUser user: User) {
         self.user = user
     }
     
     // Interact
+    @objc private func onRefreshControllerChanged(_ refreshControl: TXRefreshControl) {
+        if refreshControl.isRefreshing {
+            refreshControl.endRefreshing()
+        } else {
+            // TODO: Add refresh logic
+        }
+    }
 }
 
 // MARK: TXTableViewDataSource

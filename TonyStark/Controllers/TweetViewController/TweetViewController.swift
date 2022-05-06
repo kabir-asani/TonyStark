@@ -36,6 +36,12 @@ class TweetViewController: TXViewController {
         return tableView
     }()
     
+    private let refreshControl: TXRefreshControl = {
+        let refreshControl = TXRefreshControl()
+        
+        return refreshControl
+    }()
+    
     private let commentInputBar: CommentInputBar = {
         let commentInputBar = CommentInputBar()
         
@@ -70,6 +76,7 @@ class TweetViewController: TXViewController {
         
         configureNavigationBar()
         configureTableView()
+        configureRefreshControl()
         configureCommentInputBar()
         configureSeparator()
         configureBottomInputBar()
@@ -117,19 +124,19 @@ class TweetViewController: TXViewController {
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
+        
         tableView.addBufferOnHeader(withHeight: 0)
+        tableView.refreshControl = refreshControl
+        tableView.keyboardDismissMode = .onDrag
         
         tableView.register(
             TweetTableViewCell.self,
             forCellReuseIdentifier: TweetTableViewCell.reuseIdentifier
         )
-        
         tableView.register(
             CommentTableViewCell.self,
             forCellReuseIdentifier: CommentTableViewCell.reuseIdentifer
         )
-        
-        tableView.keyboardDismissMode = .onDrag
         
         tableView.pin(
             toTopOf: view,
@@ -146,6 +153,14 @@ class TweetViewController: TXViewController {
         tableView.attach(
             bottomToTopOf: bottomInputBar,
             byBeingSafeAreaAware: true
+        )
+    }
+    
+    private func configureRefreshControl() {
+        refreshControl.addTarget(
+            self,
+            action: #selector(onRefreshControllerChanged(_:)),
+            for: .valueChanged
         )
     }
     
@@ -219,6 +234,14 @@ class TweetViewController: TXViewController {
             at: .top,
             animated: true
         )
+    }
+    
+    @objc private func onRefreshControllerChanged(_ refreshControl: TXRefreshControl) {
+        if refreshControl.isRefreshing {
+            refreshControl.endRefreshing()
+        } else {
+            // TODO: Add refresh logic
+        }
     }
 }
 
