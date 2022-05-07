@@ -371,27 +371,31 @@ extension CurrentUserViewController: CurrentUserTableViewCellInteractionsHandler
     }
     
     func currentUserCellDidPressFollowers(_ cell: CurrentUserTableViewCell) {
-        let followersViewController = FollowersViewController()
-        
-        followersViewController.populate(
-            withUser: CurrentUserDataStore.shared.user!
-        )
-        
-        navigationController?.pushViewController(
-            followersViewController, animated: true
-        )
+        if CurrentUserDataStore.shared.user!.socialDetails.followersCount > 0 {
+            let followersViewController = FollowersViewController()
+            
+            followersViewController.populate(
+                withUser: CurrentUserDataStore.shared.user!
+            )
+            
+            navigationController?.pushViewController(
+                followersViewController, animated: true
+            )
+        }
     }
     
     func currentUserCellDidPressFollowings(_ cell: CurrentUserTableViewCell) {
-        let followingsViewController = FollowingsViewController()
-        
-        followingsViewController.populate(
-            withUser: CurrentUserDataStore.shared.user!
-        )
-        
-        navigationController?.pushViewController(
-            followingsViewController, animated: true
-        )
+        if CurrentUserDataStore.shared.user!.socialDetails.followingsCount > 0 {
+            let followingsViewController = FollowingsViewController()
+            
+            followingsViewController.populate(
+                withUser: CurrentUserDataStore.shared.user!
+            )
+            
+            navigationController?.pushViewController(
+                followingsViewController, animated: true
+            )
+        }
     }
 }
 

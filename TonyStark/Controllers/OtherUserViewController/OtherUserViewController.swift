@@ -247,27 +247,31 @@ extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
     }
     
     func otherUserCellDidPressFollowers(_ cell: OtherUserTableViewCell) {
-        let followersViewController = FollowersViewController()
-        
-        followersViewController.populate(
-            withUser: CurrentUserDataStore.shared.user!
-        )
-        
-        navigationController?.pushViewController(
-            followersViewController, animated: true
-        )
+        if user.socialDetails.followersCount > 0 {
+            let followersViewController = FollowersViewController()
+            
+            followersViewController.populate(
+                withUser: CurrentUserDataStore.shared.user!
+            )
+            
+            navigationController?.pushViewController(
+                followersViewController, animated: true
+            )
+        }
     }
     
     func otherUserCellDidPressFollowings(_ cell: OtherUserTableViewCell) {
-        let followingsViewController = FollowingsViewController()
-        
-        followingsViewController.populate(
-            withUser: CurrentUserDataStore.shared.user!
-        )
-        
-        navigationController?.pushViewController(
-            followingsViewController, animated: true
-        )
+        if user.socialDetails.followingsCount > 0 {
+            let followingsViewController = FollowingsViewController()
+            
+            followingsViewController.populate(
+                withUser: CurrentUserDataStore.shared.user!
+            )
+            
+            navigationController?.pushViewController(
+                followingsViewController, animated: true
+            )
+        }
     }
 }
 
