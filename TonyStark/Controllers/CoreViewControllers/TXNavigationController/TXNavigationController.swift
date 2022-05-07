@@ -35,8 +35,6 @@ extension UINavigationController {
             let event = HomeTabSwitchEvent(tab: HomeViewController.TabItem.user)
             
             TXEventBroker.shared.emit(event: event)
-            
-            return
         } else {
             let mayBeOtherUserViewController = viewControllers.first { viewController in
                 if let otherUserViewController = viewController as? OtherUserViewController {
@@ -64,5 +62,22 @@ extension UINavigationController {
                 )
             }
         }
+    }
+    
+    func openTweetViewController(
+        withTweet tweet: Tweet,
+        andOptions options: TweetViewController.Options = .default()
+    ) {
+        let tweetViewController = TweetViewController()
+        
+        tweetViewController.populate(
+            withTweet: tweet,
+            options: options
+        )
+        
+        pushViewController(
+            tweetViewController,
+            animated: true
+        )
     }
 }

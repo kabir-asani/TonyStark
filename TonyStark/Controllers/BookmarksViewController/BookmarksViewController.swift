@@ -44,6 +44,7 @@ class BookmarksViewController: TXViewController {
     
     private func configureNavigationBar() {
         navigationItem.title = "Bookmarks"
+        navigationItem.backButtonTitle = ""
     }
     
     private func configureTableView() {
@@ -129,6 +130,7 @@ extension BookmarksViewController: TXTableViewDataSource {
             
             let tweet = paginated.page[indexPath.row]
             
+            cell.interactionsHandler = self
             cell.configure(withTweet: tweet)
             
             return cell
@@ -155,5 +157,94 @@ extension BookmarksViewController: TXTableViewDelegate {
         default:
             break
         }
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        print(#function)
+        tableView.deselectRow(
+            at: indexPath,
+            animated: true
+        )
+        
+        switch state {
+        case .success(let paginated):
+            let tweet = paginated.page[indexPath.row]
+            
+            navigationController?.openTweetViewController(withTweet: tweet)
+        default:
+            print("default")
+            break
+        }
+    }
+}
+
+extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler {
+    func partialTweetCellDidPressLike(_ cell: PartialTweetTableViewCell) {
+        print(#function)
+    }
+    
+    func partialTweetCellDidPressComment(_ cell: PartialTweetTableViewCell) {
+        switch state {
+        case .success(let paginated):
+            let tweet = paginated.page[cell.indexPath.row]
+            
+            navigationController?.openTweetViewController(
+                withTweet: tweet,
+                andOptions: .init(
+                    autoFocus: true
+                )
+            )
+        default:
+            break
+        }
+    }
+    
+    func partialTweetCellDidPressProfileImage(_ cell: PartialTweetTableViewCell) {
+        switch state {
+        case .success(let paginated):
+            let author = paginated.page[cell.indexPath.row].author
+            
+            navigationController?.openUserViewController(withUser: author)
+        default:
+            break
+        }
+    }
+    
+    func partialTweetCellDidPressBookmarksOption(_ cell: PartialTweetTableViewCell) {
+        print(#function)
+    }
+    
+    func partialTweetCellDidPressFollowOption(_ cell: PartialTweetTableViewCell) {
+        print(#function)
+    }
+    
+    func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell) {
+        switch state {
+        case .success(let paginated):
+            let alert = TweetOptionsAlertViewController.regular()
+            
+            alert.interactionsHandler = self
+            alert.configure(withTweet: paginated.page[cell.indexPath.row])
+            
+            present(
+                alert,
+                animated: true
+            )
+        default:
+            break
+        }
+    }
+}
+
+extension BookmarksViewController: TweetOptionsAlertViewControllerInteractionsHandler {
+    func tweetOptionsAlertViewControllerDidPressBookmark(_ controller: TweetOptionsAlertViewController) {
+        print(#function)
+    }
+    
+    func tweetOptionsAlertViewControllerDidPressFollow(_ controller: TweetOptionsAlertViewController) {
+        print(#function)
     }
 }

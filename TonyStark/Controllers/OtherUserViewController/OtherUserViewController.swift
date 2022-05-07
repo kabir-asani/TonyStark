@@ -286,18 +286,11 @@ extension OtherUserViewController: PartialTweetTableViewCellInteractionsHandler 
         case .success(let paginated):
             let tweet = paginated.page[cell.indexPath.row]
             
-            let tweetViewController = TweetViewController()
-            
-            tweetViewController.populate(
+            navigationController?.openTweetViewController(
                 withTweet: tweet,
-                options: .init(
+                andOptions: .init(
                     autoFocus: true
                 )
-            )
-            
-            navigationController?.pushViewController(
-                tweetViewController,
-                animated: true
             )
         default:
             break

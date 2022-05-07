@@ -34,6 +34,8 @@ class CurrentUserViewController: TXViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureEventListener()
+        
         addSubviews()
         
         configureNavigationBar()
@@ -41,6 +43,21 @@ class CurrentUserViewController: TXViewController {
         configureRefreshControl()
         
         populateTableView()
+    }
+    
+    private func configureEventListener() {
+        TXEventBroker.shared.listen {
+            [weak self] event in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            if let event = event as? HomeTabSwitchEvent {
+                if event.tab == .user {
+                    strongSelf.navigationController?.popToRootViewController(animated: true)
+                }
+            }
+        }
     }
     
     private func addSubviews() {
@@ -410,18 +427,11 @@ extension CurrentUserViewController: PartialTweetTableViewCellInteractionsHandle
         case .success(let paginated):
             let tweet = paginated.page[cell.indexPath.row]
             
-            let tweetViewController = TweetViewController()
-            
-            tweetViewController.populate(
+            navigationController?.openTweetViewController(
                 withTweet: tweet,
-                options: .init(
+                andOptions: .init(
                     autoFocus: true
                 )
-            )
-            
-            navigationController?.pushViewController(
-                tweetViewController,
-                animated: true
             )
         default:
             break
