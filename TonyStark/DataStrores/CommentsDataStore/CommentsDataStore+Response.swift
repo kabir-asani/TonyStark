@@ -11,3 +11,8 @@ import Foundation
 enum CommentsFailure: Error {
     case unknown
 }
+
+// MARK: Comment
+enum CommentFailure: Error {
+    case unknown
+}

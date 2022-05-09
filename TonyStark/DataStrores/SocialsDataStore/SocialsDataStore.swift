@@ -12,9 +12,19 @@ protocol SocialsDataStoreProtocol: DataStore {
     
     func unfollow(userWithUserId userId: String) async -> Result<Void, UnfollowFailure>
     
-    func followers() async -> Result<Paginated<User>, FollowersFailure>
+    func followers(ofUserWithId userId: String) async -> Result<Paginated<User>, FollowersFailure>
     
-    func followings() async -> Result<Paginated<User>, FollowingsFailure>
+    func followers(
+        ofUserWithId userId: String,
+        after nextToken: String
+    ) async -> Result<Paginated<User>, FollowersFailure>
+    
+    func followings(ofUserWithId userId: String) async -> Result<Paginated<User>, FollowingsFailure>
+    
+    func followings(
+        ofUserWithId userId: String,
+        after nextToken: String
+    ) async -> Result<Paginated<User>, FollowingsFailure>
 }
 
 class SocialsDataStore: SocialsDataStoreProtocol {
@@ -58,7 +68,27 @@ class SocialsDataStore: SocialsDataStoreProtocol {
         return .success(Void())
     }
     
-    func followers() async -> Result<Paginated<User>, FollowersFailure> {
+    func followers(ofUserWithId userId: String) async -> Result<Paginated<User>, FollowersFailure>  {
+        return await paginatedFollowers(
+            ofUserWithId: userId,
+            after: nil
+        )
+    }
+    
+    func followers(
+        ofUserWithId userId: String,
+        after nextToken: String
+    ) async -> Result<Paginated<User>, FollowersFailure> {
+        return await paginatedFollowers(
+            ofUserWithId: userId,
+            after: nextToken
+        )
+    }
+    
+    func paginatedFollowers(
+        ofUserWithId userId: String,
+        after nextToken: String?
+    ) async -> Result<Paginated<User>, FollowersFailure> {
         let paginated: Paginated<User> = await withCheckedContinuation {
             continuation in
             
@@ -160,7 +190,27 @@ class SocialsDataStore: SocialsDataStoreProtocol {
         return .success(paginated)
     }
     
-    func followings() async -> Result<Paginated<User>, FollowingsFailure> {
+    func followings(ofUserWithId userId: String) async -> Result<Paginated<User>, FollowingsFailure> {
+        return await paginatedFollowings(
+            ofUserWithId: userId,
+            after: nil
+        )
+    }
+    
+    func followings(
+        ofUserWithId userId: String,
+        after nextToken: String
+    ) async -> Result<Paginated<User>, FollowingsFailure> {
+        return await paginatedFollowings(
+            ofUserWithId: userId,
+            after: nextToken
+        )
+    }
+    
+    func paginatedFollowings(
+        ofUserWithId userId: String,
+        after nextToken: String?
+    ) async -> Result<Paginated<User>, FollowingsFailure> {
         let paginated: Paginated<User> = await withCheckedContinuation {
             continuation in
             

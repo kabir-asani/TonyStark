@@ -8,11 +8,13 @@
 import Foundation
 
 protocol BookmarksDataStoreProtocol: DataStore {
-    func addBookmark() async -> Result<Void, AddBookmarkFailure>
+    func bookmark(tweetWithId tweetId: String) async -> Result<Void, BookmarkFailure>
     
-    func removeBookmark() async -> Result<Void, RemoveBookmarkFailure>
+    func unbookmark(tweetWithId tweetId: String) async -> Result<Void, UnbookmarkFailure>
     
     func bookmarks() async -> Result<Paginated<Tweet>, BookmarksFailure>
+    
+    func bookmarks(after nextToken: String) async -> Result<Paginated<Tweet>, BookmarksFailure>
 }
 
 class BookmarksDataStore: BookmarksDataStoreProtocol {
@@ -28,7 +30,7 @@ class BookmarksDataStore: BookmarksDataStoreProtocol {
         // Do nothing
     }
     
-    func addBookmark() async -> Result<Void, AddBookmarkFailure> {
+    func bookmark(tweetWithId tweetId: String) async -> Result<Void, BookmarkFailure> {
         let _: Void = await withUnsafeContinuation {
             continuation in
             
@@ -42,7 +44,7 @@ class BookmarksDataStore: BookmarksDataStoreProtocol {
         return .success(Void())
     }
     
-    func removeBookmark() async -> Result<Void, RemoveBookmarkFailure> {
+    func unbookmark(tweetWithId tweetId: String) async -> Result<Void, UnbookmarkFailure> {
         let _: Void = await withUnsafeContinuation {
             continuation in
             
@@ -57,6 +59,14 @@ class BookmarksDataStore: BookmarksDataStoreProtocol {
     }
     
     func bookmarks() async -> Result<Paginated<Tweet>, BookmarksFailure> {
+        return await paginatedBookmarks(after: nil)
+    }
+    
+    func bookmarks(after nextToken: String) async -> Result<Paginated<Tweet>, BookmarksFailure> {
+        return await paginatedBookmarks(after: nextToken)
+    }
+    
+    func paginatedBookmarks(after nextToken: String? = nil) async -> Result<Paginated<Tweet>, BookmarksFailure> {
         let paginated: Paginated<Tweet> = await withCheckedContinuation {
             continuation in
             

@@ -99,7 +99,7 @@ extension LikesViewController: TXTableViewDataSource {
                 return
             }
             
-            let result = await LikesDataStore.shared.likes()
+            let result = await LikesDataStore.shared.likes(onTweetWithId: tweet.id)
             
             strongSelf.state = result
             strongSelf.tableView.reloadData()

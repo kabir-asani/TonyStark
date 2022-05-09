@@ -11,3 +11,14 @@ import Foundation
 enum LikesFailure: Error {
     case unknown
 }
+
+
+// MARK: Like
+enum LikeFailure: Error {
+    case unknown
+}
+
+// MARK: Unlike
+enum UnlikeFailure: Error {
+    case unknown
+}

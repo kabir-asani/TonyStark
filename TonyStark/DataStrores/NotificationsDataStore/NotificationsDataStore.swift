@@ -8,7 +8,7 @@
 import Foundation
 
 protocol NotificationsDataStoreProtocol: DataStore {
-    
+    func notifications() async -> Result<Paginated<RemoteNotification>, RemoteNotificationsFailure>
 }
 
 class NotificationsDataStore: NotificationsDataStoreProtocol {
@@ -20,5 +20,19 @@ class NotificationsDataStore: NotificationsDataStoreProtocol {
     
     func bootDown() async {
         // Do nothing
+    }
+    
+    func notifications() async -> Result<Paginated<RemoteNotification>, RemoteNotificationsFailure> {
+        let _: Void = await withUnsafeContinuation {
+            continuation in
+            
+            DispatchQueue
+                .global(qos: .background)
+                .asyncAfter(deadline: .now()) {
+                    continuation.resume(returning: Void())
+                }
+        }
+        
+        return .success(.default())
     }
 }

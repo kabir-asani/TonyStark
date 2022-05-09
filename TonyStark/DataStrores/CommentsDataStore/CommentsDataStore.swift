@@ -9,6 +9,13 @@ import Foundation
 
 protocol CommentsDataStoreProtocol: DataStore {
     func comments(ofTweetWithId tweetId: String) async -> Result<Paginated<Comment>, CommentsFailure>
+    
+    func comments(
+        ofTweetWithId tweetId: String,
+        after nextToken: String
+    ) async -> Result<Paginated<Comment>, CommentsFailure>
+    
+    func comment(withText text: String, onTweetWithId tweetId: String) async -> Result<Void, CommentFailure>
 }
 
 class CommentsDataStore: CommentsDataStoreProtocol {
@@ -24,7 +31,41 @@ class CommentsDataStore: CommentsDataStoreProtocol {
         // Do nothing
     }
     
-    func comments(ofTweetWithId tweetId: String) async -> Result<Paginated<Comment>, CommentsFailure> {
+    func comment(withText text: String, onTweetWithId tweetId: String) async -> Result<Void, CommentFailure> {
+        let _: Void = await withUnsafeContinuation {
+            continuation in
+                
+            DispatchQueue
+                .global(qos: .background)
+                .asyncAfter(deadline: .now()) {
+                    continuation.resume(returning: Void())
+                }
+        }
+        
+        return .success(Void())
+    }
+    
+    func comments(ofTweetWithId tweetId: String) async -> Result<Paginated<Comment>, CommentsFailure>  {
+        return await paginatedComments(
+            ofTweetWithId: tweetId,
+            after: nil
+        )
+    }
+    
+    func comments(
+        ofTweetWithId tweetId: String,
+        after nextToken: String
+    ) async -> Result<Paginated<Comment>, CommentsFailure> {
+        return await paginatedComments(
+            ofTweetWithId: tweetId,
+            after: nextToken
+        )
+    }
+    
+    private func paginatedComments(
+        ofTweetWithId tweetId: String,
+        after nextToken: String?
+    ) async -> Result<Paginated<Comment>, CommentsFailure>{
         let paginated: Paginated<Comment> = await withUnsafeContinuation {
             continuation in
             

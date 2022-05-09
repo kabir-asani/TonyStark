@@ -9,6 +9,8 @@ import Foundation
 
 protocol FeedDataStoreProtocol: DataStore {
     func feed() async -> Result<Paginated<Tweet>, FeedFailure>
+    
+    func feed(after nextToken: String) async -> Result<Paginated<Tweet>, FeedFailure>
 }
 
 class FeedDataStore: FeedDataStoreProtocol {
@@ -23,8 +25,16 @@ class FeedDataStore: FeedDataStoreProtocol {
     func bootDown() async {
         // Do nothing
     }
-    
+
     func feed() async -> Result<Paginated<Tweet>, FeedFailure> {
+        return await paginatedFeed(after: nil)
+    }
+    
+    func feed(after nextToken: String) async -> Result<Paginated<Tweet>, FeedFailure> {
+        return await paginatedFeed(after: nextToken)
+    }
+    
+    private func paginatedFeed(after nextToken: String?) async -> Result<Paginated<Tweet>, FeedFailure> {
         let paginated: Paginated<Tweet> = await withCheckedContinuation { continuation in
             DispatchQueue
                 .global(qos: .background)

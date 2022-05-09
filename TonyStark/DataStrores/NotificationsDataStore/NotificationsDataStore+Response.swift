@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+// MARK: RemoteNotifications
+enum RemoteNotificationsFailure: Error {
+    case unknown
+}

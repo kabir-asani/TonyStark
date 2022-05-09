@@ -10,9 +10,14 @@ import Foundation
 protocol TweetsDataStoreProtocol: DataStore {
     func createTweet(withDetails details: ComposeDetails) async -> Result<Tweet, CreateTweetFailure>
     
-    func deleteTweet() async -> Result<Void, CreateTweetFailure>
+    func deleteTweet(withId tweetId: String) async -> Result<Void, CreateTweetFailure>
     
     func tweets(ofUserWithId userId: String) async -> Result<Paginated<Tweet>, TweetsFailure>
+    
+    func tweets(
+        ofUserWithId userId: String,
+        after nextToken: String
+    ) async -> Result<Paginated<Tweet>, TweetsFailure>
 }
 
 class TweetsDataStore: TweetsDataStoreProtocol {
@@ -51,7 +56,7 @@ class TweetsDataStore: TweetsDataStoreProtocol {
         return .success(tweet)
     }
     
-    func deleteTweet() async -> Result<Void, CreateTweetFailure> {
+    func deleteTweet(withId tweetId: String) async -> Result<Void, CreateTweetFailure> {
         let _: Void = await withUnsafeContinuation {
             continuation in
                 
@@ -66,6 +71,26 @@ class TweetsDataStore: TweetsDataStoreProtocol {
     }
     
     func tweets(ofUserWithId userId: String) async -> Result<Paginated<Tweet>, TweetsFailure> {
+        return await paginatedTweets(
+            ofUserWithId: userId,
+            after: nil
+        )
+    }
+    
+    func tweets(
+        ofUserWithId userId: String,
+        after nextToken: String
+    ) async -> Result<Paginated<Tweet>, TweetsFailure> {
+        return await paginatedTweets(
+            ofUserWithId: userId,
+            after: nextToken
+        )
+    }
+    
+    private func paginatedTweets(
+        ofUserWithId userId: String,
+        after nextToken: String?
+    ) async -> Result<Paginated<Tweet>, TweetsFailure> {
         let paginated: Paginated<Tweet> = await withCheckedContinuation {
             continuation in
             

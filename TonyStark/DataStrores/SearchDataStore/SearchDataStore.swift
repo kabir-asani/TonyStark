@@ -9,6 +9,11 @@ import Foundation
 
 protocol SearchDataStoreProtocol: DataStore {
     func search(withKeyword keyword: String) async -> Result<Paginated<User>, SearchFailure>
+    
+    func search(
+        withKeyword keyword: String,
+        after nextToken: String
+    ) async -> Result<Paginated<User>, SearchFailure>
 
     func previousSearchKeywords() async -> Result<[String], PreviousSearchKeywordsFailure>
 }
@@ -29,6 +34,20 @@ class SearchDataStore: SearchDataStoreProtocol {
     }
     
     func search(withKeyword keyword: String) async -> Result<Paginated<User>, SearchFailure> {
+        return await paginatedSearch(withKeyword: keyword, after: nil)
+    }
+    
+    func search(
+        withKeyword keyword: String,
+        after nextToken: String
+    ) async -> Result<Paginated<User>, SearchFailure> {
+        return await paginatedSearch(withKeyword: keyword, after: nextToken)
+    }
+    
+    func paginatedSearch(
+        withKeyword keyword: String,
+        after nextToken: String?
+    ) async -> Result<Paginated<User>, SearchFailure> {
         await captureKeyword(keyword)
         
         let paginated: Paginated<User> = await withCheckedContinuation {

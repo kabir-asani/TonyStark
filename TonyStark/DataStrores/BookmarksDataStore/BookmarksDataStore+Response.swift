@@ -12,12 +12,12 @@ enum BookmarksFailure: Error {
     case unknown
 }
 
-// MARK: AddBookmark
-enum AddBookmarkFailure: Error {
+// MARK: Bookmark
+enum BookmarkFailure: Error {
     case unknown
 }
 
-// MARK: RemoveBookmark
-enum RemoveBookmarkFailure: Error {
+// MARK: Unbookmark
+enum UnbookmarkFailure: Error {
     case unknown
 }

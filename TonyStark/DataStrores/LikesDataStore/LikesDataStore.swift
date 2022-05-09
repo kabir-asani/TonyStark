@@ -8,7 +8,16 @@
 import Foundation
 
 protocol LikesDataStoreProtocol: DataStore {
-    func likes() async -> Result<Paginated<User>, LikesFailure>
+    func likes(onTweetWithId tweetId: String) async -> Result<Paginated<User>, LikesFailure>
+    
+    func likes(
+        onTweetWithId tweetId: String,
+        after nextToken: String
+    ) async -> Result<Paginated<User>, LikesFailure>
+    
+    func like(tweetWithId tweetId: String) async -> Result<Void, LikeFailure>
+    
+    func unlike(tweetWithId tweetId: String) async -> Result<Void, UnlikeFailure>
 }
 
 class LikesDataStore: LikesDataStoreProtocol {
@@ -23,8 +32,50 @@ class LikesDataStore: LikesDataStoreProtocol {
     func bootDown() async {
         // Do nothing
     }
+
+    func like(tweetWithId tweetId: String) async -> Result<Void, LikeFailure> {
+        let _: Void = await withUnsafeContinuation {
+            continuation in
+                
+            DispatchQueue
+                .global(qos: .background)
+                .asyncAfter(deadline: .now()) {
+                    continuation.resume(returning: Void())
+                }
+        }
+        
+        return .success(Void())
+    }
     
-    func likes() async -> Result<Paginated<User>, LikesFailure> {
+    func unlike(tweetWithId tweetId: String) async -> Result<Void, UnlikeFailure> {
+        let _: Void = await withUnsafeContinuation {
+            continuation in
+                
+            DispatchQueue
+                .global(qos: .background)
+                .asyncAfter(deadline: .now()) {
+                    continuation.resume(returning: Void())
+                }
+        }
+        
+        return .success(Void())
+    }
+    
+    func likes(onTweetWithId tweetId: String) async -> Result<Paginated<User>, LikesFailure> {
+        return await paginatedLikes(onTweetWithId: tweetId, after: nil)
+    }
+    
+    func likes(
+        onTweetWithId tweetId: String,
+        after nextToken: String
+    ) async -> Result<Paginated<User>, LikesFailure> {
+        return await paginatedLikes(onTweetWithId: tweetId, after: nextToken)
+    }
+    
+    private func paginatedLikes(
+        onTweetWithId tweetId: String,
+        after nextToken: String?
+    ) async -> Result<Paginated<User>, LikesFailure> {
         let paginated: Paginated<User> = await withCheckedContinuation {
             continuation in
             
