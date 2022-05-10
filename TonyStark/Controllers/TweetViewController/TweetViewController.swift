@@ -380,7 +380,7 @@ extension TweetViewController: TweetTableViewCellInteractionsHandler {
     }
     
     func tweetCellDidPressOptions(_ cell: TweetTableViewCell) {
-        let alert = TweetOptionsAlertViewController.regular()
+        let alert = TweetOptionsAlertController.regular()
         
         alert.interactionsHandler = self
         alert.configure(withTweet: tweet)
@@ -417,12 +417,12 @@ extension TweetViewController: CommentTableViewCellInteractionsHandler {
 }
 
 // MARK:
-extension TweetViewController: TweetOptionsAlertViewControllerInteractionsHandler {
-    func tweetOptionsAlertViewControllerDidPressBookmark(_ controller: TweetOptionsAlertViewController) {
+extension TweetViewController: TweetOptionsAlertControllerInteractionsHandler {
+    func tweetOptionsAlertControllerDidPressBookmark(_ controller: TweetOptionsAlertController) {
         print(#function)
     }
     
-    func tweetOptionsAlertViewControllerDidPressFollow(_ controller: TweetOptionsAlertViewController) {
+    func tweetOptionsAlertControllerDidPressFollow(_ controller: TweetOptionsAlertController) {
         print(#function)
     }
 }

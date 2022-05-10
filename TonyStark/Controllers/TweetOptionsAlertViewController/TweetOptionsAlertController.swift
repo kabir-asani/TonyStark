@@ -7,15 +7,15 @@
 
 import UIKit
 
-protocol TweetOptionsAlertViewControllerInteractionsHandler: AnyObject {
-    func tweetOptionsAlertViewControllerDidPressBookmark(_ controller: TweetOptionsAlertViewController)
+protocol TweetOptionsAlertControllerInteractionsHandler: AnyObject {
+    func tweetOptionsAlertControllerDidPressBookmark(_ controller: TweetOptionsAlertController)
     
-    func tweetOptionsAlertViewControllerDidPressFollow(_ controller: TweetOptionsAlertViewController)
+    func tweetOptionsAlertControllerDidPressFollow(_ controller: TweetOptionsAlertController)
 }
 
-class TweetOptionsAlertViewController: UIAlertController {
-    static func regular() -> TweetOptionsAlertViewController {
-        return TweetOptionsAlertViewController(
+class TweetOptionsAlertController: TXAlertController {
+    static func regular() -> TweetOptionsAlertController {
+        return TweetOptionsAlertController(
             title: nil,
             message: nil,
             preferredStyle: .actionSheet
@@ -23,7 +23,7 @@ class TweetOptionsAlertViewController: UIAlertController {
     }
     
     // Declare
-    weak var interactionsHandler: TweetOptionsAlertViewControllerInteractionsHandler?
+    weak var interactionsHandler: TweetOptionsAlertControllerInteractionsHandler?
 
     // Configure
     func configure(withTweet tweet: Tweet) {
@@ -36,7 +36,7 @@ class TweetOptionsAlertViewController: UIAlertController {
                 return
             }
             
-            strongSelf.interactionsHandler?.tweetOptionsAlertViewControllerDidPressBookmark(strongSelf)
+            strongSelf.interactionsHandler?.tweetOptionsAlertControllerDidPressBookmark(strongSelf)
         }
         
         addAction(bookmarkAction)
@@ -51,7 +51,7 @@ class TweetOptionsAlertViewController: UIAlertController {
                     return
                 }
                 
-                strongSelf.interactionsHandler?.tweetOptionsAlertViewControllerDidPressFollow(strongSelf)
+                strongSelf.interactionsHandler?.tweetOptionsAlertControllerDidPressFollow(strongSelf)
             }
             
             addAction(followAction)

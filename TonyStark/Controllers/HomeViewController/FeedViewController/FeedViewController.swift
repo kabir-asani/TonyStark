@@ -322,7 +322,7 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
     func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell) {
         switch state {
         case .success(let paginated):
-            let alert = TweetOptionsAlertViewController.regular()
+            let alert = TweetOptionsAlertController.regular()
             
             alert.interactionsHandler = self
             alert.configure(withTweet: paginated.page[cell.indexPath.row])
@@ -338,12 +338,12 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
 }
 
 // MARK: TweetOptionsAlertViewControllerInteractionsHandler
-extension FeedViewController: TweetOptionsAlertViewControllerInteractionsHandler {
-    func tweetOptionsAlertViewControllerDidPressBookmark(_ controller: TweetOptionsAlertViewController) {
+extension FeedViewController: TweetOptionsAlertControllerInteractionsHandler {
+    func tweetOptionsAlertControllerDidPressBookmark(_ controller: TweetOptionsAlertController) {
         print(#function)
     }
     
-    func tweetOptionsAlertViewControllerDidPressFollow(_ controller: TweetOptionsAlertViewController) {
+    func tweetOptionsAlertControllerDidPressFollow(_ controller: TweetOptionsAlertController) {
         print(#function)
     }
 }
