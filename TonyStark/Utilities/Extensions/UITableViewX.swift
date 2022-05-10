@@ -9,6 +9,14 @@ import Foundation
 import UIKit
 
 extension UITableView {
+    func beginRefreshing() {
+        self.refreshControl?.beginRefreshing()
+    }
+    
+    func endRefreshing() {
+        self.refreshControl?.endRefreshing()
+    }
+    
     func beginPaginating() {
         DispatchQueue.main.async {
             [weak self] in
@@ -26,7 +34,6 @@ extension UITableView {
             )
             
             strongSelf.tableFooterView = activityIndicator
-
             activityIndicator.startAnimating()
         }
     }
