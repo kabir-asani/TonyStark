@@ -178,4 +178,8 @@ class PartialTweetTableViewCell: TXTableViewCell {
             }
         }
     }
+    
+    override func prepareForReuse() {
+        separatorInset = .leading(20)
+    }
 }

@@ -150,15 +150,8 @@ extension LikesViewController: TXTableViewDelegate {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        switch state {
-        case .success(let paginated):
-            if indexPath.row  == paginated.page.count - 1 {
-                cell.separatorInset = .leading(.infinity)
-            } else {
-                cell.separatorInset = .leading(20)
-            }
-        default:
-            break
+        if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
+            cell.separatorInset = .leading(.infinity)
         }
     }
     

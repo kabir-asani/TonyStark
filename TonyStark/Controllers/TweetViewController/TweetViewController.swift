@@ -333,17 +333,8 @@ extension TweetViewController: TXTableViewDelegate {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        if indexPath.section == Section.comments.rawValue {
-            switch state {
-            case .success(let paginated):
-                if indexPath.row  == paginated.page.count - 1 {
-                    cell.separatorInset = .leading(.infinity)
-                } else {
-                    cell.separatorInset = .leading(20)
-                }
-            default:
-                break
-            }
+        if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
+            cell.separatorInset = .leading(.infinity)
         }
     }
 }

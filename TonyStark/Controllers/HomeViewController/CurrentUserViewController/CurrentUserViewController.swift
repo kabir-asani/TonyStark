@@ -307,17 +307,15 @@ extension CurrentUserViewController: TXTableViewDelegate {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        if indexPath.section == Section.tweets.rawValue {
-            switch state {
-            case .success(let paginated):
-                if paginated.page.isEmpty || indexPath.row == paginated.page.count - 1 {
-                    cell.separatorInset = .leading(.infinity)
-                } else {
-                    cell.separatorInset = .leading(20)
-                }
-            default:
-                break
+        switch indexPath.section {
+        case Section.profile.rawValue:
+            cell.separatorInset = .leading(0)
+        case Section.tweets.rawValue:
+            if indexPath.row == tableView.numberOfRows(inSection: Section.tweets.rawValue) - 1 {
+                cell.separatorInset = .leading(.infinity)
             }
+        default:
+            break
         }
     }
     
