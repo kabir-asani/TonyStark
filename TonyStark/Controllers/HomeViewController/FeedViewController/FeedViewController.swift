@@ -11,9 +11,15 @@ class ComposeTweetEvent: TXEvent {
     
 }
 
+enum FeedViewControllerState {
+    case success(data: Paginated<Tweet>)
+    case failure(reason: FeedFailure)
+    case processing
+}
+
 class FeedViewController: TXViewController {
     // Declare
-    private var state: Result<Paginated<Tweet>, FeedFailure> = .success(.default())
+    private var state: FeedViewControllerState = .processing
     
     private let tableView: TXTableView = {
         let tableView = TXTableView()
@@ -83,7 +89,6 @@ class FeedViewController: TXViewController {
         
         tableView.addBufferOnHeader(withHeight: 0)
         
-
         tableView.register(
             PartialTweetTableViewCell.self,
             forCellReuseIdentifier: PartialTweetTableViewCell.reuseIdentifier
@@ -100,13 +105,10 @@ class FeedViewController: TXViewController {
     }
     
     private func configureRefreshControl() {
-        tableView.refreshControl = TXRefreshControl()
+        let refreshControl = TXRefreshControl()
+        refreshControl.delegate = self
         
-        tableView.refreshControl?.addTarget(
-            self,
-            action: #selector(onRefreshControllerChanged(_:)),
-            for: .valueChanged
-        )
+        tableView.refreshControl = refreshControl
     }
     
     private func configureFloatingActionButton() {
@@ -154,7 +156,7 @@ class FeedViewController: TXViewController {
 // MARK: TXTableViewDataSource
 extension FeedViewController: TXTableViewDataSource {
     private func populateTableView() {
-        tableView.beginPaginating()
+        tableView.beginRefreshing()
         
         Task {
             [weak self] in
@@ -164,12 +166,38 @@ extension FeedViewController: TXTableViewDataSource {
             
             let result = await FeedDataStore.shared.feed()
             
-            strongSelf.tableView.endPaginating()
-            strongSelf.tableView.addBufferOnFooter(withHeight: 100)
+            strongSelf.tableView.endRefreshing()
             
-            strongSelf.state = result
-            strongSelf.tableView.reloadData()
-            strongSelf.tableView.refreshControl?.endRefreshing()
+            switch result {
+            case .success(let paginated):
+                strongSelf.state = .success(data: paginated)
+                
+                let indexPaths = paginated.page.enumerated().map {
+                    IndexPath(
+                        row: $0.offset,
+                        section: 0
+                    )
+                }
+                
+                strongSelf.tableView.insertRows(
+                    at: indexPaths,
+                    with: .automatic
+                )
+                strongSelf.tableView.addBufferOnFooter(withHeight: 100)
+            case .failure(let reason):
+                strongSelf.state = .failure(reason: reason)
+            }
+        }
+    }
+    
+    private func extendTableView() {
+        switch state {
+        case .success(data: let paginated):
+            if paginated.nextToken != nil {
+                // TODO: Add pagination logic
+            }
+        default:
+            break
         }
     }
     
@@ -185,11 +213,7 @@ extension FeedViewController: TXTableViewDataSource {
     ) -> Int {
         switch state {
         case .success(let paginated):
-            if paginated.page.count > 0 {
-                return paginated.page.count
-            } else {
-                return 1
-            }
+            return paginated.page.count
         default:
             return 0
         }
@@ -201,24 +225,15 @@ extension FeedViewController: TXTableViewDataSource {
     ) -> UITableViewCell {
         switch state {
         case .success(let paginated):
-            if paginated.page.count > 0 {
-                let cell = tableView.dequeueReusableCell(
-                    withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
-                    assigning: indexPath
-                ) as! PartialTweetTableViewCell
-                
-                cell.interactionsHandler = self
-                cell.configure(withTweet: paginated.page[indexPath.row])
-                
-                return cell
-            } else {
-                let cell = tableView.dequeueReusableCell(
-                    withIdentifier: EmptyFeedTableViewCell.reuseIdentifier,
-                    assigning: indexPath
-                ) as! EmptyFeedTableViewCell
-                
-                return cell
-            }
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
+                assigning: indexPath
+            ) as! PartialTweetTableViewCell
+            
+            cell.interactionsHandler = self
+            cell.configure(withTweet: paginated.page[indexPath.row])
+            
+            return cell
         default:
             return UITableViewCell()
         }
@@ -232,17 +247,11 @@ extension FeedViewController: TXTableViewDelegate {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        switch state {
-        case .success(let paginated):
-            if paginated.page.count == 0 {
-                cell.separatorInset = .leading(.infinity)
-            } else if indexPath.row  == paginated.page.count - 1 {
-                cell.separatorInset = .leading(.infinity)
-            } else {
-                cell.separatorInset = .leading(20)
-            }
-        default:
-            break
+        if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
+            cell.separatorInset = .leading(.infinity)
+            
+            // TODO: Add pagination logic
+            extendTableView()
         }
     }
     
@@ -258,20 +267,29 @@ extension FeedViewController: TXTableViewDelegate {
         
         switch state {
         case .success(let paginated):
-            if paginated.page.count > 0 {
-                let tweet = paginated.page[indexPath.row]
-                
-                let tweetViewController = TweetViewController()
-                
-                tweetViewController.populate(withTweet: tweet)
-                
-                navigationController?.pushViewController(
-                    tweetViewController,
-                    animated: true
-                )
-            }
+            let tweet = paginated.page[indexPath.row]
+            
+            let tweetViewController = TweetViewController()
+            
+            tweetViewController.populate(withTweet: tweet)
+            
+            navigationController?.pushViewController(
+                tweetViewController,
+                animated: true
+            )
         default:
             break
+        }
+    }
+}
+
+// MARK: TXRefreshControlDelegate
+extension FeedViewController: TXRefreshControlDelegate {
+    func refreshControlDidChange(_ control: TXRefreshControl) {
+        if control.isRefreshing {
+            // TODO: Add pagination logic here
+            
+            tableView.endRefreshing()
         }
     }
 }
