@@ -169,20 +169,10 @@ extension FeedViewController: TXTableViewDataSource {
             strongSelf.tableView.endRefreshing()
             
             switch result {
-            case .success(let paginated):
-                strongSelf.state = .success(data: paginated)
+            case .success(let latestFeed):
+                strongSelf.state = .success(data: latestFeed)
                 
-                let indexPaths = paginated.page.enumerated().map {
-                    IndexPath(
-                        row: $0.offset,
-                        section: 0
-                    )
-                }
-                
-                strongSelf.tableView.insertRows(
-                    at: indexPaths,
-                    with: .automatic
-                )
+                strongSelf.tableView.reloadData()
                 strongSelf.tableView.addBufferOnFooter(withHeight: 100)
             case .failure(let reason):
                 strongSelf.state = .failure(reason: reason)
@@ -192,9 +182,35 @@ extension FeedViewController: TXTableViewDataSource {
     
     private func extendTableView() {
         switch state {
-        case .success(data: let paginated):
-            if paginated.nextToken != nil {
-                // TODO: Add pagination logic
+        case .success(let previousPaginated):
+            if let nextToken = previousPaginated.nextToken {
+                tableView.beginPaginating()
+                
+                Task {
+                    [weak self] in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    
+                    let result = await FeedDataStore.shared.feed(after: nextToken)
+                    
+                    strongSelf.tableView.endPaginating()
+                    
+                    switch result {
+                    case .success(let latestPaginated):
+                        let updatedPaginated = Paginated<Tweet>(
+                            page: previousPaginated.page + latestPaginated.page,
+                            nextToken: latestPaginated.nextToken
+                        )
+                        
+                        strongSelf.state = .success(data: updatedPaginated)
+                        
+                        strongSelf.tableView.reloadData()
+                        strongSelf.tableView.addBufferOnFooter(withHeight: 100)
+                    case .failure(let reason):
+                        strongSelf.state = .failure(reason: reason)
+                    }
+                }
             }
         default:
             break
@@ -248,9 +264,6 @@ extension FeedViewController: TXTableViewDelegate {
         forRowAt indexPath: IndexPath
     ) {
         if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
-            cell.separatorInset = .leading(.infinity)
-            
-            // TODO: Add pagination logic
             extendTableView()
         }
     }
@@ -287,9 +300,7 @@ extension FeedViewController: TXTableViewDelegate {
 extension FeedViewController: TXRefreshControlDelegate {
     func refreshControlDidChange(_ control: TXRefreshControl) {
         if control.isRefreshing {
-            // TODO: Add pagination logic here
-            
-            tableView.endRefreshing()
+            populateTableView()
         }
     }
 }
