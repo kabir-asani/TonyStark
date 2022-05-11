@@ -36,6 +36,7 @@ class CurrentUserDataStore: CurrentUserDataStoreProtocol {
                     let user = User(
                         id: "mzaink",
                         name: "Zain Khan",
+                        email: "zain@gmail.com",
                         username: "mzaink",
                         image: "https://pbs.twimg.com/profile_images/1483797876522512385/9CcO904A_400x400.jpg",
                         bio: """
@@ -73,6 +74,7 @@ class CurrentUserDataStore: CurrentUserDataStoreProtocol {
                     let user = User(
                         id: "mzaink",
                         name: "Zain Khan",
+                        email: "zain@gmail.com",
                         username: "mzaink",
                         image: "https://pbs.twimg.com/profile_images/1483797876522512385/9CcO904A_400x400.jpg",
                         bio: """

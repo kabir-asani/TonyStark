@@ -85,6 +85,7 @@ class CommentsDataStore: CommentsDataStoreProtocol {
                                     author: User(
                                         id: "sadiyakhan",
                                         name: "Sadiya Khan",
+                                        email: "sadiya@gmail.com",
                                         username: "sadiyakhan",
                                         image: "https://www.mirchi9.com/wp-content/uploads/2022/02/Mahesh-Fans-Firing-on-Pooja-Hegde.jpg",
                                         bio: """
@@ -114,6 +115,7 @@ class CommentsDataStore: CommentsDataStoreProtocol {
                                     author: User(
                                         id: "mzaink",
                                         name: "Zain Khan",
+                                        email: "zain@gmail.com",
                                         username: "mzaink",
                                         image: "https://pbs.twimg.com/profile_images/1483797876522512385/9CcO904A_400x400.jpg",
                                         bio: """

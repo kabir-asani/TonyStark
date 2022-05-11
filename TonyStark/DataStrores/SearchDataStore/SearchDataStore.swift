@@ -60,6 +60,7 @@ class SearchDataStore: SearchDataStoreProtocol {
                         User(
                             id: "sadiyakhan",
                             name: "Sadiya Khan",
+                            email: "sadiya@gmail.com",
                             username: "sadiyakhan",
                             image: "https://www.mirchi9.com/wp-content/uploads/2022/02/Mahesh-Fans-Firing-on-Pooja-Hegde.jpg",
                             bio: """
@@ -80,6 +81,7 @@ class SearchDataStore: SearchDataStoreProtocol {
                         User(
                             id: "mzaink",
                             name: "Zain Khan",
+                            email: "zain@gmail.com",
                             username: "mzaink",
                             image: "https://pbs.twimg.com/profile_images/1483797876522512385/9CcO904A_400x400.jpg",
                             bio: """
@@ -100,6 +102,7 @@ class SearchDataStore: SearchDataStoreProtocol {
                         User(
                             id: "RamyaKembal",
                             name: "Ramya kembal",
+                            email: "ramya@gmail.com",
                             username: "RamyaKembal",
                             image: "https://pbs.twimg.com/profile_images/1190200299727851526/A26tGnda_400x400.jpg",
                             bio: """
@@ -120,6 +123,7 @@ class SearchDataStore: SearchDataStoreProtocol {
                         User(
                             id: "GabbbarSingh",
                             name: "Gabbar",
+                            email: "gabbar@gmail.com",
                             username: "GabbbarSingh",
                             image: "https://pbs.twimg.com/profile_images/1271082702326784003/1kIF_loZ_400x400.jpg",
                             bio: """

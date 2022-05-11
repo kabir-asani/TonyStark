@@ -12,6 +12,7 @@ struct User {
         User(
             id: "",
             name: "",
+            email: "",
             username: "",
             image: "",
             bio: "",
@@ -24,6 +25,7 @@ struct User {
     
     let id: String
     let name: String
+    let email: String
     let username: String
     let image: String
     let bio: String
@@ -35,6 +37,7 @@ struct User {
     func copyWith(
         id: String? = nil,
         name: String? = nil,
+        email: String? = nil,
         username: String? = nil,
         image: String? = nil,
         bio: String? = nil,
@@ -46,6 +49,7 @@ struct User {
         let newUser = User(
             id: id ?? self.id,
             name: name ?? self.name,
+            email: email ?? self.email,
             username: username ?? self.username,
             image: image ?? self.image,
             bio: bio ?? self.bio,
