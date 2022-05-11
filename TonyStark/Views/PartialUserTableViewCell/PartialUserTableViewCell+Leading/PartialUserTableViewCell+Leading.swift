@@ -46,9 +46,5 @@ extension PartialUserTableViewCell {
             )
         }
     }
-    
-    override func prepareForReuse() {
-        separatorInset = .leading(20)
-    }
 }
 
