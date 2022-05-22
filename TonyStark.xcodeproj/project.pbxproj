@@ -1382,14 +1382,14 @@
 			path = OtherUserViewController;
 			sourceTree = "<group>";
 		};
-		16C03C592821172900E7005B /* CurrentUserProvider */ = {
+		16C03C592821172900E7005B /* CurrentUserDataStore */ = {
 			isa = PBXGroup;
 			children = (
 				16C03C6028211D5300E7005B /* CurrentUserDataStore+Request.swift */,
 				16E3C126282168F7009CC8E7 /* CurrentUserDataStore+Response.swift */,
 				16FDA07E280FFD0B004BB3C4 /* CurrentUserDataStore.swift */,
 			);
-			path = CurrentUserProvider;
+			path = CurrentUserDataStore;
 			sourceTree = "<group>";
 		};
 		16C45FF127E76F2100F592A2 /* Utilities */ = {
@@ -1533,7 +1533,7 @@
 			isa = PBXGroup;
 			children = (
 				16D3C5E62810347000B8A2CC /* Core */,
-				16C03C592821172900E7005B /* CurrentUserProvider */,
+				16C03C592821172900E7005B /* CurrentUserDataStore */,
 				16DEB9532806082200140E63 /* FeedDataStore */,
 				16DEB9522806081700140E63 /* TweetsDataStore */,
 				16FDA07B280FFC97004BB3C4 /* CommentsDataStore */,
