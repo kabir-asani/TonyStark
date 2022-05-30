@@ -31,9 +31,9 @@ struct Follower {
     }
 }
 
-struct Following {
-    static func `default`() -> Following {
-        Following(
+struct Followee {
+    static func `default`() -> Followee {
+        Followee(
             user: .default(),
             creationDate: .now()
         )
@@ -45,8 +45,8 @@ struct Following {
     func copyWith(
         user: User? = nil,
         creationDate: Date? = nil
-    ) -> Following {
-        let newFollowing = Following(
+    ) -> Followee {
+        let newFollowing = Followee(
             user: user ?? self.user,
             creationDate: creationDate ?? self.creationDate
         )

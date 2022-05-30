@@ -82,7 +82,7 @@ extension OtherUserTableViewCell {
         
         private func configureFollowButton(withViewables viewables: UserViewables) {
             followButton.setTitle(
-                viewables.follower
+                viewables.following
                 ? "Unfollow"
                 : "Follow",
                 for: .normal
@@ -90,13 +90,13 @@ extension OtherUserTableViewCell {
             
             if #available(iOS 15.0, *) {
                 followButton.setTitleColor(
-                    viewables.follower
+                    viewables.following
                     ? .label
                     : .systemBlue,
                     for: .normal
                 )
                 followButton.setTitleColor(
-                    viewables.follower
+                    viewables.following
                     ? .systemGray
                     : .systemBlue,
                     for: .highlighted
@@ -104,13 +104,13 @@ extension OtherUserTableViewCell {
                 followButton.configuration = TXButton.Configuration.bordered()
             } else {
                 followButton.setTitleColor(
-                    viewables.follower
+                    viewables.following
                     ? .label
                     : .systemBlue,
                     for: .normal
                 )
                 followButton.layer.borderWidth = 2
-                followButton.layer.borderColor = viewables.follower
+                followButton.layer.borderColor = viewables.following
                 ? TXColor.systemGray.cgColor
                 : TXColor.systemBlue.cgColor
                 followButton.showsTouchWhenHighlighted = true

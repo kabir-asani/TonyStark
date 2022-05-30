@@ -80,7 +80,7 @@ class BookmarksDataStore: BookmarksDataStoreProtocol {
                             English
                             """,
                             creationDate: Date(),
-                            meta: TweetMeta(
+                            interactionDetails: TweetInteractionDetails(
                                 likesCount: 1,
                                 commentsCount: 0
                             ),
@@ -90,19 +90,19 @@ class BookmarksDataStore: BookmarksDataStoreProtocol {
                                 email: "sadiya@gmail.com",
                                 username: "sadiyakhan",
                                 image: "https://www.mirchi9.com/wp-content/uploads/2022/02/Mahesh-Fans-Firing-on-Pooja-Hegde.jpg",
-                                bio: """
+                                description: """
                                 I'm simple and soft.
                                 """,
                                 creationDate: Date(),
                                 socialDetails: UserSocialDetails(
                                     followersCount: 0,
-                                    followingsCount: 0
+                                    followeesCount: 0
                                 ),
                                 activityDetails: UserActivityDetails(
                                     tweetsCount: 0
                                 ),
                                 viewables: UserViewables(
-                                    follower: false
+                                    following: false
                                 )
                             ),
                             viewables: TweetViewables(
@@ -118,7 +118,7 @@ class BookmarksDataStore: BookmarksDataStoreProtocol {
                             Let's rock and roll people.
                             """,
                             creationDate: Date(),
-                            meta: TweetMeta(
+                            interactionDetails: TweetInteractionDetails(
                                 likesCount: 1,
                                 commentsCount: 0
                             ),
@@ -128,19 +128,19 @@ class BookmarksDataStore: BookmarksDataStoreProtocol {
                                 email: "zain@gmail.com",
                                 username: "mzaink",
                                 image: "https://pbs.twimg.com/profile_images/1483797876522512385/9CcO904A_400x400.jpg",
-                                bio: """
+                                description: """
                                 Hungry for knowledge. Satiated with life. ✌️
                                 """,
                                 creationDate: Date(),
                                 socialDetails: UserSocialDetails(
                                     followersCount: 0,
-                                    followingsCount: 0
+                                    followeesCount: 0
                                 ),
                                 activityDetails: UserActivityDetails(
                                     tweetsCount: 0
                                 ),
                                 viewables: UserViewables(
-                                    follower: true
+                                    following: true
                                 )
                             ),
                             viewables: TweetViewables(
@@ -157,7 +157,7 @@ class BookmarksDataStore: BookmarksDataStoreProtocol {
                             Because we stand in two different phase of life and speak.
                             """,
                             creationDate: Date(),
-                            meta: TweetMeta(
+                            interactionDetails: TweetInteractionDetails(
                                 likesCount: 0,
                                 commentsCount: 44
                             ),
@@ -167,19 +167,19 @@ class BookmarksDataStore: BookmarksDataStoreProtocol {
                                 email: "ramya@gmail.com",
                                 username: "RamyaKembal",
                                 image: "https://pbs.twimg.com/profile_images/1190200299727851526/A26tGnda_400x400.jpg",
-                                bio: """
+                                description: """
                                 I'm simple and soft.
                                 """,
                                 creationDate: Date(),
                                 socialDetails: UserSocialDetails(
                                     followersCount: 0,
-                                    followingsCount: 0
+                                    followeesCount: 0
                                 ),
                                 activityDetails: UserActivityDetails(
                                     tweetsCount: 0
                                 ),
                                 viewables: UserViewables(
-                                    follower: true
+                                    following: true
                                 )
                             ),
                             viewables: TweetViewables(
@@ -193,7 +193,7 @@ class BookmarksDataStore: BookmarksDataStoreProtocol {
                             This is super fun
                             """,
                             creationDate: Date(),
-                            meta: TweetMeta(
+                            interactionDetails: TweetInteractionDetails(
                                 likesCount: 0,
                                 commentsCount: 0
                             ),
@@ -203,19 +203,19 @@ class BookmarksDataStore: BookmarksDataStoreProtocol {
                                 email: "zain@gmail.com",
                                 username: "mzaink",
                                 image: "https://pbs.twimg.com/profile_images/1483797876522512385/9CcO904A_400x400.jpg",
-                                bio: """
+                                description: """
                                 I'm simple and soft.
                                 """,
                                 creationDate: Date(),
                                 socialDetails: UserSocialDetails(
                                     followersCount: 0,
-                                    followingsCount: 0
+                                    followeesCount: 0
                                 ),
                                 activityDetails: UserActivityDetails(
                                     tweetsCount: 0
                                 ),
                                 viewables: UserViewables(
-                                    follower: true
+                                    following: true
                                 )
                             ),
                             viewables: TweetViewables(
@@ -229,7 +229,7 @@ class BookmarksDataStore: BookmarksDataStoreProtocol {
                             Every entrepreneur I meet says it’s so difficult to find people to work, and on the other hand the unemployment percentage is so high. Something is broken, and it needs fixing asap.
                             """,
                             creationDate: Date(),
-                            meta: TweetMeta(
+                            interactionDetails: TweetInteractionDetails(
                                 likesCount: 1,
                                 commentsCount: 10
                             ),
@@ -239,19 +239,19 @@ class BookmarksDataStore: BookmarksDataStoreProtocol {
                                 email: "gabbar@gmail.com",
                                 username: "GabbbarSingh",
                                 image: "https://pbs.twimg.com/profile_images/1271082702326784003/1kIF_loZ_400x400.jpg",
-                                bio: """
+                                description: """
                                 Co-Founder @JoinZorro | Founder @GingerMonkeyIN
                                 """,
                                 creationDate: Date(),
                                 socialDetails: UserSocialDetails(
                                     followersCount: 0,
-                                    followingsCount: 0
+                                    followeesCount: 0
                                 ),
                                 activityDetails: UserActivityDetails(
                                     tweetsCount: 0
                                 ),
                                 viewables: UserViewables(
-                                    follower: true
+                                    following: true
                                 )
                             ),
                             viewables: TweetViewables(

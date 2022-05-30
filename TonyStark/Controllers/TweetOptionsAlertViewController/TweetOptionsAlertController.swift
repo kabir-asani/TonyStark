@@ -43,7 +43,7 @@ class TweetOptionsAlertController: TXAlertController {
         
         if tweet.author.id != CurrentUserDataStore.shared.user!.id {
             let followAction = UIAlertAction(
-                title: tweet.author.viewables.follower ? "Remove follow" : "Follow",
+                title: tweet.author.viewables.following ? "Remove follow" : "Follow",
                 style: .default
             ) {
                 [weak self] action in

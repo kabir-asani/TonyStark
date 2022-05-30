@@ -430,7 +430,7 @@ extension CurrentUserViewController: CurrentUserTableViewCellInteractionsHandler
     }
     
     func currentUserCellDidPressFollowings(_ cell: CurrentUserTableViewCell) {
-        if CurrentUserDataStore.shared.user!.socialDetails.followingsCount > 0 {
+        if CurrentUserDataStore.shared.user!.socialDetails.followeesCount > 0 {
             let followingsViewController = FollowingsViewController()
             
             followingsViewController.populate(

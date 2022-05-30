@@ -13,7 +13,7 @@ struct Tweet {
             id: "",
             text: "",
             creationDate: .now(),
-            meta: .default(),
+            interactionDetails: .default(),
             author: .default(),
             viewables: .default()
         )
@@ -22,7 +22,7 @@ struct Tweet {
     let id: String
     let text: String
     let creationDate: Date
-    let meta: TweetMeta
+    let interactionDetails: TweetInteractionDetails
     let author: User
     let viewables: TweetViewables
     
@@ -30,7 +30,7 @@ struct Tweet {
         id: String? = nil,
         text: String? = nil,
         creationDate: Date? = nil,
-        meta: TweetMeta? = nil,
+        interactionDetails: TweetInteractionDetails? = nil,
         author: User? = nil,
         viewables: TweetViewables? = nil
     ) -> Tweet {
@@ -38,7 +38,7 @@ struct Tweet {
             id: id ?? self.id,
             text: text ?? self.text,
             creationDate: creationDate ?? self.creationDate,
-            meta: meta ?? self.meta,
+            interactionDetails: interactionDetails ?? self.interactionDetails,
             author: author ?? self.author,
             viewables: viewables ?? self.viewables
         )
@@ -47,9 +47,9 @@ struct Tweet {
     }
 }
 
-struct TweetMeta {
-    static func `default`() -> TweetMeta {
-        return TweetMeta(
+struct TweetInteractionDetails {
+    static func `default`() -> TweetInteractionDetails {
+        return TweetInteractionDetails(
             likesCount: 0,
             commentsCount: 0
         )
@@ -61,8 +61,8 @@ struct TweetMeta {
     func copyWith(
         likesCount: Int? = nil,
         commentsCount: Int? = nil
-    ) -> TweetMeta {
-        let newTweetMeta = TweetMeta(
+    ) -> TweetInteractionDetails {
+        let newTweetMeta = TweetInteractionDetails(
             likesCount: likesCount ?? self.likesCount,
             commentsCount: commentsCount ?? self.commentsCount
         )

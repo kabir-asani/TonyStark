@@ -88,19 +88,19 @@ class CommentsDataStore: CommentsDataStoreProtocol {
                                         email: "sadiya@gmail.com",
                                         username: "sadiyakhan",
                                         image: "https://www.mirchi9.com/wp-content/uploads/2022/02/Mahesh-Fans-Firing-on-Pooja-Hegde.jpg",
-                                        bio: """
+                                        description: """
                                         I'm simple and soft.
                                         """,
                                         creationDate: Date(),
                                         socialDetails: UserSocialDetails(
                                             followersCount: 0,
-                                            followingsCount: 0
+                                            followeesCount: 0
                                         ),
                                         activityDetails: UserActivityDetails(
                                             tweetsCount: 0
                                         ),
                                         viewables: UserViewables(
-                                            follower: false
+                                            following: false
                                         )
                                     )
                                 )
@@ -118,19 +118,19 @@ class CommentsDataStore: CommentsDataStoreProtocol {
                                         email: "zain@gmail.com",
                                         username: "mzaink",
                                         image: "https://pbs.twimg.com/profile_images/1483797876522512385/9CcO904A_400x400.jpg",
-                                        bio: """
+                                        description: """
                                         Hungry for knowledge. Satiated with life. ✌️
                                         """,
                                         creationDate: Date(),
                                         socialDetails: UserSocialDetails(
                                             followersCount: 0,
-                                            followingsCount: 0
+                                            followeesCount: 0
                                         ),
                                         activityDetails: UserActivityDetails(
                                             tweetsCount: 0
                                         ),
                                         viewables: UserViewables(
-                                            follower: true
+                                            following: true
                                         )
                                     )
                                 )

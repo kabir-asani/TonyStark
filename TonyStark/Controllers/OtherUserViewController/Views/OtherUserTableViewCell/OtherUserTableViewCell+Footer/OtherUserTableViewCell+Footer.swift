@@ -91,7 +91,7 @@ extension OtherUserTableViewCell {
             
             followingsSocialDetails.configure(
                 withData: (
-                    leadingText: "\(user.socialDetails.followingsCount)",
+                    leadingText: "\(user.socialDetails.followeesCount)",
                     trailingText: "Followings"
                 ),
                 onPressed: onFollowingsPressed

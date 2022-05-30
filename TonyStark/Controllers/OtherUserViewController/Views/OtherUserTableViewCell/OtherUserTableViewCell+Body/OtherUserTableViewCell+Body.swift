@@ -75,7 +75,7 @@ extension OtherUserTableViewCell {
         func configure(withUser user: User) {
             configureNameText(withText: user.name)
             configureUsernameText(withText: user.username)
-            configureBioText(withText: user.bio)
+            configureBioText(withText: user.description)
         }
         
         private func configureNameText(withText text: String) {

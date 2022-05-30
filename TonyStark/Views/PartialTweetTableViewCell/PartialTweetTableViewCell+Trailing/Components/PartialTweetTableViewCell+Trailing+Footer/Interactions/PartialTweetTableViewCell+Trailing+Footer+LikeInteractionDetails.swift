@@ -85,7 +85,7 @@ extension PartialTweetTableViewCell.Trailing.Footer {
             
             configureLikeText(
                 withData: (
-                    likesCount: tweet.meta.likesCount,
+                    likesCount: tweet.interactionDetails.likesCount,
                     isLiked: tweet.viewables.liked
                 )
             )

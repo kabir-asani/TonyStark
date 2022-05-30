@@ -358,7 +358,7 @@ extension TweetViewController: TweetTableViewCellInteractionsHandler {
     }
     
     func tweetCellDidPressLikeDetails(_ cell: TweetTableViewCell) {
-        if tweet.meta.likesCount > 0 {
+        if tweet.interactionDetails.likesCount > 0 {
             let likesViewController = LikesViewController()
             
             likesViewController.populate(withTweet: tweet)

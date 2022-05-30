@@ -153,7 +153,7 @@ extension EditUserDetailsViewController: TXTableViewDataSource {
                 assigning: indexPath
             ) as! BioTableViewCell
             
-            cell.configure(withText: user.bio)
+            cell.configure(withText: user.description)
             
             return cell
         default:
@@ -188,7 +188,7 @@ extension EditUserDetailsViewController: TXTableViewDelegate {
             let editBioViewController = EditBioViewController()
             
             editBioViewController.interactionsHandler = self
-            editBioViewController.populate(withBio: user.bio)
+            editBioViewController.populate(withBio: user.description)
             
             navigationController?.pushViewController(
                 editBioViewController,
@@ -217,7 +217,7 @@ extension EditUserDetailsViewController: EditBioViewControllerInteractionsHandle
         _ controller: EditBioViewController,
         didUpdateBio bio: String
     ) {
-        user = user.copyWith(bio: bio)
+        user = user.copyWith(description: bio)
     }
 }
 

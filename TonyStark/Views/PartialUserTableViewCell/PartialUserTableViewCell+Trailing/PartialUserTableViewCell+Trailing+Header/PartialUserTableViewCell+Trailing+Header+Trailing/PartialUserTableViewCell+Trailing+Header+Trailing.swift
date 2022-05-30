@@ -43,7 +43,7 @@ extension PartialUserTableViewCell.Trailing.Header {
         // Configure
         func configure(withUser user: User) {
             followButton.setTitle(
-                user.viewables.follower
+                user.viewables.following
                 ? "Unfollow"
                 : "Follow",
                 for: .normal
@@ -51,13 +51,13 @@ extension PartialUserTableViewCell.Trailing.Header {
             
             if #available(iOS 15.0, *) {
                 followButton.setTitleColor(
-                    user.viewables.follower
+                    user.viewables.following
                     ? .label
                     : .systemBlue,
                     for: .normal
                 )
                 followButton.setTitleColor(
-                    user.viewables.follower
+                    user.viewables.following
                     ? .systemGray
                     : .systemBlue,
                     for: .highlighted
@@ -65,13 +65,13 @@ extension PartialUserTableViewCell.Trailing.Header {
                 followButton.configuration = TXButton.Configuration.bordered()
             } else {
                 followButton.setTitleColor(
-                    user.viewables.follower
+                    user.viewables.following
                     ? .label
                     : .systemBlue,
                     for: .normal
                 )
                 followButton.layer.borderWidth = 2
-                followButton.layer.borderColor = user.viewables.follower
+                followButton.layer.borderColor = user.viewables.following
                 ? TXColor.systemGray.cgColor
                 : TXColor.systemBlue.cgColor
                 followButton.showsTouchWhenHighlighted = true

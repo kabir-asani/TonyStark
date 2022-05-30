@@ -39,18 +39,18 @@ class CurrentUserDataStore: CurrentUserDataStoreProtocol {
                         email: "zain@gmail.com",
                         username: "mzaink",
                         image: "https://pbs.twimg.com/profile_images/1483797876522512385/9CcO904A_400x400.jpg",
-                        bio: """
+                        description: """
                         Hungry for knowledge. Satiated with life. ✌️
                         """,
                         creationDate: Date(),
                         socialDetails: UserSocialDetails(
                             followersCount: 0,
-                            followingsCount: 0
+                            followeesCount: 0
                         ),
                         activityDetails: UserActivityDetails(
                             tweetsCount: 0
                         ),
-                        viewables: UserViewables(follower: true)
+                        viewables: UserViewables(following: true)
                     )
                     
                     continuation.resume(returning: user)
@@ -77,18 +77,18 @@ class CurrentUserDataStore: CurrentUserDataStoreProtocol {
                         email: "zain@gmail.com",
                         username: "mzaink",
                         image: "https://pbs.twimg.com/profile_images/1483797876522512385/9CcO904A_400x400.jpg",
-                        bio: """
+                        description: """
                         Hungry for knowledge. Satiated with life. ✌️
                         """,
                         creationDate: Date(),
                         socialDetails: UserSocialDetails(
                             followersCount: 0,
-                            followingsCount: 0
+                            followeesCount: 0
                         ),
                         activityDetails: UserActivityDetails(
                             tweetsCount: 0
                         ),
-                        viewables: UserViewables(follower: true)
+                        viewables: UserViewables(following: true)
                     )
                     
                     continuation.resume(returning: user)

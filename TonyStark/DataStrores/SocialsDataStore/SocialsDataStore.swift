@@ -102,19 +102,19 @@ class SocialsDataStore: SocialsDataStoreProtocol {
                             email: "sadiya@gmail.com",
                             username: "sadiyakhan",
                             image: "https://www.mirchi9.com/wp-content/uploads/2022/02/Mahesh-Fans-Firing-on-Pooja-Hegde.jpg",
-                            bio: """
+                            description: """
                             I'm simple and soft.
                             """,
                             creationDate: Date(),
                             socialDetails: UserSocialDetails(
                                 followersCount: 0,
-                                followingsCount: 0
+                                followeesCount: 0
                             ),
                             activityDetails: UserActivityDetails(
                                 tweetsCount: 0
                             ),
                             viewables: UserViewables(
-                                follower: false
+                                following: false
                             )
                         ),
                         User(
@@ -123,19 +123,19 @@ class SocialsDataStore: SocialsDataStoreProtocol {
                             email: "zain@gmail.com",
                             username: "mzaink",
                             image: "https://pbs.twimg.com/profile_images/1483797876522512385/9CcO904A_400x400.jpg",
-                            bio: """
+                            description: """
                             Hungry for knowledge. Satiated with life. ✌️
                             """,
                             creationDate: Date(),
                             socialDetails: UserSocialDetails(
                                 followersCount: 0,
-                                followingsCount: 0
+                                followeesCount: 0
                             ),
                             activityDetails: UserActivityDetails(
                                 tweetsCount: 0
                             ),
                             viewables: UserViewables(
-                                follower: true
+                                following: true
                             )
                         ),
                         User(
@@ -144,19 +144,19 @@ class SocialsDataStore: SocialsDataStoreProtocol {
                             email: "ramya@gmail.com",
                             username: "RamyaKembal",
                             image: "https://pbs.twimg.com/profile_images/1190200299727851526/A26tGnda_400x400.jpg",
-                            bio: """
+                            description: """
                             I'm simple and soft.
                             """,
                             creationDate: Date(),
                             socialDetails: UserSocialDetails(
                                 followersCount: 0,
-                                followingsCount: 0
+                                followeesCount: 0
                             ),
                             activityDetails: UserActivityDetails(
                                 tweetsCount: 0
                             ),
                             viewables: UserViewables(
-                                follower: true
+                                following: true
                             )
                         ),
                         User(
@@ -165,19 +165,19 @@ class SocialsDataStore: SocialsDataStoreProtocol {
                             email: "gabbar@gmail.com",
                             username: "GabbbarSingh",
                             image: "https://pbs.twimg.com/profile_images/1271082702326784003/1kIF_loZ_400x400.jpg",
-                            bio: """
+                            description: """
                             Co-Founder @JoinZorro | Founder @GingerMonkeyIN
                             """,
                             creationDate: Date(),
                             socialDetails: UserSocialDetails(
                                 followersCount: 0,
-                                followingsCount: 0
+                                followeesCount: 0
                             ),
                             activityDetails: UserActivityDetails(
                                 tweetsCount: 0
                             ),
                             viewables: UserViewables(
-                                follower: true
+                                following: true
                             )
                         )
                     ]
@@ -228,19 +228,19 @@ class SocialsDataStore: SocialsDataStoreProtocol {
                             email: "sadiya@gmail.com",
                             username: "sadiyakhan",
                             image: "https://www.mirchi9.com/wp-content/uploads/2022/02/Mahesh-Fans-Firing-on-Pooja-Hegde.jpg",
-                            bio: """
+                            description: """
                             I'm simple and soft.
                             """,
                             creationDate: Date(),
                             socialDetails: UserSocialDetails(
                                 followersCount: 0,
-                                followingsCount: 0
+                                followeesCount: 0
                             ),
                             activityDetails: UserActivityDetails(
                                 tweetsCount: 0
                             ),
                             viewables: UserViewables(
-                                follower: false
+                                following: false
                             )
                         ),
                         User(
@@ -249,19 +249,19 @@ class SocialsDataStore: SocialsDataStoreProtocol {
                             email: "zain@gmail.com",
                             username: "mzaink",
                             image: "https://pbs.twimg.com/profile_images/1483797876522512385/9CcO904A_400x400.jpg",
-                            bio: """
+                            description: """
                             Hungry for knowledge. Satiated with life. ✌️
                             """,
                             creationDate: Date(),
                             socialDetails: UserSocialDetails(
                                 followersCount: 0,
-                                followingsCount: 0
+                                followeesCount: 0
                             ),
                             activityDetails: UserActivityDetails(
                                 tweetsCount: 0
                             ),
                             viewables: UserViewables(
-                                follower: true
+                                following: true
                             )
                         ),
                         User(
@@ -270,19 +270,19 @@ class SocialsDataStore: SocialsDataStoreProtocol {
                             email: "ramya@gmail.com",
                             username: "RamyaKembal",
                             image: "https://pbs.twimg.com/profile_images/1190200299727851526/A26tGnda_400x400.jpg",
-                            bio: """
+                            description: """
                             I'm simple and soft.
                             """,
                             creationDate: Date(),
                             socialDetails: UserSocialDetails(
                                 followersCount: 0,
-                                followingsCount: 0
+                                followeesCount: 0
                             ),
                             activityDetails: UserActivityDetails(
                                 tweetsCount: 0
                             ),
                             viewables: UserViewables(
-                                follower: true
+                                following: true
                             )
                         ),
                         User(
@@ -291,19 +291,19 @@ class SocialsDataStore: SocialsDataStoreProtocol {
                             email: "gabbar@gmail.com",
                             username: "GabbbarSingh",
                             image: "https://pbs.twimg.com/profile_images/1271082702326784003/1kIF_loZ_400x400.jpg",
-                            bio: """
+                            description: """
                             Co-Founder @JoinZorro | Founder @GingerMonkeyIN
                             """,
                             creationDate: Date(),
                             socialDetails: UserSocialDetails(
                                 followersCount: 0,
-                                followingsCount: 0
+                                followeesCount: 0
                             ),
                             activityDetails: UserActivityDetails(
                                 tweetsCount: 0
                             ),
                             viewables: UserViewables(
-                                follower: true
+                                following: true
                             )
                         )
                     ]

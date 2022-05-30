@@ -92,11 +92,11 @@ extension TweetTableViewCell.Header {
             if tweet.author.id != CurrentUserDataStore.shared.user!.id {
                 children.append(
                     UIAction(
-                        title: tweet.author.viewables.follower
+                        title: tweet.author.viewables.following
                         ? "Unfollow"
                         : "Follow",
                         image: UIImage(
-                            systemName: tweet.author.viewables.follower
+                            systemName: tweet.author.viewables.following
                             ? "person.badge.plus.fill"
                             : "person.badge.plus"
                         )

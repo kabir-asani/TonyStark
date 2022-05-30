@@ -15,7 +15,7 @@ struct User {
             email: "",
             username: "",
             image: "",
-            bio: "",
+            description: "",
             creationDate: .now(),
             socialDetails: .default(),
             activityDetails: .default(),
@@ -28,7 +28,7 @@ struct User {
     let email: String
     let username: String
     let image: String
-    let bio: String
+    let description: String
     let creationDate: Date
     let socialDetails: UserSocialDetails
     let activityDetails: UserActivityDetails
@@ -40,7 +40,7 @@ struct User {
         email: String? = nil,
         username: String? = nil,
         image: String? = nil,
-        bio: String? = nil,
+        description: String? = nil,
         creationDate: Date? = nil,
         socialDetails: UserSocialDetails? = nil,
         activityDetails: UserActivityDetails? = nil,
@@ -52,7 +52,7 @@ struct User {
             email: email ?? self.email,
             username: username ?? self.username,
             image: image ?? self.image,
-            bio: bio ?? self.bio,
+            description: description ?? self.description,
             creationDate: creationDate ?? self.creationDate,
             socialDetails: socialDetails ?? self.socialDetails,
             activityDetails: activityDetails ?? self.activityDetails,
@@ -67,20 +67,20 @@ struct UserSocialDetails {
     static func `default`() -> UserSocialDetails {
         UserSocialDetails(
             followersCount: 0,
-            followingsCount: 0
+            followeesCount: 0
         )
     }
     
     let followersCount: Int
-    let followingsCount: Int
+    let followeesCount: Int
     
     func copyWith(
         followersCount: Int? = nil,
-        followingsCount: Int? = nil
+        followeesCount: Int? = nil
     ) -> UserSocialDetails {
         let newUserSocialDetails = UserSocialDetails(
             followersCount: followersCount ?? self.followersCount,
-            followingsCount: followingsCount ?? self.followingsCount
+            followeesCount: followeesCount ?? self.followeesCount
         )
         
         return newUserSocialDetails
@@ -107,16 +107,16 @@ struct UserActivityDetails {
 
 struct UserViewables {
     static func `default`() -> UserViewables {
-        UserViewables(follower: false)
+        UserViewables(following: false)
     }
     
-    let follower: Bool
+    let following: Bool
     
     func copyWith(
         follower: Bool? = nil
     ) -> UserViewables {
         let newUserViewables = UserViewables(
-            follower: follower ?? self.follower
+            following: follower ?? self.following
         )
         
         return newUserViewables

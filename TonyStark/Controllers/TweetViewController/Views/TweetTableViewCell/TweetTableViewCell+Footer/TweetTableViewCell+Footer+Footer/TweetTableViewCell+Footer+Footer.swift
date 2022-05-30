@@ -99,9 +99,9 @@ extension TweetTableViewCell.Footer {
             
             configureLikeButton(with: tweet.viewables.liked)
             
-            likesCountText.text = "\(tweet.meta.likesCount)"
+            likesCountText.text = "\(tweet.interactionDetails.likesCount)"
             
-            likesText.text = tweet.meta.likesCount == 1 ? "like" : "likes"
+            likesText.text = tweet.interactionDetails.likesCount == 1 ? "like" : "likes"
         }
         
         private func configureLikeButton(

@@ -40,7 +40,7 @@ extension PartialUserTableViewCell.Trailing {
         
         // Configure
         func configure(withUser user: User) {
-            bioText.text = user.bio
+            bioText.text = user.description
         }
         
         // Interact

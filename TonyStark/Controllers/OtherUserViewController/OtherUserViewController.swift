@@ -259,7 +259,7 @@ extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
     }
     
     func otherUserCellDidPressFollowings(_ cell: OtherUserTableViewCell) {
-        if user.socialDetails.followingsCount > 0 {
+        if user.socialDetails.followeesCount > 0 {
             let followingsViewController = FollowingsViewController()
             
             followingsViewController.populate(

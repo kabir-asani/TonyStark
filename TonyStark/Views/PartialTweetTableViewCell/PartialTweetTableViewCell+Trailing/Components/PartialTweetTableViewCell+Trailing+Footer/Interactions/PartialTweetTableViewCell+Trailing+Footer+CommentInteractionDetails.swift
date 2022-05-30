@@ -82,7 +82,7 @@ extension PartialTweetTableViewCell.Trailing.Footer {
             self.onCommentPressed = onCommentPressed
             
             configureCommentButton()
-            configureCommentsCountText(withCommentsCount: tweet.meta.commentsCount)
+            configureCommentsCountText(withCommentsCount: tweet.interactionDetails.commentsCount)
         }
         
         private func configureCommentButton() {
