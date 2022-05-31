@@ -1,21 +1,21 @@
 //
-//  LikesViewController.swift
+//  FollowingsViewController.swift
 //  TonyStark
 //
-//  Created by Mohammed Sadiq on 27/04/22.
+//  Created by Mohammed Sadiq on 29/04/22.
 //
 
 import UIKit
 
-class LikesViewController: TXViewController {
+class FolloweesViewController: TXViewController {
     // Declare
-    enum LikesTableViewSection: Int, CaseIterable {
-        case likes
+    enum FolloweesTableViewSection: Int, CaseIterable {
+        case followees
     }
     
-    private(set) var tweet: Tweet = .default()
+    private(set) var user: User = .default()
     
-    private var state: State<Paginated<Like>, LikesFailure> = .processing
+    private var state: State<Paginated<Followee>, FollowingsFailure> = .processing
     
     private let tableView: TXTableView = {
         let tableView = TXTableView()
@@ -24,7 +24,7 @@ class LikesViewController: TXViewController {
         
         return tableView
     }()
-    
+   
     // Configure
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,8 +43,7 @@ class LikesViewController: TXViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "Likes"
-        navigationItem.largeTitleDisplayMode = .never
+        navigationItem.title = "Followings"
     }
     
     private func configureTableView() {
@@ -67,20 +66,20 @@ class LikesViewController: TXViewController {
     private func configureRefreshControl() {
         let refreshControl = TXRefreshControl()
         refreshControl.delegate = self
-            
+        
         tableView.refreshControl = refreshControl
     }
     
     // Populate
-    func populate(withTweet tweet: Tweet) {
-        self.tweet = tweet
+    func populate(withUser user: User) {
+        self.user = user
     }
     
     // Interact
 }
 
 // MARK: TXTableViewDataSource
-extension LikesViewController: TXTableViewDataSource {
+extension FolloweesViewController: TXTableViewDataSource {
     private func populateTableView() {
         Task {
             [weak self] in
@@ -90,12 +89,12 @@ extension LikesViewController: TXTableViewDataSource {
             
             strongSelf.tableView.beginPaginating()
             
-            let likesResult = await LikesDataStore.shared.likes(onTweetWithId: tweet.id)
+            let followeesResult = await SocialsDataStore.shared.followees(ofUserWithId: user.id)
             
             strongSelf.tableView.endPaginating()
             
-            likesResult.map { paginatedLikes in
-                strongSelf.state = .success(data: paginatedLikes)
+            followeesResult.map { paginatedFollowees in
+                strongSelf.state = .success(data: paginatedFollowees)
             } onFailure: { cause in
                 strongSelf.state = .failure(cause: cause)
             }
@@ -113,12 +112,12 @@ extension LikesViewController: TXTableViewDataSource {
             
             strongSelf.tableView.beginRefreshing()
             
-            let likesResult = await LikesDataStore.shared.likes(onTweetWithId: tweet.id)
+            let followeesResult = await SocialsDataStore.shared.followees(ofUserWithId: user.id)
             
             strongSelf.tableView.endRefreshing()
             
-            likesResult.map { paginatedLikes in
-                strongSelf.state = .success(data: paginatedLikes)
+            followeesResult.map { paginatedFollowees in
+                strongSelf.state = .success(data: paginatedFollowees)
             } onFailure: { cause in
                 strongSelf.state = .failure(cause: cause)
             }
@@ -128,8 +127,8 @@ extension LikesViewController: TXTableViewDataSource {
     }
     
     private func extendTableView() {
-        state.mapOnSuccess { previousPaginatedLikes in
-            guard let nextToken = previousPaginatedLikes.nextToken else {
+        state.mapOnSuccess { previousPaginatedFollowees in
+            guard let nextToken = previousPaginatedFollowees.nextToken else {
                 return
             }
             
@@ -141,22 +140,22 @@ extension LikesViewController: TXTableViewDataSource {
                 
                 strongSelf.tableView.beginPaginating()
                 
-                let likesResult = await LikesDataStore.shared.likes(
-                    onTweetWithId: tweet.id,
+                let followeesResult = await SocialsDataStore.shared.followees(
+                    ofUserWithId: user.id,
                     after: nextToken
                 )
                 
                 strongSelf.tableView.endPaginating()
                 
-                likesResult.map { latestPaginatedLikes in
-                    let updatedPaginatedLikes = Paginated<Like>(
-                        page: previousPaginatedLikes.page + latestPaginatedLikes.page,
-                        nextToken: latestPaginatedLikes.nextToken
+                followeesResult.map { latestPaginatedFollowees in
+                    let updatedPaginatedFollowees = Paginated<Followee>(
+                        page: previousPaginatedFollowees.page + latestPaginatedFollowees.page,
+                        nextToken: latestPaginatedFollowees.nextToken
                     )
                     
                     strongSelf.tableView.appendSepartorToLastMostVisibleCell()
                     
-                    strongSelf.state = .success(data: updatedPaginatedLikes)
+                    strongSelf.state = .success(data: updatedPaginatedFollowees)
                     strongSelf.tableView.reloadData()
                 } onFailure: { cause in
                     // TODO: Communicate via SnackBar
@@ -168,15 +167,15 @@ extension LikesViewController: TXTableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        LikesTableViewSection.allCases.count
+        FolloweesTableViewSection.allCases.count
     }
     
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        state.mapOnSuccess { paginatedLikes in
-            paginatedLikes.page.count
+        state.mapOnSuccess { paginatedFollowees in
+            paginatedFollowees.page.count
         } orElse: {
             0
         }
@@ -186,32 +185,50 @@ extension LikesViewController: TXTableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        state.mapOnSuccess { paginatedLikes in
+        state.mapOnSuccess { paginatedFollowees in
+            let followee = paginatedFollowees.page[indexPath.row]
+            
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: PartialUserTableViewCell.reuseIdentifier,
                 assigning: indexPath
             ) as! PartialUserTableViewCell
             
-            let like = paginatedLikes.page[indexPath.row]
-            
             cell.interactionsHandler = self
-            cell.configure(withUser: like.author)
+            cell.configure(withUser: followee.user)
             
             return cell
         } orElse: {
-            TXTableViewCell()
+            UITableViewCell()
+        }
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        tableView.deselectRow(
+            at: indexPath,
+            animated: true
+        )
+        
+        state.mapOnSuccess { paginatedFollowees in
+            let followee = paginatedFollowees.page[indexPath.row]
+            
+            navigationController?.openUserViewController(withUser: followee.user)
+        } orElse: {
+            // Do nothing
         }
     }
 }
 
 // MARK: TXTableViewDelegate
-extension LikesViewController: TXTableViewDelegate {
+extension FolloweesViewController: TXTableViewDelegate {
     func tableView(
         _ tableView: UITableView,
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        if indexPath.row == tableView.numberOfRows(inSection: LikesTableViewSection.likes.rawValue) - 1 {
+        if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
             tableView.removeSeparatorOnCell(cell)
             
             extendTableView()
@@ -228,8 +245,7 @@ extension LikesViewController: TXTableViewDelegate {
     }
 }
 
-// MARK: TXRefreshControlDelegate
-extension LikesViewController: TXRefreshControlDelegate {
+extension FolloweesViewController: TXRefreshControlDelegate {
     func refreshControlDidChange(_ control: TXRefreshControl) {
         if control.isRefreshing {
             refreshTableView()
@@ -238,12 +254,12 @@ extension LikesViewController: TXRefreshControlDelegate {
 }
 
 // MARK: PartialUserTableViewCellInteractionsHandler
-extension LikesViewController: PartialUserTableViewCellInteractionsHandler {
+extension FolloweesViewController: PartialUserTableViewCellInteractionsHandler {
     func partialUserCellDidPressProfileImage(_ cell: PartialUserTableViewCell) {
-        state.mapOnSuccess { paginatedLikes in
-            let like = paginatedLikes.page[cell.indexPath.row]
+        state.mapOnSuccess { paginatedFollowees in
+            let followee = paginatedFollowees.page[cell.indexPath.row]
             
-            navigationController?.openUserViewController(withUser: like.author)
+            navigationController?.openUserViewController(withUser: followee.user)
         } orElse: {
             // Do nothing
         }

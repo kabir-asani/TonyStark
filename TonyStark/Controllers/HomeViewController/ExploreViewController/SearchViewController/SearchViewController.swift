@@ -9,8 +9,13 @@ import UIKit
 
 class SearchViewController: TXViewController {
     // Declare
+    enum SearchTableViewSection: Int, CaseIterable {
+        case search
+    }
+    
     private var keyword: String!
-    private var state: Result<Paginated<User>, SearchFailure> = .success(.default())
+    
+    private var state: State<Paginated<User>, SearchFailure> = .processing
     
     private let tableView: TXTableView = {
         let tableView = TXTableView()
@@ -57,7 +62,7 @@ class SearchViewController: TXViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.addBufferOnHeader(withHeight: 0)
+        tableView.appendSpacerOnHeader()
         
         tableView.register(
             PartialUserTableViewCell.self,
@@ -98,37 +103,80 @@ extension SearchViewController: TXSearchBarDelegate {
 // MARK: TXTableViewDataSource
 extension SearchViewController: TXTableViewDataSource {
     private func populateTableView() {
-        state = .success(.default())
-        tableView.reloadData()
-        tableView.beginPaginating()
-        
         Task {
             [weak self] in
             guard let strongSelf = self else {
                 return
             }
             
-            let result = await SearchDataStore.shared.search(withKeyword: keyword)
+            strongSelf.tableView.beginPaginating()
+            
+            let searchResult = await SearchDataStore.shared.search(withKeyword: keyword)
             
             strongSelf.tableView.endPaginating()
             
-            strongSelf.state = result
+            searchResult.map { paginatedSearch in
+                strongSelf.state = .success(data: paginatedSearch)
+            } onFailure: { cause in
+                strongSelf.state = .failure(cause: cause)
+            }
+            
             strongSelf.tableView.reloadData()
         }
     }
     
+    private func extendTableView() {
+        state.mapOnSuccess { previousPaginatedSearch in
+            guard let nextToken = previousPaginatedSearch.nextToken else {
+                return
+            }
+            
+            Task {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.tableView.beginPaginating()
+                
+                let searchResult = await SearchDataStore.shared.search(
+                    withKeyword: keyword,
+                    after: nextToken
+                )
+                
+                strongSelf.tableView.endPaginating()
+                
+                searchResult.map { latestPaginatedSearch in
+                    let updatedPaginatedSearch = Paginated<User>(
+                        page: previousPaginatedSearch.page + latestPaginatedSearch.page,
+                        nextToken: latestPaginatedSearch.nextToken
+                    )
+                    
+                    strongSelf.tableView.appendSepartorToLastMostVisibleCell()
+                    
+                    strongSelf.state = .success(data: updatedPaginatedSearch)
+                    strongSelf.tableView.reloadData()
+                } onFailure: { cause in
+                    // TODO: Communicate via SnackBar
+                }
+            }
+        } orElse: {
+            // Do nothing
+        }
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        SearchTableViewSection.allCases.count
     }
     
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        return state.map { success in
-            return success.page.count
-        } onFailure: { failure in
-            return 0
+        state.mapOnSuccess { paginatedSearch in
+            paginatedSearch.page.count
+        } orElse: {
+            0
         }
     }
     
@@ -136,8 +184,8 @@ extension SearchViewController: TXTableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        return state.map { success in
-            let user = success.page[indexPath.row]
+        state.mapOnSuccess { paginatedSearch in
+            let user = paginatedSearch.page[indexPath.row]
             
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: PartialUserTableViewCell.reuseIdentifier,
@@ -148,14 +196,28 @@ extension SearchViewController: TXTableViewDataSource {
             cell.configure(withUser: user)
             
             return cell
-        } onFailure: { failure in
-            return TXTableViewCell()
+        } orElse: {
+            TXTableViewCell()
         }
     }
 }
 
 // MARK: TXTableViewDelegate
 extension SearchViewController: TXTableViewDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        if indexPath.row == tableView.numberOfRows(inSection: SearchTableViewSection.search.rawValue) - 1 {
+            tableView.removeSeparatorOnCell(cell)
+            
+            extendTableView()
+        } else {
+            tableView.appendSeparatorOnCell(cell)
+        }
+    }
+    
     func tableView(
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
@@ -165,14 +227,12 @@ extension SearchViewController: TXTableViewDelegate {
             animated: true
         )
         
-        switch state {
-        case .success(let paginated):
-            let user = paginated.page[indexPath.row]
+        state.mapOnSuccess { paginatedSearch in
+            let user = paginatedSearch.page[indexPath.row]
             
             navigationController?.openUserViewController(withUser: user)
-        case .failure(_):
-            // TODO: Handle failure cases
-            break
+        } orElse: {
+            // Do nothing
         }
     }
 }
@@ -180,15 +240,17 @@ extension SearchViewController: TXTableViewDelegate {
 // MARK: PartialUserTableViewCellInteractionsHandler
 extension SearchViewController: PartialUserTableViewCellInteractionsHandler {
     func partialUserCellDidPressProfileImage(_ cell: PartialUserTableViewCell) {
+        tableView.deselectRow(
+            at: cell.indexPath,
+            animated: true
+        )
         
-        switch state {
-        case .success(let paginated):
-            let user = paginated.page[cell.indexPath.row]
+        state.mapOnSuccess { paginatedSearch in
+            let user = paginatedSearch.page[cell.indexPath.row]
             
             navigationController?.openUserViewController(withUser: user)
-        case .failure(_):
-            // TODO: Handle failure cases
-            break
+        } orElse: {
+            // Do nothing
         }
     }
 }

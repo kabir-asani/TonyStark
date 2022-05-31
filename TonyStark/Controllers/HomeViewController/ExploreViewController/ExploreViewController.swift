@@ -9,7 +9,11 @@ import UIKit
 
 class ExploreViewController: TXViewController {
     // Declare
-    private var state: Result<[String], PreviousSearchKeywordsFailure> = .success([])
+    enum ExploreTableViewSection: Int, CaseIterable {
+        case previousSearches
+    }
+    
+    private var state: State<[String], PreviousSearchKeywordsFailure> = .processing
     
     private let tableView: TXTableView = {
         let tableView = TXTableView(
@@ -153,25 +157,30 @@ extension ExploreViewController: TXTableViewDataSource {
                 return
             }
 
-            let result = await SearchDataStore.shared.previousSearchKeywords()
-
-            strongSelf.state = result
+            let previousSearchesResult = await SearchDataStore.shared.previousSearchKeywords()
+            
+            previousSearchesResult.map { previousSearches in
+                strongSelf.state = .success(data: previousSearches)
+            } onFailure: { cause in
+                strongSelf.state = .failure(cause: cause)
+            }
+            
             strongSelf.tableView.reloadData()
         }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        ExploreTableViewSection.allCases.count
     }
     
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        return state.map { success in
-            return success.count
-        } onFailure: { failure in
-            return 0
+        state.mapOnSuccess { previousSearches in
+            previousSearches.count
+        } orElse: {
+            0
         }
     }
     
@@ -179,8 +188,8 @@ extension ExploreViewController: TXTableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        return state.map { success in
-            let keyword = success[indexPath.row]
+        state.mapOnSuccess { previousSearches in
+            let keyword = previousSearches[indexPath.row]
             
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: SearchedKeywordTableViewCell.reuseIdentifier,
@@ -190,8 +199,8 @@ extension ExploreViewController: TXTableViewDataSource {
             cell.configure(withKeyword: keyword)
             
             return cell
-        } onFailure: { failure in
-            return TXTableViewCell()
+        } orElse: {
+            TXTableViewCell()
         }
     }
 }
@@ -204,7 +213,7 @@ extension ExploreViewController: TXTableViewDelegate {
         forRowAt indexPath: IndexPath
     ) {
         if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
-            cell.separatorInset = .leading(.infinity)
+            tableView.removeSeparatorOnCell(cell)
         }
     }
     
@@ -212,7 +221,7 @@ extension ExploreViewController: TXTableViewDelegate {
         _ tableView: UITableView,
         estimatedHeightForRowAt indexPath: IndexPath
     ) -> CGFloat {
-        return TXTableView.automaticDimension
+        TXTableView.automaticDimension
     }
     
     func tableView(
@@ -224,9 +233,8 @@ extension ExploreViewController: TXTableViewDelegate {
             animated: true
         )
         
-        switch state {
-        case .success(let keywords):
-            let keyword = keywords[indexPath.row]
+        state.mapOnSuccess { previousSearches in
+            let keyword = previousSearches[indexPath.row]
             
             let searchResultsViewController = SearchViewController()
             
@@ -238,8 +246,8 @@ extension ExploreViewController: TXTableViewDelegate {
             )
             
             searchBar.resignFirstResponder()
-        default:
-            break
+        } orElse: {
+            // Do nothing
         }
     }
 }

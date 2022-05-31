@@ -7,8 +7,12 @@
 
 import UIKit
 
-class EditUserDetailsViewController: TXViewController {
-    enum Editables: Int, CaseIterable {
+class EditSelfViewController: TXViewController {
+    enum EditSelfTableViewSection: Int, CaseIterable {
+        case editables
+    }
+    
+    enum Details: Int, CaseIterable {
         case profilePicture
         case name
         case username
@@ -102,16 +106,23 @@ class EditUserDetailsViewController: TXViewController {
 }
 
 // MARK: TXTableViewDataSource
-extension EditUserDetailsViewController: TXTableViewDataSource {
+extension EditSelfViewController: TXTableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        EditSelfTableViewSection.allCases.count
     }
     
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        return Editables.allCases.count
+        Details.allCases.count
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        estimatedHeightForRowAt indexPath: IndexPath
+    ) -> CGFloat {
+        TXTableView.automaticDimension
     }
     
     func tableView(
@@ -119,7 +130,7 @@ extension EditUserDetailsViewController: TXTableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         switch indexPath.row {
-        case Editables.profilePicture.rawValue:
+        case Details.profilePicture.rawValue:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: ProfileImageTableViewCell.reuseIdentifier,
                 assigning: indexPath
@@ -128,7 +139,7 @@ extension EditUserDetailsViewController: TXTableViewDataSource {
             cell.configure(withImageURL: user.image)
             
             return cell
-        case Editables.name.rawValue:
+        case Details.name.rawValue:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: NameTableViewCell.reuseIdentifier,
                 assigning: indexPath
@@ -138,7 +149,7 @@ extension EditUserDetailsViewController: TXTableViewDataSource {
             cell.configure(withText: user.name)
             
             return cell
-        case Editables.username.rawValue:
+        case Details.username.rawValue:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: UsernameTableViewCell.reuseIdentifier,
                 assigning: indexPath
@@ -147,7 +158,7 @@ extension EditUserDetailsViewController: TXTableViewDataSource {
             cell.configure(withText: user.username)
             
             return cell
-        case Editables.bio.rawValue:
+        case Details.bio.rawValue:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: BioTableViewCell.reuseIdentifier,
                 assigning: indexPath
@@ -163,7 +174,7 @@ extension EditUserDetailsViewController: TXTableViewDataSource {
 }
 
 // MARK: TXTableViewDelegate
-extension EditUserDetailsViewController: TXTableViewDelegate {
+extension EditSelfViewController: TXTableViewDelegate {
     func tableView(
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
@@ -174,7 +185,7 @@ extension EditUserDetailsViewController: TXTableViewDelegate {
         )
         
         switch indexPath.row {
-        case Editables.username.rawValue:
+        case Details.username.rawValue:
             let editUsernameViewController = EditUsernameViewController()
             
             editUsernameViewController.interactionsHandler = self
@@ -184,7 +195,7 @@ extension EditUserDetailsViewController: TXTableViewDelegate {
                 editUsernameViewController,
                 animated: true
             )
-        case Editables.bio.rawValue:
+        case Details.bio.rawValue:
             let editBioViewController = EditBioViewController()
             
             editBioViewController.interactionsHandler = self
@@ -195,14 +206,13 @@ extension EditUserDetailsViewController: TXTableViewDelegate {
                 animated: true
             )
         default:
-            // Do nothing
             break
         }
     }
 }
 
 // MARK:
-extension EditUserDetailsViewController: EditUsernameViewControllerInteractionsHandler {
+extension EditSelfViewController: EditUsernameViewControllerInteractionsHandler {
     func editUsernameViewController(
         _ controller: EditUsernameViewController,
         didUpdateUsername username: String
@@ -212,7 +222,7 @@ extension EditUserDetailsViewController: EditUsernameViewControllerInteractionsH
 }
 
 // MARK:
-extension EditUserDetailsViewController: EditBioViewControllerInteractionsHandler {
+extension EditSelfViewController: EditBioViewControllerInteractionsHandler {
     func editBioViewController(
         _ controller: EditBioViewController,
         didUpdateBio bio: String
@@ -221,7 +231,7 @@ extension EditUserDetailsViewController: EditBioViewControllerInteractionsHandle
     }
 }
 
-extension EditUserDetailsViewController: NameTableViewCellDelegate {
+extension EditSelfViewController: NameTableViewCellDelegate {
     func nameCell(
         _ cell: NameTableViewCell,
         didChangeName name: String

@@ -8,14 +8,15 @@
 import UIKit
 
 class OtherUserViewController: TXViewController {
-    enum Section: Int, CaseIterable {
-        case profile
+    enum OtherUserTableViewSection: Int, CaseIterable {
+        case user
         case tweets
     }
     
     // Declare
-    private(set) var user: User!
-    private var state: Result<Paginated<Tweet>, TweetsFailure> = .success(.default())
+    private(set) var user: User = .default()
+    
+    private var state: State<Paginated<Tweet>, TweetsFailure> = .processing
     
     private let tableView: TXTableView = {
         let tableView = TXTableView()
@@ -23,12 +24,6 @@ class OtherUserViewController: TXViewController {
         tableView.enableAutolayout()
         
         return tableView
-    }()
-    
-    private let refreshControl: TXRefreshControl = {
-        let refreshControl = TXRefreshControl()
-        
-        return refreshControl
     }()
     
     // Configure
@@ -57,8 +52,7 @@ class OtherUserViewController: TXViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.addBufferOnHeader(withHeight: 0)
-        tableView.refreshControl = refreshControl
+        tableView.appendSpacerOnHeader()
         
         tableView.register(
             OtherUserTableViewCell.self,
@@ -77,25 +71,15 @@ class OtherUserViewController: TXViewController {
     }
     
     private func configureRefreshControl() {
-        refreshControl.addTarget(
-            self,
-            action: #selector(onRefreshControllerChanged(_:)),
-            for: .valueChanged
-        )
+        let refreshControl = TXRefreshControl()
+        refreshControl.delegate = self
+        
+        tableView.refreshControl = refreshControl
     }
     
     // Populate
     func populate(withUser user: User) {
         self.user = user
-    }
-    
-    // Interact
-    @objc private func onRefreshControllerChanged(_ refreshControl: TXRefreshControl) {
-        if refreshControl.isRefreshing {
-            refreshControl.endRefreshing()
-        } else {
-            // TODO: Add refresh logic
-        }
     }
 }
 
@@ -116,22 +100,94 @@ extension OtherUserViewController: TXScrollViewDelegate {
 
 // MARK: TXTableViewDataSource
 extension OtherUserViewController: TXTableViewDataSource {
-    func populateTableView() {
+    private func populateTableView() {
         Task {
             [weak self] in
             guard let strongSelf = self else {
                 return
             }
             
-            let result = await TweetsDataStore.shared.tweets(ofUserWithId: user.id)
+            strongSelf.tableView.beginPaginating()
             
-            strongSelf.state = result
+            let tweetsResult = await TweetsDataStore.shared.tweets(ofUserWithId: user.id)
+            
+            strongSelf.tableView.endPaginating()
+            
+            tweetsResult.map { paginatedTweets in
+                strongSelf.state = .success(data: paginatedTweets)
+            } onFailure: { cause in
+                strongSelf.state = .failure(cause: cause)
+            }
+            
             strongSelf.tableView.reloadData()
         }
     }
     
+    private func refreshTableView() {
+        Task {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.tableView.beginRefreshing()
+            
+            let tweetsResult = await TweetsDataStore.shared.tweets(ofUserWithId: user.id)
+            
+            strongSelf.tableView.endRefreshing()
+            
+            tweetsResult.map { paginatedTweets in
+                strongSelf.state = .success(data: paginatedTweets)
+            } onFailure: { cause in
+                strongSelf.state = .failure(cause: cause)
+            }
+            
+            strongSelf.tableView.reloadData()
+        }
+    }
+    
+    private func extendTableView() {
+        state.mapOnSuccess { previousPaginatedTweets in
+            guard let nextToken = previousPaginatedTweets.nextToken else {
+               return
+            }
+            
+            Task {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.tableView.beginPaginating()
+                
+                let tweetsResult = await TweetsDataStore.shared.tweets(
+                    ofUserWithId: user.id,
+                    after: nextToken
+                )
+                
+                strongSelf.tableView.endPaginating()
+                
+                tweetsResult.map { latestPaginatedTweets in
+                    let updatedPaginatedTweets = Paginated<Tweet>(
+                        page: previousPaginatedTweets.page + latestPaginatedTweets.page,
+                        nextToken: latestPaginatedTweets.nextToken
+                    )
+                    
+                    strongSelf.tableView.appendSepartorToLastMostVisibleCell()
+                    
+                    strongSelf.state = .success(data: updatedPaginatedTweets)
+                    strongSelf.tableView.reloadData()
+                } onFailure: { cause in
+                    // TODO: Communicate via SnackBar
+                }
+            }
+        } orElse: {
+            // Do nothing
+        }
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return Section.allCases.count
+        OtherUserTableViewSection.allCases.count
     }
     
     func tableView(
@@ -139,14 +195,17 @@ extension OtherUserViewController: TXTableViewDataSource {
         numberOfRowsInSection section: Int
     ) -> Int {
         switch section {
-        case Section.profile.rawValue:
+        case OtherUserTableViewSection.user.rawValue:
             return 1
-        case Section.tweets.rawValue:
-            return state.map { success in
-                success.page.count
-            } onFailure: { failure in
-                0
+            
+        case OtherUserTableViewSection.tweets.rawValue:
+            switch state {
+            case .success(let paginatedTweets):
+                return paginatedTweets.page.count
+            default:
+                return 0
             }
+            
         default:
             fatalError("Only two sections can exists. Something has gone wrong.")
         }
@@ -157,7 +216,7 @@ extension OtherUserViewController: TXTableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         switch indexPath.section {
-        case Section.profile.rawValue:
+        case OtherUserTableViewSection.user.rawValue:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: OtherUserTableViewCell.reuseIdentifier,
                 assigning: indexPath
@@ -167,26 +226,24 @@ extension OtherUserViewController: TXTableViewDataSource {
             cell.configure(withUser: user)
             
             return cell
-            
-        case Section.tweets.rawValue:
-            return state.map { success in
+        case OtherUserTableViewSection.tweets.rawValue:
+            return state.mapOnSuccess { paginatedTweets in
                 let cell = tableView.dequeueReusableCell(
                     withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
                     assigning: indexPath
                 ) as! PartialTweetTableViewCell
                 
-                let tweet = success.page[indexPath.row]
+                let tweet = paginatedTweets.page[indexPath.row]
                 
                 cell.interactionsHandler = self
                 cell.configure(withTweet: tweet)
                 
                 return cell
-            } onFailure: { failure in
-                return UITableViewCell()
+            } orElse: {
+                TXTableViewCell()
             }
-            
         default:
-            fatalError("Only two sections can exists. Something has gone wrong.")
+            fatalError()
         }
     }
 }
@@ -199,14 +256,21 @@ extension OtherUserViewController: TXTableViewDelegate {
         forRowAt indexPath: IndexPath
     ) {
         switch indexPath.section {
-        case Section.profile.rawValue:
-            cell.separatorInset = .leading(0)
-        case Section.tweets.rawValue:
-            if indexPath.row == tableView.numberOfRows(inSection: Section.tweets.rawValue) - 1 {
-                cell.separatorInset = .leading(.infinity)
+        case OtherUserTableViewSection.user.rawValue:
+            tableView.appendSeparatorOnCell(
+                cell,
+                withInset: .leading(0)
+            )
+        case OtherUserTableViewSection.tweets.rawValue:
+            if indexPath.row == tableView.numberOfRows(inSection: OtherUserTableViewSection.tweets.rawValue) - 1 {
+                tableView.removeSeparatorOnCell(cell)
+                
+                extendTableView()
+            } else {
+                tableView.appendSeparatorOnCell(cell)
             }
         default:
-            break
+            fatalError()
         }
     }
     
@@ -219,10 +283,9 @@ extension OtherUserViewController: TXTableViewDelegate {
             animated: true
         )
         
-        if indexPath.section == Section.tweets.rawValue {
-            switch state {
-            case .success(let paginated):
-                let tweet = paginated.page[indexPath.row]
+        if indexPath.section == OtherUserTableViewSection.tweets.rawValue {
+            state.mapOnSuccess { paginatedTweets in
+                let tweet = paginatedTweets.page[indexPath.row]
                 
                 let tweetViewController = TweetViewController()
                 tweetViewController.populate(withTweet: tweet)
@@ -231,9 +294,18 @@ extension OtherUserViewController: TXTableViewDelegate {
                     tweetViewController,
                     animated: true
                 )
-            default:
-                break
+            } orElse: {
+                // Do nothing
             }
+        }
+    }
+}
+
+// MARK: TXRefreshControlDelegate
+extension OtherUserViewController: TXRefreshControlDelegate {
+    func refreshControlDidChange(_ control: TXRefreshControl) {
+        if control.isRefreshing {
+            refreshTableView()
         }
     }
 }
@@ -241,7 +313,7 @@ extension OtherUserViewController: TXTableViewDelegate {
 // MARK: OtherUserTableViewCellInteractionsHandler
 extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
     func otherUserCellDidPressFollow(_ cell: OtherUserTableViewCell) {
-        
+        print(#function)
     }
     
     func otherUserCellDidPressFollowers(_ cell: OtherUserTableViewCell) {
@@ -260,7 +332,7 @@ extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
     
     func otherUserCellDidPressFollowings(_ cell: OtherUserTableViewCell) {
         if user.socialDetails.followeesCount > 0 {
-            let followingsViewController = FollowingsViewController()
+            let followingsViewController = FolloweesViewController()
             
             followingsViewController.populate(
                 withUser: CurrentUserDataStore.shared.user!
@@ -280,9 +352,8 @@ extension OtherUserViewController: PartialTweetTableViewCellInteractionsHandler 
     }
     
     func partialTweetCellDidPressComment(_ cell: PartialTweetTableViewCell) {
-        switch state {
-        case .success(let paginated):
-            let tweet = paginated.page[cell.indexPath.row]
+        state.mapOnSuccess { paginatedTweets in
+            let tweet = paginatedTweets.page[cell.indexPath.row]
             
             navigationController?.openTweetViewController(
                 withTweet: tweet,
@@ -290,8 +361,8 @@ extension OtherUserViewController: PartialTweetTableViewCellInteractionsHandler 
                     autoFocus: true
                 )
             )
-        default:
-            break
+        } orElse: {
+            // Do nothing
         }
     }
     
@@ -308,19 +379,18 @@ extension OtherUserViewController: PartialTweetTableViewCellInteractionsHandler 
     }
     
     func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell) {
-        switch state {
-        case .success(let paginated):
+        state.mapOnSuccess { paginatedTweets in
             let alert = TweetOptionsAlertController.regular()
             
             alert.interactionsHandler = self
-            alert.configure(withTweet: paginated.page[cell.indexPath.row])
+            alert.configure(withTweet: paginatedTweets.page[cell.indexPath.row])
             
             present(
                 alert,
                 animated: true
             )
-        default:
-            break
+        } orElse: {
+            // Do nothing
         }
     }
 }

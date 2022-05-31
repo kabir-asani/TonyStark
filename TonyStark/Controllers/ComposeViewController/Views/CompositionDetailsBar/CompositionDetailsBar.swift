@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ComposeDetailsBar: TXView {
+class CompositionDetailsBar: TXView {
     // Declare
     private let countText: TXLabel = {
         let countText = TXLabel()

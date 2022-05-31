@@ -49,7 +49,7 @@ extension UITableView {
         }
     }
     
-    func addBufferOnHeader(withHeight height: Double) {
+    func appendSpacerOnHeader(withHeight height: Double = 0) {
         DispatchQueue.main.async {
             [weak self] in
             guard let strongSelf = self else {
@@ -69,7 +69,7 @@ extension UITableView {
         }
     }
     
-    func removeBufferOnHeader() {
+    func removeSpaceOnHeader() {
         DispatchQueue.main.async {
             [weak self] in
             guard let strongSelf = self else {
@@ -80,7 +80,7 @@ extension UITableView {
         }
     }
     
-    func addBufferOnFooter(withHeight height: Double) {
+    func appendSpacerOnFooter(withHeight height: Double = 100) {
         DispatchQueue.main.async {
             [weak self] in
             guard let strongSelf = self else {
@@ -100,7 +100,7 @@ extension UITableView {
         }
     }
     
-    func removeBufferOnFooter() {
+    func removeSpacerOnFooter() {
         DispatchQueue.main.async {
             [weak self] in
             guard let strongSelf = self else {
@@ -123,5 +123,24 @@ extension UITableView {
         cell.indexPath = indexPath
         
         return cell
+    }
+    
+    func appendSepartorToLastMostVisibleCell() {
+        if let lastMostVisibleCell = visibleCells.last {
+            appendSeparatorOnCell(lastMostVisibleCell)
+        }
+    }
+    
+    func removeSeparatorOnCell(
+        _ cell: UITableViewCell
+    ) {
+        cell.separatorInset = .leading(.infinity)
+    }
+    
+    func appendSeparatorOnCell(
+        _ cell: UITableViewCell,
+        withInset insets: UIEdgeInsets = .leading(20)
+    ) {
+        cell.separatorInset = insets
     }
 }

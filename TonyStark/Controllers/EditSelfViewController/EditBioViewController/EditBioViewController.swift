@@ -1,5 +1,5 @@
 //
-//  EditUsernameViewController.swift
+//  EditBioViewController.swift
 //  TonyStark
 //
 //  Created by Mohammed Sadiq on 01/05/22.
@@ -7,18 +7,22 @@
 
 import UIKit
 
-protocol EditUsernameViewControllerInteractionsHandler: AnyObject {
-    func editUsernameViewController(
-        _ controller: EditUsernameViewController,
-        didUpdateUsername username: String
+protocol EditBioViewControllerInteractionsHandler: AnyObject {
+    func editBioViewController(
+        _ controller: EditBioViewController,
+        didUpdateBio bio: String
     )
 }
 
-class EditUsernameViewController: TXViewController {
+class EditBioViewController: TXViewController {
     // Declare
-    weak var interactionsHandler: EditUsernameViewControllerInteractionsHandler?
+    enum EditBioTableViewSection: Int, CaseIterable {
+        case bio
+    }
     
-    private var username: String!
+    weak var interactionsHandler: EditBioViewControllerInteractionsHandler?
+    
+    private var bio: String!
     
     private let tableView: TXTableView = {
         let tableView = TXTableView(
@@ -57,8 +61,6 @@ class EditUsernameViewController: TXViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "Username"
-        
         navigationItem.rightBarButtonItem = TXBarButtonItem(
             barButtonSystemItem: .done,
             target: self,
@@ -70,12 +72,12 @@ class EditUsernameViewController: TXViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.addBufferOnHeader(withHeight: 0)
+        tableView.appendSpacerOnHeader()
         tableView.keyboardDismissMode = .onDrag
         
         tableView.register(
-            EditUsernameTableViewCell.self,
-            forCellReuseIdentifier: EditUsernameTableViewCell.reuseIdentifier
+            EditBioTableViewCell.self,
+            forCellReuseIdentifier: EditBioTableViewCell.reuseIdentifier
         )
         
         tableView.pin(
@@ -85,10 +87,12 @@ class EditUsernameViewController: TXViewController {
     }
     
     // Populate
-    func populate(withUsername username: String) {
-        self.username = username
+    func populate(withBio bio: String) {
+        self.bio = bio
         
-        if username.isEmpty {
+        navigationItem.title = "Bio (\(120 - bio.count))"
+        
+        if bio.isEmpty {
             navigationItem.rightBarButtonItem?.isEnabled = false
         } else {
             navigationItem.rightBarButtonItem?.isEnabled = true
@@ -97,19 +101,24 @@ class EditUsernameViewController: TXViewController {
     
     // Interact
     @objc private func onDonePressed(_ sender: TXBarButtonItem) {
-        // TOOD: Validate username
-        
-        interactionsHandler?.editUsernameViewController(
+        interactionsHandler?.editBioViewController(
             self,
-            didUpdateUsername: username
+            didUpdateBio: bio
         )
     }
 }
 
 // MARK: TXTableViewDataSource
-extension EditUsernameViewController: TXTableViewDataSource {
+extension EditBioViewController: TXTableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        EditBioTableViewSection.allCases.count
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        numberOfRowsInSection section: Int
+    ) -> Int {
+        1
     }
     
     func tableView(
@@ -117,8 +126,8 @@ extension EditUsernameViewController: TXTableViewDataSource {
         titleForFooterInSection section: Int
     ) -> String? {
         switch section {
-        case 0:
-            return "Username is a unique and cool way to identify yourself"
+        case EditBioTableViewSection.bio.rawValue:
+            return "Bio is a description of yourself"
         default:
             return nil
         }
@@ -126,43 +135,45 @@ extension EditUsernameViewController: TXTableViewDataSource {
     
     func tableView(
         _ tableView: UITableView,
-        numberOfRowsInSection section: Int
-    ) -> Int {
-        return 1
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
-            withIdentifier: EditUsernameTableViewCell.reuseIdentifier,
+            withIdentifier: EditBioTableViewCell.reuseIdentifier,
             assigning: indexPath
-        ) as! EditUsernameTableViewCell
+        ) as! EditBioTableViewCell
         
         cell.delegate = self
-        cell.configure(withText: username)
+        cell.configure(withText: bio)
         
         return cell
     }
 }
 
 // MARK: TXTextViewDelegate
-extension EditUsernameViewController: TXTableViewDelegate {
+extension EditBioViewController: TXTableViewDelegate {
     func tableView(
         _ tableView: UITableView,
         estimatedHeightForRowAt indexPath: IndexPath
     ) -> CGFloat {
-        return TXTableView.automaticDimension
+        TXTableView.automaticDimension
     }
 }
 
-// MARK: EditUsernameTableViewCellDelegate
-extension EditUsernameViewController: EditUsernameTableViewCellDelegate {
+// MARK: EditBioTableViewCellDelegate
+extension EditBioViewController: EditBioTableViewCellDelegate {
     func cell(
-        _ cell: EditUsernameTableViewCell,
+        _ cell: EditBioTableViewCell,
         didChangeText text: String
     ) {
-        populate(withUsername: text)
+        populate(withBio: text)
+        
+        tableView.beginUpdates()
+        tableView.endUpdates()
+        
+        tableView.scrollToRow(
+            at: cell.indexPath,
+            at: .bottom,
+            animated: true
+        )
     }
 }

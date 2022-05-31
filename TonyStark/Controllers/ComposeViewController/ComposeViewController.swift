@@ -27,8 +27,8 @@ class ComposeViewController: TXViewController {
         return separator
     }()
     
-    private let composeDetailsBar: ComposeDetailsBar = {
-        let composeDetailsBar = ComposeDetailsBar()
+    private let composeDetailsBar: CompositionDetailsBar = {
+        let composeDetailsBar = CompositionDetailsBar()
         
         composeDetailsBar.enableAutolayout()
         
@@ -149,6 +149,7 @@ class ComposeViewController: TXViewController {
     
     // Interact
     @objc private func onDonePressed(_ sender: UIBarButtonItem) {
+        print(#function)
     }
     
     @objc private func onCancelPressed(_ sender: UIBarButtonItem) {

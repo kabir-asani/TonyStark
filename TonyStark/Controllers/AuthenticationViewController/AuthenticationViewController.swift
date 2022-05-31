@@ -43,7 +43,7 @@ class AuthenticationViewController: TXViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.addBufferOnHeader(withHeight: 0)
+        tableView.appendSpacerOnHeader()
         
         tableView.register(
             TwitterXLogoTableViewCell.self,

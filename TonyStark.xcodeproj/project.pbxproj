@@ -25,7 +25,7 @@
 		160437CF27E1B77B00EA615F /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437CE27E1B77B00EA615F /* FeedViewController.swift */; };
 		160437D127E1B79300EA615F /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437D027E1B79300EA615F /* ExploreViewController.swift */; };
 		160437D327E1B7B100EA615F /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437D227E1B7B100EA615F /* NotificationsViewController.swift */; };
-		160437D527E1B7C200EA615F /* CurrentUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437D427E1B7C200EA615F /* CurrentUserViewController.swift */; };
+		160437D527E1B7C200EA615F /* SelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437D427E1B7C200EA615F /* SelfViewController.swift */; };
 		160437D727E1B83700EA615F /* TXPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437D627E1B83700EA615F /* TXPageControl.swift */; };
 		160437D927E1B87B00EA615F /* TXTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160437D827E1B87B00EA615F /* TXTabBarItem.swift */; };
 		1610D933280F351B00739208 /* PartialTweetTableViewCell+Trailing+Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D932280F351B00739208 /* PartialTweetTableViewCell+Trailing+Header.swift */; };
@@ -34,7 +34,7 @@
 		1610D93A280F358900739208 /* PartialTweetTableViewCell+Trailing+Footer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D939280F358900739208 /* PartialTweetTableViewCell+Trailing+Footer.swift */; };
 		1610D93D280F397300739208 /* TXColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D93C280F397300739208 /* TXColor.swift */; };
 		1610D943280F44E300739208 /* TweetOptionsAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D942280F44E300739208 /* TweetOptionsAlertController.swift */; };
-		1610D946280F49E200739208 /* EditUserDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D945280F49E200739208 /* EditUserDetailsViewController.swift */; };
+		1610D946280F49E200739208 /* EditSelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610D945280F49E200739208 /* EditSelfViewController.swift */; };
 		1611237B2806C75A00908D98 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1611237A2806C75A00908D98 /* User.swift */; };
 		1611237D2806C99500908D98 /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1611237C2806C99500908D98 /* Like.swift */; };
 		1611237F2806C9FD00908D98 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1611237E2806C9FD00908D98 /* Comment.swift */; };
@@ -135,7 +135,7 @@
 		16D3DFDE28166F710083B7E9 /* TweetTableViewCell+Header+Leading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFDD28166F710083B7E9 /* TweetTableViewCell+Header+Leading.swift */; };
 		16D3DFE028166F770083B7E9 /* TweetTableViewCell+Header+Middle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFDF28166F770083B7E9 /* TweetTableViewCell+Header+Middle.swift */; };
 		16D3DFE228166F800083B7E9 /* TweetTableViewCell+Header+Trailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D3DFE128166F800083B7E9 /* TweetTableViewCell+Header+Trailing.swift */; };
-		16D72C362844717800D13602 /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D72C352844717800D13602 /* CurrentUser.swift */; };
+		16D582122844DA1D0080C4F9 /* StateX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D582112844DA1D0080C4F9 /* StateX.swift */; };
 		16D8AACC281F118500EEC440 /* TXActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8AACB281F118500EEC440 /* TXActivityIndicatorView.swift */; };
 		16D8F976280D7BAE000545EC /* CurrentUserTableViewCell+Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F975280D7BAE000545EC /* CurrentUserTableViewCell+Header.swift */; };
 		16D8F978280D7BDD000545EC /* CurrentUserTableViewCell+Body.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8F977280D7BDD000545EC /* CurrentUserTableViewCell+Body.swift */; };
@@ -162,10 +162,10 @@
 		16E3C148282177E6009CC8E7 /* BookmarksDataStore+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E3C147282177E6009CC8E7 /* BookmarksDataStore+Request.swift */; };
 		16E3C14A282177EC009CC8E7 /* BookmarksDataStore+Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E3C149282177EC009CC8E7 /* BookmarksDataStore+Response.swift */; };
 		16E56676281BF0A00071100C /* Composer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E56675281BF0A00071100C /* Composer.swift */; };
-		16E5667F281C05B80071100C /* ComposeDetailsBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E5667E281C05B80071100C /* ComposeDetailsBar.swift */; };
+		16E5667F281C05B80071100C /* CompositionDetailsBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E5667E281C05B80071100C /* CompositionDetailsBar.swift */; };
 		16E56684281C2D5A0071100C /* SearchDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E56683281C2D5A0071100C /* SearchDataStore.swift */; };
 		16F219FE281BDC160013A750 /* FollowersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F219FD281BDC160013A750 /* FollowersViewController.swift */; };
-		16F21A01281BDC2F0013A750 /* FollowingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F21A00281BDC2F0013A750 /* FollowingsViewController.swift */; };
+		16F21A01281BDC2F0013A750 /* FolloweesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F21A00281BDC2F0013A750 /* FolloweesViewController.swift */; };
 		16FDA06F280FF367004BB3C4 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA06E280FF367004BB3C4 /* CommentTableViewCell.swift */; };
 		16FDA072280FF45B004BB3C4 /* CommentTableViewCell+Leading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA071280FF45B004BB3C4 /* CommentTableViewCell+Leading.swift */; };
 		16FDA075280FF465004BB3C4 /* CommentTableViewCell+Trailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA074280FF465004BB3C4 /* CommentTableViewCell+Trailing.swift */; };
@@ -194,7 +194,7 @@
 		160437CE27E1B77B00EA615F /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		160437D027E1B79300EA615F /* ExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
 		160437D227E1B7B100EA615F /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
-		160437D427E1B7C200EA615F /* CurrentUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserViewController.swift; sourceTree = "<group>"; };
+		160437D427E1B7C200EA615F /* SelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfViewController.swift; sourceTree = "<group>"; };
 		160437D627E1B83700EA615F /* TXPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXPageControl.swift; sourceTree = "<group>"; };
 		160437D827E1B87B00EA615F /* TXTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTabBarItem.swift; sourceTree = "<group>"; };
 		1610D932280F351B00739208 /* PartialTweetTableViewCell+Trailing+Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialTweetTableViewCell+Trailing+Header.swift"; sourceTree = "<group>"; };
@@ -203,7 +203,7 @@
 		1610D939280F358900739208 /* PartialTweetTableViewCell+Trailing+Footer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialTweetTableViewCell+Trailing+Footer.swift"; sourceTree = "<group>"; };
 		1610D93C280F397300739208 /* TXColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXColor.swift; sourceTree = "<group>"; };
 		1610D942280F44E300739208 /* TweetOptionsAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetOptionsAlertController.swift; sourceTree = "<group>"; };
-		1610D945280F49E200739208 /* EditUserDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserDetailsViewController.swift; sourceTree = "<group>"; };
+		1610D945280F49E200739208 /* EditSelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSelfViewController.swift; sourceTree = "<group>"; };
 		1611237A2806C75A00908D98 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1611237C2806C99500908D98 /* Like.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
 		1611237E2806C9FD00908D98 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -306,7 +306,7 @@
 		16D3DFDD28166F710083B7E9 /* TweetTableViewCell+Header+Leading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetTableViewCell+Header+Leading.swift"; sourceTree = "<group>"; };
 		16D3DFDF28166F770083B7E9 /* TweetTableViewCell+Header+Middle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetTableViewCell+Header+Middle.swift"; sourceTree = "<group>"; };
 		16D3DFE128166F800083B7E9 /* TweetTableViewCell+Header+Trailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetTableViewCell+Header+Trailing.swift"; sourceTree = "<group>"; };
-		16D72C352844717800D13602 /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
+		16D582112844DA1D0080C4F9 /* StateX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateX.swift; sourceTree = "<group>"; };
 		16D8AACB281F118500EEC440 /* TXActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXActivityIndicatorView.swift; sourceTree = "<group>"; };
 		16D8F975280D7BAE000545EC /* CurrentUserTableViewCell+Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrentUserTableViewCell+Header.swift"; sourceTree = "<group>"; };
 		16D8F977280D7BDD000545EC /* CurrentUserTableViewCell+Body.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrentUserTableViewCell+Body.swift"; sourceTree = "<group>"; };
@@ -333,10 +333,10 @@
 		16E3C147282177E6009CC8E7 /* BookmarksDataStore+Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BookmarksDataStore+Request.swift"; sourceTree = "<group>"; };
 		16E3C149282177EC009CC8E7 /* BookmarksDataStore+Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BookmarksDataStore+Response.swift"; sourceTree = "<group>"; };
 		16E56675281BF0A00071100C /* Composer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Composer.swift; sourceTree = "<group>"; };
-		16E5667E281C05B80071100C /* ComposeDetailsBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeDetailsBar.swift; sourceTree = "<group>"; };
+		16E5667E281C05B80071100C /* CompositionDetailsBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionDetailsBar.swift; sourceTree = "<group>"; };
 		16E56683281C2D5A0071100C /* SearchDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataStore.swift; sourceTree = "<group>"; };
 		16F219FD281BDC160013A750 /* FollowersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersViewController.swift; sourceTree = "<group>"; };
-		16F21A00281BDC2F0013A750 /* FollowingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingsViewController.swift; sourceTree = "<group>"; };
+		16F21A00281BDC2F0013A750 /* FolloweesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolloweesViewController.swift; sourceTree = "<group>"; };
 		16FDA06E280FF367004BB3C4 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		16FDA071280FF45B004BB3C4 /* CommentTableViewCell+Leading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CommentTableViewCell+Leading.swift"; sourceTree = "<group>"; };
 		16FDA074280FF465004BB3C4 /* CommentTableViewCell+Trailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CommentTableViewCell+Trailing.swift"; sourceTree = "<group>"; };
@@ -368,17 +368,16 @@
 		160437A527E1AD7200EA615F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				160437A827E1AD8900EA615F /* CoreViewControllers */,
 				1696A07D281D73ED00C88604 /* RunnerViewController */,
 				162C3797281D22D9000A8C0C /* AuthenticationViewController */,
 				160437C427E1B62D00EA615F /* HomeViewController */,
-				1610D944280F49D100739208 /* EditUserDetailsViewController */,
+				1610D944280F49D100739208 /* EditSelfViewController */,
 				16BB01152813A52000532323 /* OtherUserViewController */,
 				160437C927E1B70600EA615F /* ComposeViewController */,
 				16CFD1C528172DF90020341B /* TweetViewController */,
 				161347E1281942C2004AA245 /* BookmarksViewController */,
 				163D2DAC281927C700CE5646 /* LikesViewController */,
-				16F219FF281BDC1F0013A750 /* FollowingsViewController */,
+				16F219FF281BDC1F0013A750 /* FolloweesViewController */,
 				16F219FC281BDC010013A750 /* FollowersViewController */,
 				1610D940280F44D100739208 /* TweetOptionsAlertViewController */,
 			);
@@ -389,7 +388,6 @@
 			isa = PBXGroup;
 			children = (
 				161123882806D29600908D98 /* Session.swift */,
-				16D72C352844717800D13602 /* CurrentUser.swift */,
 				1611237A2806C75A00908D98 /* User.swift */,
 				16DEB9552806089E00140E63 /* Tweet.swift */,
 				1611237E2806C9FD00908D98 /* Comment.swift */,
@@ -501,7 +499,7 @@
 			isa = PBXGroup;
 			children = (
 				166C324D281E8247009D6961 /* Views */,
-				160437D427E1B7C200EA615F /* CurrentUserViewController.swift */,
+				160437D427E1B7C200EA615F /* SelfViewController.swift */,
 			);
 			path = CurrentUserViewController;
 			sourceTree = "<group>";
@@ -600,15 +598,15 @@
 			path = TweetOptionsAlertViewController;
 			sourceTree = "<group>";
 		};
-		1610D944280F49D100739208 /* EditUserDetailsViewController */ = {
+		1610D944280F49D100739208 /* EditSelfViewController */ = {
 			isa = PBXGroup;
 			children = (
 				166C324B281E8142009D6961 /* Views */,
 				166C325C281E854D009D6961 /* EditBioViewController */,
 				166C3248281E7F14009D6961 /* EditUsernameViewController */,
-				1610D945280F49E200739208 /* EditUserDetailsViewController.swift */,
+				1610D945280F49E200739208 /* EditSelfViewController.swift */,
 			);
-			path = EditUserDetailsViewController;
+			path = EditSelfViewController;
 			sourceTree = "<group>";
 		};
 		161250E527DBB56E006BCE5A = {
@@ -630,6 +628,7 @@
 		161250F027DBB56E006BCE5A /* TonyStark */ = {
 			isa = PBXGroup;
 			children = (
+				16D582132844DAB20080C4F9 /* Core */,
 				16C45FF127E76F2100F592A2 /* Utilities */,
 				16DEB94D2806079E00140E63 /* DataStrores */,
 				160437A727E1AD8400EA615F /* Models */,
@@ -697,7 +696,6 @@
 		1618F8EB2822EB7300C1358E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1691E450280EA8BD00BA223D /* Core */,
 				1618F8E72822E4F100C1358E /* FloatingButton */,
 				168992A5281B134A00D5D85C /* AvatarImage */,
 				16BB01142813A2D400532323 /* SocialDetails */,
@@ -879,7 +877,7 @@
 			path = PartialTweetTableViewCell;
 			sourceTree = "<group>";
 		};
-		16308639280883810061BE31 /* Extensions */ = {
+		16308639280883810061BE31 /* TXExtensions */ = {
 			isa = PBXGroup;
 			children = (
 				1630863A280883900061BE31 /* UIViewX.swift */,
@@ -889,8 +887,9 @@
 				16D3C5E12810306100B8A2CC /* DateX.swift */,
 				167224D5281BC73C005D79EB /* ResultX.swift */,
 				16237AF0281FB49600837064 /* StringX.swift */,
+				16D582112844DA1D0080C4F9 /* StateX.swift */,
 			);
-			path = Extensions;
+			path = TXExtensions;
 			sourceTree = "<group>";
 		};
 		163A09F12823B8EE008CDCED /* TXPresentationController */ = {
@@ -1119,7 +1118,7 @@
 			isa = PBXGroup;
 			children = (
 				16E56674281BF0980071100C /* Composer */,
-				16E5667D281C05AA0071100C /* ComposeDetailsBar */,
+				16E5667D281C05AA0071100C /* CompositionDetailsBar */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1220,7 +1219,7 @@
 			path = AvatarImage;
 			sourceTree = "<group>";
 		};
-		1691E450280EA8BD00BA223D /* Core */ = {
+		1691E450280EA8BD00BA223D /* CoreViews */ = {
 			isa = PBXGroup;
 			children = (
 				16021ACB2823C36100C28EAD /* TXRefreshControl */,
@@ -1247,7 +1246,7 @@
 				16993CDA280C443400FFE71B /* TXSegmentedControl */,
 				164828CF2815C1AA002C6C06 /* TXPageControl */,
 			);
-			path = Core;
+			path = CoreViews;
 			sourceTree = "<group>";
 		};
 		1691E451280EA8CE00BA223D /* TXView */ = {
@@ -1398,7 +1397,7 @@
 		16C45FF127E76F2100F592A2 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				16308639280883810061BE31 /* Extensions */,
+				16308639280883810061BE31 /* TXExtensions */,
 				164828D62815D665002C6C06 /* TXBundledImage */,
 				16D3C5E32810313D00B8A2CC /* TXEventBroker */,
 				16D237AB28019A4C00FD1DC4 /* TXLocalStorageAssistant */,
@@ -1460,14 +1459,6 @@
 			path = TXEventBroker;
 			sourceTree = "<group>";
 		};
-		16D3C5E62810347000B8A2CC /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				16D3C5E72810347400B8A2CC /* DataStore.swift */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
 		16D3DFD028166CCE0083B7E9 /* TweetTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1508,6 +1499,15 @@
 			path = "TweetTableViewCell+Header";
 			sourceTree = "<group>";
 		};
+		16D582132844DAB20080C4F9 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				160437A827E1AD8900EA615F /* CoreViewControllers */,
+				1691E450280EA8BD00BA223D /* CoreViews */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		16D8AACA281F117D00EEC440 /* TXActivityIndicatorView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1535,7 +1535,7 @@
 		16DEB94D2806079E00140E63 /* DataStrores */ = {
 			isa = PBXGroup;
 			children = (
-				16D3C5E62810347000B8A2CC /* Core */,
+				16D3C5E72810347400B8A2CC /* DataStore.swift */,
 				16C03C592821172900E7005B /* CurrentUserDataStore */,
 				16DEB9532806082200140E63 /* FeedDataStore */,
 				16DEB9522806081700140E63 /* TweetsDataStore */,
@@ -1597,12 +1597,12 @@
 			path = Composer;
 			sourceTree = "<group>";
 		};
-		16E5667D281C05AA0071100C /* ComposeDetailsBar */ = {
+		16E5667D281C05AA0071100C /* CompositionDetailsBar */ = {
 			isa = PBXGroup;
 			children = (
-				16E5667E281C05B80071100C /* ComposeDetailsBar.swift */,
+				16E5667E281C05B80071100C /* CompositionDetailsBar.swift */,
 			);
-			path = ComposeDetailsBar;
+			path = CompositionDetailsBar;
 			sourceTree = "<group>";
 		};
 		16F219FC281BDC010013A750 /* FollowersViewController */ = {
@@ -1613,12 +1613,12 @@
 			path = FollowersViewController;
 			sourceTree = "<group>";
 		};
-		16F219FF281BDC1F0013A750 /* FollowingsViewController */ = {
+		16F219FF281BDC1F0013A750 /* FolloweesViewController */ = {
 			isa = PBXGroup;
 			children = (
-				16F21A00281BDC2F0013A750 /* FollowingsViewController.swift */,
+				16F21A00281BDC2F0013A750 /* FolloweesViewController.swift */,
 			);
-			path = FollowingsViewController;
+			path = FolloweesViewController;
 			sourceTree = "<group>";
 		};
 		16FDA06D280FF359004BB3C4 /* CommentTableViewCell */ = {
@@ -1805,7 +1805,7 @@
 				16993CD9280C42CD00FFE71B /* CurrentUserTableViewCell.swift in Sources */,
 				16E3C14028217451009CC8E7 /* LikesDataStore+Request.swift in Sources */,
 				161347E628194DE1004AA245 /* BookmarksDataStore.swift in Sources */,
-				160437D527E1B7C200EA615F /* CurrentUserViewController.swift in Sources */,
+				160437D527E1B7C200EA615F /* SelfViewController.swift in Sources */,
 				16BB01132813A2B800532323 /* OtherUserTableViewCell+Header.swift in Sources */,
 				16308638280881810061BE31 /* PartialTweetTableViewCell.swift in Sources */,
 				164828D22815C96E002C6C06 /* TXMenu.swift in Sources */,
@@ -1823,7 +1823,6 @@
 				165E54F227E77F9C00D3BA0D /* TXImageProvider.swift in Sources */,
 				1610D933280F351B00739208 /* PartialTweetTableViewCell+Trailing+Header.swift in Sources */,
 				1610D93A280F358900739208 /* PartialTweetTableViewCell+Trailing+Footer.swift in Sources */,
-				16D72C362844717800D13602 /* CurrentUser.swift in Sources */,
 				160437AD27E1ADE700EA615F /* TXTabBarController.swift in Sources */,
 				161123832806CAC300908D98 /* Social.swift in Sources */,
 				16FDA07A280FF5B7004BB3C4 /* CommentTableViewCell+Trailing+Footer.swift in Sources */,
@@ -1850,10 +1849,11 @@
 				165ED0282811D4770022D822 /* CommentInputBar.swift in Sources */,
 				160437AB27E1ADCF00EA615F /* TXNavigationController.swift in Sources */,
 				163D2DA428191DDC00CE5646 /* PartialUserTableViewCell+Trailing+Header+Leading.swift in Sources */,
-				16E5667F281C05B80071100C /* ComposeDetailsBar.swift in Sources */,
+				16E5667F281C05B80071100C /* CompositionDetailsBar.swift in Sources */,
 				167DE008280D569400670BAD /* PartialTweetTableViewCell+Leading.swift in Sources */,
 				16E3C13828217223009CC8E7 /* TweetsDataStore+Request.swift in Sources */,
 				16E56684281C2D5A0071100C /* SearchDataStore.swift in Sources */,
+				16D582122844DA1D0080C4F9 /* StateX.swift in Sources */,
 				16D8F976280D7BAE000545EC /* CurrentUserTableViewCell+Header.swift in Sources */,
 				16493D232812B56D004912BB /* UIEdgeInsetsX.swift in Sources */,
 				160437CF27E1B77B00EA615F /* FeedViewController.swift in Sources */,
@@ -1868,7 +1868,7 @@
 				16E3C13E28217339009CC8E7 /* CommentsDataStore+Response.swift in Sources */,
 				163D2DAE281927D200CE5646 /* LikesViewController.swift in Sources */,
 				16D3DFDE28166F710083B7E9 /* TweetTableViewCell+Header+Leading.swift in Sources */,
-				1610D946280F49E200739208 /* EditUserDetailsViewController.swift in Sources */,
+				1610D946280F49E200739208 /* EditSelfViewController.swift in Sources */,
 				1630863B280883900061BE31 /* UIViewX.swift in Sources */,
 				16BB010D28139E3600532323 /* OtherUserTableViewCell.swift in Sources */,
 				165ED02B2811D4A60022D822 /* TXTextField.swift in Sources */,
@@ -1886,7 +1886,7 @@
 				16021AC62823BC5D00C28EAD /* NotificationsDataStore+Request.swift in Sources */,
 				16BB010F2813A2AB00532323 /* OtherUserTableViewCell+Footer.swift in Sources */,
 				160437C127E1B0DE00EA615F /* TXPageViewController.swift in Sources */,
-				16F21A01281BDC2F0013A750 /* FollowingsViewController.swift in Sources */,
+				16F21A01281BDC2F0013A750 /* FolloweesViewController.swift in Sources */,
 				1610D943280F44E300739208 /* TweetOptionsAlertController.swift in Sources */,
 				16021ACD2823C36A00C28EAD /* TXRefreshControl.swift in Sources */,
 				16E3C14228217455009CC8E7 /* LikesDataStore+Response.swift in Sources */,

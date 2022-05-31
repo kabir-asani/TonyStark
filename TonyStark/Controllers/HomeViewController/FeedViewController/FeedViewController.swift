@@ -11,15 +11,13 @@ class ComposeTweetEvent: TXEvent {
     
 }
 
-enum FeedViewControllerState {
-    case success(data: Paginated<Tweet>)
-    case failure(reason: FeedFailure)
-    case processing
-}
-
 class FeedViewController: TXViewController {
     // Declare
-    private var state: FeedViewControllerState = .processing
+    enum FeedTableViewSection: Int, CaseIterable {
+        case tweets = 0
+    }
+    
+    private var state: State<Paginated<Tweet>, FeedFailure> = .processing
     
     private let tableView: TXTableView = {
         let tableView = TXTableView()
@@ -87,7 +85,7 @@ class FeedViewController: TXViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.addBufferOnHeader(withHeight: 0)
+        tableView.appendSpacerOnHeader()
         
         tableView.register(
             PartialTweetTableViewCell.self,
@@ -138,10 +136,6 @@ class FeedViewController: TXViewController {
         openComposeViewController()
     }
     
-    @objc private func onRefreshControllerChanged(_ refreshControl: TXRefreshControl) {
-        populateTableView()
-    }
-    
     private func openComposeViewController() {
         let composeViewController = TXNavigationController(
             rootViewController: ComposeViewController()
@@ -156,82 +150,108 @@ class FeedViewController: TXViewController {
 // MARK: TXTableViewDataSource
 extension FeedViewController: TXTableViewDataSource {
     private func populateTableView() {
-        tableView.beginRefreshing()
-        
         Task {
             [weak self] in
             guard let strongSelf = self else {
                 return
             }
             
-            let result = await FeedDataStore.shared.feed()
+            strongSelf.tableView.beginPaginating()
+            
+            let feedResult = await FeedDataStore.shared.feed()
+            
+            strongSelf.tableView.endPaginating()
+            
+            feedResult.map { paginatedFeed in
+                strongSelf.state = .success(data: paginatedFeed)
+                strongSelf.tableView.appendSpacerOnFooter()
+            } onFailure: { cause in
+                strongSelf.state = .failure(cause: cause)
+                strongSelf.tableView.removeSpacerOnFooter()
+            }
+            
+            strongSelf.tableView.reloadData()
+        }
+    }
+    
+    private func refreshTableView() {
+        Task {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.tableView.beginRefreshing()
+            
+            let feedResult = await FeedDataStore.shared.feed()
             
             strongSelf.tableView.endRefreshing()
             
-            switch result {
-            case .success(let latestFeed):
-                strongSelf.state = .success(data: latestFeed)
-                
-                strongSelf.tableView.reloadData()
-                strongSelf.tableView.addBufferOnFooter(withHeight: 100)
-            case .failure(let reason):
-                strongSelf.state = .failure(reason: reason)
+            feedResult.map { paginatedFeed in
+                strongSelf.state = .success(data: paginatedFeed)
+                strongSelf.tableView.appendSpacerOnFooter()
+            } onFailure: { cause in
+                strongSelf.state = .failure(cause: cause)
+                strongSelf.tableView.removeSpacerOnFooter()
             }
+            
+            strongSelf.tableView.reloadData()
         }
     }
     
     private func extendTableView() {
-        switch state {
-        case .success(let previousPaginated):
-            if let nextToken = previousPaginated.nextToken {
-                tableView.beginPaginating()
+        state.mapOnSuccess { previousPaginated in
+            guard let nextToken = previousPaginated.nextToken else {
+                return
+            }
+            
+            Task {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
                 
-                Task {
-                    [weak self] in
-                    guard let strongSelf = self else {
-                        return
-                    }
+                strongSelf.tableView.beginPaginating()
+                
+                let feedResult = await FeedDataStore.shared.feed(after: nextToken)
+                
+                strongSelf.tableView.endPaginating()
+                
+                feedResult.map { latestPaginatedFeed in
+                    let updatedPaginatedFeed = Paginated<Tweet>(
+                        page: previousPaginated.page + latestPaginatedFeed.page,
+                        nextToken: latestPaginatedFeed.nextToken
+                    )
                     
-                    let result = await FeedDataStore.shared.feed(after: nextToken)
+                    strongSelf.state = .success(data: updatedPaginatedFeed)
                     
-                    strongSelf.tableView.endPaginating()
+                    strongSelf.tableView.reloadData()
+                    strongSelf.tableView.appendSpacerOnFooter()
                     
-                    switch result {
-                    case .success(let latestPaginated):
-                        let updatedPaginated = Paginated<Tweet>(
-                            page: previousPaginated.page + latestPaginated.page,
-                            nextToken: latestPaginated.nextToken
-                        )
-                        
-                        strongSelf.state = .success(data: updatedPaginated)
-                        
-                        strongSelf.tableView.reloadData()
-                        strongSelf.tableView.addBufferOnFooter(withHeight: 100)
-                    case .failure(let reason):
-                        strongSelf.state = .failure(reason: reason)
-                    }
+                    strongSelf.tableView.appendSepartorToLastMostVisibleCell()
+                } onFailure: { cause in
+                    // TODO: Communicate via SnackBar
                 }
             }
-        default:
-            break
+        } orElse: {
+            // Do nothing
         }
     }
     
     func numberOfSections(
         in tableView: UITableView
     ) -> Int {
-        return 1
+        FeedTableViewSection.allCases.count
     }
     
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        switch state {
-        case .success(let paginated):
-            return paginated.page.count
-        default:
-            return 0
+        state.mapOnSuccess { paginatedFeed in
+            paginatedFeed.page.count
+        } orElse: {
+            0
         }
     }
     
@@ -239,19 +259,18 @@ extension FeedViewController: TXTableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        switch state {
-        case .success(let paginated):
+        state.mapOnSuccess { paginatedFeed in
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
                 assigning: indexPath
             ) as! PartialTweetTableViewCell
             
             cell.interactionsHandler = self
-            cell.configure(withTweet: paginated.page[indexPath.row])
+            cell.configure(withTweet: paginatedFeed.page[indexPath.row])
             
             return cell
-        default:
-            return UITableViewCell()
+        } orElse: {
+            TXTableViewCell()
         }
     }
 }
@@ -263,8 +282,12 @@ extension FeedViewController: TXTableViewDelegate {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
+        if indexPath.row == tableView.numberOfRows(inSection: FeedTableViewSection.tweets.rawValue) - 1 {
+            tableView.removeSeparatorOnCell(cell)
+            
             extendTableView()
+        } else {
+            tableView.appendSeparatorOnCell(cell)
         }
     }
     
@@ -272,15 +295,20 @@ extension FeedViewController: TXTableViewDelegate {
         _ tableView: UITableView,
         estimatedHeightForRowAt indexPath: IndexPath
     ) -> CGFloat {
-        return UITableView.automaticDimension
+        UITableView.automaticDimension
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        tableView.deselectRow(
+            at: indexPath,
+            animated: true
+        )
         
-        switch state {
-        case .success(let paginated):
-            let tweet = paginated.page[indexPath.row]
+        state.mapOnSuccess { paginatedFeed in
+            let tweet = paginatedFeed.page[indexPath.row]
             
             let tweetViewController = TweetViewController()
             
@@ -290,8 +318,8 @@ extension FeedViewController: TXTableViewDelegate {
                 tweetViewController,
                 animated: true
             )
-        default:
-            break
+        } orElse: {
+            // Do nothing
         }
     }
 }
@@ -300,7 +328,7 @@ extension FeedViewController: TXTableViewDelegate {
 extension FeedViewController: TXRefreshControlDelegate {
     func refreshControlDidChange(_ control: TXRefreshControl) {
         if control.isRefreshing {
-            populateTableView()
+            refreshTableView()
         }
     }
 }
@@ -312,9 +340,8 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
     }
     
     func partialTweetCellDidPressComment(_ cell: PartialTweetTableViewCell) {
-        switch state {
-        case .success(let paginated):
-            let tweet = paginated.page[cell.indexPath.row]
+        state.mapOnSuccess { paginatedFeed in
+            let tweet = paginatedFeed.page[cell.indexPath.row]
             
             navigationController?.openTweetViewController(
                 withTweet: tweet,
@@ -322,21 +349,21 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
                     autoFocus: true
                 )
             )
-        default:
-            break
+        } orElse: {
+            // Do nothing
         }
+
     }
     
     func partialTweetCellDidPressProfileImage(_ cell: PartialTweetTableViewCell) {
-        switch state {
-        case .success(let paginated):
-            let tweet = paginated.page[cell.indexPath.row]
+        state.mapOnSuccess { paginatedFeed in
+            let tweet = paginatedFeed.page[cell.indexPath.row]
             
             let user = tweet.author
             
             navigationController?.openUserViewController(withUser: user)
-        default:
-            break
+        } orElse: {
+            // Do nothing
         }
     }
     
@@ -349,19 +376,18 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
     }
     
     func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell) {
-        switch state {
-        case .success(let paginated):
+        state.mapOnSuccess { paginatedFeed in
             let alert = TweetOptionsAlertController.regular()
             
             alert.interactionsHandler = self
-            alert.configure(withTweet: paginated.page[cell.indexPath.row])
+            alert.configure(withTweet: paginatedFeed.page[cell.indexPath.row])
             
             present(
                 alert,
                 animated: true
             )
-        default:
-            break
+        } orElse: {
+            // Do nothing
         }
     }
 }

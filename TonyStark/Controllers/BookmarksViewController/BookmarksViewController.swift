@@ -8,21 +8,19 @@
 import UIKit
 
 class BookmarksViewController: TXViewController {
-    private var state: Result<Paginated<Tweet>, BookmarksFailure> = .success(.default())
-    
     // Declare
+    enum BookmarksTableViewSection: Int, CaseIterable {
+        case bookmarks
+    }
+    
+    private var state: State<Paginated<Bookmark>, BookmarksFailure> = .processing
+    
     private let tableView: TXTableView = {
         let tableView = TXTableView()
         
         tableView.enableAutolayout()
         
         return tableView
-    }()
-    
-    private let refreshControl: TXRefreshControl = {
-        let refreshControl = TXRefreshControl()
-        
-        return refreshControl
     }()
     
     // Configure
@@ -51,8 +49,7 @@ class BookmarksViewController: TXViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.addBufferOnHeader(withHeight: 0)
-        tableView.refreshControl = refreshControl
+        tableView.appendSpacerOnHeader()
         
         tableView.register(
             PartialTweetTableViewCell.self,
@@ -66,54 +63,115 @@ class BookmarksViewController: TXViewController {
     }
     
     private func configureRefreshControl() {
-        refreshControl.addTarget(
-            self,
-            action: #selector(onRefreshControllerChanged(_:)),
-            for: .valueChanged
-        )
+        let refreshControl = TXRefreshControl()
+        refreshControl.delegate = self
+            
+        tableView.refreshControl = refreshControl
     }
     
     // Populate
     
     // Interact
-    @objc private func onRefreshControllerChanged(_ refreshControl: TXRefreshControl) {
-        if refreshControl.isRefreshing {
-            refreshControl.endRefreshing()
-        } else {
-            // TODO: Add refresh logic
-        }
-    }
 }
 
 // MARK: TXTableViewDataSource
 extension BookmarksViewController: TXTableViewDataSource {
-    func populateTableView() {
+    private func populateTableView() {
         Task {
             [weak self] in
             guard let strongSelf = self else {
                 return
             }
             
-            let result = await BookmarksDataStore.shared.bookmarks()
+            strongSelf.tableView.beginPaginating()
             
-            strongSelf.state = result
-            strongSelf.tableView.reloadData()
+            let bookmarksResult = await BookmarksDataStore.shared.bookmarks()
+            
+            strongSelf.tableView.endPaginating()
+            
+            bookmarksResult.map { paginatedBookmarks in
+                strongSelf.state = .success(data: paginatedBookmarks)
+                strongSelf.tableView.reloadData()
+            } onFailure: { cause in
+                strongSelf.state = .failure(cause: cause)
+            }
         }
     }
     
+    private func refreshTableView() {
+        Task {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.tableView.beginRefreshing()
+            
+            let bookmarksResult = await BookmarksDataStore.shared.bookmarks()
+            
+            strongSelf.tableView.endRefreshing()
+            
+            bookmarksResult.map { paginatedBookmarks in
+                strongSelf.state = .success(data: paginatedBookmarks)
+                strongSelf.tableView.reloadData()
+            } onFailure: { cause in
+                strongSelf.state = .failure(cause: cause)
+            }
+        }
+    }
+    
+    private func extendTableView() {
+        state.mapOnSuccess { previousPaginatedBookmarks in
+            guard let nextToken = previousPaginatedBookmarks.nextToken else {
+                return
+            }
+            
+            Task {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.tableView.beginPaginating()
+                
+                let bookmarksResult = await BookmarksDataStore.shared.bookmarks(
+                    after: nextToken
+                )
+                
+                strongSelf.tableView.endPaginating()
+                
+                bookmarksResult.map { latestPaginatedBookmarks in
+                    let updatedPaginatedBookmarks = Paginated<Bookmark>(
+                        page: previousPaginatedBookmarks.page + latestPaginatedBookmarks.page,
+                        nextToken: latestPaginatedBookmarks.nextToken
+                    )
+                    
+                    strongSelf.tableView.appendSepartorToLastMostVisibleCell()
+                    
+                    strongSelf.state = .success(data: updatedPaginatedBookmarks)
+                    strongSelf.tableView.reloadData()
+                } onFailure: { cause in
+                    // TODO: Communicate via SnackBar
+                }
+            }
+        } orElse: {
+            // Do nothing
+        }
+    }
+    
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        BookmarksTableViewSection.allCases.count
     }
     
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        switch state {
-        case .success(let paginated):
-            return paginated.page.count
-        default:
-            return 0
+        state.mapOnSuccess { paginatedBookmarks in
+            paginatedBookmarks.page.count
+        } orElse: {
+            0
         }
     }
     
@@ -121,21 +179,20 @@ extension BookmarksViewController: TXTableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        switch state {
-        case .success(let paginated):
+        state.mapOnSuccess { paginatedBookmarks in
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
                 assigning: indexPath
             ) as! PartialTweetTableViewCell
             
-            let tweet = paginated.page[indexPath.row]
+            let bookmark = paginatedBookmarks.page[indexPath.row]
             
             cell.interactionsHandler = self
-            cell.configure(withTweet: tweet)
+            cell.configure(withTweet: bookmark.tweet)
             
             return cell
-        default:
-            return UITableViewCell()
+        } orElse: {
+            TXTableViewCell()
         }
     }
 }
@@ -147,8 +204,12 @@ extension BookmarksViewController: TXTableViewDelegate {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
-            cell.separatorInset = .leading(.infinity)
+        if indexPath.row == tableView.numberOfRows(inSection: BookmarksTableViewSection.bookmarks.rawValue) - 1 {
+            tableView.removeSeparatorOnCell(cell)
+            
+            extendTableView()
+        } else {
+            tableView.appendSeparatorOnCell(cell)
         }
     }
     
@@ -156,53 +217,58 @@ extension BookmarksViewController: TXTableViewDelegate {
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
-        print(#function)
         tableView.deselectRow(
             at: indexPath,
             animated: true
         )
         
-        switch state {
-        case .success(let paginated):
-            let tweet = paginated.page[indexPath.row]
+        state.mapOnSuccess { paginatedBookmarks in
+            let bookmark = paginatedBookmarks.page[indexPath.row]
             
-            navigationController?.openTweetViewController(withTweet: tweet)
-        default:
-            print("default")
-            break
+            navigationController?.openTweetViewController(withTweet: bookmark.tweet)
+        } orElse: {
+            // Do nothing
         }
     }
 }
 
+// MARK: TXRefreshControlDelegate
+extension BookmarksViewController: TXRefreshControlDelegate {
+    func refreshControlDidChange(_ control: TXRefreshControl) {
+        if control.isRefreshing {
+            refreshTableView()
+        }
+    }
+}
+
+// MARK: PartialTweetTableViewCellInteractionsHandler
 extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler {
     func partialTweetCellDidPressLike(_ cell: PartialTweetTableViewCell) {
         print(#function)
     }
     
     func partialTweetCellDidPressComment(_ cell: PartialTweetTableViewCell) {
-        switch state {
-        case .success(let paginated):
-            let tweet = paginated.page[cell.indexPath.row]
+        state.mapOnSuccess { paginatedBookmarks in
+            let bookmark = paginatedBookmarks.page[cell.indexPath.row]
             
             navigationController?.openTweetViewController(
-                withTweet: tweet,
+                withTweet: bookmark.tweet,
                 andOptions: .init(
                     autoFocus: true
                 )
             )
-        default:
-            break
+        } orElse: {
+            // Do nothing
         }
     }
     
     func partialTweetCellDidPressProfileImage(_ cell: PartialTweetTableViewCell) {
-        switch state {
-        case .success(let paginated):
-            let author = paginated.page[cell.indexPath.row].author
+        state.mapOnSuccess { paginatedBookmarks in
+            let bookmark = paginatedBookmarks.page[cell.indexPath.row]
             
-            navigationController?.openUserViewController(withUser: author)
-        default:
-            break
+            navigationController?.openUserViewController(withUser: bookmark.tweet.author)
+        } orElse: {
+            // Do nothing
         }
     }
     
@@ -215,19 +281,20 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
     }
     
     func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell) {
-        switch state {
-        case .success(let paginated):
+        state.mapOnSuccess { paginatedBookmarks in
+            let bookmark = paginatedBookmarks.page[cell.indexPath.row]
+            
             let alert = TweetOptionsAlertController.regular()
             
             alert.interactionsHandler = self
-            alert.configure(withTweet: paginated.page[cell.indexPath.row])
+            alert.configure(withTweet: bookmark.tweet)
             
             present(
                 alert,
                 animated: true
             )
-        default:
-            break
+        } orElse: {
+            // Do nothing
         }
     }
 }

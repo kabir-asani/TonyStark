@@ -9,12 +9,6 @@ import UIKit
 
 class NotificationsViewController: TXViewController {
     // Declare
-    private let refreshControl: TXRefreshControl = {
-        let refreshControl = TXRefreshControl()
-        
-        return refreshControl
-    }()
-    
     private let tableView: TXTableView = {
         let tableView = TXTableView()
         
@@ -47,14 +41,12 @@ class NotificationsViewController: TXViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.refreshControl = refreshControl
-        
         tableView.register(
             PartialTweetTableViewCell.self,
             forCellReuseIdentifier: PartialTweetTableViewCell.reuseIdentifier
         )
         
-        tableView.addBufferOnHeader(withHeight: 0)
+        tableView.appendSpacerOnHeader()
         
         tableView.pin(
             to: view,
@@ -63,47 +55,43 @@ class NotificationsViewController: TXViewController {
     }
     
     private func configureRefreshControl() {
-        refreshControl.addTarget(
-            self,
-            action: #selector(onRefreshControllerChanged(_:)),
-            for: .valueChanged
-        )
+        let refreshControl = TXRefreshControl()
+        refreshControl.delegate = self
+        
+        tableView.refreshControl = refreshControl
     }
     
     // Populate
-    
-    // Interact
-    @objc private func onRefreshControllerChanged(_ refreshControl: TXRefreshControl) {
-        if refreshControl.isRefreshing {
-            refreshControl.endRefreshing()
-        } else {
-            // TODO: Add refresh logic
-        }
-    }
 }
 
 // MARK: TXTableViewDataSource
 extension NotificationsViewController: TXTableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 0
+        0
     }
     
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        return 0
+        0
     }
     
     func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        return UITableViewCell()
+        TXTableViewCell()
     }
 }
 
 // MARK: TXTableViewDelegate
 extension NotificationsViewController: TXTableViewDelegate {
     
+}
+
+extension NotificationsViewController: TXRefreshControlDelegate {
+    func refreshControlDidChange(_ control: TXRefreshControl) {
+        print(#function)
+    }
 }

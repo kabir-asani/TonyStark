@@ -9,8 +9,13 @@ import UIKit
 
 class FollowersViewController: TXViewController {
     // Declare
+    enum FollowersTableViewSection: Int, CaseIterable {
+        case followers
+    }
+    
     private(set) var user: User = .default()
-    private var state: Result<Paginated<User>, FollowersFailure> = .success(.default())
+    
+    private var state: State<Paginated<Follower>, FollowersFailure> = .processing
     
     private let tableView: TXTableView = {
         let tableView = TXTableView()
@@ -18,12 +23,6 @@ class FollowersViewController: TXViewController {
         tableView.enableAutolayout()
         
         return tableView
-    }()
-    
-    private let refreshControl: TXRefreshControl = {
-        let refreshControl = TXRefreshControl()
-        
-        return refreshControl
     }()
     
     // Configure
@@ -51,8 +50,7 @@ class FollowersViewController: TXViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.addBufferOnHeader(withHeight: 0)
-        tableView.refreshControl = refreshControl
+        tableView.appendSpacerOnHeader()
         
         tableView.register(
             PartialUserTableViewCell.self,
@@ -66,11 +64,10 @@ class FollowersViewController: TXViewController {
     }
     
     private func configureRefreshControl() {
-        refreshControl.addTarget(
-            self,
-            action: #selector(onRefreshControllerChanged(_:)),
-            for: .valueChanged
-        )
+        let refreshControl = TXRefreshControl()
+        refreshControl.delegate = self
+        
+        tableView.refreshControl = refreshControl
     }
     
     // Populate
@@ -79,13 +76,6 @@ class FollowersViewController: TXViewController {
     }
     
     // Interact
-    @objc private func onRefreshControllerChanged(_ refreshControl: TXRefreshControl) {
-        if refreshControl.isRefreshing {
-            refreshControl.endRefreshing()
-        } else {
-            // TODO: Add refresh logic
-        }
-    }
 }
 
 // MARK: TXTableViewDataSource
@@ -97,25 +87,97 @@ extension FollowersViewController: TXTableViewDataSource {
                 return
             }
             
-            let result = await SocialsDataStore.shared.followers(ofUserWithId: user.id)
+            strongSelf.tableView.beginPaginating()
             
-            strongSelf.state = result
+            let followersResult = await SocialsDataStore.shared.followers(ofUserWithId: user.id)
+            
+            strongSelf.tableView.endPaginating()
+            
+            followersResult.map { paginatedFollowers in
+                strongSelf.state = .success(data: paginatedFollowers)
+            } onFailure: { cause in
+                strongSelf.state = .failure(cause: cause)
+            }
+
             strongSelf.tableView.reloadData()
         }
     }
     
+    private func refreshTableView() {
+        Task {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.tableView.beginRefreshing()
+            
+            let followersResult = await SocialsDataStore.shared.followers(ofUserWithId: user.id)
+            
+            strongSelf.tableView.endRefreshing()
+            
+            followersResult.map { paginatedFollowers in
+                strongSelf.state = .success(data: paginatedFollowers)
+            } onFailure: { cause in
+                strongSelf.state = .failure(cause: cause)
+            }
+
+            strongSelf.tableView.reloadData()
+        }
+    }
+    
+    private func extendTableView() {
+        state.mapOnSuccess { previousPaginatedFollowers in
+            guard let nextToken = previousPaginatedFollowers.nextToken else {
+                return
+            }
+            
+            Task {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.tableView.beginPaginating()
+                
+                let followersResult = await SocialsDataStore.shared.followers(
+                    ofUserWithId: user.id,
+                    after: nextToken
+                )
+                
+                strongSelf.tableView.endPaginating()
+                
+                followersResult.map { latestPaginatedFollowers in
+                    let updatedPaginatedFollowers = Paginated<Follower>(
+                        page: previousPaginatedFollowers.page + latestPaginatedFollowers.page,
+                        nextToken: latestPaginatedFollowers.nextToken
+                    )
+                    
+                    strongSelf.tableView.appendSepartorToLastMostVisibleCell()
+                    
+                    strongSelf.state = .success(data: updatedPaginatedFollowers)
+                    strongSelf.tableView.reloadData()
+                } onFailure: { cause in
+                    // TODO: Communicate via SnackBar
+                }
+            }
+        } orElse: {
+            // Do nothing
+        }
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        FollowersTableViewSection.allCases.count
     }
     
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        return state.map { success in
-            return success.page.count
-        } onFailure: { failure in
-            return 0
+        state.mapOnSuccess { paginatedFollowers in
+            paginatedFollowers.page.count
+        } orElse: {
+            0
         }
     }
     
@@ -123,8 +185,8 @@ extension FollowersViewController: TXTableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        return state.map { success in
-            let user = success.page[indexPath.row]
+        state.mapOnSuccess { paginatedFollowers in
+            let follower = paginatedFollowers.page[indexPath.row]
             
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: PartialUserTableViewCell.reuseIdentifier,
@@ -132,11 +194,11 @@ extension FollowersViewController: TXTableViewDataSource {
             ) as! PartialUserTableViewCell
             
             cell.interactionsHandler = self
-            cell.configure(withUser: user)
+            cell.configure(withUser: follower.user)
             
             return cell
-        } onFailure: { failure in
-            return UITableViewCell()
+        } orElse: {
+            TXTableViewCell()
         }
     }
 }
@@ -148,8 +210,12 @@ extension FollowersViewController: TXTableViewDelegate {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
-            cell.separatorInset = .leading(.infinity)
+        if indexPath.row == tableView.numberOfRows(inSection: FollowersTableViewSection.followers.rawValue) - 1 {
+            tableView.removeSeparatorOnCell(cell)
+            
+            extendTableView()
+        } else {
+            tableView.appendSeparatorOnCell(cell)
         }
     }
     
@@ -157,20 +223,27 @@ extension FollowersViewController: TXTableViewDelegate {
         _ tableView: UITableView,
         estimatedHeightForRowAt indexPath: IndexPath
     ) -> CGFloat {
-        return TXTableView.automaticDimension
+        TXTableView.automaticDimension
+    }
+}
+
+extension FollowersViewController: TXRefreshControlDelegate {
+    func refreshControlDidChange(_ control: TXRefreshControl) {
+        if control.isRefreshing {
+            refreshTableView()
+        }
     }
 }
 
 // MARK: PartialUserTableViewCellInteractionsHandler
 extension FollowersViewController: PartialUserTableViewCellInteractionsHandler {
     func partialUserCellDidPressProfileImage(_ cell: PartialUserTableViewCell) {
-        switch state {
-        case .success(let paginated):
-            let user = paginated.page[cell.indexPath.row]
+        state.mapOnSuccess { paginatedFollowers in
+            let follower = paginatedFollowers.page[cell.indexPath.row]
             
-            navigationController?.openUserViewController(withUser: user)
-        default:
-            break
+            navigationController?.openUserViewController(withUser: follower.user)
+        } orElse: {
+            // Do nothing
         }
     }
 }

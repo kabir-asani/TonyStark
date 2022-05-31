@@ -18,14 +18,15 @@ class TweetViewController: TXViewController {
         let autoFocus: Bool
     }
     
-    enum Section: Int, CaseIterable {
+    enum TweetsTableViewSection: Int, CaseIterable {
         case tweet
         case comments
     }
     
     private(set) var tweet: Tweet = .default()
-    private var state: Result<Paginated<Comment>, CommentsFailure> = .success(.default())
-    private var options: Options = .default()
+    private(set) var options: Options = .default()
+    
+    private var state: State<Paginated<Comment>, CommentsFailure> = .processing
     
     // Declare
     private let tableView: TXTableView = {
@@ -34,12 +35,6 @@ class TweetViewController: TXViewController {
         tableView.enableAutolayout()
         
         return tableView
-    }()
-    
-    private let refreshControl: TXRefreshControl = {
-        let refreshControl = TXRefreshControl()
-        
-        return refreshControl
     }()
     
     private let commentInputBar: CommentInputBar = {
@@ -125,8 +120,8 @@ class TweetViewController: TXViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.addBufferOnHeader(withHeight: 0)
-        tableView.refreshControl = refreshControl
+        tableView.appendSpacerOnHeader()
+        
         tableView.keyboardDismissMode = .onDrag
         
         tableView.register(
@@ -157,11 +152,10 @@ class TweetViewController: TXViewController {
     }
     
     private func configureRefreshControl() {
-        refreshControl.addTarget(
-            self,
-            action: #selector(onRefreshControllerChanged(_:)),
-            for: .valueChanged
-        )
+        let refreshControl = TXRefreshControl()
+        refreshControl.delegate = self
+        
+        tableView.refreshControl = refreshControl
     }
     
     private func configureCommentInputBar() {
@@ -235,38 +229,98 @@ class TweetViewController: TXViewController {
             animated: true
         )
     }
-    
-    @objc private func onRefreshControllerChanged(_ refreshControl: TXRefreshControl) {
-        if refreshControl.isRefreshing {
-            refreshControl.endRefreshing()
-        } else {
-            // TODO: Add refresh logic
-        }
-    }
 }
 
 // MARK: TXTableViewDataSource
 extension TweetViewController: TXTableViewDataSource {
     private func populateTableView() {
-        tableView.beginPaginating()
-        
         Task {
             [weak self] in
             guard let strongSelf = self else {
                 return
             }
             
-            let result = await CommentsDataStore.shared.comments(ofTweetWithId: tweet.id)
+            strongSelf.tableView.beginPaginating()
+            
+            let commentsResult = await CommentsDataStore.shared.comments(ofTweetWithId: tweet.id)
             
             strongSelf.tableView.endPaginating()
             
-            strongSelf.state = result
+            commentsResult.map { paginatedComments in
+                strongSelf.state = .success(data: paginatedComments)
+            } onFailure: { cause in
+                strongSelf.state = .failure(cause: cause)
+            }
+            
             strongSelf.tableView.reloadData()
         }
     }
     
+    private func refreshTableView() {
+        Task {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.tableView.beginRefreshing()
+            
+            let commentsResult = await CommentsDataStore.shared.comments(ofTweetWithId: tweet.id)
+            
+            strongSelf.tableView.endRefreshing()
+            
+            commentsResult.map { paginatedComments in
+                strongSelf.state = .success(data: paginatedComments)
+            } onFailure: { cause in
+                strongSelf.state = .failure(cause: cause)
+            }
+            
+            strongSelf.tableView.reloadData()
+        }
+    }
+    
+    private func extendTableView() {
+        state.mapOnSuccess { previousPaginatedComments in
+            guard let nextToken = previousPaginatedComments.nextToken else {
+                return
+            }
+           
+            Task {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.tableView.beginPaginating()
+                
+                let commentsResult = await CommentsDataStore.shared.comments(
+                    ofTweetWithId: tweet.id,
+                    after: nextToken
+                )
+                
+                strongSelf.tableView.endPaginating()
+                
+                commentsResult.map { latestPaginatedComments in
+                    let updatedPaginatedComments = Paginated<Comment>(
+                        page: previousPaginatedComments.page + latestPaginatedComments.page,
+                        nextToken: latestPaginatedComments.nextToken
+                    )
+                    
+                    strongSelf.tableView.appendSepartorToLastMostVisibleCell()
+                    
+                    strongSelf.state = .success(data: updatedPaginatedComments)
+                    strongSelf.tableView.reloadData()
+                } onFailure: { cause in
+                    // TODO: Communicate via SnackBar
+                }
+            }
+        } orElse: {
+            // Do nothing
+        }
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return Section.allCases.count
+        TweetsTableViewSection.allCases.count
     }
     
     func tableView(
@@ -274,15 +328,16 @@ extension TweetViewController: TXTableViewDataSource {
         numberOfRowsInSection section: Int
     ) -> Int {
         switch section {
-        case Section.tweet.rawValue:
+        case TweetsTableViewSection.tweet.rawValue:
             return 1
-        case Section.comments.rawValue:
-            switch state {
-            case .success(let pagingated):
-                return pagingated.page.count
-            default:
-                return 0
+            
+        case TweetsTableViewSection.comments.rawValue:
+            return state.mapOnSuccess { paginatedComments in
+                paginatedComments.page.count
+            } orElse: {
+                0
             }
+            
         default:
             fatalError("No other sections are present")
         }
@@ -293,7 +348,7 @@ extension TweetViewController: TXTableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         switch indexPath.section {
-        case Section.tweet.rawValue:
+        case TweetsTableViewSection.tweet.rawValue:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: TweetTableViewCell.reuseIdentifier,
                 assigning: indexPath
@@ -303,10 +358,10 @@ extension TweetViewController: TXTableViewDataSource {
             cell.configure(withTweet: tweet)
             
             return cell
-        case Section.comments.rawValue:
-            switch state {
-            case .success(let paginated):
-                let comment = paginated.page[indexPath.row]
+            
+        case TweetsTableViewSection.comments.rawValue:
+            return state.mapOnSuccess { paginatedComments in
+                let comment = paginatedComments.page[indexPath.row]
                 
                 let cell = tableView.dequeueReusableCell(
                     withIdentifier: CommentTableViewCell.reuseIdentifer,
@@ -317,11 +372,21 @@ extension TweetViewController: TXTableViewDataSource {
                 cell.configure(withComment: comment)
                 
                 return cell
-            default:
-                return UITableViewCell()
+            } orElse: {
+                UITableViewCell()
             }
+            
         default:
             fatalError("No other sections are present")
+        }
+    }
+}
+
+// MARK: TXRefreshControlDelegate
+extension TweetViewController: TXRefreshControlDelegate {
+    func refreshControlDidChange(_ control: TXRefreshControl) {
+        if control.isRefreshing {
+            refreshTableView()
         }
     }
 }
@@ -333,8 +398,12 @@ extension TweetViewController: TXTableViewDelegate {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
-            cell.separatorInset = .leading(.infinity)
+        if indexPath.row == tableView.numberOfRows(inSection: TweetsTableViewSection.comments.rawValue) - 1 {
+            tableView.removeSeparatorOnCell(cell)
+            
+            extendTableView()
+        } else {
+            tableView.appendSeparatorOnCell(cell)
         }
     }
 }
@@ -394,15 +463,14 @@ extension TweetViewController: TweetTableViewCellInteractionsHandler {
 // MARK: CommentTableViewCellInteractionsHandler
 extension TweetViewController: CommentTableViewCellInteractionsHandler {
     func commentCellDidPressProfileImage(_ commentTableViewCell: CommentTableViewCell) {
-        switch state {
-        case .success(let paginated):
-            let comment = paginated.page[commentTableViewCell.indexPath.row]
+        state.mapOnSuccess { paginatedComments in
+            let comment = paginatedComments.page[commentTableViewCell.indexPath.row]
             
             let user = comment.author
             
             navigationController?.openUserViewController(withUser: user)
-        default:
-            break
+        } orElse: {
+            // Do nothing
         }
     }
 }
