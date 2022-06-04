@@ -12,30 +12,30 @@ struct Comment {
     static func `default`() -> Comment {
         Comment(
             id: "", text: "",
-            creationDate: .now(),
             tweetId: "",
+            creationDate: .now(),
             author: .default()
         )
     }
     
     let id: String
     let text: String
-    let creationDate: Date
     let tweetId: String
+    let creationDate: Date
     let author: User
     
     func copyWith(
         id: String? = nil,
         text: String? = nil,
-        creationDate: Date? = nil,
         tweetId: String? = nil,
+        creationDate: Date? = nil,
         author: User? = nil
     ) -> Comment {
         let newComment = Comment(
             id: id ?? self.id,
             text: text ?? self.text,
-            creationDate: creationDate ?? self.creationDate,
             tweetId: tweetId ?? self.tweetId,
+            creationDate: creationDate ?? self.creationDate,
             author: author ?? self.author
         )
         
