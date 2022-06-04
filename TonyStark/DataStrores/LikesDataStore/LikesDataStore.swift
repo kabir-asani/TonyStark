@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol LikesDataStoreProtocol: DataStore {
+protocol LikesDataStoreProtocol: DataStoreProtocol {
     func likes(onTweetWithId tweetId: String) async -> Result<Paginated<Like>, LikesFailure>
     
     func likes(

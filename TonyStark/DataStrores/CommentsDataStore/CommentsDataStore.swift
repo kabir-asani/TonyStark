@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol CommentsDataStoreProtocol: DataStore {
+protocol CommentsDataStoreProtocol: DataStoreProtocol {
     func comments(ofTweetWithId tweetId: String) async -> Result<Paginated<Comment>, CommentsFailure>
     
     func comments(
@@ -80,8 +80,7 @@ class CommentsDataStore: CommentsDataStoreProtocol {
                                 Comment(
                                     id: "3939",
                                     text: "Hello World!",
-                                    creationDate: .now(),
-                                    tweetId: "d4had8",
+                                    tweetId: "d4had8", creationDate: .now(),
                                     author: User(
                                         id: "sadiyakhan",
                                         name: "Sadiya Khan",
@@ -91,15 +90,16 @@ class CommentsDataStore: CommentsDataStoreProtocol {
                                         description: """
                                         I'm simple and soft.
                                         """,
-                                        creationDate: Date(),
-                                        socialDetails: UserSocialDetails(
+                                        creationDate: .now(),
+                                        lastUpdatedDate: .now(),
+                                        socialDetails: User.SocialDetails(
                                             followersCount: 0,
                                             followeesCount: 0
                                         ),
-                                        activityDetails: UserActivityDetails(
+                                        activityDetails: User.ActivityDetails(
                                             tweetsCount: 0
                                         ),
-                                        viewables: UserViewables(
+                                        viewables: User.Viewables(
                                             following: false
                                         )
                                     )
@@ -110,8 +110,7 @@ class CommentsDataStore: CommentsDataStoreProtocol {
                                 Comment(
                                     id: "3939",
                                     text: "Black is the color that speaks to me",
-                                    creationDate: .now(),
-                                    tweetId: "d4had8",
+                                    tweetId: "d4had8", creationDate: .now(),
                                     author: User(
                                         id: "mzaink",
                                         name: "Zain Khan",
@@ -121,15 +120,16 @@ class CommentsDataStore: CommentsDataStoreProtocol {
                                         description: """
                                         Hungry for knowledge. Satiated with life. ✌️
                                         """,
-                                        creationDate: Date(),
-                                        socialDetails: UserSocialDetails(
+                                        creationDate: .now(),
+                                        lastUpdatedDate: .now(),
+                                        socialDetails: User.SocialDetails(
                                             followersCount: 0,
                                             followeesCount: 0
                                         ),
-                                        activityDetails: UserActivityDetails(
+                                        activityDetails: User.ActivityDetails(
                                             tweetsCount: 0
                                         ),
-                                        viewables: UserViewables(
+                                        viewables: User.Viewables(
                                             following: true
                                         )
                                     )

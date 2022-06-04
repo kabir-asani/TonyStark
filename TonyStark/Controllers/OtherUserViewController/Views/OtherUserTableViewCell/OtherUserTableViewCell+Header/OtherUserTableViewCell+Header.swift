@@ -80,7 +80,7 @@ extension OtherUserTableViewCell {
             configureFollowButton(withViewables: user.viewables)
         }
         
-        private func configureFollowButton(withViewables viewables: UserViewables) {
+        private func configureFollowButton(withViewables viewables: User.Viewables) {
             followButton.setTitle(
                 viewables.following
                 ? "Unfollow"

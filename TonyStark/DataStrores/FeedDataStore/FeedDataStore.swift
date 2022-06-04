@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol FeedDataStoreProtocol: DataStore {
+protocol FeedDataStoreProtocol: DataStoreProtocol {
     func feed() async -> Result<Paginated<Tweet>, FeedFailure>
     
     func feed(after nextToken: String) async -> Result<Paginated<Tweet>, FeedFailure>
@@ -45,8 +45,9 @@ class FeedDataStore: FeedDataStoreProtocol {
                             text: """
                             English
                             """,
-                            creationDate: Date(),
-                            interactionDetails: TweetInteractionDetails(
+                            creationDate: .now(),
+                            lastUpdatedDate: .now(),
+                            interactionDetails: Tweet.InteractionDetails(
                                 likesCount: 1,
                                 commentsCount: 0
                             ),
@@ -59,19 +60,20 @@ class FeedDataStore: FeedDataStoreProtocol {
                                 description: """
                                 I'm simple and soft.
                                 """,
-                                creationDate: Date(),
-                                socialDetails: UserSocialDetails(
+                                creationDate: .now(),
+                                lastUpdatedDate: .now(),
+                                socialDetails: User.SocialDetails(
                                     followersCount: 0,
                                     followeesCount: 0
                                 ),
-                                activityDetails: UserActivityDetails(
+                                activityDetails: User.ActivityDetails(
                                     tweetsCount: 0
                                 ),
-                                viewables: UserViewables(
+                                viewables: User.Viewables(
                                     following: false
                                 )
                             ),
-                            viewables: TweetViewables(
+                            viewables: Tweet.Viewables(
                                 liked: true,
                                 bookmarked: true
                             )
@@ -83,8 +85,9 @@ class FeedDataStore: FeedDataStoreProtocol {
                             A lot has been said and done about you guys.
                             Let's rock and roll people.
                             """,
-                            creationDate: Date(),
-                            interactionDetails: TweetInteractionDetails(
+                            creationDate: .now(),
+                            lastUpdatedDate: .now(),
+                            interactionDetails: Tweet.InteractionDetails(
                                 likesCount: 1,
                                 commentsCount: 0
                             ),
@@ -97,19 +100,20 @@ class FeedDataStore: FeedDataStoreProtocol {
                                 description: """
                                 Hungry for knowledge. Satiated with life. ✌️
                                 """,
-                                creationDate: Date(),
-                                socialDetails: UserSocialDetails(
+                                creationDate: .now(),
+                                lastUpdatedDate: .now(),
+                                socialDetails: User.SocialDetails(
                                     followersCount: 0,
                                     followeesCount: 0
                                 ),
-                                activityDetails: UserActivityDetails(
+                                activityDetails: User.ActivityDetails(
                                     tweetsCount: 0
                                 ),
-                                viewables: UserViewables(
+                                viewables: User.Viewables(
                                     following: true
                                 )
                             ),
-                            viewables: TweetViewables(
+                            viewables: Tweet.Viewables(
                                 liked: true,
                                 bookmarked: false
                             )
@@ -122,8 +126,9 @@ class FeedDataStore: FeedDataStoreProtocol {
                             You need to agree mine.
                             Because we stand in two different phase of life and speak.
                             """,
-                            creationDate: Date(),
-                            interactionDetails: TweetInteractionDetails(
+                            creationDate: .now(),
+                            lastUpdatedDate: .now(),
+                            interactionDetails: Tweet.InteractionDetails(
                                 likesCount: 0,
                                 commentsCount: 44
                             ),
@@ -136,19 +141,20 @@ class FeedDataStore: FeedDataStoreProtocol {
                                 description: """
                                 I'm simple and soft.
                                 """,
-                                creationDate: Date(),
-                                socialDetails: UserSocialDetails(
+                                creationDate: .now(),
+                                lastUpdatedDate: .now(),
+                                socialDetails: User.SocialDetails(
                                     followersCount: 0,
                                     followeesCount: 0
                                 ),
-                                activityDetails: UserActivityDetails(
+                                activityDetails: User.ActivityDetails(
                                     tweetsCount: 0
                                 ),
-                                viewables: UserViewables(
+                                viewables: User.Viewables(
                                     following: true
                                 )
                             ),
-                            viewables: TweetViewables(
+                            viewables: Tweet.Viewables(
                                 liked: false,
                                 bookmarked: true
                             )
@@ -158,8 +164,9 @@ class FeedDataStore: FeedDataStoreProtocol {
                             text: """
                             This is super fun
                             """,
-                            creationDate: Date(),
-                            interactionDetails: TweetInteractionDetails(
+                            creationDate: .now(),
+                            lastUpdatedDate: .now(),
+                            interactionDetails: Tweet.InteractionDetails(
                                 likesCount: 0,
                                 commentsCount: 0
                             ),
@@ -172,19 +179,20 @@ class FeedDataStore: FeedDataStoreProtocol {
                                 description: """
                                 I'm simple and soft.
                                 """,
-                                creationDate: Date(),
-                                socialDetails: UserSocialDetails(
+                                creationDate: .now(),
+                                lastUpdatedDate: .now(),
+                                socialDetails: User.SocialDetails(
                                     followersCount: 0,
                                     followeesCount: 0
                                 ),
-                                activityDetails: UserActivityDetails(
+                                activityDetails: User.ActivityDetails(
                                     tweetsCount: 0
                                 ),
-                                viewables: UserViewables(
+                                viewables: User.Viewables(
                                     following: true
                                 )
                             ),
-                            viewables: TweetViewables(
+                            viewables: Tweet.Viewables(
                                 liked: false,
                                 bookmarked: true
                             )
@@ -194,8 +202,9 @@ class FeedDataStore: FeedDataStoreProtocol {
                             text: """
                             Every entrepreneur I meet says it’s so difficult to find people to work, and on the other hand the unemployment percentage is so high. Something is broken, and it needs fixing asap.
                             """,
-                            creationDate: Date(),
-                            interactionDetails: TweetInteractionDetails(
+                            creationDate: .now(),
+                            lastUpdatedDate: .now(),
+                            interactionDetails: Tweet.InteractionDetails(
                                 likesCount: 1,
                                 commentsCount: 10
                             ),
@@ -208,19 +217,20 @@ class FeedDataStore: FeedDataStoreProtocol {
                                 description: """
                                 Co-Founder @JoinZorro | Founder @GingerMonkeyIN
                                 """,
-                                creationDate: Date(),
-                                socialDetails: UserSocialDetails(
+                                creationDate: .now(),
+                                lastUpdatedDate: .now(),
+                                socialDetails: User.SocialDetails(
                                     followersCount: 0,
                                     followeesCount: 0
                                 ),
-                                activityDetails: UserActivityDetails(
+                                activityDetails: User.ActivityDetails(
                                     tweetsCount: 0
                                 ),
-                                viewables: UserViewables(
+                                viewables: User.Viewables(
                                     following: true
                                 )
                             ),
-                            viewables: TweetViewables(
+                            viewables: Tweet.Viewables(
                                 liked: true,
                                 bookmarked: true
                             )

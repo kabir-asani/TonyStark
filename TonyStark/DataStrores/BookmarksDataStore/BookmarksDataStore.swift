@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol BookmarksDataStoreProtocol: DataStore {
+protocol BookmarksDataStoreProtocol: DataStoreProtocol {
     func bookmark(tweetWithId tweetId: String) async -> Result<Void, BookmarkFailure>
     
     func unbookmark(tweetWithId tweetId: String) async -> Result<Void, UnbookmarkFailure>

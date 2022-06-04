@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol SocialsDataStoreProtocol: DataStore {
+protocol SocialsDataStoreProtocol: DataStoreProtocol {
     func follow(
         userWithId userId: String
     ) async -> Result<Void, FollowFailure>

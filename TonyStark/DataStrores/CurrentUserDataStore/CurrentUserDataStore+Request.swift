@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AuthenticationDataStore: String {
+enum AuthenticationProvider: String {
     case google = "google"
     case apple = "apple"
 }

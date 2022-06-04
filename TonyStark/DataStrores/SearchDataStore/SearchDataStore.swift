@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol SearchDataStoreProtocol: DataStore {
+protocol SearchDataStoreProtocol: DataStoreProtocol {
     func search(withKeyword keyword: String) async -> Result<Paginated<User>, SearchFailure>
     
     func search(
@@ -66,15 +66,16 @@ class SearchDataStore: SearchDataStoreProtocol {
                             description: """
                             I'm simple and soft.
                             """,
-                            creationDate: Date(),
-                            socialDetails: UserSocialDetails(
+                            creationDate: .now(),
+                            lastUpdatedDate: .now(),
+                            socialDetails: User.SocialDetails(
                                 followersCount: 0,
                                 followeesCount: 0
                             ),
-                            activityDetails: UserActivityDetails(
+                            activityDetails: User.ActivityDetails(
                                 tweetsCount: 0
                             ),
-                            viewables: UserViewables(
+                            viewables: User.Viewables(
                                 following: false
                             )
                         ),
@@ -87,15 +88,16 @@ class SearchDataStore: SearchDataStoreProtocol {
                             description: """
                             Hungry for knowledge. Satiated with life. ✌️
                             """,
-                            creationDate: Date(),
-                            socialDetails: UserSocialDetails(
+                            creationDate: .now(),
+                            lastUpdatedDate: .now(),
+                            socialDetails: User.SocialDetails(
                                 followersCount: 0,
                                 followeesCount: 0
                             ),
-                            activityDetails: UserActivityDetails(
+                            activityDetails: User.ActivityDetails(
                                 tweetsCount: 0
                             ),
-                            viewables: UserViewables(
+                            viewables: User.Viewables(
                                 following: true
                             )
                         ),
@@ -108,15 +110,16 @@ class SearchDataStore: SearchDataStoreProtocol {
                             description: """
                             I'm simple and soft.
                             """,
-                            creationDate: Date(),
-                            socialDetails: UserSocialDetails(
+                            creationDate: .now(),
+                            lastUpdatedDate: .now(),
+                            socialDetails: User.SocialDetails(
                                 followersCount: 0,
                                 followeesCount: 0
                             ),
-                            activityDetails: UserActivityDetails(
+                            activityDetails: User.ActivityDetails(
                                 tweetsCount: 0
                             ),
-                            viewables: UserViewables(
+                            viewables: User.Viewables(
                                 following: true
                             )
                         ),
@@ -129,15 +132,16 @@ class SearchDataStore: SearchDataStoreProtocol {
                             description: """
                             Co-Founder @JoinZorro | Founder @GingerMonkeyIN
                             """,
-                            creationDate: Date(),
-                            socialDetails: UserSocialDetails(
+                            creationDate: .now(),
+                            lastUpdatedDate: .now(),
+                            socialDetails: User.SocialDetails(
                                 followersCount: 0,
                                 followeesCount: 0
                             ),
-                            activityDetails: UserActivityDetails(
+                            activityDetails: User.ActivityDetails(
                                 tweetsCount: 0
                             ),
-                            viewables: UserViewables(
+                            viewables: User.Viewables(
                                 following: true
                             )
                         )

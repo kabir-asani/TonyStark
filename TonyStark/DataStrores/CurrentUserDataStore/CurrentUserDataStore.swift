@@ -7,55 +7,27 @@
 
 import Foundation
 
-protocol CurrentUserDataStoreProtocol: DataStore {
+protocol CurrentUserDataStoreProtocol: DataStoreProtocol {
     var session: Session? { get }
     var user: User? { get }
     
-    func logIn(with: AuthenticationDataStore) async -> Result<Void, LogInFailure>
+    func logIn(with: AuthenticationProvider) async -> Result<Void, LogInFailure>
     
     func logOut() async -> Result<Void, LogOutFailure>
     
     func edit(user: User) async -> Result<Void, EditUserFailure>
 }
 
-class CurrentUserDataStore: CurrentUserDataStoreProtocol {
+class CurrentUserDataStore: DataStore, CurrentUserDataStoreProtocol {
     static let shared: CurrentUserDataStoreProtocol = CurrentUserDataStore()
     
     var session: Session?
     var user: User?
     
-    private init() { }
+    private override init() { }
     
     func bootUp() async {
-        user = await withUnsafeContinuation {
-            continuation in
-            
-            DispatchQueue
-                .global(qos: .background)
-                .asyncAfter(deadline: .now()) {
-                    let user = User(
-                        id: "mzaink",
-                        name: "Zain Khan",
-                        email: "zain@gmail.com",
-                        username: "mzaink",
-                        image: "https://pbs.twimg.com/profile_images/1483797876522512385/9CcO904A_400x400.jpg",
-                        description: """
-                        Hungry for knowledge. Satiated with life. ✌️
-                        """,
-                        creationDate: Date(),
-                        socialDetails: UserSocialDetails(
-                            followersCount: 0,
-                            followeesCount: 0
-                        ),
-                        activityDetails: UserActivityDetails(
-                            tweetsCount: 0
-                        ),
-                        viewables: UserViewables(following: true)
-                    )
-                    
-                    continuation.resume(returning: user)
-                }
-        }
+        // Do nothing
     }
     
     func bootDown() async {
@@ -63,7 +35,7 @@ class CurrentUserDataStore: CurrentUserDataStoreProtocol {
     }
     
     func logIn(
-        with provider: AuthenticationDataStore
+        with provider: AuthenticationProvider
     ) async -> Result<Void, LogInFailure> {
         user = await withUnsafeContinuation {
             continuation in
@@ -78,17 +50,18 @@ class CurrentUserDataStore: CurrentUserDataStoreProtocol {
                         username: "mzaink",
                         image: "https://pbs.twimg.com/profile_images/1483797876522512385/9CcO904A_400x400.jpg",
                         description: """
-                        Hungry for knowledge. Satiated with life. ✌️
+                        Hungry for knowledge. Satiated with life. :v:
                         """,
-                        creationDate: Date(),
-                        socialDetails: UserSocialDetails(
+                        creationDate: .now(),
+                        lastUpdatedDate: .now(),
+                        socialDetails: User.SocialDetails(
                             followersCount: 0,
                             followeesCount: 0
                         ),
-                        activityDetails: UserActivityDetails(
+                        activityDetails: User.ActivityDetails(
                             tweetsCount: 0
                         ),
-                        viewables: UserViewables(following: true)
+                        viewables: User.Viewables(following: true)
                     )
                     
                     continuation.resume(returning: user)
@@ -136,3 +109,4 @@ class CurrentUserDataStore: CurrentUserDataStoreProtocol {
         return .success(Void())
     }
 }
+

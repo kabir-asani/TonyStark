@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol NotificationsDataStoreProtocol: DataStore {
+protocol NotificationsDataStoreProtocol: DataStoreProtocol {
     func notifications() async -> Result<Paginated<RemoteNotification>, RemoteNotificationsFailure>
 }
 
