@@ -17,6 +17,20 @@ class SnackBar: TXVisualEffectView {
         case warning
     }
     
+    static func show(
+        text: String,
+        variant: Variant = .informative,
+        duration: TimeInterval = 2
+    ) {
+        let snackBar = SnackBar(
+            text: text,
+            variant: variant,
+            duration: duration
+        )
+        
+        snackBar.present()
+    }
+    
     private let variant: Variant
     private let duration: TimeInterval
     
@@ -45,7 +59,7 @@ class SnackBar: TXVisualEffectView {
     }()
     
     // Arrange
-    init(
+    private init(
         text: String,
         variant: Variant = .informative,
         duration: TimeInterval = 2
