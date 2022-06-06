@@ -14,6 +14,10 @@ extension CommentTableViewCell.Trailing {
             let nameText: TXLabel = .name()
             
             nameText.enableAutolayout()
+            nameText.setContentCompressionResistancePriority(
+                .init(Float.infinity),
+                for: .horizontal
+            )
             
             return nameText
         }()

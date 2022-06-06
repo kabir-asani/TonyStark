@@ -13,7 +13,6 @@ extension TXLabel {
         
         nameText.font = .systemFont(ofSize: 16, weight: .bold)
         nameText.textColor = .label
-        nameText.lineBreakMode = .byTruncatingTail
         nameText.adjustsFontSizeToFitWidth = false
         
         return nameText
@@ -23,7 +22,6 @@ extension TXLabel {
         let usernameText = TXLabel()
 
         usernameText.font = .systemFont(ofSize: 16, weight: .regular)
-        usernameText.lineBreakMode = .byTruncatingTail
         usernameText.textColor = .secondaryLabel
         usernameText.adjustsFontSizeToFitWidth = false
         
@@ -39,6 +37,27 @@ extension TXLabel {
         bioText.adjustsFontSizeToFitWidth = false
         
         return bioText
+    }
+    
+    static func sepator() -> TXLabel {
+        let sepator = TXLabel()
+
+        sepator.font = .systemFont(ofSize: 16, weight: .regular)
+        sepator.textColor = .secondaryLabel
+        sepator.adjustsFontSizeToFitWidth = false
+        
+        return sepator
+    }
+    
+    static func dateTime() -> TXLabel {
+        let usernameText = TXLabel()
+
+        usernameText.font = .systemFont(ofSize: 16, weight: .regular)
+        usernameText.lineBreakMode = .byTruncatingTail
+        usernameText.textColor = .secondaryLabel
+        usernameText.adjustsFontSizeToFitWidth = false
+        
+        return usernameText
     }
     
     static func tweet() -> TXLabel {

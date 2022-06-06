@@ -1,21 +1,21 @@
 //
-//  CommentTableViewCell+Trailing+Footer.swift
+//  CommentTableViewCellTrailingFooter.swift
 //  TonyStark
 //
-//  Created by Mohammed Sadiq on 06/06/22.
+//  Created by Mohammed Sadiq on 20/04/22.
 //
 
 import UIKit
 
 extension CommentTableViewCell.Trailing {
-    class Footer: TXView {
+    class Middle: TXView {
         // Declare
-        let dateText: TXLabel = {
-            let dateText: TXLabel = .dateTime()
+        let commentText: TXLabel = {
+            let commentText: TXLabel = .comment()
             
-            dateText.enableAutolayout()
+            commentText.enableAutolayout()
             
-            return dateText
+            return commentText
         }()
         
         // Arrange
@@ -30,14 +30,14 @@ extension CommentTableViewCell.Trailing {
         }
         
         private func arrangeSubviews() {
-            addSubview(dateText)
+            addSubview(commentText)
             
-            dateText.pin(to: self)
+            commentText.pin(to: self)
         }
         
         // Configure
         func configure(withComment comment: Comment) {
-            dateText.text = comment.creationDate.formatted(as: .visiblyPleasingShort)
+            commentText.text = comment.text
         }
         
         // Interact

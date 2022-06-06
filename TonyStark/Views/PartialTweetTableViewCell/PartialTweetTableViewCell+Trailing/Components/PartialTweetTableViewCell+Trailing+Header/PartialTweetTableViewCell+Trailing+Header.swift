@@ -14,7 +14,10 @@ extension PartialTweetTableViewCell.Trailing {
             let nameText: TXLabel = .name()
             
             nameText.enableAutolayout()
-            
+            nameText.setContentCompressionResistancePriority(
+                .init(Float.infinity),
+                for: .horizontal
+            )
             return nameText
         }()
         
@@ -24,6 +27,23 @@ extension PartialTweetTableViewCell.Trailing {
             usernameText.enableAutolayout()
             
             return usernameText
+        }()
+        
+        private let dotText: TXLabel = {
+            let dotText: TXLabel = .sepator()
+            
+            dotText.enableAutolayout()
+            dotText.text = "•"
+            
+            return dotText
+        }()
+        
+        private let dateText: TXLabel = {
+            let timeText: TXLabel = .dateTime()
+            
+            timeText.enableAutolayout()
+            
+            return timeText
         }()
         
         // Arrange
@@ -50,7 +70,9 @@ extension PartialTweetTableViewCell.Trailing {
                 arrangedSubviews: [
                     nameText,
                     usernameText,
-                    .spacer
+                    dotText,
+                    dateText,
+                    .spacer,
                 ]
             )
             
@@ -67,6 +89,7 @@ extension PartialTweetTableViewCell.Trailing {
         func configure(withTweet tweet: Tweet) {
             configureNameText(withText: tweet.author.name)
             configureUsernameText(withText: tweet.author.username)
+            configureDateText(withDate: tweet.creationDate)
         }
         
         private func configureNameText(withText text: String) {
@@ -75,6 +98,10 @@ extension PartialTweetTableViewCell.Trailing {
         
         private func configureUsernameText(withText text: String) {
             usernameText.text = "@" + text
+        }
+        
+        private func configureDateText(withDate date: Date) {
+            dateText.text = date.formatted(as: .visiblyPleasingShort)
         }
     }
 }

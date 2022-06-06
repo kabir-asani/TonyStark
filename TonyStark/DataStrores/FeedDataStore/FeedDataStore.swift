@@ -45,7 +45,7 @@ class FeedDataStore: FeedDataStoreProtocol {
                             text: """
                             English
                             """,
-                            creationDate: .now(),
+                            creationDate: .now().addingTimeInterval(-24*60*60*48),
                             lastUpdatedDate: .now(),
                             interactionDetails: Tweet.InteractionDetails(
                                 likesCount: 1,
@@ -85,7 +85,7 @@ class FeedDataStore: FeedDataStoreProtocol {
                             A lot has been said and done about you guys.
                             Let's rock and roll people.
                             """,
-                            creationDate: .now(),
+                            creationDate: .now().addingTimeInterval(-24*60*60*12),
                             lastUpdatedDate: .now(),
                             interactionDetails: Tweet.InteractionDetails(
                                 likesCount: 1,
@@ -126,7 +126,7 @@ class FeedDataStore: FeedDataStoreProtocol {
                             You need to agree mine.
                             Because we stand in two different phase of life and speak.
                             """,
-                            creationDate: .now(),
+                            creationDate: .now().addingTimeInterval(-24*60*60*4),
                             lastUpdatedDate: .now(),
                             interactionDetails: Tweet.InteractionDetails(
                                 likesCount: 0,
@@ -164,7 +164,7 @@ class FeedDataStore: FeedDataStoreProtocol {
                             text: """
                             This is super fun
                             """,
-                            creationDate: .now(),
+                            creationDate: .now().addingTimeInterval(-24*60*60),
                             lastUpdatedDate: .now(),
                             interactionDetails: Tweet.InteractionDetails(
                                 likesCount: 0,
@@ -202,7 +202,7 @@ class FeedDataStore: FeedDataStoreProtocol {
                             text: """
                             Every entrepreneur I meet says it’s so difficult to find people to work, and on the other hand the unemployment percentage is so high. Something is broken, and it needs fixing asap.
                             """,
-                            creationDate: .now(),
+                            creationDate: .now().addingTimeInterval(-24*60*60),
                             lastUpdatedDate: .now(),
                             interactionDetails: Tweet.InteractionDetails(
                                 likesCount: 1,

@@ -18,6 +18,14 @@ extension CommentTableViewCell {
             return header
         }()
         
+        private let middle: Middle = {
+            let middle = Middle()
+            
+            middle.enableAutolayout()
+            
+            return middle
+        }()
+        
         private let footer: Footer = {
             let footer = Footer()
             
@@ -49,6 +57,7 @@ extension CommentTableViewCell {
             let combinedStack = TXStackView(
                 arrangedSubviews: [
                     header,
+                    middle,
                     footer
                 ]
             )
@@ -65,6 +74,7 @@ extension CommentTableViewCell {
         // Configure
         func configure(withComment comment: Comment) {
             header.configure(withComment: comment)
+            middle.configure(withComment: comment)
             footer.configure(withComment: comment)
         }
         
