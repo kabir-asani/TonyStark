@@ -41,7 +41,7 @@ extension TweetTableViewCell.Footer {
         
         // Configure
         func configure(withTweet tweet: Tweet) {
-            dateText.text = tweet.creationDate.formatted()
+            dateText.text = tweet.creationDate.formatted(as: .visiblyPleasingLong)
         }
         
         // Interact
