@@ -27,8 +27,8 @@ class FeedViewController: TXViewController {
         return tableView
     }()
     
-    private let floatingButton: FloatingButton = {
-        let floatingButton = FloatingButton()
+    private let floatingButton: FloatingActionButton = {
+        let floatingButton = FloatingActionButton()
         
         floatingButton.enableAutolayout()
         floatingButton.setImage(

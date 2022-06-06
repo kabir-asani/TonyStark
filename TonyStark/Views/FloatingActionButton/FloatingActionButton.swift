@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FloatingButton: TXButton {
+class FloatingActionButton: TXButton {
     // Declare
     
     // Arrange

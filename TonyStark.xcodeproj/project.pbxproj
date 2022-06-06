@@ -51,7 +51,7 @@
 		16133F882822589500171F68 /* TXSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16133F872822589500171F68 /* TXSearchBar.swift */; };
 		161347E32819433B004AA245 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161347E22819433B004AA245 /* BookmarksViewController.swift */; };
 		161347E628194DE1004AA245 /* BookmarksDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161347E528194DE1004AA245 /* BookmarksDataStore.swift */; };
-		1618F8E92822E50600C1358E /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1618F8E82822E50600C1358E /* FloatingButton.swift */; };
+		1618F8E92822E50600C1358E /* FloatingActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1618F8E82822E50600C1358E /* FloatingActionButton.swift */; };
 		16237AEE281FABD200837064 /* EditBioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16237AED281FABD200837064 /* EditBioTableViewCell.swift */; };
 		16237AF1281FB49600837064 /* StringX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16237AF0281FB49600837064 /* StringX.swift */; };
 		16237AF3281FB71000837064 /* EditUsernameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16237AF2281FB71000837064 /* EditUsernameTableViewCell.swift */; };
@@ -232,7 +232,7 @@
 		16133F872822589500171F68 /* TXSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXSearchBar.swift; sourceTree = "<group>"; };
 		161347E22819433B004AA245 /* BookmarksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
 		161347E528194DE1004AA245 /* BookmarksDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksDataStore.swift; sourceTree = "<group>"; };
-		1618F8E82822E50600C1358E /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
+		1618F8E82822E50600C1358E /* FloatingActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingActionButton.swift; sourceTree = "<group>"; };
 		16237AED281FABD200837064 /* EditBioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBioTableViewCell.swift; sourceTree = "<group>"; };
 		16237AF0281FB49600837064 /* StringX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringX.swift; sourceTree = "<group>"; };
 		16237AF2281FB71000837064 /* EditUsernameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUsernameTableViewCell.swift; sourceTree = "<group>"; };
@@ -423,6 +423,7 @@
 		160437A827E1AD8900EA615F /* CoreViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				16C6ECE4284DE875008930CF /* Extensions */,
 				16A4CE47282900A9004AFA08 /* TXAlertController */,
 				163A09F12823B8EE008CDCED /* TXPresentationController */,
 				16DBF5C42817EEE400E92DE5 /* TXScrollViewController */,
@@ -697,12 +698,12 @@
 			path = BookmarksDataStore;
 			sourceTree = "<group>";
 		};
-		1618F8E72822E4F100C1358E /* FloatingButton */ = {
+		1618F8E72822E4F100C1358E /* FloatingActionButton */ = {
 			isa = PBXGroup;
 			children = (
-				1618F8E82822E50600C1358E /* FloatingButton.swift */,
+				1618F8E82822E50600C1358E /* FloatingActionButton.swift */,
 			);
-			path = FloatingButton;
+			path = FloatingActionButton;
 			sourceTree = "<group>";
 		};
 		1618F8EA2822E6A100C1358E /* SearchViewController */ = {
@@ -716,7 +717,7 @@
 		1618F8EB2822EB7300C1358E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1618F8E72822E4F100C1358E /* FloatingButton */,
+				1618F8E72822E4F100C1358E /* FloatingActionButton */,
 				168992A5281B134A00D5D85C /* AvatarImage */,
 				16BB01142813A2D400532323 /* SocialDetails */,
 				163D2D9028191BD600CE5646 /* PartialUserTableViewCell */,
@@ -897,19 +898,15 @@
 			path = PartialTweetTableViewCell;
 			sourceTree = "<group>";
 		};
-		16308639280883810061BE31 /* TXExtensions */ = {
+		16308639280883810061BE31 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				1630863A280883900061BE31 /* UIViewX.swift */,
-				167C3A47280C99A3004E9B4D /* UITableViewX.swift */,
-				16493D222812B56D004912BB /* UIEdgeInsetsX.swift */,
-				16DBF5C22817E90600E92DE5 /* UIViewControllerX.swift */,
 				16D3C5E12810306100B8A2CC /* DateX.swift */,
 				167224D5281BC73C005D79EB /* ResultX.swift */,
 				16237AF0281FB49600837064 /* StringX.swift */,
 				16D582112844DA1D0080C4F9 /* StateX.swift */,
 			);
-			path = TXExtensions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		163A09F12823B8EE008CDCED /* TXPresentationController */ = {
@@ -1208,6 +1205,9 @@
 		167224D0281BC1B9005D79EB /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				1630863A280883900061BE31 /* UIViewX.swift */,
+				167C3A47280C99A3004E9B4D /* UITableViewX.swift */,
+				16493D222812B56D004912BB /* UIEdgeInsetsX.swift */,
 				167224D2281BC1CB005D79EB /* TXLabelX.swift */,
 			);
 			path = Extensions;
@@ -1242,8 +1242,8 @@
 		1691E450280EA8BD00BA223D /* CoreViews */ = {
 			isa = PBXGroup;
 			children = (
-				16021ACB2823C36100C28EAD /* TXRefreshControl */,
 				167224D0281BC1B9005D79EB /* Extensions */,
+				16021ACB2823C36100C28EAD /* TXRefreshControl */,
 				16133F862822588E00171F68 /* TXSearchBar */,
 				16D8AACA281F117D00EEC440 /* TXActivityIndicatorView */,
 				16DBF5BB2817E06B00E92DE5 /* TXScrollView */,
@@ -1417,7 +1417,7 @@
 		16C45FF127E76F2100F592A2 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				16308639280883810061BE31 /* TXExtensions */,
+				16308639280883810061BE31 /* Extensions */,
 				164828D62815D665002C6C06 /* TXBundledImage */,
 				16D3C5E32810313D00B8A2CC /* TXEventBroker */,
 				16D237AB28019A4C00FD1DC4 /* TXLocalStorageAssistant */,
@@ -1434,6 +1434,14 @@
 				16FDA079280FF5B7004BB3C4 /* CommentTableViewCell+Trailing+Middle.swift */,
 			);
 			path = "CommentTableViewCell+Trailing+Middle";
+			sourceTree = "<group>";
+		};
+		16C6ECE4284DE875008930CF /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				16DBF5C22817E90600E92DE5 /* UIViewControllerX.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		16CFD1C528172DF90020341B /* TweetViewController */ = {
@@ -1933,7 +1941,7 @@
 				163D2DAA2819258300CE5646 /* SocialsDataStore.swift in Sources */,
 				165ED0312811E41A0022D822 /* TXVisualEffectView.swift in Sources */,
 				16FDA078280FF5A4004BB3C4 /* CommentTableViewCell+Trailing+Header.swift in Sources */,
-				1618F8E92822E50600C1358E /* FloatingButton.swift in Sources */,
+				1618F8E92822E50600C1358E /* FloatingActionButton.swift in Sources */,
 				16E3C13228216C39009CC8E7 /* FeedDataStore.swift in Sources */,
 				16237AF1281FB49600837064 /* StringX.swift in Sources */,
 				16DBF5C32817E90600E92DE5 /* UIViewControllerX.swift in Sources */,
