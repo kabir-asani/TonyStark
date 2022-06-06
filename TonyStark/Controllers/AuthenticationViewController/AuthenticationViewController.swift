@@ -136,12 +136,10 @@ extension AuthenticationViewController: AuthenticationActionsTableViewCellIntera
             case .success():
                 TXEventBroker.shared.emit(event: HomeEvent())
             case .failure(_):
-                let snackBar = SnackBar(
+                SnackBar.show(
                     text: "Something Went Wrong!",
                     variant: .failure
                 )
-                
-                snackBar.present()
             }
         }
     }
@@ -154,12 +152,10 @@ extension AuthenticationViewController: AuthenticationActionsTableViewCellIntera
             case .success():
                 TXEventBroker.shared.emit(event: HomeEvent())
             case .failure(_):
-                let snackBar = SnackBar(
+                SnackBar.show(
                     text: "Something Went Wrong!",
                     variant: .failure
                 )
-                
-                snackBar.present()
             }
         }
     }
