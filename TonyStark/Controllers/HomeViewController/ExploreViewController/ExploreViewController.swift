@@ -157,7 +157,7 @@ extension ExploreViewController: TXTableViewDataSource {
                 return
             }
 
-            let previousSearchesResult = await SearchDataStore.shared.previousSearchKeywords()
+            let previousSearchesResult = await SearchDataStore.shared.previouslySearchKeywords()
             
             previousSearchesResult.map { previousSearches in
                 strongSelf.state = .success(data: previousSearches)

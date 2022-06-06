@@ -7,12 +7,10 @@
 
 import Foundation
 
-protocol NotificationsDataStoreProtocol: DataStoreProtocol {
-    func notifications() async -> Result<Paginated<RemoteNotification>, RemoteNotificationsFailure>
-}
-
-class NotificationsDataStore: NotificationsDataStoreProtocol {
-    static let shared: NotificationsDataStoreProtocol = NotificationsDataStore()
+class NotificationsDataStore: DataStore {
+    static let shared = NotificationsDataStore()
+    
+    private init() { }
     
     func bootUp() async {
         // Do nothing
@@ -22,17 +20,9 @@ class NotificationsDataStore: NotificationsDataStoreProtocol {
         // Do nothing
     }
     
-    func notifications() async -> Result<Paginated<RemoteNotification>, RemoteNotificationsFailure> {
-        let _: Void = await withUnsafeContinuation {
-            continuation in
-            
-            DispatchQueue
-                .global(qos: .background)
-                .asyncAfter(deadline: .now()) {
-                    continuation.resume(returning: Void())
-                }
-        }
-        
-        return .success(.default())
+    func notifications(
+        after nextToken: String? = nil
+    ) async -> Result<Paginated<RemoteNotification>, RemoteNotificationsFailure> {
+        return .failure(.unknown)
     }
 }

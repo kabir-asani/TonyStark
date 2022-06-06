@@ -7,20 +7,16 @@
 
 import Foundation
 
-protocol DataStoreProtocol {
+protocol DataStore {
     func bootUp() async
     
     func bootDown() async
 }
 
-class DataStore {
-    static let baseURL = ""
-}
-
 class DataStoresRegistry {
     static let shared = DataStoresRegistry()
     
-    private let dataStores: [DataStoreProtocol] = [
+    private let dataStores: [DataStore] = [
         CurrentUserDataStore.shared,
         FeedDataStore.shared,
         TweetsDataStore.shared,

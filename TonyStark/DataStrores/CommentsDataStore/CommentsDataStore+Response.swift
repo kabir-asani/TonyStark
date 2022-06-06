@@ -12,7 +12,13 @@ enum CommentsFailure: Error {
     case unknown
 }
 
-// MARK: Comment
-enum CommentFailure: Error {
+// MARK: Create Comment
+enum CreateCommentFailure: Error {
+    case unknown
+}
+
+
+// MARK: Delete Comment
+enum DeleteCommentFailure: Error {
     case unknown
 }

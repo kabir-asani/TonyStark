@@ -7,19 +7,8 @@
 
 import Foundation
 
-protocol CommentsDataStoreProtocol: DataStoreProtocol {
-    func comments(ofTweetWithId tweetId: String) async -> Result<Paginated<Comment>, CommentsFailure>
-    
-    func comments(
-        ofTweetWithId tweetId: String,
-        after nextToken: String
-    ) async -> Result<Paginated<Comment>, CommentsFailure>
-    
-    func comment(withText text: String, onTweetWithId tweetId: String) async -> Result<Void, CommentFailure>
-}
-
-class CommentsDataStore: CommentsDataStoreProtocol {
-    static let shared: CommentsDataStoreProtocol = CommentsDataStore()
+class CommentsDataStore: DataStore {
+    static let shared = CommentsDataStore()
     
     private init() { }
     
@@ -31,122 +20,23 @@ class CommentsDataStore: CommentsDataStoreProtocol {
         // Do nothing
     }
     
-    func comment(withText text: String, onTweetWithId tweetId: String) async -> Result<Void, CommentFailure> {
-        let _: Void = await withUnsafeContinuation {
-            continuation in
-                
-            DispatchQueue
-                .global(qos: .background)
-                .asyncAfter(deadline: .now()) {
-                    continuation.resume(returning: Void())
-                }
-        }
-        
-        return .success(Void())
+    func createComment(
+        withText text: String,
+        onTweetWithId tweetId: String
+    ) async -> Result<Void, CreateCommentFailure> {
+        return .failure(.unknown)
     }
     
-    func comments(ofTweetWithId tweetId: String) async -> Result<Paginated<Comment>, CommentsFailure>  {
-        return await paginatedComments(
-            ofTweetWithId: tweetId,
-            after: nil
-        )
+    func deleteComment(
+        withId id: String
+    ) async -> Result<Void, DeleteCommentFailure> {
+        return .failure(.unknown)
     }
     
     func comments(
         ofTweetWithId tweetId: String,
-        after nextToken: String
-    ) async -> Result<Paginated<Comment>, CommentsFailure> {
-        return await paginatedComments(
-            ofTweetWithId: tweetId,
-            after: nextToken
-        )
-    }
-    
-    private func paginatedComments(
-        ofTweetWithId tweetId: String,
-        after nextToken: String?
+        after nextToken: String? = nil
     ) async -> Result<Paginated<Comment>, CommentsFailure>{
-        let paginated: Paginated<Comment> = await withUnsafeContinuation {
-            continuation in
-            
-            DispatchQueue
-                .global(qos: .background)
-                .asyncAfter(deadline: .now()) {
-                    var comments: [Comment] = []
-                    
-                    for _ in 0...20 {
-                        if Bool.random() {
-                            comments.append(
-                                Comment(
-                                    id: "3939",
-                                    text: "Hello World!",
-                                    tweetId: "d4had8", creationDate: .now(),
-                                    author: User(
-                                        id: "sadiyakhan",
-                                        name: "Sadiya Khan",
-                                        email: "sadiya@gmail.com",
-                                        username: "sadiyakhan",
-                                        image: "https://www.mirchi9.com/wp-content/uploads/2022/02/Mahesh-Fans-Firing-on-Pooja-Hegde.jpg",
-                                        description: """
-                                        I'm simple and soft.
-                                        """,
-                                        creationDate: .now(),
-                                        lastUpdatedDate: .now(),
-                                        socialDetails: User.SocialDetails(
-                                            followersCount: 0,
-                                            followeesCount: 0
-                                        ),
-                                        activityDetails: User.ActivityDetails(
-                                            tweetsCount: 0
-                                        ),
-                                        viewables: User.Viewables(
-                                            following: false
-                                        )
-                                    )
-                                )
-                            )
-                        } else {
-                            comments.append(
-                                Comment(
-                                    id: "3939",
-                                    text: "Black is the color that speaks to me",
-                                    tweetId: "d4had8", creationDate: .now(),
-                                    author: User(
-                                        id: "mzaink",
-                                        name: "Zain Khan",
-                                        email: "zain@gmail.com",
-                                        username: "mzaink",
-                                        image: "https://pbs.twimg.com/profile_images/1483797876522512385/9CcO904A_400x400.jpg",
-                                        description: """
-                                        Hungry for knowledge. Satiated with life. ✌️
-                                        """,
-                                        creationDate: .now(),
-                                        lastUpdatedDate: .now(),
-                                        socialDetails: User.SocialDetails(
-                                            followersCount: 0,
-                                            followeesCount: 0
-                                        ),
-                                        activityDetails: User.ActivityDetails(
-                                            tweetsCount: 0
-                                        ),
-                                        viewables: User.Viewables(
-                                            following: true
-                                        )
-                                    )
-                                )
-                            )
-                        }
-                    }
-                    
-                    let paginated = Paginated<Comment>(
-                        page: comments,
-                        nextToken: nil
-                    )
-                    
-                    continuation.resume(returning: paginated)
-                }
-        }
-        
-        return .success(paginated)
+        return .failure(.unknown)
     }
 }
