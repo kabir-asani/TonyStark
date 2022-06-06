@@ -26,14 +26,14 @@ class CurrentUserDataStore: DataStore {
     func logIn(
         with provider: AuthenticationProvider
     ) async -> Result<Void, LogInFailure> {
-        return .success(Void())
+        return .failure(.unknown)
     }
     
     func logOut() async -> Result<Void, LogOutFailure> {
         user = nil
         session = nil
         
-        return .success(Void())
+        return .failure(.unknown)
     }
     
     func edit(user: User) async -> Result<Void, EditUserFailure> {
