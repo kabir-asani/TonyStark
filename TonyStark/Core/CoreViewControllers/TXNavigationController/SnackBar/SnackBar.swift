@@ -176,9 +176,9 @@ extension SnackBar {
                 strongSelf.layer.setAffineTransform(hiddenSnackbarTransform)
                 
                 UIView.animate(
-                    withDuration: 0.2,
+                    withDuration: 0.1,
                     delay: 0,
-                    options: .curveEaseIn
+                    options: .curveLinear
                 ) {
                     [weak self] in
                     guard let strongSelf = self else {
@@ -216,7 +216,7 @@ extension SnackBar {
         UIView.animate(
             withDuration: 0.1,
             delay: 0,
-            options: .curveEaseInOut
+            options: .curveLinear
         ) {
             [weak self] in
             guard let strongSelf = self else {
