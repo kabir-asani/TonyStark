@@ -7,14 +7,24 @@
 
 import Foundation
 
-protocol DataStore {
-    func bootUp() async
+class DataStore {
+    func bootUp() async {
+        // Do nothing
+    }
     
-    func bootDown() async
+    func bootDown() async {
+        // Do nothing
+    }
+}
+
+class DataStoreCompanion {
+    let baseURL = "https://nickfury14.herokuapp.com"
 }
 
 class DataStoresRegistry {
     static let shared = DataStoresRegistry()
+    
+    // TODO: Update baseURL to correct one
     
     private let dataStores: [DataStore] = [
         CurrentUserDataStore.shared,

@@ -10,16 +10,8 @@ import Foundation
 class FeedDataStore: DataStore {
     static let shared = FeedDataStore()
     
-    private init() { }
+    private override init() { }
     
-    func bootUp() async {
-        // Do nothing
-    }
-    
-    func bootDown() async {
-        // Do nothing
-    }
-
    
     func feed(
         after nextToken: String? = nil

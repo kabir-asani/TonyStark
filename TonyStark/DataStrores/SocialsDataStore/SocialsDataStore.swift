@@ -10,15 +10,7 @@ import Foundation
 class SocialsDataStore: DataStore {
     static let shared = SocialsDataStore()
     
-    private init() { }
-    
-    func bootUp() async {
-        // Do nothing
-    }
-    
-    func bootDown() async {
-        // Do nothing
-    }
+    private override  init() { }
     
     func follow(
         userWithId userId: String

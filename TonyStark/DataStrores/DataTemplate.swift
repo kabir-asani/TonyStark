@@ -12,3 +12,11 @@ protocol DataTemplate: Codable {
     
     func model() -> Model
 }
+
+struct SuccessDataTemplate<Data: Codable>: Codable {
+    let data: Data
+}
+
+struct FailureDataTemplate<Reason: Codable>: Codable {
+    let reason: Reason
+}

@@ -10,15 +10,7 @@ import Foundation
 class NotificationsDataStore: DataStore {
     static let shared = NotificationsDataStore()
     
-    private init() { }
-    
-    func bootUp() async {
-        // Do nothing
-    }
-    
-    func bootDown() async {
-        // Do nothing
-    }
+    private override init() { }
     
     func notifications(
         after nextToken: String? = nil

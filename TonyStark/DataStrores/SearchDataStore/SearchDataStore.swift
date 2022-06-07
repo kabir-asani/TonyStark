@@ -12,13 +12,13 @@ class SearchDataStore: DataStore {
     
     private static let keywordsStorageKey = "keywordsStorageKey"
     
-    private init() { }
+    private override init() { }
     
-    func bootUp() async {
+    override func bootUp() async {
         // Do nothing
     }
     
-    func bootDown() async {
+    override func bootDown() async {
         // Do nothing
     }
     

@@ -10,15 +10,7 @@ import Foundation
 class TweetsDataStore: DataStore {
     static let shared = TweetsDataStore()
     
-    private init() { }
-    
-    func bootUp() async {
-        // Do nothing
-    }
-    
-    func bootDown() async {
-        // Do nothing
-    }
+    private override init() { }
     
     func createTweet(
         withDetails details: ComposeDetails

@@ -10,15 +10,7 @@ import Foundation
 class LikesDataStore: DataStore {
     static let shared = LikesDataStore()
     
-    private init() { }
-    
-    func bootUp() async {
-        // Do nothing
-    }
-    
-    func bootDown() async {
-        // Do nothing
-    }
+    private override init() { }
 
     func like(
         teetWithId tweetId: String
