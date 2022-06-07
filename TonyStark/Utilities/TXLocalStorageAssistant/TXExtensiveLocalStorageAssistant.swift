@@ -20,7 +20,7 @@ class TXExtensiveLocalStorageAssistant: TXLocalStorageAssistantProtocol {
     func store<T: Codable>(
         key: String,
         value: T
-    ) async throws -> TXLocalStorageElement<T> {
+    ) async throws {
         throw TXStoreFailure.unknown
     }
     
@@ -31,15 +31,14 @@ class TXExtensiveLocalStorageAssistant: TXLocalStorageAssistantProtocol {
     }
     
     func update<T: Codable>(
-        key: String,
-        value: T
-    ) async throws -> TXLocalStorageElement<T> {
+        key: String, value: T
+    ) async throws {
         throw TXUpdateFailure.unknown
     }
     
-    func delete<T: Codable>(
+    func delete(
         key: String
-    ) async throws -> TXLocalStorageElement<T> {
+    ) async throws {
         throw TXDeleteFailure.unknown
     }
 }

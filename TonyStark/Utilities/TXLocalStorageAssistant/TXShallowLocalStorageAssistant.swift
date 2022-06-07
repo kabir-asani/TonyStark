@@ -15,7 +15,9 @@ class TXShallowLocalStorageAssistant: TXLocalStorageAssistantProtocol {
     func exists(
         key: String
     ) async -> Bool {
-        let encodedValue = UserDefaults.standard.object(forKey: key)
+        let encodedValue = UserDefaults.standard.object(
+            forKey: key
+        )
         
         return encodedValue != nil
     }
@@ -23,20 +25,20 @@ class TXShallowLocalStorageAssistant: TXLocalStorageAssistantProtocol {
     func store<T: Storable>(
         key: String,
         value: T
-    ) async throws -> TXLocalStorageElement<T> {
+    ) async throws {
         if await exists(key: key) {
             throw TXStoreFailure.keyAlreadyExists
         }
         
         do {
-            let encoder = JSONEncoder()
+            let encodedValue = try TXJsonSnakeCoder.encode(
+                value
+            )
             
-            let encodedValue = try encoder.encode(value)
-            
-            UserDefaults.standard.set(encodedValue, forKey: key)
-            
-            let result = (key: key, value: value)
-            return result
+            UserDefaults.standard.set(
+                encodedValue,
+                forKey: key
+            )
         } catch {
             throw TXStoreFailure.valueNotEncodable
         }
@@ -46,12 +48,17 @@ class TXShallowLocalStorageAssistant: TXLocalStorageAssistantProtocol {
         key: String
     ) async throws -> TXLocalStorageElement<T> {
         do {
-            let decoder = JSONDecoder()
-            
             if let encodedValue = UserDefaults.standard.data(forKey: key) {
-                let decodedValue = try decoder.decode(T.self, from: encodedValue)
+                let decodedValue = try TXJsonSnakeCoder.decode(
+                    T.self,
+                    from: encodedValue
+                )
                 
-                let result = (key: key, value: decodedValue)
+                let result = (
+                    key: key,
+                    value: decodedValue
+                )
+                
                 return result
             } else {
                 throw TXRetrieveFailure.keyDoesNotExists
@@ -64,17 +71,17 @@ class TXShallowLocalStorageAssistant: TXLocalStorageAssistantProtocol {
     func update<T: Storable>(
         key: String,
         value: T
-    ) async throws -> TXLocalStorageElement<T> {
+    ) async throws {
         if await exists(key: key) {
             do {
-                let encoder = JSONEncoder()
+                let encodedValue = try TXJsonSnakeCoder.encode(
+                    value
+                )
                 
-                let encodedValue = try encoder.encode(value)
-                
-                UserDefaults.standard.set(encodedValue, forKey: key)
-                
-                let result = (key: key, value: value)
-                return result
+                UserDefaults.standard.set(
+                    encodedValue,
+                    forKey: key
+                )
             } catch {
                 throw TXUpdateFailure.valueNotEncodable
             }
@@ -83,19 +90,15 @@ class TXShallowLocalStorageAssistant: TXLocalStorageAssistantProtocol {
         }
     }
     
-    func delete<T: Storable>(
+    func delete(
         key: String
-    ) async throws -> TXLocalStorageElement<T> {
+    ) async throws {
         do {
-            let decoder = JSONDecoder()
-            
-            if let encodedValue = UserDefaults.standard.data(forKey: key) {
-                let decodedValue = try decoder.decode(T.self, from: encodedValue)
-                
-                UserDefaults.standard.set(nil, forKey: key)
-                
-                let result = (key: key, value: decodedValue)
-                return result
+            if await exists(key: key) {
+                UserDefaults.standard.set(
+                    nil,
+                    forKey: key
+                )
             } else {
                 throw TXDeleteFailure.keyDoesNotExists
             }

@@ -45,7 +45,7 @@ protocol TXLocalStorageAssistantProtocol {
     func store<T: Storable>(
         key: String,
         value: T
-    ) async throws -> TXLocalStorageElement<T>
+    ) async throws
     
     func retrieve<T: Storable>(
         key: String
@@ -54,11 +54,11 @@ protocol TXLocalStorageAssistantProtocol {
     func update<T: Storable>(
         key: String,
         value: T
-    ) async throws -> TXLocalStorageElement<T>
+    ) async throws
     
-    func delete<T: Storable>(
+    func delete(
         key: String
-    ) async throws -> TXLocalStorageElement<T>
+    ) async throws
 }
 
 
