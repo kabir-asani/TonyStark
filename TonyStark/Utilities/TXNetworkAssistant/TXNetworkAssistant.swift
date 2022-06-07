@@ -13,26 +13,34 @@ enum TXNetworkFailure: Error {
     case malformedContent
 }
 
-typealias TXNetworkSuccess = (
-    data: Data,
-    statusCode: Int
-)
+struct TXNetworkSuccess {
+    let data: Data
+    let statusCode: Int
+}
 
 class TXNetworkAssistant {
     static let shared: TXNetworkAssistant = TXNetworkAssistant()
     
+    enum HTTPMethod: String {
+        case get = "GET"
+        case post = "POST"
+        case put = "PUT"
+        case patch = "PATCH"
+        case delete = "DELETE"
+    }
+    
     private init() { }
     
     func get(
-        url baseURL: String,
+        url: String,
         query: [String: String]? = nil,
         headers: [String: String]? = nil
     ) async throws -> TXNetworkSuccess {
         let result = try await request(
-            url: baseURL,
-            method: "GET",
-            headers: headers,
+            url: url,
+            method: .get,
             query: query,
+            headers: headers,
             content: nil
         )
         
@@ -40,16 +48,16 @@ class TXNetworkAssistant {
     }
     
     func post(
-        url baseURL: String,
-        headers: [String: String]? = nil,
+        url: String,
         query: [String: String]? = nil,
+        headers: [String: String]? = nil,
         content: Encodable
     ) async throws -> TXNetworkSuccess {
         let result = try await request(
-            url: baseURL,
-            method: "POST",
-            headers: headers,
+            url: url,
+            method: .post,
             query: query,
+            headers: headers,
             content: content
         )
         
@@ -57,16 +65,16 @@ class TXNetworkAssistant {
     }
     
     func put(
-        url baseURL: String,
-        headers: [String: String]? = nil,
+        url: String,
         query: [String: String]? = nil,
+        headers: [String: String]? = nil,
         content: Encodable
     ) async throws -> TXNetworkSuccess {
         let result = try await request(
-            url: baseURL,
-            method: "PUT",
-            headers: headers,
+            url: url,
+            method: .put,
             query: query,
+            headers: headers,
             content: content
         )
         
@@ -74,16 +82,16 @@ class TXNetworkAssistant {
     }
     
     func patch(
-        url baseURL: String,
-        headers: [String: String]? = nil,
+        url: String,
         query: [String: String]? = nil,
+        headers: [String: String]? = nil,
         content: Encodable
     ) async throws -> TXNetworkSuccess {
         let result = try await request(
-            url: baseURL,
-            method: "PATCH",
-            headers: headers,
+            url: url,
+            method: .patch,
             query: query,
+            headers: headers,
             content: content
         )
         
@@ -91,15 +99,15 @@ class TXNetworkAssistant {
     }
     
     func delete(
-        url baseURL: String,
+        url: String,
         query: [String: String]? = nil,
         headers: [String: String]? = nil
     ) async throws -> TXNetworkSuccess {
         let result = try await request(
-            url: baseURL,
-            method: "DELETE",
-            headers: headers,
+            url: url,
+            method: .delete,
             query: query,
+            headers: headers,
             content: nil
         )
         
@@ -107,19 +115,19 @@ class TXNetworkAssistant {
     }
     
     private func request(
-        url baseURL: String,
-        method: String,
-        headers: [String: String]? = nil,
+        url: String,
+        method: HTTPMethod,
         query: [String: String]? = nil,
+        headers: [String: String]? = nil,
         content: Encodable?
     ) async throws -> TXNetworkSuccess {
-        guard let url = URL(string: baseURL.buildCompleteURL(query: query)) else {
+        guard let url = URL(string: url.buildCompleteURL(query: query)) else {
             throw TXNetworkFailure.malformedURL
         }
         
         var request = URLRequest(url: url)
         
-        request.setMethod(method)
+        request.setMethod(method.rawValue)
         
         if let headers = headers {
             request.setHeaders(headers)
@@ -151,7 +159,7 @@ class TXNetworkAssistant {
                     return
                 }
                 
-                let result = (
+                let result = TXNetworkSuccess(
                     data: data,
                     statusCode: response.statusCode
                 )
@@ -166,12 +174,16 @@ class TXNetworkAssistant {
     }
 }
 
-extension URLRequest {
-    mutating func setMethod(_ method: String) {
+fileprivate extension URLRequest {
+    mutating func setMethod(
+        _ method: String
+    ) {
         self.httpMethod = method
     }
     
-    mutating func setHeaders(_ headers: [String: String]) {
+    mutating func setHeaders(
+        _ headers: [String: String]
+    ) {
         for (key, value) in headers {
             self.setValue(
                 value,
@@ -180,13 +192,17 @@ extension URLRequest {
         }
     }
     
-    mutating func setContent(_ content: Encodable) throws {
+    mutating func setContent(
+        _ content: Encodable
+    ) throws {
         self.httpBody = try JSONSerialization.data(withJSONObject: content, options: .prettyPrinted)
     }
 }
 
-extension String {
-    func buildCompleteURL(query: [String: String]?) -> String {
+fileprivate extension String {
+    func buildCompleteURL(
+        query: [String: String]?
+    ) -> String {
         var url = self
         
         if let query = query, !query.isEmpty {
