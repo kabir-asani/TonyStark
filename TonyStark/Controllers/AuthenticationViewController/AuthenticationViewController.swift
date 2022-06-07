@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 class AuthenticationViewController: TXViewController {
     // Declare
@@ -130,15 +131,36 @@ extension AuthenticationViewController: TXTableViewDelegate {
 extension AuthenticationViewController: AuthenticationActionsTableViewCellInteractionsHandler {
     func authenticationActionsCellDidContinueWithGoogle() {
         Task {
-            let result = await CurrentUserDataStore.shared.logIn(with: .google)
+            let result = await TXGoogleAssistant.shared.authenticate(
+                withPresenter: self
+            )
             
-            switch result {
-            case .success():
-                TXEventBroker.shared.emit(event: HomeEvent())
-            case .failure(_):
-                SnackBar.show(
-                    text: "Something Went Wrong!",
-                    variant: .failure
+            result.mapOnSuccess { profile in
+                Task {
+                    let result = await CurrentUserDataStore.shared.logIn(
+                        withDetails: profile,
+                        from: .google
+                    )
+                    
+                    result.mapOnSuccess {
+                        TXEventBroker.shared.emit(
+                            event: HomeEvent()
+                        )
+                    } orElse: {
+                        TXEventBroker.shared.emit(
+                            event: ShowSnackBarEvent(
+                                text: "Something Went Wrong!",
+                                variant: .failure
+                            )
+                        )
+                    }
+                }
+            } orElse: {
+                TXEventBroker.shared.emit(
+                    event: ShowSnackBarEvent(
+                        text: "Something Went Wrong!",
+                        variant: .failure
+                    )
                 )
             }
         }
@@ -146,15 +168,34 @@ extension AuthenticationViewController: AuthenticationActionsTableViewCellIntera
     
     func authenticationActionsCellDidContinueWithApple() {
         Task {
-            let result = await CurrentUserDataStore.shared.logIn(with: .apple)
+            let result = await TXAppleAssistant.shared.authenticate()
             
-            switch result {
-            case .success():
-                TXEventBroker.shared.emit(event: HomeEvent())
-            case .failure(_):
-                SnackBar.show(
-                    text: "Something Went Wrong!",
-                    variant: .failure
+            result.mapOnSuccess { profile in
+                Task {
+                    let result = await CurrentUserDataStore.shared.logIn(
+                        withDetails: profile,
+                        from: .apple
+                    )
+                    
+                    result.mapOnSuccess {
+                        TXEventBroker.shared.emit(
+                            event: HomeEvent()
+                        )
+                    } orElse: {
+                        TXEventBroker.shared.emit(
+                            event: ShowSnackBarEvent(
+                                text: "Something Went Wrong!",
+                                variant: .failure
+                            )
+                        )
+                    }
+                }
+            } orElse: {
+                TXEventBroker.shared.emit(
+                    event: ShowSnackBarEvent(
+                        text: "Something Went Wrong!",
+                        variant: .failure
+                    )
                 )
             }
         }
