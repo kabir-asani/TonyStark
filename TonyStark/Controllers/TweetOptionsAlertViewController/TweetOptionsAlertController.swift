@@ -41,20 +41,24 @@ class TweetOptionsAlertController: TXAlertController {
         
         addAction(bookmarkAction)
         
-        if tweet.author.id != CurrentUserDataStore.shared.user!.id {
-            let followAction = UIAlertAction(
-                title: tweet.author.viewables.following ? "Remove follow" : "Follow",
-                style: .default
-            ) {
-                [weak self] action in
-                guard let strongSelf = self else {
-                    return
+        CurrentUserDataStore.shared.state.map { currentUser in
+            if tweet.author.id != currentUser.user.id {
+                let followAction = UIAlertAction(
+                    title: tweet.author.viewables.following ? "Remove follow" : "Follow",
+                    style: .default
+                ) {
+                    [weak self] action in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    
+                    strongSelf.interactionsHandler?.tweetOptionsAlertControllerDidPressFollow(strongSelf)
                 }
                 
-                strongSelf.interactionsHandler?.tweetOptionsAlertControllerDidPressFollow(strongSelf)
+                addAction(followAction)
             }
-            
-            addAction(followAction)
+        } onAbsent: {
+            // Do nothing
         }
         
         let cancelAction = UIAlertAction(

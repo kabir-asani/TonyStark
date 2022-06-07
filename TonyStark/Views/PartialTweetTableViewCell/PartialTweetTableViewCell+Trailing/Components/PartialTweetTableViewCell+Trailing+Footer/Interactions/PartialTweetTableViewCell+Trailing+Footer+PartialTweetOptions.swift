@@ -95,27 +95,31 @@ extension PartialTweetTableViewCell.Trailing.Footer {
                 }
             ]
             
-            if tweet.author.id != CurrentUserDataStore.shared.user!.id {
-                children.append(
-                    UIAction(
-                        title: tweet.author.viewables.following
-                        ? "Unfollow"
-                        : "Follow",
-                        image: UIImage(
-                            systemName: tweet.author.viewables.following
-                            ? "person.badge.plus.fill"
-                            : "person.badge.plus"
-                        )
-                    ) { [weak self] action in
-                        guard let strongSelf = self else {
-                            return
+            CurrentUserDataStore.shared.state.map { currentUser in
+                if tweet.author.id != currentUser.user.id {
+                    children.append(
+                        UIAction(
+                            title: tweet.author.viewables.following
+                            ? "Unfollow"
+                            : "Follow",
+                            image: UIImage(
+                                systemName: tweet.author.viewables.following
+                                ? "person.badge.plus.fill"
+                                : "person.badge.plus"
+                            )
+                        ) { [weak self] action in
+                            guard let strongSelf = self else {
+                                return
+                            }
+                            
+                            strongSelf.onFollowPressed?()
                         }
-                        
-                        strongSelf.onFollowPressed?()
-                    }
-                )
+                    )
+                }
+            } onAbsent: {
+                // Do nothing
             }
-            
+
             optionsButton.menu = TXMenu(children: children)
         }
         

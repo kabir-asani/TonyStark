@@ -107,4 +107,13 @@ extension UIViewController {
             )
         }
     }
+    
+    func showUnknownFailureSnackBar() {
+        TXEventBroker.shared.emit(
+            event: ShowSnackBarEvent(
+                text: "Something Went Wrong!",
+                variant: .failure
+            )
+        )
+    }
 }

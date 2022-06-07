@@ -19,5 +19,17 @@ enum LogOutFailure: Error {
 
 // MARK: Edit User
 enum EditUserFailure: Error {
-    
+    case unknown
+    case userNameAlreadyExists
+}
+
+
+// MARK: CreateTokenFailure
+enum CreateTokenFailure: Error {
+    case unknown
+}
+
+// MARK: DeleteTokenFailure
+enum DeleteTokenFailure: Error {
+    case unknown
 }

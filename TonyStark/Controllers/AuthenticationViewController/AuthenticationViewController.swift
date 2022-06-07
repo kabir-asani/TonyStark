@@ -147,21 +147,11 @@ extension AuthenticationViewController: AuthenticationActionsTableViewCellIntera
                             event: HomeEvent()
                         )
                     } orElse: {
-                        TXEventBroker.shared.emit(
-                            event: ShowSnackBarEvent(
-                                text: "Something Went Wrong!",
-                                variant: .failure
-                            )
-                        )
+                        showUnknownFailureSnackBar()
                     }
                 }
             } orElse: {
-                TXEventBroker.shared.emit(
-                    event: ShowSnackBarEvent(
-                        text: "Something Went Wrong!",
-                        variant: .failure
-                    )
-                )
+                showUnknownFailureSnackBar()
             }
         }
     }
@@ -182,21 +172,11 @@ extension AuthenticationViewController: AuthenticationActionsTableViewCellIntera
                             event: HomeEvent()
                         )
                     } orElse: {
-                        TXEventBroker.shared.emit(
-                            event: ShowSnackBarEvent(
-                                text: "Something Went Wrong!",
-                                variant: .failure
-                            )
-                        )
+                        showUnknownFailureSnackBar()
                     }
                 }
             } orElse: {
-                TXEventBroker.shared.emit(
-                    event: ShowSnackBarEvent(
-                        text: "Something Went Wrong!",
-                        variant: .failure
-                    )
-                )
+                showUnknownFailureSnackBar()
             }
         }
     }

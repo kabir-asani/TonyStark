@@ -318,29 +318,42 @@ extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
     
     func otherUserCellDidPressFollowers(_ cell: OtherUserTableViewCell) {
         if user.socialDetails.followersCount > 0 {
-            let followersViewController = FollowersViewController()
-            
-            followersViewController.populate(
-                withUser: CurrentUserDataStore.shared.user!
-            )
-            
-            navigationController?.pushViewController(
-                followersViewController, animated: true
-            )
+            CurrentUserDataStore.shared.state.map {
+                currentUser in
+                
+                let followersViewController = FollowersViewController()
+                followersViewController.populate(
+                    withUser: currentUser.user
+                )
+                
+                navigationController?.pushViewController(
+                    followersViewController, animated: true
+                )
+            } onAbsent: {
+                showUnknownFailureSnackBar()
+                return
+            }
         }
     }
     
     func otherUserCellDidPressFollowings(_ cell: OtherUserTableViewCell) {
         if user.socialDetails.followeesCount > 0 {
-            let followingsViewController = FolloweesViewController()
-            
-            followingsViewController.populate(
-                withUser: CurrentUserDataStore.shared.user!
-            )
-            
-            navigationController?.pushViewController(
-                followingsViewController, animated: true
-            )
+            CurrentUserDataStore.shared.state.map {
+                currentUser in
+                
+                let followingsViewController = FolloweesViewController()
+                
+                followingsViewController.populate(
+                    withUser: currentUser.user
+                )
+                
+                navigationController?.pushViewController(
+                    followingsViewController, animated: true
+                )
+            } onAbsent: {
+                showUnknownFailureSnackBar()
+                return
+            }
         }
     }
 }

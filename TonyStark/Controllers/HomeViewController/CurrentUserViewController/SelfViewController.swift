@@ -187,89 +187,101 @@ class SelfViewController: TXViewController {
 // MARK: TXTableViewDataSource
 extension SelfViewController: TXTableViewDataSource {
     private func populateTableView() {
-        Task {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            strongSelf.tableView.beginPaginating()
-            
-            let tweetsResult = await TweetsDataStore.shared.tweets(
-                ofUserWithId: CurrentUserDataStore.shared.user!.id
-            )
-            
-            strongSelf.tableView.endPaginating()
-            
-            tweetsResult.map { paginatedTweets in
-                strongSelf.state = .success(data: paginatedTweets)
+        CurrentUserDataStore.shared.state.map { currentUser in
+            Task {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
                 
-                strongSelf.tableView.reloadData()
-            } onFailure: { cause in
-                strongSelf.state = .failure(cause: cause)
+                strongSelf.tableView.beginPaginating()
+                
+                let tweetsResult = await TweetsDataStore.shared.tweets(
+                    ofUserWithId: currentUser.user.id
+                )
+                
+                strongSelf.tableView.endPaginating()
+                
+                tweetsResult.map { paginatedTweets in
+                    strongSelf.state = .success(data: paginatedTweets)
+                    
+                    strongSelf.tableView.reloadData()
+                } onFailure: { cause in
+                    strongSelf.state = .failure(cause: cause)
+                }
             }
+        } onAbsent: {
+            showUnknownFailureSnackBar()
         }
     }
     
     private func refreshTableView() {
-        Task {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
+        CurrentUserDataStore.shared.state.map { currentUser in
+            Task {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.tableView.beginRefreshing()
+                
+                let tweetsResult = await TweetsDataStore.shared.tweets(
+                    ofUserWithId: currentUser.user.id
+                )
+                
+                strongSelf.tableView.endRefreshing()
+                
+                tweetsResult.map { paginatedTweets in
+                    strongSelf.state = .success(data: paginatedTweets)
+                    strongSelf.tableView.reloadData()
+                } onFailure: { cause in
+                    strongSelf.state = .failure(cause: cause)
+                }
             }
-            
-            strongSelf.tableView.beginRefreshing()
-            
-            let tweetsResult = await TweetsDataStore.shared.tweets(
-                ofUserWithId: CurrentUserDataStore.shared.user!.id
-            )
-            
-            strongSelf.tableView.endRefreshing()
-            
-            tweetsResult.map { paginatedTweets in
-                strongSelf.state = .success(data: paginatedTweets)
-                strongSelf.tableView.reloadData()
-            } onFailure: { cause in
-                strongSelf.state = .failure(cause: cause)
-            }
+        } onAbsent: {
+            showUnknownFailureSnackBar()
         }
     }
     
     private func extendTableView() {
-        state.mapOnSuccess { previousPaginatedTweets in
-            if let nextToken = previousPaginatedTweets.nextToken {
-                Task {
-                    [weak self] in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    
-                    strongSelf.tableView.beginPaginating()
-                    
-                    let tweetsResult = await TweetsDataStore.shared.tweets(
-                        ofUserWithId: CurrentUserDataStore.shared.user!.id,
-                        after: nextToken
-                    )
-                    
-                    strongSelf.tableView.endPaginating()
-                    
-                    tweetsResult.map { latestPaginatedTweets in
-                        let updatedPaginatedTweets = Paginated<Tweet>(
-                            page: previousPaginatedTweets.page + latestPaginatedTweets.page,
-                            nextToken: latestPaginatedTweets.nextToken
+        CurrentUserDataStore.shared.state.map { currentUser in
+            state.mapOnSuccess { previousPaginatedTweets in
+                if let nextToken = previousPaginatedTweets.nextToken {
+                    Task {
+                        [weak self] in
+                        guard let strongSelf = self else {
+                            return
+                        }
+                        
+                        strongSelf.tableView.beginPaginating()
+                        
+                        let tweetsResult = await TweetsDataStore.shared.tweets(
+                            ofUserWithId: currentUser.user.id,
+                            after: nextToken
                         )
                         
-                        strongSelf.tableView.appendSepartorToLastMostVisibleCell()
+                        strongSelf.tableView.endPaginating()
                         
-                        strongSelf.state = .success(data: updatedPaginatedTweets)
-                        strongSelf.tableView.reloadData()
-                    } onFailure: { cause in
-                        // TODO: Communicate via SnackBar
+                        tweetsResult.map { latestPaginatedTweets in
+                            let updatedPaginatedTweets = Paginated<Tweet>(
+                                page: previousPaginatedTweets.page + latestPaginatedTweets.page,
+                                nextToken: latestPaginatedTweets.nextToken
+                            )
+                            
+                            strongSelf.tableView.appendSepartorToLastMostVisibleCell()
+                            
+                            strongSelf.state = .success(data: updatedPaginatedTweets)
+                            strongSelf.tableView.reloadData()
+                        } onFailure: { cause in
+                            // TODO: Communicate via SnackBar
+                        }
                     }
                 }
+            } orElse: {
+                // Do nothing
             }
-        } orElse: {
-            // Do nothing
+        } onAbsent: {
+            showUnknownFailureSnackBar()
         }
     }
     
@@ -316,7 +328,13 @@ extension SelfViewController: TXTableViewDataSource {
             ) as! CurrentUserTableViewCell
             
             cell.interactionsHandler = self
-            cell.configure(withUser: CurrentUserDataStore.shared.user!)
+            let user = CurrentUserDataStore.shared.state.map { currentUser in
+                currentUser.user
+            } onAbsent: {
+                User.default()
+            }
+
+            cell.configure(withUser: user)
             
             return cell
         case SelfTableViewSection.tweets.rawValue:
@@ -399,7 +417,11 @@ extension SelfViewController: TXScrollViewDelegate {
         }
         
         if currentYOffset > 120 && navigationItem.title == nil {
-            navigationItem.title = CurrentUserDataStore.shared.user!.name
+            navigationItem.title = CurrentUserDataStore.shared.state.map { currentUser in
+                currentUser.user.name
+            } onAbsent: {
+                ""
+            }
         }
     }
 }
@@ -416,48 +438,65 @@ extension SelfViewController: TXRefreshControlDelegate {
 // MARK: CurrentUserDetailsTableViewCellDelegate
 extension SelfViewController: CurrentUserTableViewCellInteractionsHandler {
     func currentUserCellDidPressEdit(_ cell: CurrentUserTableViewCell) {
-        let editUserDetailsViewController = EditSelfViewController()
-        
-        editUserDetailsViewController.populate(withUser: CurrentUserDataStore.shared.user!)
-        
-        let navigationViewController = TXNavigationController(
-            rootViewController: editUserDetailsViewController
-        )
-        
-        navigationViewController.modalPresentationStyle = .fullScreen
-        
-        present(
-            navigationViewController,
-            animated: true
-        )
+        CurrentUserDataStore.shared.state.map { currentUser in
+            let editUserDetailsViewController = EditSelfViewController()
+            
+            editUserDetailsViewController.populate(withUser: currentUser.user)
+            
+            let navigationViewController = TXNavigationController(
+                rootViewController: editUserDetailsViewController
+            )
+            
+            navigationViewController.modalPresentationStyle = .fullScreen
+            
+            present(
+                navigationViewController,
+                animated: true
+            )
+        } onAbsent: {
+            showUnknownFailureSnackBar()
+            return
+        }
+
     }
     
     func currentUserCellDidPressFollowers(_ cell: CurrentUserTableViewCell) {
-        if CurrentUserDataStore.shared.user!.socialDetails.followersCount > 0 {
-            let followersViewController = FollowersViewController()
-            
-            followersViewController.populate(
-                withUser: CurrentUserDataStore.shared.user!
-            )
-            
-            navigationController?.pushViewController(
-                followersViewController, animated: true
-            )
+        CurrentUserDataStore.shared.state.map { currentUser in
+            if currentUser.user.socialDetails.followersCount > 0 {
+                let followersViewController = FollowersViewController()
+                
+                followersViewController.populate(
+                    withUser: currentUser.user
+                )
+                
+                navigationController?.pushViewController(
+                    followersViewController, animated: true
+                )
+            }
+        } onAbsent: {
+            showUnknownFailureSnackBar()
+            return
         }
     }
     
     func currentUserCellDidPressFollowings(_ cell: CurrentUserTableViewCell) {
-        if CurrentUserDataStore.shared.user!.socialDetails.followeesCount > 0 {
-            let followingsViewController = FolloweesViewController()
-            
-            followingsViewController.populate(
-                withUser: CurrentUserDataStore.shared.user!
-            )
-            
-            navigationController?.pushViewController(
-                followingsViewController, animated: true
-            )
+        CurrentUserDataStore.shared.state.map { currentUser in
+            if currentUser.user.socialDetails.followeesCount > 0 {
+                let followingsViewController = FolloweesViewController()
+                
+                followingsViewController.populate(
+                    withUser: currentUser.user
+                )
+                
+                navigationController?.pushViewController(
+                    followingsViewController, animated: true
+                )
+            }
+        } onAbsent: {
+            showUnknownFailureSnackBar()
+            return
         }
+        
     }
 }
 

@@ -86,31 +86,36 @@ class ComposeViewController: TXViewController {
     }
     
     private func configureCompose() {
-        compose.configure(
-            withUser: CurrentUserDataStore.shared.user!
-        )
-        
-        compose.delegate = self
-        
-        compose.pin(
-            toTopOf: view,
-            withInset: 16,
-            byBeingSafeAreaAware: true
-        )
-        compose.pin(
-            toLeftOf: view,
-            withInset: 16,
-            byBeingSafeAreaAware: true
-        )
-        compose.pin(
-            toRightOf: view,
-            withInset: 16,
-            byBeingSafeAreaAware: true
-        )
-        compose.attach(
-            bottomToTopOf: separator,
-            byBeingSafeAreaAware: true
-        )
+        CurrentUserDataStore.shared.state.map { currentUser in
+            compose.configure(
+                withUser: currentUser.user
+            )
+            
+            compose.delegate = self
+            
+            compose.pin(
+                toTopOf: view,
+                withInset: 16,
+                byBeingSafeAreaAware: true
+            )
+            compose.pin(
+                toLeftOf: view,
+                withInset: 16,
+                byBeingSafeAreaAware: true
+            )
+            compose.pin(
+                toRightOf: view,
+                withInset: 16,
+                byBeingSafeAreaAware: true
+            )
+            compose.attach(
+                bottomToTopOf: separator,
+                byBeingSafeAreaAware: true
+            )
+        } onAbsent: {
+            showUnknownFailureSnackBar()
+            return
+        }
     }
     
     private func configureSeparator() {
