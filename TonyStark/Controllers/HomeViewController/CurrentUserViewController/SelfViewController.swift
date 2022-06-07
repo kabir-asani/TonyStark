@@ -149,14 +149,18 @@ class SelfViewController: TXViewController {
             Task {
                 let result = await CurrentUserDataStore.shared.logOut()
                 
-                switch result {
-                case .success():
-                    TXEventBroker.shared.emit(event: AuthenticationEvent())
-                case .failure(_):
-                    // TODO: Implement failure cases
-                    break
+                result.mapOnSuccess {
+                    TXEventBroker.shared.emit(
+                        event: AuthenticationEvent()
+                    )
+                } orElse: {
+                    TXEventBroker.shared.emit(
+                        event: ShowSnackBarEvent(
+                            text: "Something Went Wrong!",
+                            variant: .failure
+                        )
+                    )
                 }
-                
             }
         }
         

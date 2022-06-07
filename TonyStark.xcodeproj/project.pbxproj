@@ -57,6 +57,7 @@
 		16237AF3281FB71000837064 /* EditUsernameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16237AF2281FB71000837064 /* EditUsernameTableViewCell.swift */; };
 		162644EB28292C8000CE4B53 /* SnackBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162644EA28292C8000CE4B53 /* SnackBar.swift */; };
 		162832C82824D71700A17680 /* EmptyFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162832C72824D71700A17680 /* EmptyFeedTableViewCell.swift */; };
+		162AB408284FA42F006E2C55 /* TXJsonSnakeCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162AB407284FA42F006E2C55 /* TXJsonSnakeCoder.swift */; };
 		162C378D281D15D8000A8C0C /* ProfileImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C378C281D15D8000A8C0C /* ProfileImageTableViewCell.swift */; };
 		162C3790281D1A81000A8C0C /* NameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C378F281D1A81000A8C0C /* NameTableViewCell.swift */; };
 		162C3793281D1D65000A8C0C /* UsernameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C3792281D1D65000A8C0C /* UsernameTableViewCell.swift */; };
@@ -80,6 +81,8 @@
 		164828D82815D678002C6C06 /* TXBundledImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164828D72815D678002C6C06 /* TXBundledImage.swift */; };
 		16493D212812B372004912BB /* TXTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16493D202812B372004912BB /* TXTextView.swift */; };
 		16493D232812B56D004912BB /* UIEdgeInsetsX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16493D222812B56D004912BB /* UIEdgeInsetsX.swift */; };
+		1653E87C284FDC930060FD32 /* GodViewController+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1653E87B284FDC930060FD32 /* GodViewController+Events.swift */; };
+		1653E87E284FDCB60060FD32 /* HomeViewController+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1653E87D284FDCB60060FD32 /* HomeViewController+Events.swift */; };
 		1659263E27E1C55100A1C9F2 /* TXBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1659263D27E1C55100A1C9F2 /* TXBarButtonItem.swift */; };
 		165E54F227E77F9C00D3BA0D /* TXImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165E54F127E77F9C00D3BA0D /* TXImageProvider.swift */; };
 		165ED0252811CC760022D822 /* TXTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ED0242811CC760022D822 /* TXTableView.swift */; };
@@ -104,7 +107,7 @@
 		168992A7281B135000D5D85C /* AvatarImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168992A6281B135000D5D85C /* AvatarImage.swift */; };
 		1691E453280EA8D800BA223D /* TXView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1691E452280EA8D800BA223D /* TXView.swift */; };
 		1691E456280EABAE00BA223D /* TXStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1691E455280EABAE00BA223D /* TXStackView.swift */; };
-		1696A07F281D742500C88604 /* RunnerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1696A07E281D742500C88604 /* RunnerViewController.swift */; };
+		1696A07F281D742500C88604 /* GodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1696A07E281D742500C88604 /* GodViewController.swift */; };
 		16983AD22824C1780025C397 /* TXShallowLocalStorageAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16983AD12824C1780025C397 /* TXShallowLocalStorageAssistant.swift */; };
 		16983AD42824C1960025C397 /* TXExtensiveLocalStorageAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16983AD32824C1960025C397 /* TXExtensiveLocalStorageAssistant.swift */; };
 		16993CD6280C41FE00FFE71B /* TXSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16993CD5280C41FE00FFE71B /* TXSearchController.swift */; };
@@ -120,7 +123,10 @@
 		16BB01132813A2B800532323 /* OtherUserTableViewCell+Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB01122813A2B800532323 /* OtherUserTableViewCell+Header.swift */; };
 		16BB01172813A53600532323 /* OtherUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB01162813A53600532323 /* OtherUserViewController.swift */; };
 		16C03C6128211D5300E7005B /* CurrentUserDataStore+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C03C6028211D5300E7005B /* CurrentUserDataStore+Request.swift */; };
+		16C4AFD8284E7B25008791B8 /* TXAppleAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4AFD7284E7B25008791B8 /* TXAppleAssistant.swift */; };
 		16C6ECE0284DDD0C008930CF /* CommentTableViewCell+Trailing+Footer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C6ECDF284DDD0C008930CF /* CommentTableViewCell+Trailing+Footer.swift */; };
+		16C6ECE7284DF647008930CF /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 16C6ECE6284DF647008930CF /* GoogleSignInSwift */; };
+		16C6ECEA284DF9DA008930CF /* TXGoogleAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C6ECE9284DF9DA008930CF /* TXGoogleAssistant.swift */; };
 		16CFD1C728172E040020341B /* TweetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CFD1C628172E040020341B /* TweetViewController.swift */; };
 		16D237AD28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D237AC28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift */; };
 		16D27C6B281FE89F00D2A2C3 /* TwitterXLogoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D27C6A281FE89F00D2A2C3 /* TwitterXLogoTableViewCell.swift */; };
@@ -238,6 +244,7 @@
 		16237AF2281FB71000837064 /* EditUsernameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUsernameTableViewCell.swift; sourceTree = "<group>"; };
 		162644EA28292C8000CE4B53 /* SnackBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnackBar.swift; sourceTree = "<group>"; };
 		162832C72824D71700A17680 /* EmptyFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyFeedTableViewCell.swift; sourceTree = "<group>"; };
+		162AB407284FA42F006E2C55 /* TXJsonSnakeCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXJsonSnakeCoder.swift; sourceTree = "<group>"; };
 		162C378C281D15D8000A8C0C /* ProfileImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageTableViewCell.swift; sourceTree = "<group>"; };
 		162C378F281D1A81000A8C0C /* NameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTableViewCell.swift; sourceTree = "<group>"; };
 		162C3792281D1D65000A8C0C /* UsernameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameTableViewCell.swift; sourceTree = "<group>"; };
@@ -261,6 +268,8 @@
 		164828D72815D678002C6C06 /* TXBundledImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXBundledImage.swift; sourceTree = "<group>"; };
 		16493D202812B372004912BB /* TXTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTextView.swift; sourceTree = "<group>"; };
 		16493D222812B56D004912BB /* UIEdgeInsetsX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIEdgeInsetsX.swift; sourceTree = "<group>"; };
+		1653E87B284FDC930060FD32 /* GodViewController+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GodViewController+Events.swift"; sourceTree = "<group>"; };
+		1653E87D284FDCB60060FD32 /* HomeViewController+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeViewController+Events.swift"; sourceTree = "<group>"; };
 		1659263D27E1C55100A1C9F2 /* TXBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXBarButtonItem.swift; sourceTree = "<group>"; };
 		165E54F127E77F9C00D3BA0D /* TXImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXImageProvider.swift; sourceTree = "<group>"; };
 		165ED0242811CC760022D822 /* TXTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTableView.swift; sourceTree = "<group>"; };
@@ -285,7 +294,7 @@
 		168992A6281B135000D5D85C /* AvatarImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImage.swift; sourceTree = "<group>"; };
 		1691E452280EA8D800BA223D /* TXView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXView.swift; sourceTree = "<group>"; };
 		1691E455280EABAE00BA223D /* TXStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXStackView.swift; sourceTree = "<group>"; };
-		1696A07E281D742500C88604 /* RunnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerViewController.swift; sourceTree = "<group>"; };
+		1696A07E281D742500C88604 /* GodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GodViewController.swift; sourceTree = "<group>"; };
 		16983AD12824C1780025C397 /* TXShallowLocalStorageAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXShallowLocalStorageAssistant.swift; sourceTree = "<group>"; };
 		16983AD32824C1960025C397 /* TXExtensiveLocalStorageAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXExtensiveLocalStorageAssistant.swift; sourceTree = "<group>"; };
 		16993CD5280C41FE00FFE71B /* TXSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXSearchController.swift; sourceTree = "<group>"; };
@@ -301,7 +310,9 @@
 		16BB01122813A2B800532323 /* OtherUserTableViewCell+Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OtherUserTableViewCell+Header.swift"; sourceTree = "<group>"; };
 		16BB01162813A53600532323 /* OtherUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserViewController.swift; sourceTree = "<group>"; };
 		16C03C6028211D5300E7005B /* CurrentUserDataStore+Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrentUserDataStore+Request.swift"; sourceTree = "<group>"; };
+		16C4AFD7284E7B25008791B8 /* TXAppleAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXAppleAssistant.swift; sourceTree = "<group>"; };
 		16C6ECDF284DDD0C008930CF /* CommentTableViewCell+Trailing+Footer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CommentTableViewCell+Trailing+Footer.swift"; sourceTree = "<group>"; };
+		16C6ECE9284DF9DA008930CF /* TXGoogleAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXGoogleAssistant.swift; sourceTree = "<group>"; };
 		16CFD1C628172E040020341B /* TweetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetViewController.swift; sourceTree = "<group>"; };
 		16D237AC28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXLocalStorageAssistant.swift; sourceTree = "<group>"; };
 		16D27C6A281FE89F00D2A2C3 /* TwitterXLogoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterXLogoTableViewCell.swift; sourceTree = "<group>"; };
@@ -371,6 +382,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16C6ECE7284DF647008930CF /* GoogleSignInSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,7 +400,7 @@
 		160437A527E1AD7200EA615F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				1696A07D281D73ED00C88604 /* RunnerViewController */,
+				1696A07D281D73ED00C88604 /* GodViewController */,
 				162C3797281D22D9000A8C0C /* AuthenticationViewController */,
 				160437C427E1B62D00EA615F /* HomeViewController */,
 				1610D944280F49D100739208 /* EditSelfViewController */,
@@ -495,6 +507,7 @@
 				160437C627E1B65A00EA615F /* NotificationsViewController */,
 				160437C727E1B66F00EA615F /* CurrentUserViewController */,
 				160437CA27E1B73300EA615F /* HomeViewController.swift */,
+				1653E87D284FDCB60060FD32 /* HomeViewController+Events.swift */,
 			);
 			path = HomeViewController;
 			sourceTree = "<group>";
@@ -845,6 +858,14 @@
 				16C6ECDF284DDD0C008930CF /* CommentTableViewCell+Trailing+Footer.swift */,
 			);
 			path = "CommentTableViewCell+Trailing+Footer";
+			sourceTree = "<group>";
+		};
+		162AB406284FA427006E2C55 /* TXJsonSnakeCoder */ = {
+			isa = PBXGroup;
+			children = (
+				162AB407284FA42F006E2C55 /* TXJsonSnakeCoder.swift */,
+			);
+			path = TXJsonSnakeCoder;
 			sourceTree = "<group>";
 		};
 		162C378B281D15BC000A8C0C /* ProfileImageTableViewCell */ = {
@@ -1285,12 +1306,13 @@
 			path = TXStackView;
 			sourceTree = "<group>";
 		};
-		1696A07D281D73ED00C88604 /* RunnerViewController */ = {
+		1696A07D281D73ED00C88604 /* GodViewController */ = {
 			isa = PBXGroup;
 			children = (
-				1696A07E281D742500C88604 /* RunnerViewController.swift */,
+				1696A07E281D742500C88604 /* GodViewController.swift */,
+				1653E87B284FDC930060FD32 /* GodViewController+Events.swift */,
 			);
-			path = RunnerViewController;
+			path = GodViewController;
 			sourceTree = "<group>";
 		};
 		16993CD4280C41F700FFE71B /* TXSearchController */ = {
@@ -1424,8 +1446,19 @@
 				1688D3F727FD7B2800F9C366 /* TXNetworkMonitor */,
 				169E27FE27EB895300B72006 /* TXNetworkAssistant */,
 				165E54F027E77F9000D3BA0D /* TXImageProvider */,
+				16C6ECE8284DF9CC008930CF /* TXGoogleAssistant */,
+				16C4AFD6284E7B19008791B8 /* TXAppleAssistant */,
+				162AB406284FA427006E2C55 /* TXJsonSnakeCoder */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		16C4AFD6284E7B19008791B8 /* TXAppleAssistant */ = {
+			isa = PBXGroup;
+			children = (
+				16C4AFD7284E7B25008791B8 /* TXAppleAssistant.swift */,
+			);
+			path = TXAppleAssistant;
 			sourceTree = "<group>";
 		};
 		16C6ECDE284DDCEC008930CF /* CommentTableViewCell+Trailing+Middle */ = {
@@ -1442,6 +1475,14 @@
 				16DBF5C22817E90600E92DE5 /* UIViewControllerX.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		16C6ECE8284DF9CC008930CF /* TXGoogleAssistant */ = {
+			isa = PBXGroup;
+			children = (
+				16C6ECE9284DF9DA008930CF /* TXGoogleAssistant.swift */,
+			);
+			path = TXGoogleAssistant;
 			sourceTree = "<group>";
 		};
 		16CFD1C528172DF90020341B /* TweetViewController */ = {
@@ -1730,6 +1771,7 @@
 			);
 			name = TonyStark;
 			packageProductDependencies = (
+				16C6ECE6284DF647008930CF /* GoogleSignInSwift */,
 			);
 			productName = TonyStark;
 			productReference = 161250EE27DBB56E006BCE5A /* TonyStark.app */;
@@ -1760,6 +1802,7 @@
 			);
 			mainGroup = 161250E527DBB56E006BCE5A;
 			packageReferences = (
+				16C6ECE5284DF647008930CF /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = 161250EF27DBB56E006BCE5A /* Products */;
 			projectDirPath = "";
@@ -1805,6 +1848,7 @@
 				16D3DFD728166D740083B7E9 /* TweetTableViewCell+Header.swift in Sources */,
 				16983AD42824C1960025C397 /* TXExtensiveLocalStorageAssistant.swift in Sources */,
 				16BB01112813A2B200532323 /* OtherUserTableViewCell+Body.swift in Sources */,
+				16C6ECEA284DF9DA008930CF /* TXGoogleAssistant.swift in Sources */,
 				16D3C5E52810314B00B8A2CC /* TXEventBroker.swift in Sources */,
 				160437B127E1AE2600EA615F /* TXTableViewController.swift in Sources */,
 				16E3C144282176A9009CC8E7 /* SearchDataStore+Request.swift in Sources */,
@@ -1838,6 +1882,7 @@
 				1691E453280EA8D800BA223D /* TXView.swift in Sources */,
 				16D3DFD228166CDD0083B7E9 /* TweetTableViewCell.swift in Sources */,
 				16D3DFD928166D790083B7E9 /* TweetTableViewCell+Body.swift in Sources */,
+				1653E87E284FDCB60060FD32 /* HomeViewController+Events.swift in Sources */,
 				16237AF3281FB71000837064 /* EditUsernameTableViewCell.swift in Sources */,
 				1611237D2806C99500908D98 /* Like.swift in Sources */,
 				16E3C14A282177EC009CC8E7 /* BookmarksDataStore+Response.swift in Sources */,
@@ -1858,7 +1903,9 @@
 				16EABA72284B215000A1476F /* DataTemplate.swift in Sources */,
 				16EABA68284B1D2000A1476F /* LikeDataTemplate.swift in Sources */,
 				160437CD27E1B76200EA615F /* ComposeViewController.swift in Sources */,
+				162AB408284FA42F006E2C55 /* TXJsonSnakeCoder.swift in Sources */,
 				163FD5EF28251C03003E0409 /* EmptyTweetsTableViewCell.swift in Sources */,
+				16C4AFD8284E7B25008791B8 /* TXAppleAssistant.swift in Sources */,
 				16493D212812B372004912BB /* TXTextView.swift in Sources */,
 				160437BD27E1AF5100EA615F /* TXCollectionViewCell.swift in Sources */,
 				162C3799281D22EA000A8C0C /* AuthenticationViewController.swift in Sources */,
@@ -1880,6 +1927,7 @@
 				16D237AD28019A6D00FD1DC4 /* TXLocalStorageAssistant.swift in Sources */,
 				164828D52815D097002C6C06 /* LikesDataStore.swift in Sources */,
 				16D27C6E281FE8BD00D2A2C3 /* TaglineTableViewCell.swift in Sources */,
+				1653E87C284FDC930060FD32 /* GodViewController+Events.swift in Sources */,
 				165E54F227E77F9C00D3BA0D /* TXImageProvider.swift in Sources */,
 				1610D933280F351B00739208 /* PartialTweetTableViewCell+Trailing+Header.swift in Sources */,
 				1610D93A280F358900739208 /* PartialTweetTableViewCell+Trailing+Footer.swift in Sources */,
@@ -1894,7 +1942,7 @@
 				167DE001280D55F900670BAD /* PartialTweetTableViewCell+Trailing+Footer+LikeInteractionDetails.swift in Sources */,
 				16E3C13628216C50009CC8E7 /* FeedDataStore+Response.swift in Sources */,
 				165ED02E2811D85C0022D822 /* TXEdgeInsets.swift in Sources */,
-				1696A07F281D742500C88604 /* RunnerViewController.swift in Sources */,
+				1696A07F281D742500C88604 /* GodViewController.swift in Sources */,
 				160437B327E1AE3300EA615F /* TXCollectionViewController.swift in Sources */,
 				161123812806CA4100908D98 /* Bookmark.swift in Sources */,
 				16E3C127282168F7009CC8E7 /* CurrentUserDataStore+Response.swift in Sources */,
@@ -2176,6 +2224,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		16C6ECE5284DF647008930CF /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		16C6ECE6284DF647008930CF /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 16C6ECE5284DF647008930CF /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 161250E627DBB56E006BCE5A /* Project object */;
 }
