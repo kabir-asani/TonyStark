@@ -10,15 +10,7 @@ import Foundation
 class BookmarksDataStore: DataStore {
     static let shared = BookmarksDataStore()
     
-    private init() { }
-    
-    func bootUp() async {
-        // Do nothing
-    }
-    
-    func bootDown() async {
-        // Do nothing
-    }
+    private override init() { }
     
     func bookmark(tweetWithId tweetId: String) async -> Result<Void, BookmarkFailure> {
         return .failure(.unknown)
