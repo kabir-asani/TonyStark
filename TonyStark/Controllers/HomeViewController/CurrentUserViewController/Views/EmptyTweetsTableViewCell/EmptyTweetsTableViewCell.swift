@@ -169,7 +169,10 @@ class EmptyTweetsTableViewCell: TXTableViewCell {
     
     // Interact
     @objc private func onComposeTweetPressed(_ sender: TXButton) {
-        TXEventBroker.shared.emit(event: HomeTabSwitchEvent(tab: .feed))
-        TXEventBroker.shared.emit(event: ComposeTweetEvent())
+        TXEventBroker.shared.emit(
+            event: HomeTabSwitchEvent(
+                tab: .feed
+            )
+        )
     }
 }

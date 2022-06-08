@@ -81,6 +81,7 @@ class ComposeViewController: TXViewController {
         )
         
         tweetBarButtonItem.tintColor = .systemBlue
+        tweetBarButtonItem.isEnabled = false
         
         navigationItem.rightBarButtonItem = tweetBarButtonItem
     }
@@ -149,7 +150,40 @@ class ComposeViewController: TXViewController {
     
     // Interact
     @objc private func onDonePressed(_ sender: UIBarButtonItem) {
-        print(#function)
+        let composedText = compose.text
+        
+        if !composedText.isEmpty {
+            Task {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.showActivityIndicator()
+                
+                let tweetCreationResult = await TweetsDataStore.shared.createTweet(
+                    withDetails: ComposeDetails(
+                        text: composedText
+                    )
+                )
+                
+                strongSelf.hideActivityIndicator()
+                
+                tweetCreationResult.map {
+                    strongSelf.dismiss(
+                        animated: true
+                    )
+                    
+                    TXEventBroker.shared.emit(
+                        event: RefreshFeedEvent()
+                    )
+                } onFailure: {
+                    reason in
+                    
+                    strongSelf.showUnknownFailureSnackBar()
+                }
+            }
+        }
     }
     
     @objc private func onCancelPressed(_ sender: UIBarButtonItem) {
@@ -164,5 +198,15 @@ extension ComposeViewController: ComposerDelegate {
         didChangeText text: String
     ) {
         composeDetailsBar.configure(withCurrentCount: text.count)
+        
+        if let rightBarButtonItem = navigationItem.rightBarButtonItem {
+            if text.count == 0 {
+                rightBarButtonItem.isEnabled = false
+            } else {
+                if !rightBarButtonItem.isEnabled {
+                    rightBarButtonItem.isEnabled = true
+                }
+            }
+        }
     }
 }
