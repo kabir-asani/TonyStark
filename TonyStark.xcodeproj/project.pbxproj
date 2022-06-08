@@ -84,6 +84,7 @@
 		1653E87C284FDC930060FD32 /* GodViewController+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1653E87B284FDC930060FD32 /* GodViewController+Events.swift */; };
 		1653E87E284FDCB60060FD32 /* HomeViewController+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1653E87D284FDCB60060FD32 /* HomeViewController+Events.swift */; };
 		1659263E27E1C55100A1C9F2 /* TXBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1659263D27E1C55100A1C9F2 /* TXBarButtonItem.swift */; };
+		165A8A0928508E3F00A89AD6 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165A8A0828508E3F00A89AD6 /* ActivityIndicator.swift */; };
 		165E54F227E77F9C00D3BA0D /* TXImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165E54F127E77F9C00D3BA0D /* TXImageProvider.swift */; };
 		165ED0252811CC760022D822 /* TXTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ED0242811CC760022D822 /* TXTableView.swift */; };
 		165ED0282811D4770022D822 /* CommentInputBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ED0272811D4770022D822 /* CommentInputBar.swift */; };
@@ -271,6 +272,7 @@
 		1653E87B284FDC930060FD32 /* GodViewController+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GodViewController+Events.swift"; sourceTree = "<group>"; };
 		1653E87D284FDCB60060FD32 /* HomeViewController+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeViewController+Events.swift"; sourceTree = "<group>"; };
 		1659263D27E1C55100A1C9F2 /* TXBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXBarButtonItem.swift; sourceTree = "<group>"; };
+		165A8A0828508E3F00A89AD6 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		165E54F127E77F9C00D3BA0D /* TXImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXImageProvider.swift; sourceTree = "<group>"; };
 		165ED0242811CC760022D822 /* TXTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTableView.swift; sourceTree = "<group>"; };
 		165ED0272811D4770022D822 /* CommentInputBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputBar.swift; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
 		160437A527E1AD7200EA615F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				165A8A012850863200A89AD6 /* Core */,
 				1696A07D281D73ED00C88604 /* GodViewController */,
 				162C3797281D22D9000A8C0C /* AuthenticationViewController */,
 				160437C427E1B62D00EA615F /* HomeViewController */,
@@ -432,28 +435,9 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		160437A827E1AD8900EA615F /* CoreViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				16C6ECE4284DE875008930CF /* Extensions */,
-				16A4CE47282900A9004AFA08 /* TXAlertController */,
-				163A09F12823B8EE008CDCED /* TXPresentationController */,
-				16DBF5C42817EEE400E92DE5 /* TXScrollViewController */,
-				16993CD4280C41F700FFE71B /* TXSearchController */,
-				160437B527E1AE8C00EA615F /* TXNavigationController */,
-				160437B627E1AE9300EA615F /* TXTabBarController */,
-				160437B727E1AE9A00EA615F /* TXViewController */,
-				160437B827E1AEA000EA615F /* TXTableViewController */,
-				160437B927E1AEA600EA615F /* TXCollectionViewController */,
-				160437BF27E1B0C800EA615F /* TXPageViewController */,
-			);
-			path = CoreViewControllers;
-			sourceTree = "<group>";
-		};
 		160437B527E1AE8C00EA615F /* TXNavigationController */ = {
 			isa = PBXGroup;
 			children = (
-				162644E928292C6B00CE4B53 /* SnackBar */,
 				160437AA27E1ADCF00EA615F /* TXNavigationController.swift */,
 			);
 			path = TXNavigationController;
@@ -662,7 +646,6 @@
 		161250F027DBB56E006BCE5A /* TonyStark */ = {
 			isa = PBXGroup;
 			children = (
-				16D582132844DAB20080C4F9 /* Core */,
 				16C45FF127E76F2100F592A2 /* Utilities */,
 				16DEB94D2806079E00140E63 /* DataStrores */,
 				160437A727E1AD8400EA615F /* Models */,
@@ -730,6 +713,9 @@
 		1618F8EB2822EB7300C1358E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				165A8A022850863D00A89AD6 /* Core */,
+				165A8A0728508E0400A89AD6 /* ActivityIndicator */,
+				162644E928292C6B00CE4B53 /* SnackBar */,
 				1618F8E72822E4F100C1358E /* FloatingActionButton */,
 				168992A5281B134A00D5D85C /* AvatarImage */,
 				16BB01142813A2D400532323 /* SocialDetails */,
@@ -1084,6 +1070,62 @@
 			path = TXTextView;
 			sourceTree = "<group>";
 		};
+		165A8A012850863200A89AD6 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				16C6ECE4284DE875008930CF /* Extensions */,
+				16A4CE47282900A9004AFA08 /* TXAlertController */,
+				163A09F12823B8EE008CDCED /* TXPresentationController */,
+				16DBF5C42817EEE400E92DE5 /* TXScrollViewController */,
+				16993CD4280C41F700FFE71B /* TXSearchController */,
+				160437B527E1AE8C00EA615F /* TXNavigationController */,
+				160437B627E1AE9300EA615F /* TXTabBarController */,
+				160437B727E1AE9A00EA615F /* TXViewController */,
+				160437B827E1AEA000EA615F /* TXTableViewController */,
+				160437B927E1AEA600EA615F /* TXCollectionViewController */,
+				160437BF27E1B0C800EA615F /* TXPageViewController */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		165A8A022850863D00A89AD6 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				167224D0281BC1B9005D79EB /* Extensions */,
+				16021ACB2823C36100C28EAD /* TXRefreshControl */,
+				16133F862822588E00171F68 /* TXSearchBar */,
+				16D8AACA281F117D00EEC440 /* TXActivityIndicatorView */,
+				16DBF5BB2817E06B00E92DE5 /* TXScrollView */,
+				164828D02815C966002C6C06 /* TXMenu */,
+				164828CE2815C19B002C6C06 /* TXCollectionViewCell */,
+				164828CD2815C18B002C6C06 /* TXTableViewCell */,
+				164828CC2815C17D002C6C06 /* TXTabBarItem */,
+				164828CB2815C167002C6C06 /* TXBarButtonItem */,
+				16493D1F2812B36A004912BB /* TXTextView */,
+				165ED02F2811E4100022D822 /* TXVisualEffectView */,
+				165ED02C2811D8430022D822 /* TXEdgeInsets */,
+				165ED0292811D4960022D822 /* TXTextField */,
+				165ED0232811CC6F0022D822 /* TXTableView */,
+				1610D93B280F396E00739208 /* TXColor */,
+				1610D934280F354100739208 /* TXLabel */,
+				1691E454280EABA700BA223D /* TXStackView */,
+				1691E451280EA8CE00BA223D /* TXView */,
+				16993CE4280C49FA00FFE71B /* TXButton */,
+				16993CE1280C49DF00FFE71B /* TXImageView */,
+				16993CDA280C443400FFE71B /* TXSegmentedControl */,
+				164828CF2815C1AA002C6C06 /* TXPageControl */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		165A8A0728508E0400A89AD6 /* ActivityIndicator */ = {
+			isa = PBXGroup;
+			children = (
+				165A8A0828508E3F00A89AD6 /* ActivityIndicator.swift */,
+			);
+			path = ActivityIndicator;
+			sourceTree = "<group>";
+		};
 		165E54F027E77F9000D3BA0D /* TXImageProvider */ = {
 			isa = PBXGroup;
 			children = (
@@ -1258,36 +1300,6 @@
 				168992A6281B135000D5D85C /* AvatarImage.swift */,
 			);
 			path = AvatarImage;
-			sourceTree = "<group>";
-		};
-		1691E450280EA8BD00BA223D /* CoreViews */ = {
-			isa = PBXGroup;
-			children = (
-				167224D0281BC1B9005D79EB /* Extensions */,
-				16021ACB2823C36100C28EAD /* TXRefreshControl */,
-				16133F862822588E00171F68 /* TXSearchBar */,
-				16D8AACA281F117D00EEC440 /* TXActivityIndicatorView */,
-				16DBF5BB2817E06B00E92DE5 /* TXScrollView */,
-				164828D02815C966002C6C06 /* TXMenu */,
-				164828CE2815C19B002C6C06 /* TXCollectionViewCell */,
-				164828CD2815C18B002C6C06 /* TXTableViewCell */,
-				164828CC2815C17D002C6C06 /* TXTabBarItem */,
-				164828CB2815C167002C6C06 /* TXBarButtonItem */,
-				16493D1F2812B36A004912BB /* TXTextView */,
-				165ED02F2811E4100022D822 /* TXVisualEffectView */,
-				165ED02C2811D8430022D822 /* TXEdgeInsets */,
-				165ED0292811D4960022D822 /* TXTextField */,
-				165ED0232811CC6F0022D822 /* TXTableView */,
-				1610D93B280F396E00739208 /* TXColor */,
-				1610D934280F354100739208 /* TXLabel */,
-				1691E454280EABA700BA223D /* TXStackView */,
-				1691E451280EA8CE00BA223D /* TXView */,
-				16993CE4280C49FA00FFE71B /* TXButton */,
-				16993CE1280C49DF00FFE71B /* TXImageView */,
-				16993CDA280C443400FFE71B /* TXSegmentedControl */,
-				164828CF2815C1AA002C6C06 /* TXPageControl */,
-			);
-			path = CoreViews;
 			sourceTree = "<group>";
 		};
 		1691E451280EA8CE00BA223D /* TXView */ = {
@@ -1576,15 +1588,6 @@
 			path = "TweetTableViewCell+Header";
 			sourceTree = "<group>";
 		};
-		16D582132844DAB20080C4F9 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				160437A827E1AD8900EA615F /* CoreViewControllers */,
-				1691E450280EA8BD00BA223D /* CoreViews */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
 		16D8AACA281F117D00EEC440 /* TXActivityIndicatorView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1858,6 +1861,7 @@
 				167224D3281BC1CB005D79EB /* TXLabelX.swift in Sources */,
 				16D27C6B281FE89F00D2A2C3 /* TwitterXLogoTableViewCell.swift in Sources */,
 				16021ACA2823BF0200C28EAD /* RemoteNotification.swift in Sources */,
+				165A8A0928508E3F00A89AD6 /* ActivityIndicator.swift in Sources */,
 				16DBF5C62817EEF700E92DE5 /* TXScrollViewController.swift in Sources */,
 				16CFD1C728172E040020341B /* TweetViewController.swift in Sources */,
 				165ED0252811CC760022D822 /* TXTableView.swift in Sources */,

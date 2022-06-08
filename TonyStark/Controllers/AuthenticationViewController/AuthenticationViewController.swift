@@ -137,10 +137,19 @@ extension AuthenticationViewController: AuthenticationActionsTableViewCellIntera
             
             result.mapOnSuccess { profile in
                 Task {
+                    [weak self] in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    
+                    strongSelf.showActivityIndicator()
+                    
                     let result = await CurrentUserDataStore.shared.logIn(
                         withDetails: profile,
                         from: .google
                     )
+                    
+                    strongSelf.hideActivityIndicator()
                     
                     result.mapOnSuccess {
                         TXEventBroker.shared.emit(
