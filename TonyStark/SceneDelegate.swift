@@ -56,10 +56,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         Task {
             await DataStoresRegistry.shared.bootUp()
+            TXNetworkMonitor.shared.start()
             
-            CurrentUserDataStore.shared.state.map { currentUser in
+            if CurrentUserDataStore.shared.user != nil {
                 TXEventBroker.shared.emit(event: HomeEvent())
-            } onAbsent: {
+            } else {
                 TXEventBroker.shared.emit(event: AuthenticationEvent())
             }
         }

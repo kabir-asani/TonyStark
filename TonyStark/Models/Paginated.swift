@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Paginated<T> {
-    static func `default`() -> Paginated<T> {
+struct Paginated<T: Model>: Model {
+    static var `default`: Paginated<T> {
         Paginated<T>(
             page: [],
             nextToken: nil
@@ -22,11 +22,9 @@ struct Paginated<T> {
         page: [T]? = nil,
         nextToken: String? = nil
     ) -> Paginated<T> {
-        let newPaginated = Paginated(
+        Paginated(
             page: page ?? self.page,
             nextToken: nextToken ?? self.nextToken
         )
-        
-        return newPaginated
     }
 }

@@ -8,6 +8,8 @@
 import Foundation
 
 class DataStore {
+    let baseURL = "https://nickfury14.herokuapp.com"
+    
     func bootUp() async {
         // Do nothing
     }
@@ -15,16 +17,26 @@ class DataStore {
     func bootDown() async {
         // Do nothing
     }
-}
-
-class DataStoreCompanion {
-    let baseURL = "https://nickfury14.herokuapp.com"
+    
+    
+    func unsecureHeaders() -> [String: String] {
+        [
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        ]
+    }
+    
+    func secureHeaders(withAccessToken accessToken: String) -> [String: String] {
+        [
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": "Bearer \(accessToken)"
+        ]
+    }
 }
 
 class DataStoresRegistry {
     static let shared = DataStoresRegistry()
-    
-    // TODO: Update baseURL to correct one
     
     private let dataStores: [DataStore] = [
         CurrentUserDataStore.shared,

@@ -41,7 +41,7 @@ extension CommentTableViewCell {
             onProfileImagePressed: @escaping () -> Void
         ) {
             profileImage.configure(
-                withImageURL: comment.author.image,
+                withImageURL: comment.viewables.author.image,
                 onPressed: onProfileImagePressed
             )
         }

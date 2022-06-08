@@ -87,8 +87,8 @@ extension PartialTweetTableViewCell.Trailing {
         
         // Configure
         func configure(withTweet tweet: Tweet) {
-            configureNameText(withText: tweet.author.name)
-            configureUsernameText(withText: tweet.author.username)
+            configureNameText(withText: tweet.viewables.author.name)
+            configureUsernameText(withText: tweet.viewables.author.username)
             configureDateText(withDate: tweet.creationDate)
         }
         

@@ -13,7 +13,7 @@ class LikesViewController: TXViewController {
         case likes
     }
     
-    private(set) var tweet: Tweet = .default()
+    private(set) var tweet: Tweet = .default
     
     private var state: State<Paginated<Like>, LikesFailure> = .processing
     
@@ -195,7 +195,7 @@ extension LikesViewController: TXTableViewDataSource {
             let like = paginatedLikes.page[indexPath.row]
             
             cell.interactionsHandler = self
-            cell.configure(withUser: like.author)
+            cell.configure(withUser: like.viewables.author)
             
             return cell
         } orElse: {
@@ -243,7 +243,7 @@ extension LikesViewController: PartialUserTableViewCellInteractionsHandler {
         state.mapOnSuccess { paginatedLikes in
             let like = paginatedLikes.page[cell.indexPath.row]
             
-            navigationController?.openUserViewController(withUser: like.author)
+            navigationController?.openUserViewController(withUser: like.viewables.author)
         } orElse: {
             // Do nothing
         }

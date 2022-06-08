@@ -6,35 +6,52 @@
 //
 
 import Foundation
+import CoreImage
 
-struct Like {
-    static func `default`() -> Like {
+struct Like: Model {
+    struct Viewables: Model {
+        static var `default`: Viewables {
+            Viewables(
+                author: .default
+            )
+        }
+        
+        let author: User
+        
+        func copyWith(
+            author: User? = nil
+        ) -> Viewables {
+            Viewables(
+                author: author ?? self.author
+            )
+        }
+    }
+    
+    static var `default`: Like {
         Like(
             id: "",
             tweetId: "",
-            creationDate: .now(),
-            author: .default()
+            creationDate: .current,
+            viewables: .default
         )
     }
     
     let id: String
     let tweetId: String
     let creationDate: Date
-    let author: User
+    let viewables: Viewables
     
     func copyWith(
         id: String? = nil,
         tweetId: String? = nil,
         creationDate: Date? = nil,
-        author: User? = nil
+        viewables: Viewables? = nil
     ) -> Like {
-        let newLike = Like(
+        Like(
             id: id ?? self.id,
             tweetId: tweetId ?? self.tweetId,
             creationDate: creationDate ?? self.creationDate,
-            author: author ?? self.author
+            viewables: viewables ?? self.viewables
         )
-        
-        return newLike
     }
 }

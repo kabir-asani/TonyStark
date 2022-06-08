@@ -7,9 +7,11 @@
 
 import Foundation
 protocol DataTemplate: Codable {
-    associatedtype Model
+    associatedtype Entity
     
-    func model() -> Model
+    init(from entity: Entity)
+    
+    func entity() -> Entity
 }
 
 struct SuccessDataTemplate<Data: Codable>: Codable {

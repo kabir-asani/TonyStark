@@ -359,7 +359,7 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
         state.mapOnSuccess { paginatedFeed in
             let tweet = paginatedFeed.page[cell.indexPath.row]
             
-            let user = tweet.author
+            let user = tweet.viewables.author
             
             navigationController?.openUserViewController(withUser: user)
         } orElse: {

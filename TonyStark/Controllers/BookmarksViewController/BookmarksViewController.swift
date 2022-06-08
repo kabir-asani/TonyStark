@@ -188,7 +188,7 @@ extension BookmarksViewController: TXTableViewDataSource {
             let bookmark = paginatedBookmarks.page[indexPath.row]
             
             cell.interactionsHandler = self
-            cell.configure(withTweet: bookmark.tweet)
+            cell.configure(withTweet: bookmark.viewables.tweet)
             
             return cell
         } orElse: {
@@ -225,7 +225,7 @@ extension BookmarksViewController: TXTableViewDelegate {
         state.mapOnSuccess { paginatedBookmarks in
             let bookmark = paginatedBookmarks.page[indexPath.row]
             
-            navigationController?.openTweetViewController(withTweet: bookmark.tweet)
+            navigationController?.openTweetViewController(withTweet: bookmark.viewables.tweet)
         } orElse: {
             // Do nothing
         }
@@ -252,7 +252,7 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
             let bookmark = paginatedBookmarks.page[cell.indexPath.row]
             
             navigationController?.openTweetViewController(
-                withTweet: bookmark.tweet,
+                withTweet: bookmark.viewables.tweet,
                 andOptions: .init(
                     autoFocus: true
                 )
@@ -266,7 +266,7 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
         state.mapOnSuccess { paginatedBookmarks in
             let bookmark = paginatedBookmarks.page[cell.indexPath.row]
             
-            navigationController?.openUserViewController(withUser: bookmark.tweet.author)
+            navigationController?.openUserViewController(withUser: bookmark.viewables.tweet.viewables.author)
         } orElse: {
             // Do nothing
         }
@@ -287,7 +287,7 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
             let alert = TweetOptionsAlertController.regular()
             
             alert.interactionsHandler = self
-            alert.configure(withTweet: bookmark.tweet)
+            alert.configure(withTweet: bookmark.viewables.tweet)
             
             present(
                 alert,

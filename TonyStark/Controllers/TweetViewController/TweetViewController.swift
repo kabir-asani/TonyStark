@@ -9,8 +9,8 @@ import UIKit
 
 class TweetViewController: TXViewController {
     struct Options {
-        static func `default`() -> Options {
-            .init(
+        static var `default`: Options {
+            Options(
                 autoFocus: false
             )
         }
@@ -23,8 +23,8 @@ class TweetViewController: TXViewController {
         case comments
     }
     
-    private(set) var tweet: Tweet = .default()
-    private(set) var options: Options = .default()
+    private(set) var tweet: Tweet = .default
+    private(set) var options: Options = .default
     
     private var state: State<Paginated<Comment>, CommentsFailure> = .processing
     
@@ -210,7 +210,7 @@ class TweetViewController: TXViewController {
     // Populate
     func populate(
         withTweet tweet: Tweet,
-        options: Options = .default()
+        options: Options = .default
     ) {
         self.tweet = tweet
         self.options = options
@@ -411,13 +411,13 @@ extension TweetViewController: TXTableViewDelegate {
 // MARK: TweetTableViewCellInteractionsHandler
 extension TweetViewController: TweetTableViewCellInteractionsHandler {
     func tweetCellDidPressProfileImage(_ cell: TweetTableViewCell) {
-        let user = tweet.author
+        let user = tweet.viewables.author
         
         navigationController?.openUserViewController(withUser: user)
     }
     
     func tweetCellDidPressProfileDetails(_ cell: TweetTableViewCell) {
-        let user = tweet.author
+        let user = tweet.viewables.author
         
         navigationController?.openUserViewController(withUser: user)
     }
@@ -466,7 +466,7 @@ extension TweetViewController: CommentTableViewCellInteractionsHandler {
         state.mapOnSuccess { paginatedComments in
             let comment = paginatedComments.page[commentTableViewCell.indexPath.row]
             
-            let user = comment.author
+            let user = comment.viewables.author
             
             navigationController?.openUserViewController(withUser: user)
         } orElse: {

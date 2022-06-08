@@ -68,8 +68,8 @@ extension CommentTableViewCell.Trailing {
         
         // Configure
         func configure(withComment comment: Comment) {
-            configureNameText(withText: comment.author.name)
-            configureUsernameText(withText: comment.author.username)
+            configureNameText(withText: comment.viewables.author.name)
+            configureUsernameText(withText: comment.viewables.author.username)
         }
         
         private func configureNameText(withText text: String) {

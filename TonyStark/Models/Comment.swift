@@ -8,13 +8,31 @@
 
 import Foundation
 
-struct Comment {
-    static func `default`() -> Comment {
+struct Comment: Model {
+    struct Viewables: Model {
+        static var `default`: Viewables {
+            Viewables(
+                author: .default
+            )
+        }
+        
+        let author: User
+        
+        func copyWith(
+            author: User? = nil
+        ) -> Viewables {
+            Viewables(
+                author: author ?? self.author
+            )
+        }
+    }
+    
+    static var `default`: Comment {
         Comment(
             id: "", text: "",
             tweetId: "",
-            creationDate: .now(),
-            author: .default()
+            creationDate: .current,
+            viewables: .default
         )
     }
     
@@ -22,24 +40,22 @@ struct Comment {
     let text: String
     let tweetId: String
     let creationDate: Date
-    let author: User
+    let viewables: Viewables
     
     func copyWith(
         id: String? = nil,
         text: String? = nil,
         tweetId: String? = nil,
         creationDate: Date? = nil,
-        author: User? = nil
+        viewables: Viewables? = nil
     ) -> Comment {
-        let newComment = Comment(
+        Comment(
             id: id ?? self.id,
             text: text ?? self.text,
             tweetId: tweetId ?? self.tweetId,
             creationDate: creationDate ?? self.creationDate,
-            author: author ?? self.author
+            viewables: viewables ?? self.viewables
         )
-        
-        return newComment
     }
 }
 

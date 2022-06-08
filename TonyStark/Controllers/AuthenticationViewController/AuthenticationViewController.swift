@@ -135,6 +135,7 @@ extension AuthenticationViewController: AuthenticationActionsTableViewCellIntera
                 withPresenter: self
             )
             
+            
             result.mapOnSuccess { profile in
                 Task {
                     [weak self] in

@@ -7,16 +7,20 @@
 
 import Foundation
 
-struct Session {
+struct Session: Model {
+    static var `default`: Session {
+        Session(
+            accessToken: ""
+        )
+    }
+    
     let accessToken: String
     
     func copyWith(
         accessToken: String? = nil
     ) -> Session {
-        let newSession = Session(
+        Session(
             accessToken: accessToken ?? self.accessToken
         )
-        
-        return newSession
     }
 }

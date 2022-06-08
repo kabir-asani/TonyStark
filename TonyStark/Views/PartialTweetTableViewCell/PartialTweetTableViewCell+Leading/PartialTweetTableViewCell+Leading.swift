@@ -42,7 +42,7 @@ extension PartialTweetTableViewCell {
             onProfileImagePressed: @escaping () -> Void
         ) {
             profileImage.configure(
-                withImageURL: tweet.author.image,
+                withImageURL: tweet.viewables.author.image,
                 onPressed: onProfileImagePressed
             )
         }

@@ -14,7 +14,7 @@ class OtherUserViewController: TXViewController {
     }
     
     // Declare
-    private(set) var user: User = .default()
+    private(set) var user: User = .default
     
     private var state: State<Paginated<Tweet>, TweetsFailure> = .processing
     
@@ -318,42 +318,28 @@ extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
     
     func otherUserCellDidPressFollowers(_ cell: OtherUserTableViewCell) {
         if user.socialDetails.followersCount > 0 {
-            CurrentUserDataStore.shared.state.map {
-                currentUser in
-                
-                let followersViewController = FollowersViewController()
-                followersViewController.populate(
-                    withUser: currentUser.user
-                )
-                
-                navigationController?.pushViewController(
-                    followersViewController, animated: true
-                )
-            } onAbsent: {
-                showUnknownFailureSnackBar()
-                return
-            }
+            let followersViewController = FollowersViewController()
+            followersViewController.populate(
+                withUser: user
+            )
+            
+            navigationController?.pushViewController(
+                followersViewController, animated: true
+            )
         }
     }
     
     func otherUserCellDidPressFollowings(_ cell: OtherUserTableViewCell) {
         if user.socialDetails.followeesCount > 0 {
-            CurrentUserDataStore.shared.state.map {
-                currentUser in
-                
-                let followingsViewController = FolloweesViewController()
-                
-                followingsViewController.populate(
-                    withUser: currentUser.user
-                )
-                
-                navigationController?.pushViewController(
-                    followingsViewController, animated: true
-                )
-            } onAbsent: {
-                showUnknownFailureSnackBar()
-                return
-            }
+            let followingsViewController = FolloweesViewController()
+            
+            followingsViewController.populate(
+                withUser: user
+            )
+            
+            navigationController?.pushViewController(
+                followingsViewController, animated: true
+            )
         }
     }
 }

@@ -11,10 +11,4 @@ class NotificationsDataStore: DataStore {
     static let shared = NotificationsDataStore()
     
     private override init() { }
-    
-    func notifications(
-        after nextToken: String? = nil
-    ) async -> Result<Paginated<RemoteNotification>, RemoteNotificationsFailure> {
-        return .failure(.unknown)
-    }
 }

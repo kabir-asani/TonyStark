@@ -9,6 +9,7 @@ import Foundation
 
 enum TXNetworkFailure: Error {
     case unknown
+    case internetUnavailable
     case malformedURL
     case malformedContent
 }
@@ -121,6 +122,10 @@ class TXNetworkAssistant {
         headers: [String: String]? = nil,
         content: Encodable?
     ) async throws -> TXNetworkSuccess {
+        if TXNetworkMonitor.shared.status == .disconnected {
+            throw TXNetworkFailure.internetUnavailable
+        }
+        
         guard let url = URL(string: url.buildCompleteURL(query: query)) else {
             throw TXNetworkFailure.malformedURL
         }

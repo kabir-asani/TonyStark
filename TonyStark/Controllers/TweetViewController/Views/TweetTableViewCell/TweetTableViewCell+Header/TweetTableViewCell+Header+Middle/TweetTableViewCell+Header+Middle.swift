@@ -76,8 +76,8 @@ extension TweetTableViewCell.Header {
         ) {
             self.onPressed = onPressed
             
-            nameText.text = tweet.author.name
-            usernameText.text = "@" + tweet.author.username
+            nameText.text = tweet.viewables.author.name
+            usernameText.text = "@" + tweet.viewables.author.username
         }
         
         // Interact

@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct Tweet {
-    struct InteractionDetails {
-        static func `default`() -> InteractionDetails {
-            return InteractionDetails(
+struct Tweet: Model {
+    struct InteractionDetails: Model {
+        static var `default`: InteractionDetails {
+            InteractionDetails(
                 likesCount: 0,
                 commentsCount: 0
             )
@@ -23,79 +23,76 @@ struct Tweet {
             likesCount: Int? = nil,
             commentsCount: Int? = nil
         ) -> InteractionDetails {
-            let newInteractionDetails = InteractionDetails(
+            InteractionDetails(
                 likesCount: likesCount ?? self.likesCount,
                 commentsCount: commentsCount ?? self.commentsCount
             )
-            
-            return newInteractionDetails
         }
     }
 
-    struct Viewables {
-        static func `default`() -> Viewables {
-            return Viewables(
+    struct Viewables: Model {
+        static var `default`: Viewables {
+            Viewables(
+                author: .default,
                 liked: false,
                 bookmarked: false
-            )
-        }
+            )        }
         
+        let author: User
         let liked: Bool
         let bookmarked: Bool
         
         func copyWith(
+            author: User? = nil,
             liked: Bool? = nil,
             bookmarked: Bool? = nil
         ) -> Viewables {
-            let newViewables = Viewables(
+            Viewables(
+                author: author ?? self.author,
                 liked: liked ?? self.liked,
                 bookmarked: bookmarked ?? self.bookmarked
             )
-            
-            return newViewables
         }
     }
 
     
-    static func `default`() -> Tweet {
+    static var `default`: Tweet {
         Tweet(
             id: "",
+            externalId: "",
             text: "",
-            creationDate: .now(),
-            lastUpdatedDate: .now(),
-            interactionDetails: .default(),
-            author: .default(),
-            viewables: .default()
+            creationDate: .current,
+            lastUpdatedDate: .current,
+            interactionDetails: .default,
+            viewables: .default
         )
     }
     
     let id: String
+    let externalId: String
     let text: String
     let creationDate: Date
     let lastUpdatedDate: Date
     let interactionDetails: InteractionDetails
-    let author: User
     let viewables: Viewables
     
     func copyWith(
         id: String? = nil,
+        externalId: String? = nil,
         text: String? = nil,
         creationDate: Date? = nil,
         lastUpdatedDate: Date? = nil,
         interactionDetails: InteractionDetails? = nil,
-        author: User? = nil,
         viewables: Viewables? = nil
     ) -> Tweet {
-        let newTweet = Tweet(
+        Tweet(
             id: id ?? self.id,
+            externalId: externalId ?? self.externalId,
             text: text ?? self.text,
             creationDate: creationDate ?? self.creationDate,
             lastUpdatedDate: lastUpdatedDate ?? self.lastUpdatedDate,
             interactionDetails: interactionDetails ?? self.interactionDetails,
-            author: author ?? self.author,
             viewables: viewables ?? self.viewables
         )
-        
-        return newTweet
     }
 }

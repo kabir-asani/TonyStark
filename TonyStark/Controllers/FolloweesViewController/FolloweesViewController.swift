@@ -13,7 +13,7 @@ class FolloweesViewController: TXViewController {
         case followees
     }
     
-    private(set) var user: User = .default()
+    private(set) var user: User = .default
     
     private var state: State<Paginated<Followee>, FollowingsFailure> = .processing
     

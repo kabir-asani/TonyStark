@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct Follower {
-    static func `default`() -> Follower {
+struct Follower: Model {
+    static var `default`: Follower {
         Follower(
-            user: .default(),
-            creationDate: .now()
+            user: .default,
+            creationDate: .current
         )
     }
     
@@ -22,20 +22,18 @@ struct Follower {
         user: User? = nil,
         creationDate: Date? = nil
     ) -> Follower {
-        let newFollower = Follower(
+        Follower(
             user: user ?? self.user,
             creationDate: creationDate ?? self.creationDate
         )
-        
-        return newFollower
     }
 }
 
-struct Followee {
-    static func `default`() -> Followee {
+struct Followee: Model {
+    static var `default`: Followee {
         Followee(
-            user: .default(),
-            creationDate: .now()
+            user: .default,
+            creationDate: .current
         )
     }
     
@@ -46,11 +44,9 @@ struct Followee {
         user: User? = nil,
         creationDate: Date? = nil
     ) -> Followee {
-        let newFollowing = Followee(
+        Followee(
             user: user ?? self.user,
             creationDate: creationDate ?? self.creationDate
         )
-        
-        return newFollowing
     }
 }

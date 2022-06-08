@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct User {
-    struct SocialDetails {
-        static func `default`() -> SocialDetails {
+struct User: Model {
+    struct SocialDetails: Model {
+        static var `default`: SocialDetails {
             SocialDetails(
                 followersCount: 0,
                 followeesCount: 0
@@ -23,18 +23,18 @@ struct User {
             followersCount: Int? = nil,
             followeesCount: Int? = nil
         ) -> SocialDetails {
-            let newSocialDetails = SocialDetails(
+            SocialDetails(
                 followersCount: followersCount ?? self.followersCount,
                 followeesCount: followeesCount ?? self.followeesCount
             )
-            
-            return newSocialDetails
         }
     }
 
-    struct ActivityDetails {
-        static func `default`() -> ActivityDetails {
-            User.ActivityDetails(tweetsCount: 0)
+    struct ActivityDetails: Model {
+        static var `default`: ActivityDetails {
+            ActivityDetails(
+                tweetsCount: 0
+            )
         }
         
         let tweetsCount: Int
@@ -42,17 +42,17 @@ struct User {
         func copyWith(
             tweetsCount: Int? = nil
         ) -> ActivityDetails {
-            let newActivityDetails = ActivityDetails(
+            ActivityDetails(
                 tweetsCount: tweetsCount ?? self.tweetsCount
             )
-            
-            return newActivityDetails
         }
     }
 
-    struct Viewables {
-        static func `default`() -> User.Viewables {
-            User.Viewables(following: false)
+    struct Viewables: Model {
+        static var `default`: Viewables {
+            Viewables(
+                following: false
+            )
         }
         
         let following: Bool
@@ -68,7 +68,7 @@ struct User {
         }
     }
 
-    static func `default`() -> User {
+    static var `default`: User {
         User(
             id: "",
             name: "",
@@ -76,11 +76,11 @@ struct User {
             username: "",
             image: "",
             description: "",
-            creationDate: .now(),
-            lastUpdatedDate: .now(),
-            socialDetails: .default(),
-            activityDetails: .default(),
-            viewables: .default()
+            creationDate: .current,
+            lastUpdatedDate: .current,
+            socialDetails: .default,
+            activityDetails: .default,
+            viewables: .default
         )
     }
     
@@ -109,7 +109,7 @@ struct User {
         activityDetails: ActivityDetails? = nil,
         viewables: Viewables? = nil
     ) -> User {
-        let newUser = User(
+        User(
             id: id ?? self.id,
             name: name ?? self.name,
             email: email ?? self.email,
@@ -122,7 +122,5 @@ struct User {
             activityDetails: activityDetails ?? self.activityDetails,
             viewables: viewables ?? self.viewables
         )
-        
-        return newUser
     }
 }

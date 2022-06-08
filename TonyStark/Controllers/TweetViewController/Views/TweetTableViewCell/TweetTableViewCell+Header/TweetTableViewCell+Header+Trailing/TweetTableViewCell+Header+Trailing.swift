@@ -89,29 +89,25 @@ extension TweetTableViewCell.Header {
                 }
             ]
             
-            CurrentUserDataStore.shared.state.map { currentUser in
-                if tweet.author.id != currentUser.user.id {
-                    children.append(
-                        UIAction(
-                            title: tweet.author.viewables.following
-                            ? "Unfollow"
-                            : "Follow",
-                            image: UIImage(
-                                systemName: tweet.author.viewables.following
-                                ? "person.badge.plus.fill"
-                                : "person.badge.plus"
-                            )
-                        ) { [weak self] action in
-                            guard let strongSelf = self else {
-                                return
-                            }
-                            
-                            strongSelf.onFollowPressed?()
+            if tweet.viewables.author.id != CurrentUserDataStore.shared.user!.id {
+                children.append(
+                    UIAction(
+                        title: tweet.viewables.author.viewables.following
+                        ? "Unfollow"
+                        : "Follow",
+                        image: UIImage(
+                            systemName: tweet.viewables.author.viewables.following
+                            ? "person.badge.plus.fill"
+                            : "person.badge.plus"
+                        )
+                    ) { [weak self] action in
+                        guard let strongSelf = self else {
+                            return
                         }
-                    )
-                }
-            } onAbsent: {
-                // Do nothing
+                        
+                        strongSelf.onFollowPressed?()
+                    }
+                )
             }
 
             optionsButton.menu = TXMenu(children: children)
