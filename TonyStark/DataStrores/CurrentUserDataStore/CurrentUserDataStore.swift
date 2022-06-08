@@ -33,8 +33,11 @@ enum CurrentUserState {
 class CurrentUserDataStore: DataStore {
     static let shared = CurrentUserDataStore()
     
-    private static let sessionKey = "\(CurrentUserDataStore.self):Session"
-    private static let userKey = "\(CurrentUserDataStore.self):User"
+    private static let sessionKey = "\(CurrentUserDataStore.self):\(Session.self)"
+    private static let userKey = "\(CurrentUserDataStore.self):\(User.self)"
+    
+    private static let tokensURL = "\(CurrentUserDataStore.baseUrl)/tokens"
+    private static let selfURL = "\(CurrentUserDataStore.baseUrl)/self"
     
     private(set) var user: User?
     private(set) var session: Session?
@@ -62,123 +65,139 @@ class CurrentUserDataStore: DataStore {
         withDetails details: AuthenticationProfile,
         from provider: AuthenticationProvider
     ) async -> Result<Void, LogInFailure> {
-        return .failure(.unknown)
+        do {
+            let tokenCreationResult = try await TXNetworkAssistant.shared.post(
+                url: Self.tokensURL,
+                headers: unsecureHeaders(),
+                content: [
+                    "credentials": [
+                        "token": details.accessToken,
+                        "provider": provider.rawValue
+                    ],
+                    "details": [
+                        "name": details.name,
+                        "email": details.email,
+                        "image": details.image
+                    ]
+                ]
+            )
+            
+            if tokenCreationResult.statusCode == 201 {
+                let session = try TXJsonAssistant.decode(
+                    SuccessData<Session>.self,
+                    from: tokenCreationResult.data
+                ).data
+                
+                let currentUserResult = try await TXNetworkAssistant.shared.get(
+                    url: Self.selfURL,
+                    headers: secureHeaders(
+                        withAccessToken: session.accessToken
+                    )
+                )
+                
+                if currentUserResult.statusCode == 200 {
+                    let user = try TXJsonAssistant.decode(
+                        SuccessData<User>.self,
+                        from: currentUserResult.data
+                    ).data
+                    
+                    try await TXLocalStorageAssistant.shallow.store(
+                        key: Self.sessionKey,
+                        value: session
+                    )
+                    try await TXLocalStorageAssistant.shallow.store(
+                        key: Self.userKey,
+                        value: user
+                    )
+                    
+                    self.session = session
+                    self.user = user
+                    
+                    return .success(Void())
+                } else {
+                    return .failure(.unknown)
+                }
+            } else {
+                return .failure(.unknown)
+            }
+        } catch {
+            return .failure(.unknown)
+        }
     }
     
     func logOut() async -> Result<Void, LogOutFailure> {
-        return .failure(.unknown)
+        if let session = session {
+            do {
+                let tokenDeletionResult = try await TXNetworkAssistant.shared.delete(
+                    url: Self.tokensURL,
+                    headers: secureHeaders(
+                        withAccessToken: session.accessToken
+                    )
+                )
+                
+                if tokenDeletionResult.statusCode == 204 {
+                    self.session = nil
+                    self.user = nil
+                    
+                    try await TXLocalStorageAssistant.shallow.delete(
+                        key: Self.sessionKey
+                    )
+                    try await TXLocalStorageAssistant.shallow.delete(
+                        key: Self.userKey
+                    )
+                    
+                    return .success(Void())
+                } else {
+                    return .failure(.unknown)
+                }
+            } catch {
+                return .failure(.unknown)
+            }
+        } else {
+            return .failure(.unknown)
+        }
     }
     
-    func edit(user: User) async -> Result<Void, EditUserFailure> {
-        return .failure(.unknown)
+    func update(
+        to updatedUser: User
+    ) async -> Result<Void, UpdateUserFailure> {
+        if let session = session {
+            do {
+                let updateUserResult = try await TXNetworkAssistant.shared.patch(
+                    url: Self.selfURL,
+                    headers: secureHeaders(
+                        withAccessToken: session.accessToken
+                    ),
+                    content: [
+                        "username": updatedUser.username,
+                        "name": updatedUser.name,
+                        "description": updatedUser.description,
+                        "image": updatedUser.image
+                    ]
+                )
+                
+                if updateUserResult.statusCode == 200 {
+                    let user = try TXJsonAssistant.decode(
+                        SuccessData<User>.self,
+                        from: updateUserResult.data
+                    ).data
+                    
+                    try await TXLocalStorageAssistant.shallow.update(
+                        key: Self.userKey,
+                        value: user
+                    )
+                    
+                    self.user = user
+                    
+                    return .success(Void())
+                } else {
+                    return .failure(.unknown)
+                }
+            } catch {
+                return .failure(.unknown)
+            }
+        } else {
+            return .failure(.unknown)
+        }
     }
 }
-//
-//fileprivate class CurrentUserDataStoreCompanion: DataStoreCompanion {
-//    func createToken(
-//        withDetails details: AuthenticationProfile,
-//        from provider: AuthenticationProvider
-//    ) async throws -> Result<Session, CreateTokenFailure> {
-//        do {
-//            let tokenCreationResult = try await TXNetworkAssistant.shared.post(
-//                url: baseURL + "/tokens",
-//                headers: unsecureHeaders(),
-//                content: [
-//                    "credentials": [
-//                        "token": details.accessToken,
-//                        "provider": provider.rawValue
-//                    ],
-//                    "details": [
-//                        "name": details.name,
-//                        "email": details.email,
-//                        "image": details.image
-//                    ]
-//                ]
-//            )
-//
-//            if tokenCreationResult.statusCode == 201 {
-//                let session = try TXJsonCoder.decode(
-//                    SuccessDataTemplate<SessionDT>.self,
-//                    from: tokenCreationResult.data
-//                ).data
-//
-//                return .success(session.entity())
-//            } else {
-//                return .failure(.unknown)
-//            }
-//        } catch {
-//            return .failure(.unknown)
-//        }
-//    }
-//
-//    func deleteToken() async throws -> Result<Void, DeleteTokenFailure> {
-//        do {
-//            let tokenDeletionResult = try await TXNetworkAssistant.shared.delete(
-//                url: baseURL + "/tokens",
-//                headers: secureHeaders(
-//                    withAccessToken: CurrentUserDataStore.shared.session!.accessToken
-//                )
-//            )
-//
-//            if tokenDeletionResult.statusCode == 204 {
-//                return .success(Void())
-//            } else {
-//                return .failure(.unknown)
-//            }
-//        } catch {
-//            return .failure(.unknown)
-//        }
-//    }
-//
-//    func user() async throws -> Result<User, UserFailure> {
-//        do {
-//            let userResult = try await TXNetworkAssistant.shared.get(
-//                url: baseURL + "/self",
-//                headers: secureHeaders(
-//                    withAccessToken: CurrentUserDataStore.shared.session!.accessToken
-//                )
-//            )
-//
-//            if userResult.statusCode == 200 {
-//                let user = try TXJsonCoder.decode(
-//                    SuccessDataTemplate<UserDT>.self,
-//                    from: userResult.data
-//                ).data
-//
-//                return .success(user.entity())
-//            } else {
-//                return .failure(.unknown)
-//            }
-//        } catch {
-//            return .failure(.unknown)
-//        }
-//    }
-//
-//    func edit(
-//        user updatedUser: User
-//    ) async throws -> Result<User, EditUserFailure> {
-//        do {
-//            let editUserResult = try await TXNetworkAssistant.shared.patch(
-//                url: baseURL + "/self",
-//                headers: secureHeaders(
-//                    withAccessToken: CurrentUserDataStore.shared.session!.accessToken
-//                ),
-//                content: [
-//                    "username": updatedUser.username,
-//                    "name": updatedUser.name,
-//                    "description": updatedUser.description,
-//                    "image": updatedUser.image
-//                ]
-//            )
-//
-//            if editUserResult.statusCode == 200 {
-//
-//            } else if editUserResult.statusCode == 409 {
-//            } else {
-//                return .failure(.unknown)
-//            }
-//        } catch {
-//            throw EditUserFailure.unknown
-//        }
-//    }
-//}

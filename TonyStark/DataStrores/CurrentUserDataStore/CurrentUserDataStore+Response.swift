@@ -18,7 +18,7 @@ enum LogOutFailure: Error {
 }
 
 // MARK: Edit User
-enum EditUserFailure: Error {
+enum UpdateUserFailure: Error {
     case unknown
     case usernameUnavailable
 }
