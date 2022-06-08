@@ -8,7 +8,7 @@
 import Foundation
 
 class DataStore {
-    let baseURL = "https://nickfury14.herokuapp.com"
+    static let baseUrl = "https://nickfury14.herokuapp.com"
     
     func bootUp() async {
         // Do nothing

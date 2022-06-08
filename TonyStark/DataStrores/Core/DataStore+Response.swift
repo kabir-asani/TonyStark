@@ -6,18 +6,11 @@
 //
 
 import Foundation
-protocol DataTemplate: Codable {
-    associatedtype Entity
-    
-    init(from entity: Entity)
-    
-    func entity() -> Entity
-}
 
-struct SuccessDataTemplate<Data: Codable>: Codable {
+struct SuccessData<Data: Model>: Codable {
     let data: Data
 }
 
-struct FailureDataTemplate<Reason: Codable>: Codable {
+struct FailureData<Reason: Model>: Codable {
     let reason: Reason
 }
