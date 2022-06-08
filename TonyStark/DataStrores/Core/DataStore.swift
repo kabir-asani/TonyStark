@@ -8,12 +8,6 @@
 import Foundation
 
 class DataStore {
-    var companion: DataStoreCompanion {
-        get {
-            fatalError()
-        }
-    }
-    
     func bootUp() async {
         // Do nothing
     }

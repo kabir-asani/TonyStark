@@ -1,12 +1,11 @@
 //
-//  DataTemplate.swift
+//  DataStore+Response.swift
 //  TonyStark
 //
-//  Created by Mohammed Sadiq on 04/06/22.
+//  Created by Mohammed Sadiq on 08/06/22.
 //
 
 import Foundation
-
 protocol DataTemplate: Codable {
     associatedtype Model
     
