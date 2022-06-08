@@ -7,10 +7,6 @@
 
 import UIKit
 
-class ComposeTweetEvent: TXEvent {
-    
-}
-
 class FeedViewController: TXViewController {
     // Declare
     enum FeedTableViewSection: Int, CaseIterable {
@@ -62,8 +58,8 @@ class FeedViewController: TXViewController {
                 return
             }
             
-            if event is ComposeTweetEvent {
-                strongSelf.openComposeViewController()
+            if event is RefreshFeedEvent {
+                strongSelf.refreshTableView()
             }
         }
     }

@@ -65,6 +65,7 @@
 		16308638280881810061BE31 /* PartialTweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16308637280881810061BE31 /* PartialTweetTableViewCell.swift */; };
 		1630863B280883900061BE31 /* UIViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1630863A280883900061BE31 /* UIViewX.swift */; };
 		16345435285108130077994C /* DateFormatterX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16345434285108130077994C /* DateFormatterX.swift */; };
+		16345437285116BF0077994C /* FeedViewController+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16345436285116BF0077994C /* FeedViewController+Events.swift */; };
 		163A09F32823B8FB008CDCED /* TXPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163A09F22823B8FB008CDCED /* TXPresentationController.swift */; };
 		163D2D9228191BE100CE5646 /* PartialUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2D9128191BE100CE5646 /* PartialUserTableViewCell.swift */; };
 		163D2D9828191C9900CE5646 /* PartialUserTableViewCell+Leading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2D9728191C9900CE5646 /* PartialUserTableViewCell+Leading.swift */; };
@@ -247,6 +248,7 @@
 		16308637280881810061BE31 /* PartialTweetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialTweetTableViewCell.swift; sourceTree = "<group>"; };
 		1630863A280883900061BE31 /* UIViewX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewX.swift; sourceTree = "<group>"; };
 		16345434285108130077994C /* DateFormatterX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterX.swift; sourceTree = "<group>"; };
+		16345436285116BF0077994C /* FeedViewController+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedViewController+Events.swift"; sourceTree = "<group>"; };
 		163A09F22823B8FB008CDCED /* TXPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXPresentationController.swift; sourceTree = "<group>"; };
 		163D2D9128191BE100CE5646 /* PartialUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialUserTableViewCell.swift; sourceTree = "<group>"; };
 		163D2D9728191C9900CE5646 /* PartialUserTableViewCell+Leading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialUserTableViewCell+Leading.swift"; sourceTree = "<group>"; };
@@ -489,6 +491,7 @@
 			children = (
 				162832C62824D70C00A17680 /* Views */,
 				160437CE27E1B77B00EA615F /* FeedViewController.swift */,
+				16345436285116BF0077994C /* FeedViewController+Events.swift */,
 			);
 			path = FeedViewController;
 			sourceTree = "<group>";
@@ -1994,6 +1997,7 @@
 				163D2D9828191C9900CE5646 /* PartialUserTableViewCell+Leading.swift in Sources */,
 				162C3796281D1F97000A8C0C /* BioTableViewCell.swift in Sources */,
 				166C324A281E7F24009D6961 /* EditUsernameViewController.swift in Sources */,
+				16345437285116BF0077994C /* FeedViewController+Events.swift in Sources */,
 				16D8F978280D7BDD000545EC /* CurrentUserTableViewCell+Body.swift in Sources */,
 				164828D82815D678002C6C06 /* TXBundledImage.swift in Sources */,
 				162C378D281D15D8000A8C0C /* ProfileImageTableViewCell.swift in Sources */,
