@@ -7,7 +7,7 @@
 
 import Foundation
 
-class TXJsonCoder {
+class TXJsonAssistant {
     static func encode<T: Encodable>(
         _ value: T
     ) throws -> Data {

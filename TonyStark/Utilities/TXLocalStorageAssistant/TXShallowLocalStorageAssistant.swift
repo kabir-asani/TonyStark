@@ -31,7 +31,7 @@ class TXShallowLocalStorageAssistant: TXLocalStorageAssistantProtocol {
         }
         
         do {
-            let encodedValue = try TXJsonCoder.encode(
+            let encodedValue = try TXJsonAssistant.encode(
                 value
             )
             
@@ -49,7 +49,7 @@ class TXShallowLocalStorageAssistant: TXLocalStorageAssistantProtocol {
     ) async throws -> TXLocalStorageElement<T> {
         do {
             if let encodedValue = UserDefaults.standard.data(forKey: key) {
-                let decodedValue = try TXJsonCoder.decode(
+                let decodedValue = try TXJsonAssistant.decode(
                     T.self,
                     from: encodedValue
                 )
@@ -74,7 +74,7 @@ class TXShallowLocalStorageAssistant: TXLocalStorageAssistantProtocol {
     ) async throws {
         if await exists(key: key) {
             do {
-                let encodedValue = try TXJsonCoder.encode(
+                let encodedValue = try TXJsonAssistant.encode(
                     value
                 )
                 

@@ -56,7 +56,7 @@
 		16237AF3281FB71000837064 /* EditUsernameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16237AF2281FB71000837064 /* EditUsernameTableViewCell.swift */; };
 		162644EB28292C8000CE4B53 /* SnackBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162644EA28292C8000CE4B53 /* SnackBar.swift */; };
 		162832C82824D71700A17680 /* EmptyFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162832C72824D71700A17680 /* EmptyFeedTableViewCell.swift */; };
-		162AB408284FA42F006E2C55 /* TXJsonCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162AB407284FA42F006E2C55 /* TXJsonCoder.swift */; };
+		162AB408284FA42F006E2C55 /* TXJsonAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162AB407284FA42F006E2C55 /* TXJsonAssistant.swift */; };
 		162C378D281D15D8000A8C0C /* ProfileImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C378C281D15D8000A8C0C /* ProfileImageTableViewCell.swift */; };
 		162C3790281D1A81000A8C0C /* NameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C378F281D1A81000A8C0C /* NameTableViewCell.swift */; };
 		162C3793281D1D65000A8C0C /* UsernameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C3792281D1D65000A8C0C /* UsernameTableViewCell.swift */; };
@@ -238,7 +238,7 @@
 		16237AF2281FB71000837064 /* EditUsernameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUsernameTableViewCell.swift; sourceTree = "<group>"; };
 		162644EA28292C8000CE4B53 /* SnackBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnackBar.swift; sourceTree = "<group>"; };
 		162832C72824D71700A17680 /* EmptyFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyFeedTableViewCell.swift; sourceTree = "<group>"; };
-		162AB407284FA42F006E2C55 /* TXJsonCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXJsonCoder.swift; sourceTree = "<group>"; };
+		162AB407284FA42F006E2C55 /* TXJsonAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXJsonAssistant.swift; sourceTree = "<group>"; };
 		162C378C281D15D8000A8C0C /* ProfileImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageTableViewCell.swift; sourceTree = "<group>"; };
 		162C378F281D1A81000A8C0C /* NameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTableViewCell.swift; sourceTree = "<group>"; };
 		162C3792281D1D65000A8C0C /* UsernameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameTableViewCell.swift; sourceTree = "<group>"; };
@@ -834,12 +834,12 @@
 			path = "CommentTableViewCell+Trailing+Footer";
 			sourceTree = "<group>";
 		};
-		162AB406284FA427006E2C55 /* TXJsonCoder */ = {
+		162AB406284FA427006E2C55 /* TXJsonAssistant */ = {
 			isa = PBXGroup;
 			children = (
-				162AB407284FA42F006E2C55 /* TXJsonCoder.swift */,
+				162AB407284FA42F006E2C55 /* TXJsonAssistant.swift */,
 			);
-			path = TXJsonCoder;
+			path = TXJsonAssistant;
 			sourceTree = "<group>";
 		};
 		162C378B281D15BC000A8C0C /* ProfileImageTableViewCell */ = {
@@ -1467,7 +1467,7 @@
 				165E54F027E77F9000D3BA0D /* TXImageProvider */,
 				16C6ECE8284DF9CC008930CF /* TXGoogleAssistant */,
 				16C4AFD6284E7B19008791B8 /* TXAppleAssistant */,
-				162AB406284FA427006E2C55 /* TXJsonCoder */,
+				162AB406284FA427006E2C55 /* TXJsonAssistant */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1890,7 +1890,7 @@
 				16D8F97A280D7BFD000545EC /* CurrentUserTableViewCell+Footer.swift in Sources */,
 				168992A7281B135000D5D85C /* AvatarImage.swift in Sources */,
 				160437CD27E1B76200EA615F /* ComposeViewController.swift in Sources */,
-				162AB408284FA42F006E2C55 /* TXJsonCoder.swift in Sources */,
+				162AB408284FA42F006E2C55 /* TXJsonAssistant.swift in Sources */,
 				163FD5EF28251C03003E0409 /* EmptyTweetsTableViewCell.swift in Sources */,
 				16C4AFD8284E7B25008791B8 /* TXAppleAssistant.swift in Sources */,
 				16493D212812B372004912BB /* TXTextView.swift in Sources */,
