@@ -9,7 +9,7 @@ import UIKit
 
 class ComposeViewController: TXViewController {
     // Declare
-    private let compose: Composer = {
+    private let composer: Composer = {
         let compose = Composer()
         
         compose.enableAutolayout()
@@ -51,7 +51,7 @@ class ComposeViewController: TXViewController {
         super.viewWillAppear(animated)
         
         startKeyboardAwareness()
-        compose.focusTextView()
+        composer.focusTextView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -61,7 +61,7 @@ class ComposeViewController: TXViewController {
     }
     
     private func addSubviews() {
-        view.addSubview(compose)
+        view.addSubview(composer)
         view.addSubview(separator)
         view.addSubview(composeDetailsBar)
     }
@@ -87,28 +87,28 @@ class ComposeViewController: TXViewController {
     }
     
     private func configureCompose() {
-        compose.configure(
+        composer.configure(
             withUser: CurrentUserDataStore.shared.user!
         )
         
-        compose.delegate = self
+        composer.delegate = self
         
-        compose.pin(
+        composer.pin(
             toTopOf: view,
             withInset: 16,
             byBeingSafeAreaAware: true
         )
-        compose.pin(
+        composer.pin(
             toLeftOf: view,
             withInset: 16,
             byBeingSafeAreaAware: true
         )
-        compose.pin(
+        composer.pin(
             toRightOf: view,
             withInset: 16,
             byBeingSafeAreaAware: true
         )
-        compose.attach(
+        composer.attach(
             bottomToTopOf: separator,
             byBeingSafeAreaAware: true
         )
@@ -150,7 +150,7 @@ class ComposeViewController: TXViewController {
     
     // Interact
     @objc private func onDonePressed(_ sender: UIBarButtonItem) {
-        let composedText = compose.text
+        let composedText = composer.text
         
         if !composedText.isEmpty {
             Task {
