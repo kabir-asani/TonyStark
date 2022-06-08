@@ -10,7 +10,7 @@ import Foundation
 class FeedDataStore: DataStore {
     static let shared = FeedDataStore()
     
-    private static let feedURL = "\(FeedDataStore.baseUrl)/timeline"
+    private static let feedURL = "\(FeedDataStore.baseUrl)/self/timeline"
     
     private override init() { }
     
