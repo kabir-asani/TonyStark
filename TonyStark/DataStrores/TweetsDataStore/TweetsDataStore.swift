@@ -10,12 +10,48 @@ import Foundation
 class TweetsDataStore: DataStore {
     static let shared = TweetsDataStore()
     
+    static let selfTweetsURL = "\(TweetsDataStore.baseUrl)/self/tweets"
+    static let createTweetURL = "\(TweetsDataStore.baseUrl)/self/tweets"
+    
+    static func otherUserTweetsURL(
+        withUserId userId: String
+    ) -> String {
+        "\(TweetsDataStore.baseUrl)/users/\(userId)/tweets"
+    }
+    static func deleteTweetURL(
+        withTweetId tweetId: String
+    ) -> String {
+        "\(TweetsDataStore.baseUrl)/self/tweets/\(tweetId)"
+    }
+    
     private override init() { }
     
     func createTweet(
         withDetails details: ComposeDetails
-    ) async -> Result<Tweet, CreateTweetFailure> {
-        return .failure(.unknown)
+    ) async -> Result<Void, CreateTweetFailure> {
+        if let session = CurrentUserDataStore.shared.session {
+            do {
+                let tweetCreationResult = try await TXNetworkAssistant.shared.post(
+                    url: Self.createTweetURL,
+                    headers: secureHeaders(
+                        withAccessToken: session.accessToken
+                    ),
+                    content: [
+                        "text": details.text
+                    ]
+                )
+                
+                if tweetCreationResult.statusCode == 201 {
+                    return .success(Void())
+                } else {
+                    return .failure(.unknown)
+                }
+            } catch {
+                return .failure(.unknown)
+            }
+        } else {
+            return .failure(.unknown)
+        }
     }
     
     func deleteTweet(
