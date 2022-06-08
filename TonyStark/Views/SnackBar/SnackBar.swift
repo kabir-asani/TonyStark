@@ -20,6 +20,7 @@ class SnackBar: TXVisualEffectView {
     private let variant: Variant
     private let duration: TimeInterval
     private let dismissible: Bool
+    private let onDismiss: (() -> Void)?
     
     private let image: TXImageView = {
         let image = TXImageView()
@@ -50,11 +51,13 @@ class SnackBar: TXVisualEffectView {
         text: String,
         variant: Variant,
         duration: TimeInterval,
-        dismissible: Bool
+        dismissible: Bool,
+        onDismiss: (() -> Void)? = nil
     ) {
         self.variant = variant
         self.duration = duration
         self.dismissible = dismissible
+        self.onDismiss = onDismiss
         
         super.init(effect: UIBlurEffect(style: .prominent))
         
@@ -141,9 +144,7 @@ class SnackBar: TXVisualEffectView {
         
         if velocity.y < 0 {
             if dismissible {
-                TXEventBroker.shared.emit(
-                    event: HideSnackBarEvent()
-                )
+                onDismiss?()
             }
         }
     }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 protocol AuthenticationActionsTableViewCellInteractionsHandler: AnyObject {
     func authenticationActionsCellDidContinueWithGoogle()
@@ -37,8 +38,8 @@ class AuthenticationActionsTableViewCell: TXTableViewCell {
         googleButton.backgroundColor = .white
         googleButton.layer.cornerRadius = 30
         googleButton.clipsToBounds = true
-        googleButton.layer.borderWidth = 1
-        googleButton.layer.borderColor = TXColor.lightGray.cgColor
+        googleButton.layer.borderWidth = 2
+        googleButton.layer.borderColor = TXColor.black.cgColor
         
         return googleButton
     }()
@@ -59,8 +60,8 @@ class AuthenticationActionsTableViewCell: TXTableViewCell {
         appleButton.backgroundColor = .white
         appleButton.layer.cornerRadius = 30
         appleButton.clipsToBounds = true
-        appleButton.layer.borderWidth = 1
-        appleButton.layer.borderColor = TXColor.lightGray.cgColor
+        appleButton.layer.borderWidth = 2
+        appleButton.layer.borderColor = TXColor.black.cgColor
         
         return appleButton
     }()

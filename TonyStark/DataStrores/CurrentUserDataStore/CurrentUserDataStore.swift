@@ -60,6 +60,12 @@ class CurrentUserDataStore: DataStore {
         withDetails details: AuthenticationProfile,
         from provider: AuthenticationProvider
     ) async -> Result<Void, LogInFailure> {
+        let _: Void = await withUnsafeContinuation { continuation in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                continuation.resume(returning: Void())
+            }
+        }
+        
         return .failure(.unknown)
     }
     

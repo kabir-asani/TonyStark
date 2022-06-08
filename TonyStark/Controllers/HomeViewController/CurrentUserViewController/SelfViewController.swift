@@ -154,12 +154,12 @@ class SelfViewController: TXViewController {
                         event: AuthenticationEvent()
                     )
                 } orElse: {
-                    TXEventBroker.shared.emit(
-                        event: ShowSnackBarEvent(
-                            text: "Something Went Wrong!",
-                            variant: .failure
-                        )
-                    )
+                    [weak self] in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    
+                    strongSelf.showUnknownFailureSnackBar()
                 }
             }
         }
