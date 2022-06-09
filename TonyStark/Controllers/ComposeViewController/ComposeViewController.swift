@@ -67,12 +67,21 @@ class ComposeViewController: TXViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.leftBarButtonItem = TXBarButtonItem(
+        configureLeftBarButtonWithCancelButton()
+        configureNavigationBarWithTweetBarButton()
+    }
+    
+    private func configureLeftBarButtonWithCancelButton() {
+        let cancelBarButtonItem = TXBarButtonItem(
             barButtonSystemItem: .cancel,
             target: self,
             action: #selector(onCancelPressed(_:))
         )
         
+        navigationItem.leftBarButtonItem = cancelBarButtonItem
+    }
+    
+    private func configureNavigationBarWithTweetBarButton() {
         let tweetBarButtonItem = TXBarButtonItem(
             title: "Tweet",
             style: .done,
@@ -80,10 +89,21 @@ class ComposeViewController: TXViewController {
             action: #selector(onDonePressed(_:))
         )
         
-        tweetBarButtonItem.tintColor = .systemBlue
-        tweetBarButtonItem.isEnabled = false
+        tweetBarButtonItem.isEnabled = !composer.text.isEmpty
         
         navigationItem.rightBarButtonItem = tweetBarButtonItem
+    }
+    
+    private func configureRightBarButtonWithActivityIndicator() {
+        let activityIndicator = TXActivityIndicatorView()
+        
+        activityIndicator.startAnimating()
+        
+        let activityIndicatorBarButtonItem = TXBarButtonItem(
+            customView: activityIndicator
+        )
+        
+        navigationItem.rightBarButtonItem = activityIndicatorBarButtonItem
     }
     
     private func configureCompose() {
@@ -159,7 +179,7 @@ class ComposeViewController: TXViewController {
                     return
                 }
                 
-                strongSelf.showActivityIndicator()
+                strongSelf.configureRightBarButtonWithActivityIndicator()
                 
                 let tweetCreationResult = await TweetsDataStore.shared.createTweet(
                     withDetails: ComposeDetails(
@@ -167,7 +187,7 @@ class ComposeViewController: TXViewController {
                     )
                 )
                 
-                strongSelf.hideActivityIndicator()
+                strongSelf.configureNavigationBarWithTweetBarButton()
                 
                 tweetCreationResult.map {
                     strongSelf.dismiss(
