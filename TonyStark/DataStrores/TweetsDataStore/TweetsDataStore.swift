@@ -68,6 +68,39 @@ class TweetsDataStore: DataStore {
         ofUserWithId userId: String,
         after nextToken: String? = nil
     ) async -> Result<Paginated<Tweet>, TweetsFailure> {
-        return .failure(.unknown)
+        if let currentUser = CurrentUserDataStore.shared.user, let session = CurrentUserDataStore.shared.session {
+            do {
+                let query = nextToken != nil ? [
+                    "nextToken": nextToken!
+                ] : nil
+                
+                let tweetsResult = try await TXNetworkAssistant.shared.get(
+                    url: currentUser.id == userId
+                    ? Self.selfTweetsURL
+                    : Self.otherUserTweetsURL(
+                        withUserId: userId
+                    ),
+                    query: query,
+                    headers: secureHeaders(
+                        withAccessToken: session.accessToken
+                    )
+                )
+                
+                if tweetsResult.statusCode == 200 {
+                    let feed = try TXJsonAssistant.decode(
+                        SuccessData<Paginated<Tweet>>.self,
+                        from: tweetsResult.data
+                    ).data
+                    
+                    return .success(feed)
+                } else {
+                    return .failure(.unknown)
+                }
+            } catch {
+                return .failure(.unknown)
+            }
+        } else {
+            return .failure(.unknown)
+        }
     }
 }
