@@ -235,7 +235,9 @@ extension FeedViewController: TXTableViewDataSource {
         numberOfRowsInSection section: Int
     ) -> Int {
         state.mapOnSuccess { paginatedFeed in
-            paginatedFeed.page.count
+            return paginatedFeed.page.count > 0
+            ? paginatedFeed.page.count
+            : 1
         } orElse: {
             0
         }
@@ -246,15 +248,24 @@ extension FeedViewController: TXTableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         state.mapOnSuccess { paginatedFeed in
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
-                assigning: indexPath
-            ) as! PartialTweetTableViewCell
-            
-            cell.interactionsHandler = self
-            cell.configure(withTweet: paginatedFeed.page[indexPath.row])
-            
-            return cell
+            if paginatedFeed.page.count > 0 {
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
+                    assigning: indexPath
+                ) as! PartialTweetTableViewCell
+                
+                cell.interactionsHandler = self
+                cell.configure(withTweet: paginatedFeed.page[indexPath.row])
+                
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: EmptyFeedTableViewCell.reuseIdentifier,
+                    assigning: indexPath
+                ) as! EmptyFeedTableViewCell
+                
+                return cell
+            }
         } orElse: {
             TXTableViewCell()
         }
@@ -294,16 +305,18 @@ extension FeedViewController: TXTableViewDelegate {
         )
         
         state.mapOnlyOnSuccess { paginatedFeed in
-            let tweet = paginatedFeed.page[indexPath.row]
-            
-            let tweetViewController = TweetViewController()
-            
-            tweetViewController.populate(withTweet: tweet)
-            
-            navigationController?.pushViewController(
-                tweetViewController,
-                animated: true
-            )
+            if paginatedFeed.page.count > 0 {
+                let tweet = paginatedFeed.page[indexPath.row]
+                
+                let tweetViewController = TweetViewController()
+                
+                tweetViewController.populate(withTweet: tweet)
+                
+                navigationController?.pushViewController(
+                    tweetViewController,
+                    animated: true
+                )
+            }
         }
     }
 }
