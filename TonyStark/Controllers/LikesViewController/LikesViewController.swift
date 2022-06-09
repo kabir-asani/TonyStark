@@ -83,52 +83,42 @@ class LikesViewController: TXViewController {
 extension LikesViewController: TXTableViewDataSource {
     private func populateTableView() {
         Task {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            strongSelf.tableView.beginPaginating()
+            tableView.beginPaginating()
             
             let likesResult = await LikesDataStore.shared.likes(onTweetWithId: tweet.id)
             
-            strongSelf.tableView.endPaginating()
+            tableView.endPaginating()
             
             likesResult.map { paginatedLikes in
-                strongSelf.state = .success(paginatedLikes)
+                state = .success(paginatedLikes)
             } onFailure: { cause in
-                strongSelf.state = .failure(cause)
+                state = .failure(cause)
             }
             
-            strongSelf.tableView.reloadData()
+            tableView.reloadData()
         }
     }
     
     private func refreshTableView() {
         Task {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            strongSelf.tableView.beginRefreshing()
+            tableView.beginRefreshing()
             
             let likesResult = await LikesDataStore.shared.likes(onTweetWithId: tweet.id)
             
-            strongSelf.tableView.endRefreshing()
+            tableView.endRefreshing()
             
             likesResult.map { paginatedLikes in
-                strongSelf.state = .success(paginatedLikes)
+                state = .success(paginatedLikes)
             } onFailure: { cause in
-                strongSelf.state = .failure(cause)
+                state = .failure(cause)
             }
             
-            strongSelf.tableView.reloadData()
+            tableView.reloadData()
         }
     }
     
     private func extendTableView() {
-        state.mapOnSuccess { previousPaginatedLikes in
+        state.mapOnlyOnSuccess { previousPaginatedLikes in
             guard let nextToken = previousPaginatedLikes.nextToken else {
                 return
             }
@@ -155,8 +145,6 @@ extension LikesViewController: TXTableViewDataSource {
                     tableView.reloadData()
                 }
             }
-        } orElse: {
-            // Do nothing
         }
     }
     

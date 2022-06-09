@@ -80,4 +80,14 @@ extension UINavigationController {
             animated: true
         )
     }
+    
+    func openComposeViewController() {
+        let composeViewController = TXNavigationController(
+            rootViewController: ComposeViewController()
+        )
+        
+        composeViewController.modalPresentationStyle = .fullScreen
+        
+        present(composeViewController, animated: true)
+    }
 }

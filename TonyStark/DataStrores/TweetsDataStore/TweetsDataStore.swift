@@ -61,7 +61,34 @@ class TweetsDataStore: DataStore {
     func deleteTweet(
         withId tweetId: String
     ) async -> Result<Void, CreateTweetFailure> {
-        return .success(Void())
+        if let session = CurrentUserDataStore.shared.session {
+            do {
+                let tweetDeletionResult = try await TXNetworkAssistant.shared.delete(
+                    url: Self.deleteTweetURL(
+                        withTweetId: tweetId
+                    ),
+                    headers: secureHeaders(
+                        withAccessToken: session.accessToken
+                    )
+                )
+                
+                if tweetDeletionResult.statusCode == 204 {
+                    TXEventBroker.shared.emit(
+                        event: TweetDeletedEvent(
+                            id: tweetId
+                        )
+                    )
+                    
+                    return .success(Void())
+                } else {
+                    return .failure(.unknown)
+                }
+            } catch {
+                return .failure(.unknown)
+            }
+        } else {
+            return .failure(.unknown)
+        }
     }
    
     func tweets(

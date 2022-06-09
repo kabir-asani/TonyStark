@@ -35,4 +35,14 @@ class TXTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func prepareForDelete() {
+        contentView.isUserInteractionEnabled = true
+        alpha = 0.4
+    }
+    
+    func revertPreparationsDoneForDelete() {
+        contentView.isUserInteractionEnabled = false
+        alpha = 1.0
+    }
 }

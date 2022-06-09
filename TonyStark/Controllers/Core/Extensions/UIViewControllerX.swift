@@ -126,12 +126,12 @@ extension UIViewController {
             duration: duration,
             dismissible: dismissible
         ) {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
             Task {
-                [weak self] in
-                guard let strongSelf = self else {
-                    return
-                }
-                
                 await strongSelf.hideSnackBar()
             }
         }
@@ -178,7 +178,10 @@ extension UIViewController {
             
             snackBar.layer.setAffineTransform(visibleSnackbarTransform)
         } completion: {
-            completed in
+            [weak self] completed in
+            guard let strongSelf = self else {
+                return
+            }
             
             if completed {
                 Timer.scheduledTimer(withTimeInterval: 2, repeats: false) {
@@ -186,11 +189,6 @@ extension UIViewController {
                     timer.invalidate()
                     
                     Task {
-                        [weak self] in
-                        guard let strongSelf = self else {
-                            return
-                        }
-                        
                         await strongSelf.hideSnackBar(snackBar)
                     }
                 }
@@ -238,12 +236,7 @@ extension UIViewController {
     
     func showUnknownFailureSnackBar() {
         Task {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            await strongSelf.showSnackBar(
+            await showSnackBar(
                 text: "Something Went Wrong!",
                 variant: .failure
             )

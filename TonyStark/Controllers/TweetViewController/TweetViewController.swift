@@ -235,47 +235,37 @@ class TweetViewController: TXViewController {
 extension TweetViewController: TXTableViewDataSource {
     private func populateTableView() {
         Task {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            strongSelf.tableView.beginPaginating()
+            tableView.beginPaginating()
             
             let commentsResult = await CommentsDataStore.shared.comments(ofTweetWithId: tweet.id)
             
-            strongSelf.tableView.endPaginating()
+            tableView.endPaginating()
             
             commentsResult.map { paginatedComments in
-                strongSelf.state = .success(paginatedComments)
+                state = .success(paginatedComments)
             } onFailure: { cause in
-                strongSelf.state = .failure(cause)
+                state = .failure(cause)
             }
             
-            strongSelf.tableView.reloadData()
+            tableView.reloadData()
         }
     }
     
     private func refreshTableView() {
         Task {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            strongSelf.tableView.beginRefreshing()
+            tableView.beginRefreshing()
             
             let commentsResult = await CommentsDataStore.shared.comments(ofTweetWithId: tweet.id)
             
-            strongSelf.tableView.endRefreshing()
+            tableView.endRefreshing()
             
             commentsResult.map { paginatedComments in
-                strongSelf.state = .success(paginatedComments)
+                state = .success(paginatedComments)
             } onFailure: { cause in
-                strongSelf.state = .failure(cause)
+                state = .failure(cause)
             }
             
-            strongSelf.tableView.reloadData()
+            tableView.reloadData()
         }
     }
     

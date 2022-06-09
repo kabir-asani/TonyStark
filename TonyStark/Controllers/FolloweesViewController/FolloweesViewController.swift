@@ -82,47 +82,37 @@ class FolloweesViewController: TXViewController {
 extension FolloweesViewController: TXTableViewDataSource {
     private func populateTableView() {
         Task {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            strongSelf.tableView.beginPaginating()
+            tableView.beginPaginating()
             
             let followeesResult = await SocialsDataStore.shared.followees(ofUserWithId: user.id)
             
-            strongSelf.tableView.endPaginating()
+            tableView.endPaginating()
             
             followeesResult.map { paginatedFollowees in
-                strongSelf.state = .success(paginatedFollowees)
+                state = .success(paginatedFollowees)
             } onFailure: { cause in
-                strongSelf.state = .failure(cause)
+                state = .failure(cause)
             }
             
-            strongSelf.tableView.reloadData()
+            tableView.reloadData()
         }
     }
     
     private func refreshTableView() {
         Task {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            strongSelf.tableView.beginRefreshing()
+            tableView.beginRefreshing()
             
             let followeesResult = await SocialsDataStore.shared.followees(ofUserWithId: user.id)
             
-            strongSelf.tableView.endRefreshing()
+            tableView.endRefreshing()
             
             followeesResult.map { paginatedFollowees in
-                strongSelf.state = .success(paginatedFollowees)
+                state = .success(paginatedFollowees)
             } onFailure: { cause in
-                strongSelf.state = .failure(cause)
+                state = .failure(cause)
             }
             
-            strongSelf.tableView.reloadData()
+            tableView.reloadData()
         }
     }
     

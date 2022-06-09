@@ -58,8 +58,14 @@ class FeedViewController: TXViewController {
                 return
             }
             
-            if event is TweetCreatedEvent || event is TweetDeletedEvent {
-                strongSelf.refreshTableView()
+            if event is TweetCreatedEvent {
+                strongSelf.onTweetCreated()
+            }
+            
+            if let event = event as? TweetDeletedEvent {
+                strongSelf.onTweetDeleted(
+                    withId: event.id
+                )
             }
         }
     }
@@ -129,17 +135,15 @@ class FeedViewController: TXViewController {
     
     // Interact
     @objc private func onComposePressed(_ sender: UITapGestureRecognizer) {
-        openComposeViewController()
+        navigationController?.openComposeViewController()
     }
     
-    private func openComposeViewController() {
-        let composeViewController = TXNavigationController(
-            rootViewController: ComposeViewController()
-        )
-        
-        composeViewController.modalPresentationStyle = .fullScreen
-        
-        present(composeViewController, animated: true)
+    private func onTweetCreated() {
+        refreshTableView()
+    }
+    
+    private func onTweetDeleted(withId id: String) {
+        refreshTableView()
     }
 }
 
@@ -147,51 +151,41 @@ class FeedViewController: TXViewController {
 extension FeedViewController: TXTableViewDataSource {
     private func populateTableView() {
         Task {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            strongSelf.tableView.beginPaginating()
+            tableView.beginPaginating()
             
             let feedResult = await FeedDataStore.shared.feed()
             
-            strongSelf.tableView.endPaginating()
+            tableView.endPaginating()
             
             feedResult.map { paginatedFeed in
-                strongSelf.state = .success(paginatedFeed)
-                strongSelf.tableView.appendSpacerOnFooter()
+                state = .success(paginatedFeed)
+                tableView.appendSpacerOnFooter()
             } onFailure: { failure in
-                strongSelf.state = .failure(failure)
-                strongSelf.tableView.removeSpacerOnFooter()
+                state = .failure(failure)
+                tableView.removeSpacerOnFooter()
             }
             
-            strongSelf.tableView.reloadData()
+            tableView.reloadData()
         }
     }
     
     private func refreshTableView() {
         Task {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            strongSelf.tableView.beginRefreshing()
+            tableView.beginRefreshing()
             
             let feedResult = await FeedDataStore.shared.feed()
             
-            strongSelf.tableView.endRefreshing()
+            tableView.endRefreshing()
             
             feedResult.map { paginatedFeed in
-                strongSelf.state = .success(paginatedFeed)
-                strongSelf.tableView.appendSpacerOnFooter()
+                state = .success(paginatedFeed)
+                tableView.appendSpacerOnFooter()
             } onFailure: { failure in
-                strongSelf.state = .failure(failure)
-                strongSelf.tableView.removeSpacerOnFooter()
+                state = .failure(failure)
+                tableView.removeSpacerOnFooter()
             }
             
-            strongSelf.tableView.reloadData()
+            tableView.reloadData()
         }
     }
     
@@ -361,7 +355,21 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
     }
     
     func partialTweetCellDidPressDeleteOption(_ cell: PartialTweetTableViewCell) {
-        print(#function)
+        state.mapOnlyOnSuccess { paginatedFeed in
+            Task {
+                cell.prepareForDelete()
+                
+                let tweetDeletionResult = await TweetsDataStore.shared.deleteTweet(
+                    withId: paginatedFeed.page[cell.indexPath.row].id
+                )
+                
+                tweetDeletionResult.mapOnlyOnFailure { failure in
+                    cell.revertPreparationsDoneForDelete()
+                    showUnknownFailureSnackBar()
+                }
+            }
+            return
+        }
     }
     
     func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell) {

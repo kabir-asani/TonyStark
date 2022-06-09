@@ -104,24 +104,19 @@ extension SearchViewController: TXSearchBarDelegate {
 extension SearchViewController: TXTableViewDataSource {
     private func populateTableView() {
         Task {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            strongSelf.tableView.beginPaginating()
+           tableView.beginPaginating()
             
             let searchResult = await SearchDataStore.shared.search(withKeyword: keyword)
             
-            strongSelf.tableView.endPaginating()
+            tableView.endPaginating()
             
             searchResult.map { paginatedSearch in
-                strongSelf.state = .success(paginatedSearch)
+                state = .success(paginatedSearch)
             } onFailure: { cause in
-                strongSelf.state = .failure(cause)
+                state = .failure(cause)
             }
             
-            strongSelf.tableView.reloadData()
+            tableView.reloadData()
         }
     }
     

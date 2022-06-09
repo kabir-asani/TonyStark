@@ -152,20 +152,15 @@ extension ExploreViewController: TXSearchBarDelegate {
 extension ExploreViewController: TXTableViewDataSource {
     private func populateTableView() {
         Task {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-
             let previousSearchesResult = await SearchDataStore.shared.previouslySearchKeywords()
             
             previousSearchesResult.map { previousSearches in
-                strongSelf.state = .success(previousSearches)
+                state = .success(previousSearches)
             } onFailure: { cause in
-                strongSelf.state = .failure(cause)
+                state = .failure(cause)
             }
             
-            strongSelf.tableView.reloadData()
+            tableView.reloadData()
         }
     }
     

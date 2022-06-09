@@ -58,9 +58,17 @@ class SelfViewController: TXViewController {
             }
             
             if let event = event as? HomeTabSwitchEvent {
-                if event.tab == .user {
-                    strongSelf.navigationController?.popToRootViewController(animated: true)
-                }
+                strongSelf.onTabSwitched(to: event.tab)
+            }
+            
+            if event is TweetCreatedEvent {
+                strongSelf.onTweetCreated()
+            }
+            
+            if let event = event as? TweetDeletedEvent {
+                strongSelf.onTweetDeleted(
+                    withId: event.id
+                )
             }
         }
     }
@@ -71,11 +79,22 @@ class SelfViewController: TXViewController {
     
     private func configureNavigationBar() {
         navigationItem.backButtonTitle = ""
-        navigationItem.rightBarButtonItem = TXBarButtonItem(
-            image: UIImage(systemName: "line.3.horizontal"),
+        navigationItem.leftBarButtonItem = TXBarButtonItem(
+            image: UIImage(
+                systemName: "line.3.horizontal"
+            ),
             style: .plain,
             target: self,
             action: #selector(onActionPressed(_:))
+        )
+        
+        navigationItem.rightBarButtonItem = TXBarButtonItem(
+            image: UIImage(
+                systemName: "plus"
+            ),
+            style: .plain,
+            target: self,
+            action: #selector(onComposePressed(_:))
         )
     }
     
@@ -142,25 +161,20 @@ class SelfViewController: TXViewController {
         let logOutAction = UIAlertAction(
             title: "Log Out",
             style: .destructive
-        ) { action in
+        ) {
+            [weak self] action in
+            guard let strongSelf = self else {
+                return
+            }
+            
             Task {
-                [weak self] in
-                guard let strongSelf = self else {
-                    return
-                }
-                
                 strongSelf.showActivityIndicator()
                 
                 let result = await CurrentUserDataStore.shared.logOut()
                 
                 strongSelf.hideActivityIndicator()
                 
-                result.mapOnlyOnFailure {
-                    [weak self] reason in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    
+                result.mapOnlyOnFailure { failure in
                     strongSelf.showUnknownFailureSnackBar()
                 }
             }
@@ -181,6 +195,30 @@ class SelfViewController: TXViewController {
             alert,
             animated: true
         )
+    }
+    
+    @objc private func onComposePressed(
+        _ sender: UITapGestureRecognizer
+    ) {
+        navigationController?.openComposeViewController()
+    }
+    
+    private func onTabSwitched(
+        to tab: HomeViewController.TabItem
+    ) {
+        if tab == .user {
+            navigationController?.popToRootViewController(animated: true)
+        }
+    }
+    
+    private func onTweetCreated() {
+        refreshTableView()
+    }
+    
+    private func onTweetDeleted(
+        withId id: String
+    ) {
+        refreshTableView()
     }
 }
 
@@ -213,9 +251,10 @@ extension SelfViewController: TXTableViewDataSource {
     
     private func refreshTableView() {
         Task {
+            await refreshUserSection()
+            
             tableView.beginRefreshing()
             
-            await refreshUserSection()
             await refreshTweetsSection()
             
             tableView.endRefreshing()
@@ -223,7 +262,7 @@ extension SelfViewController: TXTableViewDataSource {
     }
     
     private func extendTableView() {
-        state.mapOnSuccess { previousPaginatedTweets in
+        state.mapOnlyOnSuccess { previousPaginatedTweets in
             if let nextToken = previousPaginatedTweets.nextToken {
                 Task {
                     tableView.beginPaginating()
@@ -250,8 +289,6 @@ extension SelfViewController: TXTableViewDataSource {
                     }
                 }
             }
-        } orElse: {
-            // Do nothing
         }
     }
     
@@ -273,7 +310,7 @@ extension SelfViewController: TXTableViewDataSource {
                 )
             }
         } orElse: {
-            self.showUnknownFailureSnackBar()
+            showUnknownFailureSnackBar()
         }
     }
     
@@ -300,7 +337,7 @@ extension SelfViewController: TXTableViewDataSource {
                 )
             }
         } orElse: {
-            self.showUnknownFailureSnackBar()
+            showUnknownFailureSnackBar()
         }
 
     }
@@ -525,7 +562,21 @@ extension SelfViewController: PartialTweetTableViewCellInteractionsHandler {
     }
     
     func partialTweetCellDidPressDeleteOption(_ cell: PartialTweetTableViewCell) {
-        print(#function)
+        state.mapOnlyOnSuccess { paginatedFeed in
+            Task {
+                cell.prepareForDelete()
+                
+                let tweetDeletionResult = await TweetsDataStore.shared.deleteTweet(
+                    withId: paginatedFeed.page[cell.indexPath.row].id
+                )
+                
+                tweetDeletionResult.mapOnlyOnFailure { failure in
+                    cell.revertPreparationsDoneForDelete()
+                    showUnknownFailureSnackBar()
+                }
+            }
+            return
+        }
     }
     
     func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell) {
