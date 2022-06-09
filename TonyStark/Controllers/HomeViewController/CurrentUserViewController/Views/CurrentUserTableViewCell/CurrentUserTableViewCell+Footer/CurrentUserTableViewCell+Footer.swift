@@ -12,6 +12,7 @@ extension CurrentUserTableViewCell {
         private enum SocialDetailsIdentifier: String {
             case followers = "follower"
             case followings = "followings"
+            case tweets = "tweets"
         }
         
         // Declare
@@ -35,6 +36,16 @@ extension CurrentUserTableViewCell {
             return followingsSocialDetails
         }()
         
+        private let tweetsDetails: SocialDetails = {
+            let tweetsDetails = SocialDetails()
+            
+            tweetsDetails.identifier = SocialDetailsIdentifier.tweets.rawValue
+            
+            tweetsDetails.enableAutolayout()
+            
+            return tweetsDetails
+        }()
+        
         
         // Arrange
         override init(frame: CGRect) {
@@ -46,7 +57,7 @@ extension CurrentUserTableViewCell {
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
-
+        
         private func arrangeSubviews() {
             let combinedStackView = makeCombinedStackView()
             
@@ -60,6 +71,7 @@ extension CurrentUserTableViewCell {
                 arrangedSubviews: [
                     followersSocialDetails,
                     followingsSocialDetails,
+                    tweetsDetails,
                     .spacer
                 ]
             )
@@ -94,6 +106,15 @@ extension CurrentUserTableViewCell {
                 ),
                 onPressed: onFollowingsPressed
             )
+            
+            tweetsDetails.configure(
+                withData: (
+                    leadingText: "\(user.activityDetails.tweetsCount)",
+                    trailingText: "Tweets"
+                )
+            ) {
+                // Do nothing
+            }
         }
     }
 }
