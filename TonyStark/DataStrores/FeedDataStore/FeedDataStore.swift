@@ -19,8 +19,13 @@ class FeedDataStore: DataStore {
     ) async -> Result<Paginated<Tweet>, FeedFailure> {
         if let session = CurrentUserDataStore.shared.session {
             do {
+                let query = nextToken != nil ? [
+                    "nextToken": nextToken!
+                ] : nil
+                
                 let feedResult = try await TXNetworkAssistant.shared.get(
                     url: Self.feedURL,
+                    query: query,
                     headers: secureHeaders(
                         withAccessToken: session.accessToken
                     )

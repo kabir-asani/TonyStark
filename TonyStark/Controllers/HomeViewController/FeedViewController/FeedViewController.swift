@@ -209,7 +209,9 @@ extension FeedViewController: TXTableViewDataSource {
                 
                 strongSelf.tableView.beginPaginating()
                 
-                let feedResult = await FeedDataStore.shared.feed(after: nextToken)
+                let feedResult = await FeedDataStore.shared.feed(
+                    after: nextToken
+                )
                 
                 strongSelf.tableView.endPaginating()
                 
