@@ -16,8 +16,6 @@ protocol ComposerDelegate: AnyObject {
 
 class Composer: TXView {
     // Declare
-    private static let placeholder: String = "What's happening?"
-    
     weak var delegate: ComposerDelegate?
     
     private var profileImage: AvatarImage = {
@@ -33,28 +31,32 @@ class Composer: TXView {
         
         composableTextView.enableAutolayout()
         composableTextView.keyboardDismissMode = .none
-        composableTextView.text = Composer.placeholder
-        composableTextView.textColor = .lightGray
         composableTextView.font = .systemFont(
             ofSize: 16,
             weight: .regular
         )
-
-        composableTextView.selectedTextRange = composableTextView.textRange(
-            from: composableTextView.beginningOfDocument,
-            to: composableTextView.beginningOfDocument
-        )
-
+        
         return composableTextView
+    }()
+    
+    private let placeholderLabel : TXLabel = {
+        let placeholderLabel = TXLabel()
+        
+        placeholderLabel.enableAutolayout()
+        placeholderLabel.sizeToFit()
+        placeholderLabel.font = .systemFont(
+            ofSize: 16,
+            weight: .regular
+        )
+        placeholderLabel.textColor = .systemGray
+        placeholderLabel.text = "What's happening?"
+        
+        return placeholderLabel
     }()
     
     var text: String {
         get {
-            if composableTextView.isDisplayingPlaceholder {
-                return ""
-            } else {
-                return composableTextView.text
-            }
+            composableTextView.text
         }
     }
     
@@ -77,6 +79,7 @@ class Composer: TXView {
         
         arrangeProfileImage()
         arrangeComposeTextView()
+        arrangePlaceholderLabel()
     }
     
     private func arrangeProfileImage() {
@@ -94,6 +97,19 @@ class Composer: TXView {
         composableTextView.pin(toTopOf: self)
         composableTextView.pin(toRightOf: self)
         composableTextView.pin(toBottomOf: self)
+    }
+    
+    private func arrangePlaceholderLabel() {
+        composableTextView.addSubview(placeholderLabel)
+        
+        placeholderLabel.pin(
+            toLeftOf: composableTextView,
+            withInset: 5
+        )
+        placeholderLabel.pin(
+            toTopOf: composableTextView,
+            withInset: 8
+        )
     }
     
     // Configure
@@ -124,49 +140,13 @@ extension Composer: TXTextViewDelegate {
             in: range,
             with: text
         )
-
-        if updatedText.isEmpty {
-            textView.text = Composer.placeholder
-            textView.textColor = .lightGray
-
-            textView.selectedTextRange = textView.textRange(
-                from: textView.beginningOfDocument,
-                to: textView.beginningOfDocument
-            )
-            
-            delegate?.composer(self, didChangeText: "")
-            return false
-        } else if textView.isDisplayingPlaceholder && !text.isEmpty {
-            textView.textColor = .label
-            textView.text = text
-            delegate?.composer(self, didChangeText: text)
-            
-            return false
-        } else {
-            return updatedText.count <= 280
-        }
-    }
-    
-    func textViewDidChangeSelection(_ textView: UITextView) {
-        if textView.isDisplayingPlaceholder {
-            textView.selectedTextRange = textView.textRange(
-                from: textView.beginningOfDocument,
-                to: textView.beginningOfDocument
-            )
-        }
+        
+        return updatedText.count <= 280
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        if textView.isDisplayingPlaceholder {
-            delegate?.composer(self, didChangeText: "")
-        } else {
-            delegate?.composer(self, didChangeText: textView.text)
-        }
-    }
-}
-
-fileprivate extension UITextView {
-    var isDisplayingPlaceholder: Bool {
-        self.textColor == .lightGray
+        placeholderLabel.isHidden = !textView.text.isEmpty
+        
+        delegate?.composer(self, didChangeText: textView.text)
     }
 }
