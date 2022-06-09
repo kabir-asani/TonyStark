@@ -13,6 +13,7 @@ extension OtherUserTableViewCell {
         private enum SocialDetailsIdentifier: String {
             case followers = "follower"
             case followings = "followings"
+            case tweets = "tweets"
         }
         
         // Declare
@@ -37,6 +38,15 @@ extension OtherUserTableViewCell {
             return followingsSocialDetails
         }()
         
+        private let tweetsDetails: SocialDetails = {
+            let tweetsDetails = SocialDetails()
+            
+            tweetsDetails.identifier = SocialDetailsIdentifier.tweets.rawValue
+            
+            tweetsDetails.enableAutolayout()
+            
+            return tweetsDetails
+        }()
         
         // Arrange
         override init(frame: CGRect) {
@@ -62,6 +72,7 @@ extension OtherUserTableViewCell {
                 arrangedSubviews: [
                     followersSocialDetails,
                     followingsSocialDetails,
+                    tweetsDetails,
                     .spacer,
                 ]
             )
@@ -96,6 +107,15 @@ extension OtherUserTableViewCell {
                 ),
                 onPressed: onFollowingsPressed
             )
+            
+            tweetsDetails.configure(
+                withData: (
+                    leadingText: "\(user.activityDetails.tweetsCount)",
+                    trailingText: "Tweets"
+                )
+            ) {
+                // Do nothing
+            }
         }
     }
 }

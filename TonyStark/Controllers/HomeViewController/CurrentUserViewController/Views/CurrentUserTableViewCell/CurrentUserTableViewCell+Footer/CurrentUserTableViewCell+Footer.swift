@@ -46,7 +46,6 @@ extension CurrentUserTableViewCell {
             return tweetsDetails
         }()
         
-        
         // Arrange
         override init(frame: CGRect) {
             super.init(frame: frame)

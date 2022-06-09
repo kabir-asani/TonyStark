@@ -39,6 +39,17 @@ class SelfViewController: TXViewController {
         populateTableView()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        tableView.reloadSections(
+            IndexSet(
+                integer: SelfTableViewSection.user.rawValue
+            ),
+            with: .none
+        )
+    }
+    
     private func configureEventListener() {
         TXEventBroker.shared.listen {
             [weak self] event in
@@ -112,20 +123,6 @@ class SelfViewController: TXViewController {
             preferredStyle: .actionSheet
         )
         
-        let appInformationAction = UIAlertAction(
-            title: "App Information",
-            style: .default
-        ) { action in
-            // TODO:
-        }
-        
-        let developerInformationAction = UIAlertAction(
-            title: "Developer Information",
-            style: .default
-        ) { action in
-            // TODO:
-        }
-        
         let bookmarksAction = UIAlertAction(
             title: "Bookmarks",
             style: .default
@@ -143,7 +140,7 @@ class SelfViewController: TXViewController {
         }
         
         let logOutAction = UIAlertAction(
-            title: "Log Out?",
+            title: "Log Out",
             style: .destructive
         ) { action in
             Task {
@@ -158,12 +155,8 @@ class SelfViewController: TXViewController {
                 
                 strongSelf.hideActivityIndicator()
                 
-                result.mapOnSuccess {
-                    TXEventBroker.shared.emit(
-                        event: AuthenticationEvent()
-                    )
-                } orElse: {
-                    [weak self] in
+                result.mapOnlyOnFailure {
+                    [weak self] reason in
                     guard let strongSelf = self else {
                         return
                     }
@@ -180,8 +173,6 @@ class SelfViewController: TXViewController {
             alert.dismiss(animated: true)
         }
         
-        alert.addAction(appInformationAction)
-        alert.addAction(developerInformationAction)
         alert.addAction(bookmarksAction)
         alert.addAction(logOutAction)
         alert.addAction(cancelAction)
@@ -211,36 +202,23 @@ extension SelfViewController: TXTableViewDataSource {
             strongSelf.tableView.endPaginating()
             
             tweetsResult.map { paginatedTweets in
-                strongSelf.state = .success(data: paginatedTweets)
+                strongSelf.state = .success(paginatedTweets)
                 
                 strongSelf.tableView.reloadData()
             } onFailure: { cause in
-                strongSelf.state = .failure(cause: cause)
+                strongSelf.state = .failure(cause)
             }
         }
     }
     
     private func refreshTableView() {
         Task {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
+            tableView.beginRefreshing()
             
-            strongSelf.tableView.beginRefreshing()
+            await refreshUserSection()
+            await refreshTweetsSection()
             
-            let tweetsResult = await TweetsDataStore.shared.tweets(
-                ofUserWithId: CurrentUserDataStore.shared.user!.id
-            )
-            
-            strongSelf.tableView.endRefreshing()
-            
-            tweetsResult.map { paginatedTweets in
-                strongSelf.state = .success(data: paginatedTweets)
-                strongSelf.tableView.reloadData()
-            } onFailure: { cause in
-                strongSelf.state = .failure(cause: cause)
-            }
+            tableView.endRefreshing()
         }
     }
     
@@ -248,19 +226,14 @@ extension SelfViewController: TXTableViewDataSource {
         state.mapOnSuccess { previousPaginatedTweets in
             if let nextToken = previousPaginatedTweets.nextToken {
                 Task {
-                    [weak self] in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    
-                    strongSelf.tableView.beginPaginating()
+                    tableView.beginPaginating()
                     
                     let tweetsResult = await TweetsDataStore.shared.tweets(
                         ofUserWithId: CurrentUserDataStore.shared.user!.id,
                         after: nextToken
                     )
                     
-                    strongSelf.tableView.endPaginating()
+                    tableView.endPaginating()
                     
                     tweetsResult.map { latestPaginatedTweets in
                         let updatedPaginatedTweets = Paginated<Tweet>(
@@ -268,18 +241,68 @@ extension SelfViewController: TXTableViewDataSource {
                             nextToken: latestPaginatedTweets.nextToken
                         )
                         
-                        strongSelf.tableView.appendSepartorToLastMostVisibleCell()
+                        tableView.appendSepartorToLastMostVisibleCell()
                         
-                        strongSelf.state = .success(data: updatedPaginatedTweets)
-                        strongSelf.tableView.reloadData()
+                        state = .success(updatedPaginatedTweets)
+                        tableView.reloadData()
                     } onFailure: { cause in
-                        // TODO: Communicate via SnackBar
+                        showUnknownFailureSnackBar()
                     }
                 }
             }
         } orElse: {
             // Do nothing
         }
+    }
+    
+    private func refreshUserSection() async {
+        let userRefreshResult = await CurrentUserDataStore.shared.refreshUser()
+        
+        userRefreshResult.mapOnSuccess {
+            DispatchQueue.main.async {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadSections(
+                    IndexSet(
+                        integer: SelfTableViewSection.user.rawValue
+                    ),
+                    with: .none
+                )
+            }
+        } orElse: {
+            self.showUnknownFailureSnackBar()
+        }
+    }
+    
+    private func refreshTweetsSection() async {
+        let tweetsResult = await TweetsDataStore.shared.tweets(
+            ofUserWithId: CurrentUserDataStore.shared.user!.id
+        )
+        
+        tweetsResult.mapOnSuccess {
+            paginatedTweets in
+            
+            DispatchQueue.main.async {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.state = .success(paginatedTweets)
+                strongSelf.tableView.reloadSections(
+                    IndexSet(
+                        integer: SelfTableViewSection.tweets.rawValue
+                    ),
+                    with: .none
+                )
+            }
+        } orElse: {
+            self.showUnknownFailureSnackBar()
+        }
+
     }
     
     func numberOfSections(
@@ -381,7 +404,7 @@ extension SelfViewController: TXTableViewDelegate {
         )
         
         if indexPath.section == SelfTableViewSection.tweets.rawValue {
-            state.mapOnSuccess { paginatedTweets in
+            state.mapOnlyOnSuccess { paginatedTweets in
                 let tweet = paginatedTweets.page[indexPath.row]
                 
                 let tweetViewController = TweetViewController()
@@ -391,8 +414,6 @@ extension SelfViewController: TXTableViewDelegate {
                     tweetViewController,
                     animated: true
                 )
-            } orElse: {
-                // Do nothing
             }
         }
     }
@@ -479,7 +500,7 @@ extension SelfViewController: PartialTweetTableViewCellInteractionsHandler {
     }
     
     func partialTweetCellDidPressComment(_ cell: PartialTweetTableViewCell) {
-        state.mapOnSuccess { paginatedTweets in
+        state.mapOnlyOnSuccess { paginatedTweets in
             let tweet = paginatedTweets.page[cell.indexPath.row]
             
             navigationController?.openTweetViewController(
@@ -488,8 +509,6 @@ extension SelfViewController: PartialTweetTableViewCellInteractionsHandler {
                     autoFocus: true
                 )
             )
-        } orElse: {
-            // Do nothing
         }
     }
     
@@ -510,7 +529,7 @@ extension SelfViewController: PartialTweetTableViewCellInteractionsHandler {
     }
     
     func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell) {
-        state.mapOnSuccess { paginatedTweets in
+        state.mapOnlyOnSuccess { paginatedTweets in
             let alert = TweetOptionsAlertController.regular()
             
             alert.interactionsHandler = self
@@ -520,8 +539,6 @@ extension SelfViewController: PartialTweetTableViewCellInteractionsHandler {
                 alert,
                 animated: true
             )
-        } orElse: {
-            // Do nothing
         }
     }
 }
@@ -533,6 +550,10 @@ extension SelfViewController: TweetOptionsAlertControllerInteractionsHandler {
     }
     
     func tweetOptionsAlertControllerDidPressFollow(_ controller: TweetOptionsAlertController) {
+        print(#function)
+    }
+    
+    func tweetOptionsAlertControllerDidPressDelete(_ controller: TweetOptionsAlertController) {
         print(#function)
     }
 }
