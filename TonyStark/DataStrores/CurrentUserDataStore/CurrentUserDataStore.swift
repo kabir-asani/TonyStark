@@ -7,29 +7,6 @@
 
 import Foundation
 
-struct CurrentUser {
-    let user: User
-    let session: Session
-}
-
-enum CurrentUserState {
-    case present(CurrentUser)
-    case absent
-    
-    func map<T>(
-        onPresent: (CurrentUser) -> T,
-        onAbsent: () -> T
-    ) -> T {
-        switch self {
-        case .present(let currentUser):
-            return onPresent(currentUser)
-        case .absent:
-            return onAbsent()
-        }
-    }
-}
-
-
 class CurrentUserDataStore: DataStore {
     static let shared = CurrentUserDataStore()
     
@@ -55,9 +32,32 @@ class CurrentUserDataStore: DataStore {
             
             self.user = storedUser.value
             self.session = storedSession.value
+            
+            TXEventBroker.shared.emit(
+                event: LogInEvent()
+            )
         } catch {
             user = nil
             session = nil
+            
+            TXEventBroker.shared.emit(
+                event: LogOutEvent()
+            )
+        }
+        
+        TXEventBroker.shared.listen {
+            [weak self] event in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            if event is TweetCreatedEvent {
+                strongSelf.onTweetCreated()
+            }
+            
+            if event is TweetDeletedEvent {
+                strongSelf.onTweetDeleted()
+            }
         }
     }
     
@@ -110,6 +110,10 @@ class CurrentUserDataStore: DataStore {
                         value: user
                     )
                     
+                    TXEventBroker.shared.emit(
+                        event: LogInEvent()
+                    )
+                    
                     self.session = session
                     self.user = user
                     
@@ -146,6 +150,10 @@ class CurrentUserDataStore: DataStore {
                         key: Self.userKey
                     )
                     
+                    TXEventBroker.shared.emit(
+                        event: LogOutEvent()
+                    )
+                    
                     return .success(Void())
                 } else {
                     return .failure(.unknown)
@@ -158,7 +166,43 @@ class CurrentUserDataStore: DataStore {
         }
     }
     
-    func update(
+    
+    func refreshUser() async -> Result<Void, RefreshUserFailure> {
+        if let session = session {
+            do {
+                let currentUserResult = try await TXNetworkAssistant.shared.get(
+                    url: Self.selfURL,
+                    headers: secureHeaders(
+                        withAccessToken: session.accessToken
+                    )
+                )
+                
+                if currentUserResult.statusCode == 200 {
+                    let user = try TXJsonAssistant.decode(
+                        SuccessData<User>.self,
+                        from: currentUserResult.data
+                    ).data
+                    
+                    try await TXLocalStorageAssistant.shallow.update(
+                        key: Self.userKey,
+                        value: user
+                    )
+                    
+                    self.user = user
+                    
+                    return .success(Void())
+                } else {
+                    return .failure(.unknown)
+                }
+            } catch {
+                return .failure(.unknown)
+            }
+        } else {
+            return .failure(.unknown)
+        }
+    }
+    
+    func updateUser(
         to updatedUser: User
     ) async -> Result<Void, UpdateUserFailure> {
         if let session = session {
@@ -198,6 +242,52 @@ class CurrentUserDataStore: DataStore {
             }
         } else {
             return .failure(.unknown)
+        }
+    }
+    
+    private func onTweetCreated() {
+        if let user = self.user {
+            let updatedUser = user.copyWith(
+                activityDetails: user.activityDetails.copyWith(
+                    tweetsCount: user.activityDetails.tweetsCount + 1
+                )
+            )
+            
+            self.user = updatedUser
+            
+            Task {
+                do {
+                    try await TXLocalStorageAssistant.shallow.update(
+                        key: Self.userKey,
+                        value: updatedUser
+                    )
+                } catch {
+                    // Do nothing
+                }
+            }
+        }
+    }
+    
+    private func onTweetDeleted() {
+        if let user = self.user {
+            let updatedUser = user.copyWith(
+                activityDetails: user.activityDetails.copyWith(
+                    tweetsCount: user.activityDetails.tweetsCount - 1
+                )
+            )
+            
+            self.user = updatedUser
+            
+            Task {
+                do {
+                    try await TXLocalStorageAssistant.shallow.update(
+                        key: Self.userKey,
+                        value: updatedUser
+                    )
+                } catch {
+                    // Do nothing
+                }
+            }
         }
     }
 }

@@ -94,9 +94,9 @@ extension FollowersViewController: TXTableViewDataSource {
             strongSelf.tableView.endPaginating()
             
             followersResult.map { paginatedFollowers in
-                strongSelf.state = .success(data: paginatedFollowers)
+                strongSelf.state = .success(paginatedFollowers)
             } onFailure: { cause in
-                strongSelf.state = .failure(cause: cause)
+                strongSelf.state = .failure(cause)
             }
 
             strongSelf.tableView.reloadData()
@@ -117,9 +117,9 @@ extension FollowersViewController: TXTableViewDataSource {
             strongSelf.tableView.endRefreshing()
             
             followersResult.map { paginatedFollowers in
-                strongSelf.state = .success(data: paginatedFollowers)
+                strongSelf.state = .success(paginatedFollowers)
             } onFailure: { cause in
-                strongSelf.state = .failure(cause: cause)
+                strongSelf.state = .failure(cause)
             }
 
             strongSelf.tableView.reloadData()
@@ -127,42 +127,33 @@ extension FollowersViewController: TXTableViewDataSource {
     }
     
     private func extendTableView() {
-        state.mapOnSuccess { previousPaginatedFollowers in
+        state.mapOnlyOnSuccess { previousPaginatedFollowers in
             guard let nextToken = previousPaginatedFollowers.nextToken else {
                 return
             }
             
             Task {
-                [weak self] in
-                guard let strongSelf = self else {
-                    return
-                }
-                
-                strongSelf.tableView.beginPaginating()
+                tableView.beginPaginating()
                 
                 let followersResult = await SocialsDataStore.shared.followers(
                     ofUserWithId: user.id,
                     after: nextToken
                 )
                 
-                strongSelf.tableView.endPaginating()
+                tableView.endPaginating()
                 
-                followersResult.map { latestPaginatedFollowers in
+                followersResult.mapOnlyOnSuccess { latestPaginatedFollowers in
                     let updatedPaginatedFollowers = Paginated<Follower>(
                         page: previousPaginatedFollowers.page + latestPaginatedFollowers.page,
                         nextToken: latestPaginatedFollowers.nextToken
                     )
                     
-                    strongSelf.tableView.appendSepartorToLastMostVisibleCell()
+                    tableView.appendSepartorToLastMostVisibleCell()
                     
-                    strongSelf.state = .success(data: updatedPaginatedFollowers)
-                    strongSelf.tableView.reloadData()
-                } onFailure: { cause in
-                    // TODO: Communicate via SnackBar
+                    state = .success(updatedPaginatedFollowers)
+                    tableView.reloadData()
                 }
             }
-        } orElse: {
-            // Do nothing
         }
     }
     
@@ -227,6 +218,7 @@ extension FollowersViewController: TXTableViewDelegate {
     }
 }
 
+// MARK: TXRefreshControlDelegate
 extension FollowersViewController: TXRefreshControlDelegate {
     func refreshControlDidChange(_ control: TXRefreshControl) {
         if control.isRefreshing {
@@ -238,12 +230,10 @@ extension FollowersViewController: TXRefreshControlDelegate {
 // MARK: PartialUserTableViewCellInteractionsHandler
 extension FollowersViewController: PartialUserTableViewCellInteractionsHandler {
     func partialUserCellDidPressProfileImage(_ cell: PartialUserTableViewCell) {
-        state.mapOnSuccess { paginatedFollowers in
+        state.mapOnlyOnSuccess { paginatedFollowers in
             let follower = paginatedFollowers.page[cell.indexPath.row]
             
             navigationController?.openUserViewController(withUser: follower.user)
-        } orElse: {
-            // Do nothing
         }
     }
 }

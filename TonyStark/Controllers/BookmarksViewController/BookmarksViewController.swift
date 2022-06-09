@@ -78,84 +78,65 @@ class BookmarksViewController: TXViewController {
 extension BookmarksViewController: TXTableViewDataSource {
     private func populateTableView() {
         Task {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            strongSelf.tableView.beginPaginating()
+            tableView.beginPaginating()
             
             let bookmarksResult = await BookmarksDataStore.shared.bookmarks()
             
-            strongSelf.tableView.endPaginating()
+            tableView.endPaginating()
             
             bookmarksResult.map { paginatedBookmarks in
-                strongSelf.state = .success(data: paginatedBookmarks)
-                strongSelf.tableView.reloadData()
+                state = .success(paginatedBookmarks)
+                tableView.reloadData()
             } onFailure: { cause in
-                strongSelf.state = .failure(cause: cause)
+                state = .failure(cause)
             }
         }
     }
     
     private func refreshTableView() {
         Task {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            strongSelf.tableView.beginRefreshing()
+            tableView.beginRefreshing()
             
             let bookmarksResult = await BookmarksDataStore.shared.bookmarks()
             
-            strongSelf.tableView.endRefreshing()
+            tableView.endRefreshing()
             
             bookmarksResult.map { paginatedBookmarks in
-                strongSelf.state = .success(data: paginatedBookmarks)
-                strongSelf.tableView.reloadData()
+                state = .success(paginatedBookmarks)
+                tableView.reloadData()
             } onFailure: { cause in
-                strongSelf.state = .failure(cause: cause)
+                state = .failure(cause)
             }
         }
     }
     
     private func extendTableView() {
-        state.mapOnSuccess { previousPaginatedBookmarks in
+        state.mapOnlyOnSuccess { previousPaginatedBookmarks in
             guard let nextToken = previousPaginatedBookmarks.nextToken else {
                 return
             }
             
             Task {
-                [weak self] in
-                guard let strongSelf = self else {
-                    return
-                }
-                
-                strongSelf.tableView.beginPaginating()
+                tableView.beginPaginating()
                 
                 let bookmarksResult = await BookmarksDataStore.shared.bookmarks(
                     after: nextToken
                 )
                 
-                strongSelf.tableView.endPaginating()
+                tableView.endPaginating()
                 
-                bookmarksResult.map { latestPaginatedBookmarks in
+                bookmarksResult.mapOnlyOnSuccess { latestPaginatedBookmarks in
                     let updatedPaginatedBookmarks = Paginated<Bookmark>(
                         page: previousPaginatedBookmarks.page + latestPaginatedBookmarks.page,
                         nextToken: latestPaginatedBookmarks.nextToken
                     )
                     
-                    strongSelf.tableView.appendSepartorToLastMostVisibleCell()
+                    tableView.appendSepartorToLastMostVisibleCell()
                     
-                    strongSelf.state = .success(data: updatedPaginatedBookmarks)
-                    strongSelf.tableView.reloadData()
-                } onFailure: { cause in
-                    // TODO: Communicate via SnackBar
+                    state = .success(updatedPaginatedBookmarks)
+                    tableView.reloadData()
                 }
             }
-        } orElse: {
-            // Do nothing
         }
     }
     
@@ -222,12 +203,10 @@ extension BookmarksViewController: TXTableViewDelegate {
             animated: true
         )
         
-        state.mapOnSuccess { paginatedBookmarks in
+        state.mapOnlyOnSuccess { paginatedBookmarks in
             let bookmark = paginatedBookmarks.page[indexPath.row]
             
             navigationController?.openTweetViewController(withTweet: bookmark.viewables.tweet)
-        } orElse: {
-            // Do nothing
         }
     }
 }
@@ -248,7 +227,7 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
     }
     
     func partialTweetCellDidPressComment(_ cell: PartialTweetTableViewCell) {
-        state.mapOnSuccess { paginatedBookmarks in
+        state.mapOnlyOnSuccess { paginatedBookmarks in
             let bookmark = paginatedBookmarks.page[cell.indexPath.row]
             
             navigationController?.openTweetViewController(
@@ -257,18 +236,14 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
                     autoFocus: true
                 )
             )
-        } orElse: {
-            // Do nothing
         }
     }
     
     func partialTweetCellDidPressProfileImage(_ cell: PartialTweetTableViewCell) {
-        state.mapOnSuccess { paginatedBookmarks in
+        state.mapOnlyOnSuccess { paginatedBookmarks in
             let bookmark = paginatedBookmarks.page[cell.indexPath.row]
             
             navigationController?.openUserViewController(withUser: bookmark.viewables.tweet.viewables.author)
-        } orElse: {
-            // Do nothing
         }
     }
     
@@ -285,7 +260,7 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
     }
     
     func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell) {
-        state.mapOnSuccess { paginatedBookmarks in
+        state.mapOnlyOnSuccess { paginatedBookmarks in
             let bookmark = paginatedBookmarks.page[cell.indexPath.row]
             
             let alert = TweetOptionsAlertController.regular()
@@ -297,8 +272,6 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
                 alert,
                 animated: true
             )
-        } orElse: {
-            // Do nothing
         }
     }
 }
@@ -309,6 +282,10 @@ extension BookmarksViewController: TweetOptionsAlertControllerInteractionsHandle
     }
     
     func tweetOptionsAlertControllerDidPressFollow(_ controller: TweetOptionsAlertController) {
+        print(#function)
+    }
+    
+    func tweetOptionsAlertControllerDidPressDelete(_ controller: TweetOptionsAlertController) {
         print(#function)
     }
 }

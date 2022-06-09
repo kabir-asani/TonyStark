@@ -94,9 +94,9 @@ extension FolloweesViewController: TXTableViewDataSource {
             strongSelf.tableView.endPaginating()
             
             followeesResult.map { paginatedFollowees in
-                strongSelf.state = .success(data: paginatedFollowees)
+                strongSelf.state = .success(paginatedFollowees)
             } onFailure: { cause in
-                strongSelf.state = .failure(cause: cause)
+                strongSelf.state = .failure(cause)
             }
             
             strongSelf.tableView.reloadData()
@@ -117,9 +117,9 @@ extension FolloweesViewController: TXTableViewDataSource {
             strongSelf.tableView.endRefreshing()
             
             followeesResult.map { paginatedFollowees in
-                strongSelf.state = .success(data: paginatedFollowees)
+                strongSelf.state = .success(paginatedFollowees)
             } onFailure: { cause in
-                strongSelf.state = .failure(cause: cause)
+                strongSelf.state = .failure(cause)
             }
             
             strongSelf.tableView.reloadData()
@@ -127,42 +127,33 @@ extension FolloweesViewController: TXTableViewDataSource {
     }
     
     private func extendTableView() {
-        state.mapOnSuccess { previousPaginatedFollowees in
+        state.mapOnlyOnSuccess { previousPaginatedFollowees in
             guard let nextToken = previousPaginatedFollowees.nextToken else {
                 return
             }
             
             Task {
-                [weak self] in
-                guard let strongSelf = self else {
-                    return
-                }
-                
-                strongSelf.tableView.beginPaginating()
+                tableView.beginPaginating()
                 
                 let followeesResult = await SocialsDataStore.shared.followees(
                     ofUserWithId: user.id,
                     after: nextToken
                 )
                 
-                strongSelf.tableView.endPaginating()
+                tableView.endPaginating()
                 
-                followeesResult.map { latestPaginatedFollowees in
+                followeesResult.mapOnlyOnSuccess { latestPaginatedFollowees in
                     let updatedPaginatedFollowees = Paginated<Followee>(
                         page: previousPaginatedFollowees.page + latestPaginatedFollowees.page,
                         nextToken: latestPaginatedFollowees.nextToken
                     )
                     
-                    strongSelf.tableView.appendSepartorToLastMostVisibleCell()
+                    tableView.appendSepartorToLastMostVisibleCell()
                     
-                    strongSelf.state = .success(data: updatedPaginatedFollowees)
-                    strongSelf.tableView.reloadData()
-                } onFailure: { cause in
-                    // TODO: Communicate via SnackBar
+                    state = .success(updatedPaginatedFollowees)
+                    tableView.reloadData()
                 }
             }
-        } orElse: {
-            // Do nothing
         }
     }
     
@@ -198,7 +189,7 @@ extension FolloweesViewController: TXTableViewDataSource {
             
             return cell
         } orElse: {
-            UITableViewCell()
+            TXTableViewCell()
         }
     }
     
@@ -211,12 +202,10 @@ extension FolloweesViewController: TXTableViewDataSource {
             animated: true
         )
         
-        state.mapOnSuccess { paginatedFollowees in
+        state.mapOnlyOnSuccess { paginatedFollowees in
             let followee = paginatedFollowees.page[indexPath.row]
             
             navigationController?.openUserViewController(withUser: followee.user)
-        } orElse: {
-            // Do nothing
         }
     }
 }
@@ -256,12 +245,10 @@ extension FolloweesViewController: TXRefreshControlDelegate {
 // MARK: PartialUserTableViewCellInteractionsHandler
 extension FolloweesViewController: PartialUserTableViewCellInteractionsHandler {
     func partialUserCellDidPressProfileImage(_ cell: PartialUserTableViewCell) {
-        state.mapOnSuccess { paginatedFollowees in
+        state.mapOnlyOnSuccess { paginatedFollowees in
             let followee = paginatedFollowees.page[cell.indexPath.row]
             
             navigationController?.openUserViewController(withUser: followee.user)
-        } orElse: {
-            // Do nothing
         }
     }
 }

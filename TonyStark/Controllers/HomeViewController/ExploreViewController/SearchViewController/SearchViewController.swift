@@ -116,9 +116,9 @@ extension SearchViewController: TXTableViewDataSource {
             strongSelf.tableView.endPaginating()
             
             searchResult.map { paginatedSearch in
-                strongSelf.state = .success(data: paginatedSearch)
+                strongSelf.state = .success(paginatedSearch)
             } onFailure: { cause in
-                strongSelf.state = .failure(cause: cause)
+                strongSelf.state = .failure(cause)
             }
             
             strongSelf.tableView.reloadData()
@@ -126,42 +126,33 @@ extension SearchViewController: TXTableViewDataSource {
     }
     
     private func extendTableView() {
-        state.mapOnSuccess { previousPaginatedSearch in
+        state.mapOnlyOnSuccess { previousPaginatedSearch in
             guard let nextToken = previousPaginatedSearch.nextToken else {
                 return
             }
             
             Task {
-                [weak self] in
-                guard let strongSelf = self else {
-                    return
-                }
-                
-                strongSelf.tableView.beginPaginating()
+                tableView.beginPaginating()
                 
                 let searchResult = await SearchDataStore.shared.search(
                     withKeyword: keyword,
                     after: nextToken
                 )
                 
-                strongSelf.tableView.endPaginating()
+                tableView.endPaginating()
                 
-                searchResult.map { latestPaginatedSearch in
+                searchResult.mapOnlyOnSuccess { latestPaginatedSearch in
                     let updatedPaginatedSearch = Paginated<User>(
                         page: previousPaginatedSearch.page + latestPaginatedSearch.page,
                         nextToken: latestPaginatedSearch.nextToken
                     )
                     
-                    strongSelf.tableView.appendSepartorToLastMostVisibleCell()
+                    tableView.appendSepartorToLastMostVisibleCell()
                     
-                    strongSelf.state = .success(data: updatedPaginatedSearch)
-                    strongSelf.tableView.reloadData()
-                } onFailure: { cause in
-                    // TODO: Communicate via SnackBar
+                    state = .success(updatedPaginatedSearch)
+                    tableView.reloadData()
                 }
             }
-        } orElse: {
-            // Do nothing
         }
     }
     
@@ -227,12 +218,10 @@ extension SearchViewController: TXTableViewDelegate {
             animated: true
         )
         
-        state.mapOnSuccess { paginatedSearch in
+        state.mapOnlyOnSuccess { paginatedSearch in
             let user = paginatedSearch.page[indexPath.row]
             
             navigationController?.openUserViewController(withUser: user)
-        } orElse: {
-            // Do nothing
         }
     }
 }
@@ -245,12 +234,10 @@ extension SearchViewController: PartialUserTableViewCellInteractionsHandler {
             animated: true
         )
         
-        state.mapOnSuccess { paginatedSearch in
+        state.mapOnlyOnSuccess { paginatedSearch in
             let user = paginatedSearch.page[cell.indexPath.row]
             
             navigationController?.openUserViewController(withUser: user)
-        } orElse: {
-            // Do nothing
         }
     }
 }

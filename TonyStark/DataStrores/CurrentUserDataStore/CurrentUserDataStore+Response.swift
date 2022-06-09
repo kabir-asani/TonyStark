@@ -23,6 +23,11 @@ enum UpdateUserFailure: Error {
     case usernameUnavailable
 }
 
+// MARK: Refresh user
+enum RefreshUserFailure: Error {
+    case unknown
+}
+
 // MARK: UserFailure
 enum UserFailure: Error {
     case unknown

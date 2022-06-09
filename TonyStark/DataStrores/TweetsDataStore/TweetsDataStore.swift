@@ -42,6 +42,10 @@ class TweetsDataStore: DataStore {
                 )
                 
                 if tweetCreationResult.statusCode == 201 {
+                    TXEventBroker.shared.emit(
+                        event: TweetCreatedEvent()
+                    )
+                    
                     return .success(Void())
                 } else {
                     return .failure(.unknown)

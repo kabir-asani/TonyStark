@@ -58,7 +58,7 @@ class FeedViewController: TXViewController {
                 return
             }
             
-            if event is RefreshFeedEvent {
+            if event is TweetCreatedEvent || event is TweetDeletedEvent {
                 strongSelf.refreshTableView()
             }
         }
@@ -159,10 +159,10 @@ extension FeedViewController: TXTableViewDataSource {
             strongSelf.tableView.endPaginating()
             
             feedResult.map { paginatedFeed in
-                strongSelf.state = .success(data: paginatedFeed)
+                strongSelf.state = .success(paginatedFeed)
                 strongSelf.tableView.appendSpacerOnFooter()
-            } onFailure: { cause in
-                strongSelf.state = .failure(cause: cause)
+            } onFailure: { failure in
+                strongSelf.state = .failure(failure)
                 strongSelf.tableView.removeSpacerOnFooter()
             }
             
@@ -184,10 +184,10 @@ extension FeedViewController: TXTableViewDataSource {
             strongSelf.tableView.endRefreshing()
             
             feedResult.map { paginatedFeed in
-                strongSelf.state = .success(data: paginatedFeed)
+                strongSelf.state = .success(paginatedFeed)
                 strongSelf.tableView.appendSpacerOnFooter()
-            } onFailure: { cause in
-                strongSelf.state = .failure(cause: cause)
+            } onFailure: { failure in
+                strongSelf.state = .failure(failure)
                 strongSelf.tableView.removeSpacerOnFooter()
             }
             
@@ -196,43 +196,37 @@ extension FeedViewController: TXTableViewDataSource {
     }
     
     private func extendTableView() {
-        state.mapOnSuccess { previousPaginated in
+        state.mapOnlyOnSuccess { previousPaginated in
             guard let nextToken = previousPaginated.nextToken else {
                 return
             }
             
             Task {
-                [weak self] in
-                guard let strongSelf = self else {
-                    return
-                }
-                
-                strongSelf.tableView.beginPaginating()
+                tableView.beginPaginating()
                 
                 let feedResult = await FeedDataStore.shared.feed(
                     after: nextToken
                 )
                 
-                strongSelf.tableView.endPaginating()
+                tableView.endPaginating()
                 
                 feedResult.map { latestPaginatedFeed in
+                    
                     let updatedPaginatedFeed = Paginated<Tweet>(
                         page: previousPaginated.page + latestPaginatedFeed.page,
                         nextToken: latestPaginatedFeed.nextToken
                     )
                     
-                    strongSelf.state = .success(data: updatedPaginatedFeed)
+                    state = .success(updatedPaginatedFeed)
                     
-                    strongSelf.tableView.reloadData()
-                    strongSelf.tableView.appendSpacerOnFooter()
+                    tableView.reloadData()
+                    tableView.appendSpacerOnFooter()
                     
-                    strongSelf.tableView.appendSepartorToLastMostVisibleCell()
-                } onFailure: { cause in
-                    // TODO: Communicate via SnackBar
+                    tableView.appendSepartorToLastMostVisibleCell()
+                } onFailure: { failure in
+                    showUnknownFailureSnackBar()
                 }
             }
-        } orElse: {
-            // Do nothing
         }
     }
     
@@ -305,7 +299,7 @@ extension FeedViewController: TXTableViewDelegate {
             animated: true
         )
         
-        state.mapOnSuccess { paginatedFeed in
+        state.mapOnlyOnSuccess { paginatedFeed in
             let tweet = paginatedFeed.page[indexPath.row]
             
             let tweetViewController = TweetViewController()
@@ -316,8 +310,6 @@ extension FeedViewController: TXTableViewDelegate {
                 tweetViewController,
                 animated: true
             )
-        } orElse: {
-            // Do nothing
         }
     }
 }
@@ -338,7 +330,7 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
     }
     
     func partialTweetCellDidPressComment(_ cell: PartialTweetTableViewCell) {
-        state.mapOnSuccess { paginatedFeed in
+        state.mapOnlyOnSuccess { paginatedFeed in
             let tweet = paginatedFeed.page[cell.indexPath.row]
             
             navigationController?.openTweetViewController(
@@ -347,21 +339,16 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
                     autoFocus: true
                 )
             )
-        } orElse: {
-            // Do nothing
         }
-
     }
     
     func partialTweetCellDidPressProfileImage(_ cell: PartialTweetTableViewCell) {
-        state.mapOnSuccess { paginatedFeed in
+        state.mapOnlyOnSuccess { paginatedFeed in
             let tweet = paginatedFeed.page[cell.indexPath.row]
             
             let user = tweet.viewables.author
             
             navigationController?.openUserViewController(withUser: user)
-        } orElse: {
-            // Do nothing
         }
     }
     
@@ -378,7 +365,7 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
     }
     
     func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell) {
-        state.mapOnSuccess { paginatedFeed in
+        state.mapOnlyOnSuccess { paginatedFeed in
             let alert = TweetOptionsAlertController.regular()
             
             alert.interactionsHandler = self
@@ -388,8 +375,6 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
                 alert,
                 animated: true
             )
-        } orElse: {
-            // Do nothing
         }
     }
 }
@@ -401,6 +386,10 @@ extension FeedViewController: TweetOptionsAlertControllerInteractionsHandler {
     }
     
     func tweetOptionsAlertControllerDidPressFollow(_ controller: TweetOptionsAlertController) {
+        print(#function)
+    }
+    
+    func tweetOptionsAlertControllerDidPressDelete(_ controller: TweetOptionsAlertController) {
         print(#function)
     }
 }

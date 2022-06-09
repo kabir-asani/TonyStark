@@ -160,9 +160,9 @@ extension ExploreViewController: TXTableViewDataSource {
             let previousSearchesResult = await SearchDataStore.shared.previouslySearchKeywords()
             
             previousSearchesResult.map { previousSearches in
-                strongSelf.state = .success(data: previousSearches)
+                strongSelf.state = .success(previousSearches)
             } onFailure: { cause in
-                strongSelf.state = .failure(cause: cause)
+                strongSelf.state = .failure(cause)
             }
             
             strongSelf.tableView.reloadData()
@@ -233,7 +233,7 @@ extension ExploreViewController: TXTableViewDelegate {
             animated: true
         )
         
-        state.mapOnSuccess { previousSearches in
+        state.mapOnlyOnSuccess { previousSearches in
             let keyword = previousSearches[indexPath.row]
             
             let searchResultsViewController = SearchViewController()
@@ -246,8 +246,6 @@ extension ExploreViewController: TXTableViewDelegate {
             )
             
             searchBar.resignFirstResponder()
-        } orElse: {
-            // Do nothing
         }
     }
 }

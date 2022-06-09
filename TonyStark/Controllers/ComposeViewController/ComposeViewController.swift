@@ -89,6 +89,7 @@ class ComposeViewController: TXViewController {
             action: #selector(onDonePressed(_:))
         )
         
+        tweetBarButtonItem.tintColor = .systemBlue
         tweetBarButtonItem.isEnabled = !composer.text.isEmpty
         
         navigationItem.rightBarButtonItem = tweetBarButtonItem
@@ -184,12 +185,7 @@ class ComposeViewController: TXViewController {
         
         if !composedText.isEmpty {
             Task {
-                [weak self] in
-                guard let strongSelf = self else {
-                    return
-                }
-                
-                strongSelf.showActivityIndicatorOnNavigationBar()
+                showActivityIndicatorOnNavigationBar()
                 
                 let tweetCreationResult = await TweetsDataStore.shared.createTweet(
                     withDetails: ComposeDetails(
@@ -197,27 +193,23 @@ class ComposeViewController: TXViewController {
                     )
                 )
                 
-                strongSelf.hideActivityIndicatorOnNavigationBar()
+                hideActivityIndicatorOnNavigationBar()
                 
                 tweetCreationResult.map {
-                    strongSelf.dismiss(
+                    dismiss(
                         animated: true
                     )
-                    
-                    TXEventBroker.shared.emit(
-                        event: RefreshFeedEvent()
-                    )
-                } onFailure: {
-                    reason in
-                    
-                    strongSelf.showUnknownFailureSnackBar()
+                } onFailure: { reason in
+                    showUnknownFailureSnackBar()
                 }
             }
         }
     }
     
     @objc private func onCancelPressed(_ sender: UIBarButtonItem) {
-        dismiss(animated: true)
+        dismiss(
+            animated: true
+        )
     }
 }
 

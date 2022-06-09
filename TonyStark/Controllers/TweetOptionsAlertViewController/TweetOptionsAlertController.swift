@@ -11,6 +11,8 @@ protocol TweetOptionsAlertControllerInteractionsHandler: AnyObject {
     func tweetOptionsAlertControllerDidPressBookmark(_ controller: TweetOptionsAlertController)
     
     func tweetOptionsAlertControllerDidPressFollow(_ controller: TweetOptionsAlertController)
+    
+    func tweetOptionsAlertControllerDidPressDelete(_ controller: TweetOptionsAlertController)
 }
 
 class TweetOptionsAlertController: TXAlertController {
@@ -56,6 +58,23 @@ class TweetOptionsAlertController: TXAlertController {
             
             addAction(followAction)
         }
+        
+        if tweet.viewables.author.id == CurrentUserDataStore.shared.user!.id {
+            let followAction = UIAlertAction(
+                title: "Delete Tweet",
+                style: .destructive
+            ) {
+                [weak self] action in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.interactionsHandler?.tweetOptionsAlertControllerDidPressDelete(strongSelf)
+            }
+            
+            addAction(followAction)
+        }
+        
         
         let cancelAction = UIAlertAction(
             title: "Cancel",

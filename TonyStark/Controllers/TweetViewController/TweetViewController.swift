@@ -247,9 +247,9 @@ extension TweetViewController: TXTableViewDataSource {
             strongSelf.tableView.endPaginating()
             
             commentsResult.map { paginatedComments in
-                strongSelf.state = .success(data: paginatedComments)
+                strongSelf.state = .success(paginatedComments)
             } onFailure: { cause in
-                strongSelf.state = .failure(cause: cause)
+                strongSelf.state = .failure(cause)
             }
             
             strongSelf.tableView.reloadData()
@@ -270,9 +270,9 @@ extension TweetViewController: TXTableViewDataSource {
             strongSelf.tableView.endRefreshing()
             
             commentsResult.map { paginatedComments in
-                strongSelf.state = .success(data: paginatedComments)
+                strongSelf.state = .success(paginatedComments)
             } onFailure: { cause in
-                strongSelf.state = .failure(cause: cause)
+                strongSelf.state = .failure(cause)
             }
             
             strongSelf.tableView.reloadData()
@@ -280,42 +280,33 @@ extension TweetViewController: TXTableViewDataSource {
     }
     
     private func extendTableView() {
-        state.mapOnSuccess { previousPaginatedComments in
+        state.mapOnlyOnSuccess { previousPaginatedComments in
             guard let nextToken = previousPaginatedComments.nextToken else {
                 return
             }
            
             Task {
-                [weak self] in
-                guard let strongSelf = self else {
-                    return
-                }
-                
-                strongSelf.tableView.beginPaginating()
+                tableView.beginPaginating()
                 
                 let commentsResult = await CommentsDataStore.shared.comments(
                     ofTweetWithId: tweet.id,
                     after: nextToken
                 )
                 
-                strongSelf.tableView.endPaginating()
+                tableView.endPaginating()
                 
-                commentsResult.map { latestPaginatedComments in
+                commentsResult.mapOnlyOnSuccess { latestPaginatedComments in
                     let updatedPaginatedComments = Paginated<Comment>(
                         page: previousPaginatedComments.page + latestPaginatedComments.page,
                         nextToken: latestPaginatedComments.nextToken
                     )
                     
-                    strongSelf.tableView.appendSepartorToLastMostVisibleCell()
+                    tableView.appendSepartorToLastMostVisibleCell()
                     
-                    strongSelf.state = .success(data: updatedPaginatedComments)
-                    strongSelf.tableView.reloadData()
-                } onFailure: { cause in
-                    // TODO: Communicate via SnackBar
+                    state = .success(updatedPaginatedComments)
+                    tableView.reloadData()
                 }
             }
-        } orElse: {
-            // Do nothing
         }
     }
     
@@ -330,14 +321,12 @@ extension TweetViewController: TXTableViewDataSource {
         switch section {
         case TweetsTableViewSection.tweet.rawValue:
             return 1
-            
         case TweetsTableViewSection.comments.rawValue:
             return state.mapOnSuccess { paginatedComments in
                 paginatedComments.page.count
             } orElse: {
                 0
             }
-            
         default:
             fatalError("No other sections are present")
         }
@@ -358,7 +347,6 @@ extension TweetViewController: TXTableViewDataSource {
             cell.configure(withTweet: tweet)
             
             return cell
-            
         case TweetsTableViewSection.comments.rawValue:
             return state.mapOnSuccess { paginatedComments in
                 let comment = paginatedComments.page[indexPath.row]
@@ -373,9 +361,8 @@ extension TweetViewController: TXTableViewDataSource {
                 
                 return cell
             } orElse: {
-                UITableViewCell()
+                TXTableViewCell()
             }
-            
         default:
             fatalError("No other sections are present")
         }
@@ -463,14 +450,12 @@ extension TweetViewController: TweetTableViewCellInteractionsHandler {
 // MARK: CommentTableViewCellInteractionsHandler
 extension TweetViewController: CommentTableViewCellInteractionsHandler {
     func commentCellDidPressProfileImage(_ commentTableViewCell: CommentTableViewCell) {
-        state.mapOnSuccess { paginatedComments in
+        state.mapOnlyOnSuccess { paginatedComments in
             let comment = paginatedComments.page[commentTableViewCell.indexPath.row]
             
             let user = comment.viewables.author
             
             navigationController?.openUserViewController(withUser: user)
-        } orElse: {
-            // Do nothing
         }
     }
 }
@@ -482,6 +467,10 @@ extension TweetViewController: TweetOptionsAlertControllerInteractionsHandler {
     }
     
     func tweetOptionsAlertControllerDidPressFollow(_ controller: TweetOptionsAlertController) {
+        print(#function)
+    }
+    
+    func tweetOptionsAlertControllerDidPressDelete(_ controller: TweetOptionsAlertController) {
         print(#function)
     }
 }

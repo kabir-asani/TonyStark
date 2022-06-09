@@ -138,25 +138,16 @@ extension AuthenticationViewController: AuthenticationActionsTableViewCellIntera
             
             result.mapOnSuccess { profile in
                 Task {
-                    [weak self] in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    
-                    strongSelf.showActivityIndicator()
+                    showActivityIndicator()
                     
                     let result = await CurrentUserDataStore.shared.logIn(
                         withDetails: profile,
                         from: .google
                     )
                     
-                    strongSelf.hideActivityIndicator()
+                    hideActivityIndicator()
                     
-                    result.mapOnSuccess {
-                        TXEventBroker.shared.emit(
-                            event: HomeEvent()
-                        )
-                    } orElse: {
+                    result.mapOnlyOnFailure { failure in
                         showUnknownFailureSnackBar()
                     }
                 }
@@ -177,11 +168,7 @@ extension AuthenticationViewController: AuthenticationActionsTableViewCellIntera
                         from: .apple
                     )
                     
-                    result.mapOnSuccess {
-                        TXEventBroker.shared.emit(
-                            event: HomeEvent()
-                        )
-                    } orElse: {
+                    result.mapOnlyOnFailure { failure in
                         showUnknownFailureSnackBar()
                     }
                 }

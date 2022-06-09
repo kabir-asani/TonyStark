@@ -95,9 +95,9 @@ extension LikesViewController: TXTableViewDataSource {
             strongSelf.tableView.endPaginating()
             
             likesResult.map { paginatedLikes in
-                strongSelf.state = .success(data: paginatedLikes)
+                strongSelf.state = .success(paginatedLikes)
             } onFailure: { cause in
-                strongSelf.state = .failure(cause: cause)
+                strongSelf.state = .failure(cause)
             }
             
             strongSelf.tableView.reloadData()
@@ -118,9 +118,9 @@ extension LikesViewController: TXTableViewDataSource {
             strongSelf.tableView.endRefreshing()
             
             likesResult.map { paginatedLikes in
-                strongSelf.state = .success(data: paginatedLikes)
+                strongSelf.state = .success(paginatedLikes)
             } onFailure: { cause in
-                strongSelf.state = .failure(cause: cause)
+                strongSelf.state = .failure(cause)
             }
             
             strongSelf.tableView.reloadData()
@@ -134,32 +134,25 @@ extension LikesViewController: TXTableViewDataSource {
             }
             
             Task {
-                [weak self] in
-                guard let strongSelf = self else {
-                    return
-                }
-                
-                strongSelf.tableView.beginPaginating()
+                tableView.beginPaginating()
                 
                 let likesResult = await LikesDataStore.shared.likes(
                     onTweetWithId: tweet.id,
                     after: nextToken
                 )
                 
-                strongSelf.tableView.endPaginating()
+                tableView.endPaginating()
                 
-                likesResult.map { latestPaginatedLikes in
+                likesResult.mapOnlyOnSuccess { latestPaginatedLikes in
                     let updatedPaginatedLikes = Paginated<Like>(
                         page: previousPaginatedLikes.page + latestPaginatedLikes.page,
                         nextToken: latestPaginatedLikes.nextToken
                     )
                     
-                    strongSelf.tableView.appendSepartorToLastMostVisibleCell()
+                    tableView.appendSepartorToLastMostVisibleCell()
                     
-                    strongSelf.state = .success(data: updatedPaginatedLikes)
-                    strongSelf.tableView.reloadData()
-                } onFailure: { cause in
-                    // TODO: Communicate via SnackBar
+                    state = .success(updatedPaginatedLikes)
+                    tableView.reloadData()
                 }
             }
         } orElse: {
@@ -240,12 +233,10 @@ extension LikesViewController: TXRefreshControlDelegate {
 // MARK: PartialUserTableViewCellInteractionsHandler
 extension LikesViewController: PartialUserTableViewCellInteractionsHandler {
     func partialUserCellDidPressProfileImage(_ cell: PartialUserTableViewCell) {
-        state.mapOnSuccess { paginatedLikes in
+        state.mapOnlyOnSuccess { paginatedLikes in
             let like = paginatedLikes.page[cell.indexPath.row]
             
             navigationController?.openUserViewController(withUser: like.viewables.author)
-        } orElse: {
-            // Do nothing
         }
     }
 }

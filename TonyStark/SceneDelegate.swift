@@ -55,14 +55,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         
         Task {
-            await DataStoresRegistry.shared.bootUp()
             TXNetworkMonitor.shared.start()
-            
-            if CurrentUserDataStore.shared.user != nil {
-                TXEventBroker.shared.emit(event: HomeEvent())
-            } else {
-                TXEventBroker.shared.emit(event: AuthenticationEvent())
-            }
+            await DataStoresRegistry.shared.bootUp()
         }
     }
 }

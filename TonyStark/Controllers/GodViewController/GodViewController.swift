@@ -24,40 +24,54 @@ class GodViewController: TXViewController {
                 return
             }
             
-            if event is HomeEvent {
+            if event is LogInEvent {
                 strongSelf.switchToHomeViewController()
             }
             
-            if event is AuthenticationEvent {
+            if event is LogOutEvent {
                 strongSelf.switchToAuthenticationViewController()
             }
         }
     }
     
     private func switchToHomeViewController() {
-        dismiss(animated: false)
+        DispatchQueue.main.async {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.dismiss(animated: false)
+            
+            let homeViewController = HomeViewController()
+            homeViewController.modalPresentationStyle = .fullScreen
+            homeViewController.modalTransitionStyle = .crossDissolve
+            
+            strongSelf.present(
+                homeViewController,
+                animated: true
+            )
+        }
         
-        let homeViewController = HomeViewController()
-        homeViewController.modalPresentationStyle = .fullScreen
-        homeViewController.modalTransitionStyle = .crossDissolve
-        
-        present(
-            homeViewController,
-            animated: true
-        )
     }
     
     private func switchToAuthenticationViewController() {
-        dismiss(animated: false)
-        
-        let authenticationViewController = AuthenticationViewController()
-        authenticationViewController.modalPresentationStyle = .fullScreen
-        authenticationViewController.modalTransitionStyle = .crossDissolve
-        
-        present(
-            authenticationViewController,
-            animated: true
-        )
+        DispatchQueue.main.async {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.dismiss(animated: false)
+            
+            let authenticationViewController = AuthenticationViewController()
+            authenticationViewController.modalPresentationStyle = .fullScreen
+            authenticationViewController.modalTransitionStyle = .crossDissolve
+            
+            strongSelf.present(
+                authenticationViewController,
+                animated: true
+            )
+        }
     }
     
     // Populate
