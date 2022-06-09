@@ -13,18 +13,6 @@ class EmptyFeedTableViewCell: TXTableViewCell {
         String(describing: EmptyFeedTableViewCell.self)
     }
     
-    private let emptyFeedImage: TXImageView = {
-        let emptyFeedImage = TXImageView()
-        
-        emptyFeedImage.enableAutolayout()
-        emptyFeedImage.image = UIImage(systemName: "hand.draw")
-        emptyFeedImage.contentMode = .scaleAspectFit
-        emptyFeedImage.squareOff(withSide: 60)
-        emptyFeedImage.tintColor = .label
-        
-        return emptyFeedImage
-    }()
-    
     private let emptyFeedText: TXLabel = {
         let emptyFeedText = TXLabel()
         
@@ -111,8 +99,8 @@ class EmptyFeedTableViewCell: TXTableViewCell {
         combinedStackView.pin(
             to: self,
             withInsets: .symmetric(
-                horizontal: 16,
-                vertical: 32
+                horizontal: 32,
+                vertical: 150
             )
         )
     }
@@ -120,7 +108,6 @@ class EmptyFeedTableViewCell: TXTableViewCell {
     private func makeCombinedStackView() -> TXStackView {
         let combinedStack = TXStackView(
             arrangedSubviews: [
-                emptyFeedImage,
                 emptyFeedText,
                 emptyFeedSubtext,
                 searchButton
@@ -162,6 +149,10 @@ class EmptyFeedTableViewCell: TXTableViewCell {
     
     // Interact
     @objc private func onSearchTwitterXPressed(_ sender: TXButton) {
-        TXEventBroker.shared.emit(event: HomeTabSwitchEvent(tab: .explore))
+        TXEventBroker.shared.emit(
+            event: HomeTabSwitchEvent(
+                tab: .explore
+            )
+        )
     }
 }
