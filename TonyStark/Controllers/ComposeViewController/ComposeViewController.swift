@@ -68,7 +68,7 @@ class ComposeViewController: TXViewController {
     
     private func configureNavigationBar() {
         configureLeftBarButtonWithCancelButton()
-        configureNavigationBarWithTweetBarButton()
+        configureRightBarButtonWithTweetBarButton()
     }
     
     private func configureLeftBarButtonWithCancelButton() {
@@ -81,7 +81,7 @@ class ComposeViewController: TXViewController {
         navigationItem.leftBarButtonItem = cancelBarButtonItem
     }
     
-    private func configureNavigationBarWithTweetBarButton() {
+    private func configureRightBarButtonWithTweetBarButton() {
         let tweetBarButtonItem = TXBarButtonItem(
             title: "Tweet",
             style: .done,
@@ -104,6 +104,16 @@ class ComposeViewController: TXViewController {
         )
         
         navigationItem.rightBarButtonItem = activityIndicatorBarButtonItem
+    }
+    
+    private func showActivityIndicatorOnNavigationBar() {
+        configureRightBarButtonWithActivityIndicator()
+        view.isUserInteractionEnabled = false
+    }
+    
+    private func hideActivityIndicatorOnNavigationBar() {
+        configureRightBarButtonWithTweetBarButton()
+        view.isUserInteractionEnabled = true
     }
     
     private func configureCompose() {
@@ -179,7 +189,7 @@ class ComposeViewController: TXViewController {
                     return
                 }
                 
-                strongSelf.configureRightBarButtonWithActivityIndicator()
+                strongSelf.showActivityIndicatorOnNavigationBar()
                 
                 let tweetCreationResult = await TweetsDataStore.shared.createTweet(
                     withDetails: ComposeDetails(
@@ -187,7 +197,7 @@ class ComposeViewController: TXViewController {
                     )
                 )
                 
-                strongSelf.configureNavigationBarWithTweetBarButton()
+                strongSelf.hideActivityIndicatorOnNavigationBar()
                 
                 tweetCreationResult.map {
                     strongSelf.dismiss(
