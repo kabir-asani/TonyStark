@@ -109,6 +109,24 @@ extension TweetTableViewCell.Header {
                     }
                 )
             }
+            
+            if tweet.viewables.author.id == CurrentUserDataStore.shared.user!.id {
+                children.append(
+                    UIAction(
+                        title: "Delete Tweet",
+                        image: UIImage(
+                            systemName: "trash"
+                        ),
+                        attributes: .destructive
+                    ) { [weak self] action in
+                        guard let strongSelf = self else {
+                            return
+                        }
+                        
+                        strongSelf.onFollowPressed?()
+                    }
+                )
+            }
 
             optionsButton.menu = TXMenu(children: children)
         }
