@@ -68,6 +68,7 @@ class PartialTweetTableViewCell: TXTableViewCell {
     
     private func arrageBaseView() {
         self.selectionStyle = .none
+        self.separatorInset = defaultSeparatorInsets
     }
     
     private func arrangeSubviews() {
