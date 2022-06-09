@@ -125,7 +125,8 @@ extension PartialTweetTableViewCell.Trailing.Footer {
                         title: "Delete Tweet",
                         image: UIImage(
                             systemName: "trash"
-                        )
+                        ),
+                        attributes: .destructive
                     ) { [weak self] action in
                         guard let strongSelf = self else {
                             return
