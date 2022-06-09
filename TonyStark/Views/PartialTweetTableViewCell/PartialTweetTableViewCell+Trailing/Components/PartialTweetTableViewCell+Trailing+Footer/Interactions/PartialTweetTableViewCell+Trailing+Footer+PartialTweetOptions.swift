@@ -13,6 +13,7 @@ extension PartialTweetTableViewCell.Trailing.Footer {
         // Declare
         private var onBookmarkPressed: (() -> Void)?
         private var onFollowPressed: (() -> Void)?
+        private var onDeletePressed: (() -> Void)?
         private var onOptionsPressed: (() -> Void)?
         
         private let optionsButton: UIButton = {
@@ -55,10 +56,12 @@ extension PartialTweetTableViewCell.Trailing.Footer {
         func configure(
             withTweet tweet: Tweet,
             onBookmarkPressed: @escaping () -> Void,
-            onFollowPressed: @escaping () -> Void
+            onFollowPressed: @escaping () -> Void,
+            onDeletePressed: @escaping () -> Void
         ) {
             self.onBookmarkPressed = onBookmarkPressed
             self.onFollowPressed = onFollowPressed
+            self.onDeletePressed = onDeletePressed
             
             configureOptionsButton(withTweet: tweet)
         }
@@ -112,6 +115,23 @@ extension PartialTweetTableViewCell.Trailing.Footer {
                         }
                         
                         strongSelf.onFollowPressed?()
+                    }
+                )
+            }
+            
+            if tweet.viewables.author.id == CurrentUserDataStore.shared.user!.id {
+                children.append(
+                    UIAction(
+                        title: "Delete Tweet",
+                        image: UIImage(
+                            systemName: "trash"
+                        )
+                    ) { [weak self] action in
+                        guard let strongSelf = self else {
+                            return
+                        }
+                        
+                        strongSelf.onDeletePressed?()
                     }
                 )
             }

@@ -81,7 +81,8 @@ extension PartialTweetTableViewCell.Trailing {
             onLikePressed: @escaping () -> Void,
             onCommentPressed: @escaping () -> Void,
             onBookmarkPressed: @escaping () -> Void,
-            onFollowPressed: @escaping () -> Void
+            onFollowPressed: @escaping () -> Void,
+            onDeletePressed: @escaping () -> Void
         ) {
             likeInteractionDetails.configure(
                 withTweet: tweet,
@@ -96,7 +97,8 @@ extension PartialTweetTableViewCell.Trailing {
             tweetOptions.configure(
                 withTweet: tweet,
                 onBookmarkPressed: onBookmarkPressed,
-                onFollowPressed: onFollowPressed
+                onFollowPressed: onFollowPressed,
+                onDeletePressed: onDeletePressed
             )
         }
         

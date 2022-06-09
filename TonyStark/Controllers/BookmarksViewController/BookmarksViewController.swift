@@ -280,6 +280,10 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
         print(#function)
     }
     
+    func partialTweetCellDidPressDeleteOption(_ cell: PartialTweetTableViewCell) {
+        print(#function)
+    }
+    
     func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell) {
         state.mapOnSuccess { paginatedBookmarks in
             let bookmark = paginatedBookmarks.page[cell.indexPath.row]

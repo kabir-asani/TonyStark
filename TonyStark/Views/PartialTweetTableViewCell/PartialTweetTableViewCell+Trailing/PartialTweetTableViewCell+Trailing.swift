@@ -78,7 +78,8 @@ extension PartialTweetTableViewCell {
             onLikePressed: @escaping () -> Void,
             onCommentPressed: @escaping () -> Void,
             onBookmarksPressed: @escaping () -> Void,
-            onFollowPressed: @escaping () -> Void
+            onFollowPressed: @escaping () -> Void,
+            onDeletePressed: @escaping () -> Void
         ) {
             header.configure(withTweet: tweet)
             
@@ -89,7 +90,8 @@ extension PartialTweetTableViewCell {
                 onLikePressed: onLikePressed,
                 onCommentPressed: onCommentPressed,
                 onBookmarkPressed: onBookmarksPressed,
-                onFollowPressed: onFollowPressed
+                onFollowPressed: onFollowPressed,
+                onDeletePressed: onDeletePressed
             )
         }
         

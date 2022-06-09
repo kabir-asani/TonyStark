@@ -20,6 +20,9 @@ protocol PartialTweetTableViewCellInteractionsHandler: AnyObject {
     @available(iOS 14, *)
     func partialTweetCellDidPressFollowOption(_ cell: PartialTweetTableViewCell)
     
+    @available(iOS 14, *)
+    func partialTweetCellDidPressDeleteOption(_ cell: PartialTweetTableViewCell)
+    
     @available(iOS, deprecated: 14)
     func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell)
 }
@@ -148,6 +151,13 @@ class PartialTweetTableViewCell: TXTableViewCell {
                 }
                 
                 strongSelf.interactionsHandler?.partialTweetCellDidPressFollowOption(strongSelf)
+            } onDeletePressed: {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.interactionsHandler?.partialTweetCellDidPressDeleteOption(strongSelf)
             }
         } else {
             trailing.configure(

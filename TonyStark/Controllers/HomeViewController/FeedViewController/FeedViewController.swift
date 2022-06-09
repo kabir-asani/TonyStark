@@ -371,6 +371,10 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
         print(#function)
     }
     
+    func partialTweetCellDidPressDeleteOption(_ cell: PartialTweetTableViewCell) {
+        print(#function)
+    }
+    
     func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell) {
         state.mapOnSuccess { paginatedFeed in
             let alert = TweetOptionsAlertController.regular()

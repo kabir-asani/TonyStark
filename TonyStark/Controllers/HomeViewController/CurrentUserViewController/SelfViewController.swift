@@ -505,6 +505,10 @@ extension SelfViewController: PartialTweetTableViewCellInteractionsHandler {
         print(#function)
     }
     
+    func partialTweetCellDidPressDeleteOption(_ cell: PartialTweetTableViewCell) {
+        print(#function)
+    }
+    
     func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell) {
         state.mapOnSuccess { paginatedTweets in
             let alert = TweetOptionsAlertController.regular()
