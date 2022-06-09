@@ -32,6 +32,17 @@ extension Result {
         }
     }
     
+    func mapOnlyOnSuccess<T>(
+        _ onSuccess: (Success) -> T
+    ) -> T? {
+        switch self {
+        case .success(let success):
+            return onSuccess(success)
+        default:
+            return nil
+        }
+    }
+    
     func mapOnFailure<T>(
         _ onFailure: (_: Failure) -> T,
         orElse: () -> T
@@ -41,6 +52,17 @@ extension Result {
             return onFailure(failure)
         default:
             return orElse()
+        }
+    }
+    
+    func mapOnlyOnFailure<T>(
+        _ onFailure: (Failure) -> T
+    ) -> T? {
+        switch self {
+        case .failure(let failure):
+            return onFailure(failure)
+        default:
+            return nil
         }
     }
 }

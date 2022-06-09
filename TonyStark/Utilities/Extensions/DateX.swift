@@ -8,7 +8,7 @@
 import Foundation
 
 extension Date {
-    enum DateFormat: String {
+    enum DateTimeFormat: String {
         // E.g. 2 wk ago, 1 hr ago, 4 mo ago
         case visiblyPleasingShort
         
@@ -20,7 +20,9 @@ extension Date {
         Date()
     }
     
-    func formatted(as format: DateFormat) -> String {
+    func formatted(
+        as format: DateTimeFormat
+    ) -> String {
         switch format {
         case .visiblyPleasingShort:
             let dateFormatter = RelativeDateTimeFormatter()

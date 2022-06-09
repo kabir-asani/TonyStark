@@ -8,7 +8,9 @@
 import Foundation
 
 extension String {
-    func count(ofCharacter keyCharacter: Character) -> Int {
+    func count(
+        ofCharacter keyCharacter: Character
+    ) -> Int {
         var count = 0
         
         for character in self {

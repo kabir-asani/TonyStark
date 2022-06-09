@@ -8,13 +8,13 @@
 import Foundation
 
 enum State<Success, Failure> {
-    case success(data: Success)
-    case failure(cause: Failure)
+    case success(Success)
+    case failure(Failure)
     case processing
     
    func map<T>(
-        onSuccess: (_: Success) -> T,
-        onFailure: (_: Failure) -> T,
+        onSuccess: (Success) -> T,
+        onFailure: (Failure) -> T,
         onProcessing: () -> T
     ) -> T {
         switch self {
@@ -28,7 +28,7 @@ enum State<Success, Failure> {
     }
     
     func mapOnSuccess<T>(
-        _ onSuccess: (_: Success) -> T,
+        _ onSuccess: (Success) -> T,
         orElse: () -> T
     ) -> T {
         switch self {
@@ -39,8 +39,19 @@ enum State<Success, Failure> {
         }
     }
     
+    func mapOnlyOnSuccess<T>(
+        _ onSuccess: (Success) -> T
+    ) -> T? {
+        switch self {
+        case .success(let success):
+            return onSuccess(success)
+        default:
+            return nil
+        }
+    }
+    
     func mapOnFailure<T>(
-        _ onFailure: (_: Failure) -> T,
+        _ onFailure: (Failure) -> T,
         orElse: () -> T
     ) -> T {
         switch self {
@@ -48,6 +59,17 @@ enum State<Success, Failure> {
             return onFailure(failure)
         default:
             return orElse()
+        }
+    }
+    
+    func mapOnlyOnFailure<T>(
+        _ onFailure: (Failure) -> T
+    ) -> T? {
+        switch self {
+        case .failure(let failure):
+            return onFailure(failure)
+        default:
+            return nil
         }
     }
 }
