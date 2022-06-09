@@ -12,6 +12,12 @@ class TXTableViewCell: UITableViewCell {
         String(describing: TXTableViewCell.self)
     }
     
+    var defaultSeparatorInsets: UIEdgeInsets {
+        get {
+            .leading(20)
+        }
+    }
+    
     var indexPath: IndexPath!
     
     override init(
