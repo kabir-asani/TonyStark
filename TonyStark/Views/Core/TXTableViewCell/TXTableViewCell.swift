@@ -35,12 +35,16 @@ class TXTableViewCell: UITableViewCell {
     }
     
     func prepareForDelete() {
-        contentView.isUserInteractionEnabled = true
+        self.isUserInteractionEnabled = false
         alpha = 0.4
     }
     
-    func revertPreparationsDoneForDelete() {
-        contentView.isUserInteractionEnabled = false
+    func revertAllPreparationsMadeForDelete() {
+        self.isUserInteractionEnabled = true
         alpha = 1.0
+    }
+    
+    override func prepareForReuse() {
+        revertAllPreparationsMadeForDelete()
     }
 }

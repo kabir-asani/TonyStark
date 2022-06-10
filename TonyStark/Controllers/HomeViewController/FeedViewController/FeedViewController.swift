@@ -437,7 +437,7 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
                 )
                 
                 tweetDeletionResult.mapOnlyOnFailure { failure in
-                    cell.revertPreparationsDoneForDelete()
+                    cell.revertAllPreparationsMadeForDelete()
                     showUnknownFailureSnackBar()
                 }
             }
