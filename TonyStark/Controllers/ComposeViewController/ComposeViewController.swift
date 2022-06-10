@@ -195,7 +195,7 @@ class ComposeViewController: TXViewController {
                 
                 hideActivityIndicatorOnNavigationBar()
                 
-                tweetCreationResult.map {
+                tweetCreationResult.map { tweet in
                     dismiss(
                         animated: true
                     )

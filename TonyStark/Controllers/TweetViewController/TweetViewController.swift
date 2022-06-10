@@ -330,7 +330,7 @@ extension TweetViewController: TXTableViewDataSource {
         case TweetsTableViewSection.tweet.rawValue:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: TweetTableViewCell.reuseIdentifier,
-                assigning: indexPath
+                for: indexPath
             ) as! TweetTableViewCell
             
             cell.interactionsHandler = self
@@ -343,7 +343,7 @@ extension TweetViewController: TXTableViewDataSource {
                 
                 let cell = tableView.dequeueReusableCell(
                     withIdentifier: CommentTableViewCell.reuseIdentifer,
-                    assigning: indexPath
+                    for: indexPath
                 ) as! CommentTableViewCell
                 
                 cell.interactionsHandler = self
@@ -439,9 +439,11 @@ extension TweetViewController: TweetTableViewCellInteractionsHandler {
 
 // MARK: CommentTableViewCellInteractionsHandler
 extension TweetViewController: CommentTableViewCellInteractionsHandler {
-    func commentCellDidPressProfileImage(_ commentTableViewCell: CommentTableViewCell) {
+    func commentCellDidPressProfileImage(_ cell: CommentTableViewCell) {
         state.mapOnlyOnSuccess { paginatedComments in
-            let comment = paginatedComments.page[commentTableViewCell.indexPath.row]
+            guard let comment = paginatedComments.page.first(where: { $0.id == cell.comment.id }) else {
+                return
+            }
             
             let user = comment.viewables.author
             

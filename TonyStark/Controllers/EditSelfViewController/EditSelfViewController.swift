@@ -133,7 +133,7 @@ extension EditSelfViewController: TXTableViewDataSource {
         case Details.profilePicture.rawValue:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: ProfileImageTableViewCell.reuseIdentifier,
-                assigning: indexPath
+                for: indexPath
             ) as! ProfileImageTableViewCell
             
             cell.configure(withImageURL: user.image)
@@ -142,7 +142,7 @@ extension EditSelfViewController: TXTableViewDataSource {
         case Details.name.rawValue:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: NameTableViewCell.reuseIdentifier,
-                assigning: indexPath
+                for: indexPath
             ) as! NameTableViewCell
             
             cell.delegate = self
@@ -152,7 +152,7 @@ extension EditSelfViewController: TXTableViewDataSource {
         case Details.username.rawValue:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: UsernameTableViewCell.reuseIdentifier,
-                assigning: indexPath
+                for: indexPath
             ) as! UsernameTableViewCell
             
             cell.configure(withText: user.username)
@@ -161,7 +161,7 @@ extension EditSelfViewController: TXTableViewDataSource {
         case Details.bio.rawValue:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: BioTableViewCell.reuseIdentifier,
-                assigning: indexPath
+                for: indexPath
             ) as! BioTableViewCell
             
             cell.configure(withText: user.description)

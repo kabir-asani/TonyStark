@@ -33,6 +33,8 @@ class PartialTweetTableViewCell: TXTableViewCell {
     }
     
     // Declare
+    private(set) var tweet: Tweet!
+    
     weak var interactionsHandler: PartialTweetTableViewCellInteractionsHandler?
     
     private let leading: Leading = {
@@ -104,6 +106,8 @@ class PartialTweetTableViewCell: TXTableViewCell {
     
     // Configure
     func configure(withTweet tweet: Tweet) {
+        self.tweet = tweet
+        
         leading.configure(
             withTweet: tweet
         ) {

@@ -170,7 +170,7 @@ extension LikesViewController: TXTableViewDataSource {
         state.mapOnSuccess { paginatedLikes in
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: PartialUserTableViewCell.reuseIdentifier,
-                assigning: indexPath
+                for: indexPath
             ) as! PartialUserTableViewCell
             
             let like = paginatedLikes.page[indexPath.row]
@@ -222,7 +222,9 @@ extension LikesViewController: TXRefreshControlDelegate {
 extension LikesViewController: PartialUserTableViewCellInteractionsHandler {
     func partialUserCellDidPressProfileImage(_ cell: PartialUserTableViewCell) {
         state.mapOnlyOnSuccess { paginatedLikes in
-            let like = paginatedLikes.page[cell.indexPath.row]
+            guard let like = paginatedLikes.page.first(where: { $0.id == cell.user.id } ) else {
+                return
+            }
             
             navigationController?.openUserViewController(withUser: like.viewables.author)
         }

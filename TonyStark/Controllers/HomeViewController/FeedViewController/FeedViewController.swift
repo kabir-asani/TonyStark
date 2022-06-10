@@ -51,25 +51,6 @@ class FeedViewController: TXViewController {
         populateTableView()
     }
     
-    private func configureEventListener() {
-        TXEventBroker.shared.listen {
-            [weak self] event in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            if event is TweetCreatedEvent {
-                strongSelf.onTweetCreated()
-            }
-            
-            if let event = event as? TweetDeletedEvent {
-                strongSelf.onTweetDeleted(
-                    withId: event.id
-                )
-            }
-        }
-    }
-    
     private func addSubviews() {
         view.addSubview(tableView)
         view.addSubview(floatingButton)
@@ -92,10 +73,6 @@ class FeedViewController: TXViewController {
         tableView.register(
             PartialTweetTableViewCell.self,
             forCellReuseIdentifier: PartialTweetTableViewCell.reuseIdentifier
-        )
-        tableView.register(
-            EmptyFeedTableViewCell.self,
-            forCellReuseIdentifier: EmptyFeedTableViewCell.reuseIdentifier
         )
         
         tableView.pin(
@@ -138,12 +115,98 @@ class FeedViewController: TXViewController {
         navigationController?.openComposeViewController()
     }
     
-    private func onTweetCreated() {
-        refreshTableView()
+    
+}
+
+// MARK: TXEventListener
+extension FeedViewController {
+    private func configureEventListener() {
+        TXEventBroker.shared.listen {
+            [weak self] event in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            if let event = event as? TweetCreatedEvent {
+                strongSelf.onTweetCreated(
+                    tweet: event.tweet
+                )
+            }
+            
+            if let event = event as? TweetDeletedEvent {
+                strongSelf.onTweetDeleted(
+                    withId: event.id
+                )
+            }
+        }
     }
     
-    private func onTweetDeleted(withId id: String) {
-        refreshTableView()
+    private func onTweetCreated(
+        tweet: Tweet
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedTweets in
+            let updatedPaginatedTweets = Paginated<Tweet>(
+                page: [tweet] + previousPaginatedTweets.page,
+                nextToken: previousPaginatedTweets.nextToken
+            )
+            
+            state = .success(updatedPaginatedTweets)
+            
+            DispatchQueue.main.async {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.tableView.insertRows(
+                    at: [
+                        IndexPath(
+                            row: 0,
+                            section: FeedTableViewSection.tweets.rawValue
+                        )
+                    ],
+                    with: .automatic
+                )
+            }
+        }
+    }
+    
+    private func onTweetDeleted(
+        withId id: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedTweets in
+            let mayBeIndex = previousPaginatedTweets.page.firstIndex { tweet in
+                tweet.id == id
+            }
+
+            if let index = mayBeIndex {
+                let updatedPaginatedTweets = Paginated<Tweet>(
+                    page: previousPaginatedTweets.page.filter({ tweet in
+                        tweet.id != id
+                    }),
+                    nextToken: previousPaginatedTweets.nextToken
+                )
+                
+                state = .success(updatedPaginatedTweets)
+                
+                DispatchQueue.main.async {
+                    [weak self] in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    
+                    strongSelf.tableView.deleteRows(
+                        at: [
+                            IndexPath(
+                                row: index,
+                                section: FeedTableViewSection.tweets.rawValue
+                            )
+                        ],
+                        with: .automatic
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -235,9 +298,7 @@ extension FeedViewController: TXTableViewDataSource {
         numberOfRowsInSection section: Int
     ) -> Int {
         state.mapOnSuccess { paginatedFeed in
-            return paginatedFeed.page.count > 0
-            ? paginatedFeed.page.count
-            : 1
+            paginatedFeed.page.count
         } orElse: {
             0
         }
@@ -248,24 +309,15 @@ extension FeedViewController: TXTableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         state.mapOnSuccess { paginatedFeed in
-            if paginatedFeed.page.count > 0 {
-                let cell = tableView.dequeueReusableCell(
-                    withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
-                    assigning: indexPath
-                ) as! PartialTweetTableViewCell
-                
-                cell.interactionsHandler = self
-                cell.configure(withTweet: paginatedFeed.page[indexPath.row])
-                
-                return cell
-            } else {
-                let cell = tableView.dequeueReusableCell(
-                    withIdentifier: EmptyFeedTableViewCell.reuseIdentifier,
-                    assigning: indexPath
-                ) as! EmptyFeedTableViewCell
-                
-                return cell
-            }
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
+                for: indexPath
+            ) as! PartialTweetTableViewCell
+            
+            cell.interactionsHandler = self
+            cell.configure(withTweet: paginatedFeed.page[indexPath.row])
+            
+            return cell
         } orElse: {
             TXTableViewCell()
         }
@@ -305,18 +357,18 @@ extension FeedViewController: TXTableViewDelegate {
         )
         
         state.mapOnlyOnSuccess { paginatedFeed in
-            if paginatedFeed.page.count > 0 {
-                let tweet = paginatedFeed.page[indexPath.row]
-                
-                let tweetViewController = TweetViewController()
-                
-                tweetViewController.populate(withTweet: tweet)
-                
-                navigationController?.pushViewController(
-                    tweetViewController,
-                    animated: true
-                )
-            }
+            let tweet = paginatedFeed.page[indexPath.row]
+            
+            let tweetViewController = TweetViewController()
+            
+            tweetViewController.populate(
+                withTweet: tweet
+            )
+            
+            navigationController?.pushViewController(
+                tweetViewController,
+                animated: true
+            )
         }
     }
 }
@@ -338,7 +390,9 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
     
     func partialTweetCellDidPressComment(_ cell: PartialTweetTableViewCell) {
         state.mapOnlyOnSuccess { paginatedFeed in
-            let tweet = paginatedFeed.page[cell.indexPath.row]
+            guard let tweet = paginatedFeed.page.first(where: { $0.id == cell.tweet.id }) else {
+                return
+            }
             
             navigationController?.openTweetViewController(
                 withTweet: tweet,
@@ -351,7 +405,9 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
     
     func partialTweetCellDidPressProfileImage(_ cell: PartialTweetTableViewCell) {
         state.mapOnlyOnSuccess { paginatedFeed in
-            let tweet = paginatedFeed.page[cell.indexPath.row]
+            guard let tweet = paginatedFeed.page.first(where: { $0.id == cell.tweet.id }) else {
+                return
+            }
             
             let user = tweet.viewables.author
             
@@ -369,11 +425,15 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
     
     func partialTweetCellDidPressDeleteOption(_ cell: PartialTweetTableViewCell) {
         state.mapOnlyOnSuccess { paginatedFeed in
+            guard let tweet = paginatedFeed.page.first(where: { $0.id == cell.tweet.id }) else {
+                return
+            }
+            
             Task {
                 cell.prepareForDelete()
                 
                 let tweetDeletionResult = await TweetsDataStore.shared.deleteTweet(
-                    withId: paginatedFeed.page[cell.indexPath.row].id
+                    withId: tweet.id
                 )
                 
                 tweetDeletionResult.mapOnlyOnFailure { failure in
@@ -387,10 +447,16 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
     
     func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell) {
         state.mapOnlyOnSuccess { paginatedFeed in
+            guard let tweet = paginatedFeed.page.first(where: { $0.id == cell.tweet.id }) else {
+                return
+            }
+            
             let alert = TweetOptionsAlertController.regular()
             
             alert.interactionsHandler = self
-            alert.configure(withTweet: paginatedFeed.page[cell.indexPath.row])
+            alert.configure(
+                withTweet: tweet
+            )
             
             present(
                 alert,

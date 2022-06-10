@@ -195,7 +195,7 @@ extension OtherUserViewController: TXTableViewDataSource {
         case OtherUserTableViewSection.user.rawValue:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: OtherUserTableViewCell.reuseIdentifier,
-                assigning: indexPath
+                for: indexPath
             ) as! OtherUserTableViewCell
             
             cell.interactionsHandler = self
@@ -206,7 +206,7 @@ extension OtherUserViewController: TXTableViewDataSource {
             return state.mapOnSuccess { paginatedTweets in
                 let cell = tableView.dequeueReusableCell(
                     withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
-                    assigning: indexPath
+                    for: indexPath
                 ) as! PartialTweetTableViewCell
                 
                 let tweet = paginatedTweets.page[indexPath.row]
@@ -326,7 +326,9 @@ extension OtherUserViewController: PartialTweetTableViewCellInteractionsHandler 
     
     func partialTweetCellDidPressComment(_ cell: PartialTweetTableViewCell) {
         state.mapOnlyOnSuccess { paginatedTweets in
-            let tweet = paginatedTweets.page[cell.indexPath.row]
+            guard let tweet = paginatedTweets.page.first(where: { $0.id == cell.tweet.id }) else {
+                return
+            }
             
             navigationController?.openTweetViewController(
                 withTweet: tweet,
@@ -355,10 +357,17 @@ extension OtherUserViewController: PartialTweetTableViewCellInteractionsHandler 
     
     func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell) {
         state.mapOnlyOnSuccess { paginatedTweets in
+            guard let tweet = paginatedTweets.page.first(where: { $0.id == cell.tweet.id }) else {
+                return
+            }
+            
             let alert = TweetOptionsAlertController.regular()
             
             alert.interactionsHandler = self
-            alert.configure(withTweet: paginatedTweets.page[cell.indexPath.row])
+            
+            alert.configure(
+                withTweet: tweet
+            )
             
             present(
                 alert,

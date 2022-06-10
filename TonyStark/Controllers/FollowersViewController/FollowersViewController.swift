@@ -171,7 +171,7 @@ extension FollowersViewController: TXTableViewDataSource {
             
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: PartialUserTableViewCell.reuseIdentifier,
-                assigning: indexPath
+                for: indexPath
             ) as! PartialUserTableViewCell
             
             cell.interactionsHandler = self
@@ -221,7 +221,9 @@ extension FollowersViewController: TXRefreshControlDelegate {
 extension FollowersViewController: PartialUserTableViewCellInteractionsHandler {
     func partialUserCellDidPressProfileImage(_ cell: PartialUserTableViewCell) {
         state.mapOnlyOnSuccess { paginatedFollowers in
-            let follower = paginatedFollowers.page[cell.indexPath.row]
+            guard let follower = paginatedFollowers.page.first(where: { $0.user.id == cell.user.id }) else {
+                return
+            }
             
             navigationController?.openUserViewController(withUser: follower.user)
         }

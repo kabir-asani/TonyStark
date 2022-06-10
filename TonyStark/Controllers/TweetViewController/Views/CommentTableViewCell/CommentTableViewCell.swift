@@ -8,12 +8,14 @@
 import UIKit
 
 protocol CommentTableViewCellInteractionsHandler: AnyObject {
-    func commentCellDidPressProfileImage(_ commentTableViewCell: CommentTableViewCell)
+    func commentCellDidPressProfileImage(_ cell: CommentTableViewCell)
 }
 
 class CommentTableViewCell: TXTableViewCell {
     // Declare
     static let reuseIdentifer = String(describing: CommentTableViewCell.self)
+    
+    private(set) var comment: Comment!
     
     weak var interactionsHandler: CommentTableViewCellInteractionsHandler?
     
@@ -85,6 +87,8 @@ class CommentTableViewCell: TXTableViewCell {
     
     // Configure
     func configure(withComment comment: Comment) {
+        self.comment = comment
+        
         leading.configure(
             withComment: comment
         ) {

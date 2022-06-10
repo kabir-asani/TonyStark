@@ -141,7 +141,7 @@ extension EditUsernameViewController: TXTableViewDataSource {
     ) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: EditUsernameTableViewCell.reuseIdentifier,
-            assigning: indexPath
+            for: indexPath
         ) as! EditUsernameTableViewCell
         
         cell.delegate = self

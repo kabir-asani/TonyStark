@@ -139,7 +139,7 @@ extension EditBioViewController: TXTableViewDataSource {
     ) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: EditBioTableViewCell.reuseIdentifier,
-            assigning: indexPath
+            for: indexPath
         ) as! EditBioTableViewCell
         
         cell.delegate = self
@@ -171,7 +171,10 @@ extension EditBioViewController: EditBioTableViewCellDelegate {
         tableView.endUpdates()
         
         tableView.scrollToRow(
-            at: cell.indexPath,
+            at: IndexPath(
+                row: 0,
+                section: EditBioTableViewSection.bio.rawValue
+            ),
             at: .bottom,
             animated: true
         )

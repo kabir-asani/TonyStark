@@ -17,6 +17,8 @@ class PartialUserTableViewCell: TXTableViewCell {
     }
     
     // Declare
+    private(set) var user: User!
+    
     weak var interactionsHandler: PartialUserTableViewCellInteractionsHandler?
     
     private let leading: Leading = {
@@ -90,6 +92,8 @@ class PartialUserTableViewCell: TXTableViewCell {
     
     // Configure
     func configure(withUser user: User) {
+        self.user = user
+        
         leading.configure(withUser: user) {
             [weak self] in
             guard let strongSelf = self else {

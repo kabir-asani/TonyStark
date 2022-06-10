@@ -188,7 +188,7 @@ extension ExploreViewController: TXTableViewDataSource {
             
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: SearchedKeywordTableViewCell.reuseIdentifier,
-                assigning: indexPath
+                for: indexPath
             ) as! SearchedKeywordTableViewCell
             
             cell.configure(withKeyword: keyword)

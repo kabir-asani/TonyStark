@@ -175,7 +175,7 @@ extension SearchViewController: TXTableViewDataSource {
             
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: PartialUserTableViewCell.reuseIdentifier,
-                assigning: indexPath
+                for: indexPath
             ) as! PartialUserTableViewCell
             
             cell.interactionsHandler = self
@@ -224,13 +224,10 @@ extension SearchViewController: TXTableViewDelegate {
 // MARK: PartialUserTableViewCellInteractionsHandler
 extension SearchViewController: PartialUserTableViewCellInteractionsHandler {
     func partialUserCellDidPressProfileImage(_ cell: PartialUserTableViewCell) {
-        tableView.deselectRow(
-            at: cell.indexPath,
-            animated: true
-        )
-        
         state.mapOnlyOnSuccess { paginatedSearch in
-            let user = paginatedSearch.page[cell.indexPath.row]
+            guard let user = paginatedSearch.page.first(where: { $0.id == cell.user.id }) else {
+                return
+            }
             
             navigationController?.openUserViewController(withUser: user)
         }

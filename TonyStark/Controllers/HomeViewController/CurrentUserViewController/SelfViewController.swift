@@ -381,7 +381,7 @@ extension SelfViewController: TXTableViewDataSource {
         case SelfTableViewSection.user.rawValue:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: CurrentUserTableViewCell.reuseIdentifier,
-                assigning: indexPath
+                for: indexPath
             ) as! CurrentUserTableViewCell
             
             cell.interactionsHandler = self
@@ -392,7 +392,7 @@ extension SelfViewController: TXTableViewDataSource {
             return state.mapOnSuccess { paginatedTweets in
                 let cell = tableView.dequeueReusableCell(
                     withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
-                    assigning: indexPath
+                    for: indexPath
                 ) as! PartialTweetTableViewCell
                 
                 cell.interactionsHandler = self
@@ -538,7 +538,9 @@ extension SelfViewController: PartialTweetTableViewCellInteractionsHandler {
     
     func partialTweetCellDidPressComment(_ cell: PartialTweetTableViewCell) {
         state.mapOnlyOnSuccess { paginatedTweets in
-            let tweet = paginatedTweets.page[cell.indexPath.row]
+            guard let tweet = paginatedTweets.page.first(where: { $0.id == cell.tweet.id }) else {
+                return
+            }
             
             navigationController?.openTweetViewController(
                 withTweet: tweet,
@@ -562,12 +564,16 @@ extension SelfViewController: PartialTweetTableViewCellInteractionsHandler {
     }
     
     func partialTweetCellDidPressDeleteOption(_ cell: PartialTweetTableViewCell) {
-        state.mapOnlyOnSuccess { paginatedFeed in
+        state.mapOnlyOnSuccess { paginatedTweets in
+            guard let tweet = paginatedTweets.page.first(where: { $0.id == cell.tweet.id }) else {
+                return
+            }
+            
             Task {
                 cell.prepareForDelete()
                 
                 let tweetDeletionResult = await TweetsDataStore.shared.deleteTweet(
-                    withId: paginatedFeed.page[cell.indexPath.row].id
+                    withId: tweet.id
                 )
                 
                 tweetDeletionResult.mapOnlyOnFailure { failure in
@@ -581,10 +587,16 @@ extension SelfViewController: PartialTweetTableViewCellInteractionsHandler {
     
     func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell) {
         state.mapOnlyOnSuccess { paginatedTweets in
+            guard let tweet = paginatedTweets.page.first(where: { $0.id == cell.tweet.id }) else {
+                return
+            }
+            
             let alert = TweetOptionsAlertController.regular()
             
             alert.interactionsHandler = self
-            alert.configure(withTweet: paginatedTweets.page[cell.indexPath.row])
+            alert.configure(
+                withTweet: tweet
+            )
             
             present(
                 alert,

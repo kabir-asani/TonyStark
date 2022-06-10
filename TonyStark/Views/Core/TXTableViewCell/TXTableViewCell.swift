@@ -18,8 +18,6 @@ class TXTableViewCell: UITableViewCell {
         }
     }
     
-    var indexPath: IndexPath!
-    
     override init(
         style: UITableViewCell.CellStyle,
         reuseIdentifier: String?

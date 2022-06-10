@@ -28,7 +28,7 @@ class TweetsDataStore: DataStore {
     
     func createTweet(
         withDetails details: ComposeDetails
-    ) async -> Result<Void, CreateTweetFailure> {
+    ) async -> Result<Tweet, CreateTweetFailure> {
         if let session = CurrentUserDataStore.shared.session {
             do {
                 let tweetCreationResult = try await TXNetworkAssistant.shared.post(
@@ -42,11 +42,18 @@ class TweetsDataStore: DataStore {
                 )
                 
                 if tweetCreationResult.statusCode == 201 {
+                    let tweet = try TXJsonAssistant.decode(
+                        SuccessData<Tweet>.self,
+                        from: tweetCreationResult.data
+                    ).data
+                    
                     TXEventBroker.shared.emit(
-                        event: TweetCreatedEvent()
+                        event: TweetCreatedEvent(
+                            tweet: tweet
+                        )
                     )
                     
-                    return .success(Void())
+                    return .success(tweet)
                 } else {
                     return .failure(.unknown)
                 }

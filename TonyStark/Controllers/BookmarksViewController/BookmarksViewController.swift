@@ -163,7 +163,7 @@ extension BookmarksViewController: TXTableViewDataSource {
         state.mapOnSuccess { paginatedBookmarks in
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
-                assigning: indexPath
+                for: indexPath
             ) as! PartialTweetTableViewCell
             
             let bookmark = paginatedBookmarks.page[indexPath.row]
@@ -228,7 +228,9 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
     
     func partialTweetCellDidPressComment(_ cell: PartialTweetTableViewCell) {
         state.mapOnlyOnSuccess { paginatedBookmarks in
-            let bookmark = paginatedBookmarks.page[cell.indexPath.row]
+            guard let bookmark = paginatedBookmarks.page.first(where: { $0.id == cell.tweet.id }) else {
+                return
+            }
             
             navigationController?.openTweetViewController(
                 withTweet: bookmark.viewables.tweet,
@@ -241,7 +243,9 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
     
     func partialTweetCellDidPressProfileImage(_ cell: PartialTweetTableViewCell) {
         state.mapOnlyOnSuccess { paginatedBookmarks in
-            let bookmark = paginatedBookmarks.page[cell.indexPath.row]
+            guard let bookmark = paginatedBookmarks.page.first(where: { $0.id == cell.tweet.id }) else {
+                return
+            }
             
             navigationController?.openUserViewController(withUser: bookmark.viewables.tweet.viewables.author)
         }
@@ -261,7 +265,9 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
     
     func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell) {
         state.mapOnlyOnSuccess { paginatedBookmarks in
-            let bookmark = paginatedBookmarks.page[cell.indexPath.row]
+            guard let bookmark = paginatedBookmarks.page.first(where: { $0.id == cell.tweet.id }) else {
+                return
+            }
             
             let alert = TweetOptionsAlertController.regular()
             

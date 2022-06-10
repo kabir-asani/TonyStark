@@ -8,7 +8,11 @@
 import Foundation
 
 class TweetCreatedEvent: TXEvent {
+    let tweet: Tweet
     
+    init(tweet: Tweet) {
+        self.tweet = tweet
+    }
 }
 
 class TweetDeletedEvent: TXEvent {

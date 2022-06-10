@@ -111,20 +111,6 @@ extension UITableView {
         }
     }
     
-    func dequeueReusableCell(
-        withIdentifier identifier: String,
-        assigning indexPath: IndexPath
-    ) -> TXTableViewCell {
-        let cell = dequeueReusableCell(
-            withIdentifier: identifier,
-            for: indexPath
-        ) as! TXTableViewCell
-        
-        cell.indexPath = indexPath
-        
-        return cell
-    }
-    
     func appendSepartorToLastMostVisibleCell() {
         if let lastMostVisibleCell = visibleCells.last {
             appendSeparatorOnCell(lastMostVisibleCell)
