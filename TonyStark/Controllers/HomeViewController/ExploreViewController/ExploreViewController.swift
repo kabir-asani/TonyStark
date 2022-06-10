@@ -16,10 +16,7 @@ class ExploreViewController: TXViewController {
     private var state: State<[String], PreviousSearchKeywordsFailure> = .processing
     
     private let tableView: TXTableView = {
-        let tableView = TXTableView(
-            frame: .zero,
-            style: .insetGrouped
-        )
+        let tableView = TXTableView()
         
         tableView.enableAutolayout()
         
