@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SelfViewController: TXViewController {
+class SelfViewController: TXFloatingActionViewController {
     // Declare
     enum SelfTableViewSection: Int, CaseIterable {
         case user
@@ -51,27 +51,18 @@ class SelfViewController: TXViewController {
     }
     
     private func addSubviews() {
-        view.addSubview(tableView)
+        containerView.addSubview(tableView)
     }
     
     private func configureNavigationBar() {
         navigationItem.backButtonTitle = ""
-        navigationItem.leftBarButtonItem = TXBarButtonItem(
+        navigationItem.rightBarButtonItem = TXBarButtonItem(
             image: UIImage(
                 systemName: "line.3.horizontal"
             ),
             style: .plain,
             target: self,
             action: #selector(onActionPressed(_:))
-        )
-        
-        navigationItem.rightBarButtonItem = TXBarButtonItem(
-            image: UIImage(
-                systemName: "plus"
-            ),
-            style: .plain,
-            target: self,
-            action: #selector(onComposePressed(_:))
         )
     }
     
@@ -88,10 +79,6 @@ class SelfViewController: TXViewController {
         tableView.register(
             PartialTweetTableViewCell.self,
             forCellReuseIdentifier: PartialTweetTableViewCell.reuseIdentifier
-        )
-        tableView.register(
-            EmptyTweetsTableViewCell.self,
-            forCellReuseIdentifier: EmptyTweetsTableViewCell.reuseIdentifier
         )
         
         tableView.pin(
@@ -174,9 +161,7 @@ class SelfViewController: TXViewController {
         )
     }
     
-    @objc private func onComposePressed(
-        _ sender: UITapGestureRecognizer
-    ) {
+    override func onFloatingActionPressed() {
         navigationController?.openComposeViewController()
     }
     
@@ -234,6 +219,7 @@ extension SelfViewController {
                     return
                 }
                 
+                
                 strongSelf.tableView.insertRows(
                     at: [
                         IndexPath(
@@ -242,6 +228,12 @@ extension SelfViewController {
                         )
                     ],
                     with: .automatic
+                )
+                strongSelf.tableView.reloadSections(
+                    IndexSet(
+                        integer: SelfTableViewSection.user.rawValue
+                    ),
+                    with: .none
                 )
             }
         }
@@ -280,6 +272,12 @@ extension SelfViewController {
                         ],
                         with: .automatic
                     )
+                    strongSelf.tableView.reloadSections(
+                        IndexSet(
+                            integer: SelfTableViewSection.user.rawValue
+                        ),
+                        with: .none
+                    )
                 }
             }
         }
@@ -290,35 +288,34 @@ extension SelfViewController {
 extension SelfViewController: TXTableViewDataSource {
     private func populateTableView() {
         Task {
-            [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            strongSelf.tableView.beginPaginating()
+            tableView.beginPaginating()
             
             let tweetsResult = await TweetsDataStore.shared.tweets(
                 ofUserWithId: CurrentUserDataStore.shared.user!.id
             )
             
-            strongSelf.tableView.endPaginating()
+            tableView.endPaginating()
             
             tweetsResult.map { paginatedTweets in
-                strongSelf.state = .success(paginatedTweets)
-                
-                strongSelf.tableView.reloadData()
+                state = .success(paginatedTweets)
+                tableView.reloadSections(
+                    IndexSet(
+                        integer: SelfTableViewSection.tweets.rawValue
+                    ),
+                    with: .automatic
+                )
+                tableView.appendSpacerOnFooter()
             } onFailure: { cause in
-                strongSelf.state = .failure(cause)
+                state = .failure(cause)
             }
         }
     }
     
     private func refreshTableView() {
         Task {
-            await refreshUserSection()
-            
             tableView.beginRefreshing()
             
+            await refreshUserSection()
             await refreshTweetsSection()
             
             tableView.endRefreshing()
@@ -344,10 +341,11 @@ extension SelfViewController: TXTableViewDataSource {
                             nextToken: latestPaginatedTweets.nextToken
                         )
                         
-                        tableView.appendSepartorToLastMostVisibleCell()
-                        
                         state = .success(updatedPaginatedTweets)
+                        
                         tableView.reloadData()
+                        
+                        tableView.appendSepartorToLastMostVisibleCell()
                     } onFailure: { cause in
                         showUnknownFailureSnackBar()
                     }
@@ -399,11 +397,11 @@ extension SelfViewController: TXTableViewDataSource {
                     ),
                     with: .none
                 )
+                strongSelf.tableView.appendSpacerOnFooter()
             }
         } orElse: {
             showUnknownFailureSnackBar()
         }
-
     }
     
     func numberOfSections(

@@ -110,6 +110,7 @@
 		167DE00A280D56B100670BAD /* PartialTweetTableViewCell+Trailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167DE009280D56B100670BAD /* PartialTweetTableViewCell+Trailing.swift */; };
 		1688D3F927FD7B3B00F9C366 /* TXNetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1688D3F827FD7B3B00F9C366 /* TXNetworkMonitor.swift */; };
 		168992A7281B135000D5D85C /* AvatarImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168992A6281B135000D5D85C /* AvatarImage.swift */; };
+		168C148928534E6E0015FF81 /* TXFloatingActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168C148828534E6E0015FF81 /* TXFloatingActionViewController.swift */; };
 		1691E453280EA8D800BA223D /* TXView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1691E452280EA8D800BA223D /* TXView.swift */; };
 		1691E456280EABAE00BA223D /* TXStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1691E455280EABAE00BA223D /* TXStackView.swift */; };
 		1696A07F281D742500C88604 /* GodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1696A07E281D742500C88604 /* GodViewController.swift */; };
@@ -293,6 +294,7 @@
 		167DE009280D56B100670BAD /* PartialTweetTableViewCell+Trailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialTweetTableViewCell+Trailing.swift"; sourceTree = "<group>"; };
 		1688D3F827FD7B3B00F9C366 /* TXNetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXNetworkMonitor.swift; sourceTree = "<group>"; };
 		168992A6281B135000D5D85C /* AvatarImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImage.swift; sourceTree = "<group>"; };
+		168C148828534E6E0015FF81 /* TXFloatingActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXFloatingActionViewController.swift; sourceTree = "<group>"; };
 		1691E452280EA8D800BA223D /* TXView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXView.swift; sourceTree = "<group>"; };
 		1691E455280EABAE00BA223D /* TXStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXStackView.swift; sourceTree = "<group>"; };
 		1696A07E281D742500C88604 /* GodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GodViewController.swift; sourceTree = "<group>"; };
@@ -1064,6 +1066,7 @@
 		165A8A012850863200A89AD6 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				168C148728534E5C0015FF81 /* TXFloatingActionViewController */,
 				16C6ECE4284DE875008930CF /* Extensions */,
 				16A4CE47282900A9004AFA08 /* TXAlertController */,
 				163A09F12823B8EE008CDCED /* TXPresentationController */,
@@ -1309,6 +1312,14 @@
 				168992A6281B135000D5D85C /* AvatarImage.swift */,
 			);
 			path = AvatarImage;
+			sourceTree = "<group>";
+		};
+		168C148728534E5C0015FF81 /* TXFloatingActionViewController */ = {
+			isa = PBXGroup;
+			children = (
+				168C148828534E6E0015FF81 /* TXFloatingActionViewController.swift */,
+			);
+			path = TXFloatingActionViewController;
 			sourceTree = "<group>";
 		};
 		1691E451280EA8CE00BA223D /* TXView */ = {
@@ -1870,6 +1881,7 @@
 				1610D93D280F397300739208 /* TXColor.swift in Sources */,
 				1667093E2817B7AA00889B0C /* TweetTableViewCell+Footer+Header.swift in Sources */,
 				16FDA075280FF465004BB3C4 /* CommentTableViewCell+Trailing.swift in Sources */,
+				168C148928534E6E0015FF81 /* TXFloatingActionViewController.swift in Sources */,
 				167C3A48280C99A3004E9B4D /* UITableViewX.swift in Sources */,
 				166C325E281E8551009D6961 /* EditBioViewController.swift in Sources */,
 				1691E453280EA8D800BA223D /* TXView.swift in Sources */,

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FeedViewController: TXViewController {
+class FeedViewController: TXFloatingActionViewController {
     // Declare
     enum FeedTableViewSection: Int, CaseIterable {
         case tweets = 0
@@ -46,14 +46,12 @@ class FeedViewController: TXViewController {
         configureNavigationBar()
         configureTableView()
         configureRefreshControl()
-        configureFloatingActionButton()
         
         populateTableView()
     }
     
     private func addSubviews() {
-        view.addSubview(tableView)
-        view.addSubview(floatingButton)
+        containerView.addSubview(tableView)
     }
     
     private func configureNavigationBar() {
@@ -88,34 +86,12 @@ class FeedViewController: TXViewController {
         tableView.refreshControl = refreshControl
     }
     
-    private func configureFloatingActionButton() {
-        floatingButton.pin(
-            toBottomOf: view,
-            withInset: 20,
-            byBeingSafeAreaAware: true
-        )
-        
-        floatingButton.pin(
-            toRightOf: view,
-            withInset: 20,
-            byBeingSafeAreaAware: true
-        )
-        
-        floatingButton.addTarget(
-            self,
-            action: #selector(onComposePressed(_:)),
-            for: .touchUpInside
-        )
-    }
-    
     // Populate
     
     // Interact
-    @objc private func onComposePressed(_ sender: UITapGestureRecognizer) {
+    override func onFloatingActionPressed() {
         navigationController?.openComposeViewController()
     }
-    
-    
 }
 
 // MARK: TXEventListener
@@ -277,7 +253,6 @@ extension FeedViewController: TXTableViewDataSource {
                     state = .success(updatedPaginatedFeed)
                     
                     tableView.reloadData()
-                    tableView.appendSpacerOnFooter()
                     
                     tableView.appendSepartorToLastMostVisibleCell()
                 } onFailure: { failure in
