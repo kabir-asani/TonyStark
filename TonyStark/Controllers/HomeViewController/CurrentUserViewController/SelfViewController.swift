@@ -50,29 +50,6 @@ class SelfViewController: TXViewController {
         )
     }
     
-    private func configureEventListener() {
-        TXEventBroker.shared.listen {
-            [weak self] event in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            if let event = event as? HomeTabSwitchEvent {
-                strongSelf.onTabSwitched(to: event.tab)
-            }
-            
-            if event is TweetCreatedEvent {
-                strongSelf.onTweetCreated()
-            }
-            
-            if let event = event as? TweetDeletedEvent {
-                strongSelf.onTweetDeleted(
-                    withId: event.id
-                )
-            }
-        }
-    }
-    
     private func addSubviews() {
         view.addSubview(tableView)
     }
@@ -203,6 +180,35 @@ class SelfViewController: TXViewController {
         navigationController?.openComposeViewController()
     }
     
+}
+
+// MARK: TXEventListener
+extension SelfViewController {
+    private func configureEventListener() {
+        TXEventBroker.shared.listen {
+            [weak self] event in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            if let event = event as? HomeTabSwitchEvent {
+                strongSelf.onTabSwitched(to: event.tab)
+            }
+            
+            if let event = event as? TweetCreatedEvent {
+                strongSelf.onTweetCreated(
+                    tweet: event.tweet
+                )
+            }
+            
+            if let event = event as? TweetDeletedEvent {
+                strongSelf.onTweetDeleted(
+                    withId: event.id
+                )
+            }
+        }
+    }
+    
     private func onTabSwitched(
         to tab: HomeViewController.TabItem
     ) {
@@ -211,14 +217,72 @@ class SelfViewController: TXViewController {
         }
     }
     
-    private func onTweetCreated() {
-        refreshTableView()
+    private func onTweetCreated(
+        tweet: Tweet
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedTweets in
+            let updatedPaginatedTweets = Paginated<Tweet>(
+                page: [tweet] + previousPaginatedTweets.page,
+                nextToken: previousPaginatedTweets.nextToken
+            )
+            
+            state = .success(updatedPaginatedTweets)
+            
+            DispatchQueue.main.async {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.tableView.insertRows(
+                    at: [
+                        IndexPath(
+                            row: 0,
+                            section: SelfTableViewSection.tweets.rawValue
+                        )
+                    ],
+                    with: .automatic
+                )
+            }
+        }
     }
     
     private func onTweetDeleted(
         withId id: String
     ) {
-        refreshTableView()
+        state.mapOnlyOnSuccess { previousPaginatedTweets in
+            let mayBeIndex = previousPaginatedTweets.page.firstIndex { tweet in
+                tweet.id == id
+            }
+
+            if let index = mayBeIndex {
+                let updatedPaginatedTweets = Paginated<Tweet>(
+                    page: previousPaginatedTweets.page.filter({ tweet in
+                        tweet.id != id
+                    }),
+                    nextToken: previousPaginatedTweets.nextToken
+                )
+                
+                state = .success(updatedPaginatedTweets)
+                
+                DispatchQueue.main.async {
+                    [weak self] in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    
+                    strongSelf.tableView.deleteRows(
+                        at: [
+                            IndexPath(
+                                row: index,
+                                section: SelfTableViewSection.tweets.rawValue
+                            )
+                        ],
+                        with: .automatic
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -577,7 +641,7 @@ extension SelfViewController: PartialTweetTableViewCellInteractionsHandler {
                 )
                 
                 tweetDeletionResult.mapOnlyOnFailure { failure in
-                    cell.revertPreparationsDoneForDelete()
+                    cell.revertAllPreparationsMadeForDelete()
                     showUnknownFailureSnackBar()
                 }
             }
