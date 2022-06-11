@@ -10,7 +10,7 @@ import UIKit
 class FeedViewController: TXFloatingActionViewController {
     // Declare
     enum FeedTableViewSection: Int, CaseIterable {
-        case tweets = 0
+        case tweets
     }
     
     private var state: State<Paginated<Tweet>, FeedFailure> = .processing
@@ -443,15 +443,21 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
 
 // MARK: TweetOptionsAlertViewControllerInteractionsHandler
 extension FeedViewController: TweetOptionsAlertControllerInteractionsHandler {
-    func tweetOptionsAlertControllerDidPressBookmark(_ controller: TweetOptionsAlertController) {
+    func tweetOptionsAlertControllerDidPressBookmark(
+        _ controller: TweetOptionsAlertController
+    ) {
         print(#function)
     }
     
-    func tweetOptionsAlertControllerDidPressFollow(_ controller: TweetOptionsAlertController) {
+    func tweetOptionsAlertControllerDidPressFollow(
+        _ controller: TweetOptionsAlertController
+    ) {
         print(#function)
     }
     
-    func tweetOptionsAlertControllerDidPressDelete(_ controller: TweetOptionsAlertController) {
+    func tweetOptionsAlertControllerDidPressDelete(
+        _ controller: TweetOptionsAlertController
+    ) {
         print(#function)
     }
 }

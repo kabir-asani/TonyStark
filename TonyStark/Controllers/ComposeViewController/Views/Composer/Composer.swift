@@ -117,11 +117,11 @@ class Composer: TXView {
         profileImage.configure(withImageURL: user.image)
     }
     
-    func focusTextView() {
+    override func becomeFirstResponder() -> Bool {
         composableTextView.becomeFirstResponder()
     }
     
-    func unfocusTextView() {
+    override func resignFirstResponder() -> Bool {
         composableTextView.resignFirstResponder()
     }
     

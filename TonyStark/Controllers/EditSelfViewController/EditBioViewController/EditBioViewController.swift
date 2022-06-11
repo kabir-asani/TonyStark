@@ -161,6 +161,14 @@ extension EditBioViewController: TXTableViewDelegate {
 
 // MARK: EditBioTableViewCellDelegate
 extension EditBioViewController: EditBioTableViewCellDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        cell.becomeFirstResponder()
+    }
+    
     func cell(
         _ cell: EditBioTableViewCell,
         didChangeText text: String

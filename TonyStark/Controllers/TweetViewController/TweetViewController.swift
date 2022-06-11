@@ -99,7 +99,7 @@ class TweetViewController: TXViewController {
         super.viewDidAppear(animated)
         
         if options.autoFocus {
-            commentInputBar.focusTextField()
+            _ = commentInputBar.becomeFirstResponder()
         }
     }
     

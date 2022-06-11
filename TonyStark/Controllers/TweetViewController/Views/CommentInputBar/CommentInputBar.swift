@@ -11,8 +11,6 @@ class CommentInputBar: TXView {
     // Declare
     private var onPressed: ((_ text: String) -> Void)?
     
-    private var insets: TXEdgeInsets = .zero
-    
     private let textField: TXTextField = {
         let textField = TXTextField()
         
@@ -107,11 +105,11 @@ class CommentInputBar: TXView {
         )
     }
     
-    func focusTextField() {
+    override func becomeFirstResponder() -> Bool {
         textField.becomeFirstResponder()
     }
     
-    func unfocusTextField() {
+    override func resignFirstResponder() -> Bool {
         textField.resignFirstResponder()
     }
     

@@ -86,7 +86,13 @@ class BioTableViewCell: TXTableViewCell {
     
     // Configure
     func configure(withText text: String) {
-        trailing.text = text
+        if text.isEmpty {
+            trailing.text = "Add a bio to your profile..."
+            trailing.textColor = .secondaryLabel
+        } else {
+            trailing.text = text
+            trailing.textColor = .label
+        }
     }
     
     // Interact

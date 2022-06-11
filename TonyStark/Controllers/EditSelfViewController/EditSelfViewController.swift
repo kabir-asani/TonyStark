@@ -136,7 +136,9 @@ extension EditSelfViewController: TXTableViewDataSource {
                 for: indexPath
             ) as! ProfileImageTableViewCell
             
-            cell.configure(withImageURL: user.image)
+            cell.configure(
+                withImageURL: user.image
+            )
             
             return cell
         case Details.name.rawValue:
@@ -146,7 +148,9 @@ extension EditSelfViewController: TXTableViewDataSource {
             ) as! NameTableViewCell
             
             cell.delegate = self
-            cell.configure(withText: user.name)
+            cell.configure(
+                withText: user.name
+            )
             
             return cell
         case Details.username.rawValue:
@@ -155,7 +159,9 @@ extension EditSelfViewController: TXTableViewDataSource {
                 for: indexPath
             ) as! UsernameTableViewCell
             
-            cell.configure(withText: user.username)
+            cell.configure(
+                withText: user.username
+            )
             
             return cell
         case Details.bio.rawValue:
@@ -164,7 +170,9 @@ extension EditSelfViewController: TXTableViewDataSource {
                 for: indexPath
             ) as! BioTableViewCell
             
-            cell.configure(withText: user.description)
+            cell.configure(
+                withText: user.description
+            )
             
             return cell
         default:
@@ -189,7 +197,9 @@ extension EditSelfViewController: TXTableViewDelegate {
             let editUsernameViewController = EditUsernameViewController()
             
             editUsernameViewController.interactionsHandler = self
-            editUsernameViewController.populate(withUsername: user.username)
+            editUsernameViewController.populate(
+                withUsername: user.username
+            )
             
             navigationController?.pushViewController(
                 editUsernameViewController,
@@ -199,7 +209,9 @@ extension EditSelfViewController: TXTableViewDelegate {
             let editBioViewController = EditBioViewController()
             
             editBioViewController.interactionsHandler = self
-            editBioViewController.populate(withBio: user.description)
+            editBioViewController.populate(
+                withBio: user.description
+            )
             
             navigationController?.pushViewController(
                 editBioViewController,
@@ -217,7 +229,9 @@ extension EditSelfViewController: EditUsernameViewControllerInteractionsHandler 
         _ controller: EditUsernameViewController,
         didUpdateUsername username: String
     ) {
-        user = user.copyWith(username: username)
+        user = user.copyWith(
+            username: username
+        )
     }
 }
 
@@ -227,7 +241,9 @@ extension EditSelfViewController: EditBioViewControllerInteractionsHandler {
         _ controller: EditBioViewController,
         didUpdateBio bio: String
     ) {
-        user = user.copyWith(description: bio)
+        user = user.copyWith(
+            description: bio
+        )
     }
 }
 
@@ -240,7 +256,9 @@ extension EditSelfViewController: NameTableViewCellDelegate {
             navigationItem.rightBarButtonItem?.isEnabled = false
         } else {
             navigationItem.rightBarButtonItem?.isEnabled = true
-            user = user.copyWith(name: name)
+            user = user.copyWith(
+                name: name
+            )
         }
     }
 }

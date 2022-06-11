@@ -85,6 +85,7 @@ class EmptyFeedTableViewCell: TXTableViewCell {
     
     private func arrangeBaseView() {
         selectionStyle = .none
+        separatorInset = .leading(.infinity)
     }
     
     private func arrangeSubviews() {

@@ -51,7 +51,7 @@ class ComposeViewController: TXViewController {
         super.viewWillAppear(animated)
         
         startKeyboardAwareness()
-        composer.focusTextView()
+        _ = composer.becomeFirstResponder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

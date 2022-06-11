@@ -36,6 +36,21 @@ class EditBioTableViewCell: TXTableViewCell {
         return bioText
     }()
     
+    private let placeholderLabel : TXLabel = {
+        let placeholderLabel = TXLabel()
+        
+        placeholderLabel.enableAutolayout()
+        placeholderLabel.sizeToFit()
+        placeholderLabel.font = .systemFont(
+            ofSize: 16,
+            weight: .regular
+        )
+        placeholderLabel.textColor = .systemGray
+        placeholderLabel.text = "Add a bio to your profile..."
+        
+        return placeholderLabel
+    }()
+    
     // Arrange
     override init(
         style: UITableViewCell.CellStyle,
@@ -63,6 +78,7 @@ class EditBioTableViewCell: TXTableViewCell {
         addSubview(bioText)
         
         arrangeBioText()
+        arrangePlaceholderLabel()
     }
     
     private func arrangeBioText() {
@@ -75,16 +91,47 @@ class EditBioTableViewCell: TXTableViewCell {
         )
     }
     
+    private func arrangePlaceholderLabel() {
+        bioText.addSubview(placeholderLabel)
+        
+        placeholderLabel.pin(
+            toLeftOf: bioText,
+            withInset: 5
+        )
+        placeholderLabel.pin(
+            toTopOf: bioText,
+            withInset: 8
+        )
+    }
+    
     // Configure
-    func configure(withText text: String) {
+    func configure(
+        withText text: String
+    ) {
         bioText.text = text
+        
+        if !text.isEmpty {
+            placeholderLabel.isHidden = true
+        }
+    }
+    
+    override func becomeFirstResponder() -> Bool {
+        bioText.becomeFirstResponder()
+    }
+    
+    override func resignFirstResponder() -> Bool {
+        bioText.resignFirstResponder()
     }
     
     // Interact
 }
 
 extension EditBioTableViewCell: TXTextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
+    func textViewDidChange(
+        _ textView: UITextView
+    ) {
+        placeholderLabel.isHidden = !textView.text.isEmpty
+        
         delegate?.cell(
             self,
             didChangeText: textView.text
