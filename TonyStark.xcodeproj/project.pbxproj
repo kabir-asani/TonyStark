@@ -158,6 +158,7 @@
 		16DBF5C32817E90600E92DE5 /* UIViewControllerX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBF5C22817E90600E92DE5 /* UIViewControllerX.swift */; };
 		16DBF5C62817EEF700E92DE5 /* TXScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBF5C52817EEF700E92DE5 /* TXScrollViewController.swift */; };
 		16DEB9562806089E00140E63 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DEB9552806089E00140E63 /* Tweet.swift */; };
+		16DEE05628548218003ACFC4 /* BookmarksDataStore+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DEE05528548217003ACFC4 /* BookmarksDataStore+Events.swift */; };
 		16E3C127282168F7009CC8E7 /* CurrentUserDataStore+Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E3C126282168F7009CC8E7 /* CurrentUserDataStore+Response.swift */; };
 		16E3C12E28216B00009CC8E7 /* SocialsDataStore+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E3C12D28216B00009CC8E7 /* SocialsDataStore+Request.swift */; };
 		16E3C13028216B06009CC8E7 /* SocialsDataStore+Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E3C12F28216B06009CC8E7 /* SocialsDataStore+Response.swift */; };
@@ -341,6 +342,7 @@
 		16DBF5C22817E90600E92DE5 /* UIViewControllerX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerX.swift; sourceTree = "<group>"; };
 		16DBF5C52817EEF700E92DE5 /* TXScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXScrollViewController.swift; sourceTree = "<group>"; };
 		16DEB9552806089E00140E63 /* Tweet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
+		16DEE05528548217003ACFC4 /* BookmarksDataStore+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BookmarksDataStore+Events.swift"; sourceTree = "<group>"; };
 		16E3C126282168F7009CC8E7 /* CurrentUserDataStore+Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrentUserDataStore+Response.swift"; sourceTree = "<group>"; };
 		16E3C12D28216B00009CC8E7 /* SocialsDataStore+Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SocialsDataStore+Request.swift"; sourceTree = "<group>"; };
 		16E3C12F28216B06009CC8E7 /* SocialsDataStore+Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SocialsDataStore+Response.swift"; sourceTree = "<group>"; };
@@ -681,6 +683,7 @@
 			children = (
 				16E3C147282177E6009CC8E7 /* BookmarksDataStore+Request.swift */,
 				16E3C149282177EC009CC8E7 /* BookmarksDataStore+Response.swift */,
+				16DEE05528548217003ACFC4 /* BookmarksDataStore+Events.swift */,
 				161347E528194DE1004AA245 /* BookmarksDataStore.swift */,
 			);
 			path = BookmarksDataStore;
@@ -2001,6 +2004,7 @@
 				16021AC62823BC5D00C28EAD /* NotificationsDataStore+Request.swift in Sources */,
 				16BB010F2813A2AB00532323 /* OtherUserTableViewCell+Footer.swift in Sources */,
 				16C6ECE0284DDD0C008930CF /* CommentTableViewCell+Trailing+Footer.swift in Sources */,
+				16DEE05628548218003ACFC4 /* BookmarksDataStore+Events.swift in Sources */,
 				160437C127E1B0DE00EA615F /* TXPageViewController.swift in Sources */,
 				16F21A01281BDC2F0013A750 /* FolloweesViewController.swift in Sources */,
 				1610D943280F44E300739208 /* TweetOptionsAlertController.swift in Sources */,
