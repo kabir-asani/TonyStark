@@ -20,6 +20,8 @@ protocol TweetTableViewCellInteractionsHandler: AnyObject {
     
     func tweetCellDidPressFollowOption(_ cell: TweetTableViewCell)
     
+    func tweetCellDidPressDeleteOption(_ cell: TweetTableViewCell)
+    
     @available(iOS, deprecated: 14)
     func tweetCellDidPressOptions(_ cell: TweetTableViewCell)
 }
@@ -31,6 +33,8 @@ class TweetTableViewCell: TXTableViewCell {
     }
     
     weak var interactionsHandler: TweetTableViewCellInteractionsHandler?
+    
+    private(set) var tweet: Tweet!
     
     private let header: Header = {
         let header = Header()
@@ -111,6 +115,8 @@ class TweetTableViewCell: TXTableViewCell {
     func configure(
         withTweet tweet: Tweet
     ) {
+        self.tweet = tweet
+        
         if #available(iOS 14, *) {
             header.configure(
                 withTweet: tweet
@@ -120,28 +126,45 @@ class TweetTableViewCell: TXTableViewCell {
                     return
                 }
                 
-                strongSelf.interactionsHandler?.tweetCellDidPressProfileImage(strongSelf)
+                strongSelf.interactionsHandler?.tweetCellDidPressProfileImage(
+                    strongSelf
+                )
             } onDetailsPressed: {
                 [weak self] in
                 guard let strongSelf = self else {
                     return
                 }
                 
-                strongSelf.interactionsHandler?.tweetCellDidPressProfileDetails(strongSelf)
+                strongSelf.interactionsHandler?.tweetCellDidPressProfileDetails(
+                    strongSelf
+                )
             } onBookmarksPressed: {
                 [weak self] in
                 guard let strongSelf = self else {
                     return
                 }
                 
-                strongSelf.interactionsHandler?.tweetCellDidPressBookmarkOption(strongSelf)
+                strongSelf.interactionsHandler?.tweetCellDidPressBookmarkOption(
+                    strongSelf
+                )
             } onFollowPressed: {
                 [weak self] in
                 guard let strongSelf = self else {
                     return
                 }
                 
-                strongSelf.interactionsHandler?.tweetCellDidPressFollowOption(strongSelf)
+                strongSelf.interactionsHandler?.tweetCellDidPressFollowOption(
+                    strongSelf
+                )
+            } onDeletePressed: {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.interactionsHandler?.tweetCellDidPressDeleteOption(
+                    strongSelf
+                )
             }
         } else {
             header.configure(

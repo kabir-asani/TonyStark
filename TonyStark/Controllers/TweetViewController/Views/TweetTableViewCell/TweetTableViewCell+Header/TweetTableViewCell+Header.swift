@@ -79,7 +79,8 @@ extension TweetTableViewCell {
             onProfileImagePressed: @escaping () -> Void,
             onDetailsPressed: @escaping () -> Void,
             onBookmarksPressed: @escaping () -> Void,
-            onFollowPressed: @escaping () -> Void
+            onFollowPressed: @escaping () -> Void,
+            onDeletePressed: @escaping () -> Void
         ) {
             leading.configure(
                 withTweet: tweet,
@@ -94,7 +95,8 @@ extension TweetTableViewCell {
             trailing.configure(
                 withTweet: tweet,
                 onBookmarkPressed: onBookmarksPressed,
-                onFollowPressed: onFollowPressed
+                onFollowPressed: onFollowPressed,
+                onDeletePressed: onDeletePressed
             )
         }
         

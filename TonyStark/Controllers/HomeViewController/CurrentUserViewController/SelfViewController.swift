@@ -42,12 +42,7 @@ class SelfViewController: TXFloatingActionViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        tableView.reloadSections(
-            IndexSet(
-                integer: SelfTableViewSection.user.rawValue
-            ),
-            with: .none
-        )
+        tableView.reloadData()
     }
     
     private func addSubviews() {
@@ -213,28 +208,31 @@ extension SelfViewController {
             
             state = .success(updatedPaginatedTweets)
             
-            DispatchQueue.main.async {
+            DispatchQueue.main.asyncAfter (
+                deadline: .now() + 0.1
+            ) {
                 [weak self] in
                 guard let strongSelf = self else {
                     return
                 }
                 
-                
-                strongSelf.tableView.insertRows(
-                    at: [
-                        IndexPath(
-                            row: 0,
-                            section: SelfTableViewSection.tweets.rawValue
-                        )
-                    ],
-                    with: .automatic
-                )
-                strongSelf.tableView.reloadSections(
-                    IndexSet(
-                        integer: SelfTableViewSection.user.rawValue
-                    ),
-                    with: .none
-                )
+                if strongSelf.tableView.window != nil {
+                    strongSelf.tableView.insertRows(
+                        at: [
+                            IndexPath(
+                                row: 0,
+                                section: SelfTableViewSection.tweets.rawValue
+                            )
+                        ],
+                        with: .automatic
+                    )
+                    strongSelf.tableView.reloadSections(
+                        IndexSet(
+                            integer: SelfTableViewSection.user.rawValue
+                        ),
+                        with: .none
+                    )
+                }
             }
         }
     }
@@ -257,27 +255,31 @@ extension SelfViewController {
                 
                 state = .success(updatedPaginatedTweets)
                 
-                DispatchQueue.main.async {
+                DispatchQueue.main.asyncAfter (
+                    deadline: .now() + 0.1
+                ) {
                     [weak self] in
                     guard let strongSelf = self else {
                         return
                     }
                     
-                    strongSelf.tableView.deleteRows(
-                        at: [
-                            IndexPath(
-                                row: index,
-                                section: SelfTableViewSection.tweets.rawValue
-                            )
-                        ],
-                        with: .automatic
-                    )
-                    strongSelf.tableView.reloadSections(
-                        IndexSet(
-                            integer: SelfTableViewSection.user.rawValue
-                        ),
-                        with: .none
-                    )
+                    if strongSelf.tableView.window != nil {
+                        strongSelf.tableView.deleteRows(
+                            at: [
+                                IndexPath(
+                                    row: index,
+                                    section: SelfTableViewSection.tweets.rawValue
+                                )
+                            ],
+                            with: .automatic
+                        )
+                        strongSelf.tableView.reloadSections(
+                            IndexSet(
+                                integer: SelfTableViewSection.user.rawValue
+                            ),
+                            with: .none
+                        )
+                    }
                 }
             }
         }

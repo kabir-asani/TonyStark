@@ -272,7 +272,9 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
             let alert = TweetOptionsAlertController.regular()
             
             alert.interactionsHandler = self
-            alert.configure(withTweet: bookmark.viewables.tweet)
+            alert.configure(
+                withTweet: bookmark.viewables.tweet
+            )
             
             present(
                 alert,

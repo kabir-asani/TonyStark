@@ -416,6 +416,64 @@ extension TweetViewController: TweetTableViewCellInteractionsHandler {
         }
     }
     
+    func tweetCellDidPressBookmarkOption(_ cell: TweetTableViewCell) {
+        print(#function)
+    }
+    
+    func tweetCellDidPressFollowOption(_ cell: TweetTableViewCell) {
+        print(#function)
+    }
+    
+    func tweetCellDidPressDeleteOption(_ cell: TweetTableViewCell) {
+        Task {
+            DispatchQueue.main.async {
+                [weak self]  in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.view.alpha = 0.4
+                strongSelf.view.isUserInteractionEnabled = false
+            }
+            
+            let deleteTweetResult = await TweetsDataStore.shared.deleteTweet(
+                withId: cell.tweet.id
+            )
+            
+            deleteTweetResult.mapOnSuccess {
+                DispatchQueue.main.async {
+                    [weak self] in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    
+                    strongSelf.navigationController?.popViewController(
+                        animated: true
+                    )
+                }
+            } orElse: {
+                DispatchQueue.main.async {
+                    [weak self] in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    
+                    strongSelf.showUnknownFailureSnackBar()
+                }
+            }
+            
+            DispatchQueue.main.async {
+                [weak self]  in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.view.alpha = 1.0
+                strongSelf.view.isUserInteractionEnabled = false
+            }
+        }
+    }
+    
     func tweetCellDidPressOptions(_ cell: TweetTableViewCell) {
         let alert = TweetOptionsAlertController.regular()
         
@@ -426,14 +484,6 @@ extension TweetViewController: TweetTableViewCellInteractionsHandler {
             alert,
             animated: true
         )
-    }
-    
-    func tweetCellDidPressBookmarkOption(_ cell: TweetTableViewCell) {
-        print(#function)
-    }
-    
-    func tweetCellDidPressFollowOption(_ cell: TweetTableViewCell) {
-        print(#function)
     }
 }
 

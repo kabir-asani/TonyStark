@@ -10,9 +10,10 @@ import UIKit
 extension TweetTableViewCell.Header {
     class Trailing: TXView {
         // Declare
-        private var onBookmarkPressed: (() -> Void)?
-        private var onFollowPressed: (() -> Void)?
-        private var onOptionsPressed: (() -> Void)?
+        private var onBookmarkPressed: (() -> Void)!
+        private var onFollowPressed: (() -> Void)!
+        private var onDeletePressed: (() -> Void)!
+        private var onOptionsPressed: (() -> Void)!
         
         private let optionsButton: TXButton = {
             let optionsButton = TXButton()
@@ -49,16 +50,20 @@ extension TweetTableViewCell.Header {
         func configure(
             withTweet tweet: Tweet,
             onBookmarkPressed: @escaping () -> Void,
-            onFollowPressed: @escaping () -> Void
+            onFollowPressed: @escaping () -> Void,
+            onDeletePressed: @escaping () -> Void
         ) {
             self.onBookmarkPressed = onBookmarkPressed
             self.onFollowPressed = onFollowPressed
+            self.onDeletePressed = onDeletePressed
             
             configureOptionsButton(withTweet: tweet)
         }
         
         @available (iOS, deprecated: 14.0)
-        func configure(onOptionsPressed: @escaping () -> Void) {
+        func configure(
+            onOptionsPressed: @escaping () -> Void
+        ) {
             self.onOptionsPressed = onOptionsPressed
             
             optionsButton.addTarget(
@@ -69,7 +74,9 @@ extension TweetTableViewCell.Header {
         }
         
         @available(iOS 14.0, *)
-        private func configureOptionsButton(withTweet tweet: Tweet) {
+        private func configureOptionsButton(
+            withTweet tweet: Tweet
+        ) {
             optionsButton.showsMenuAsPrimaryAction = true
             
             var children = [
@@ -85,7 +92,7 @@ extension TweetTableViewCell.Header {
                         return
                     }
                     
-                    strongSelf.onBookmarkPressed?()
+                    strongSelf.onBookmarkPressed()
                 }
             ]
             
@@ -105,7 +112,7 @@ extension TweetTableViewCell.Header {
                             return
                         }
                         
-                        strongSelf.onFollowPressed?()
+                        strongSelf.onFollowPressed()
                     }
                 )
             }
@@ -123,16 +130,20 @@ extension TweetTableViewCell.Header {
                             return
                         }
                         
-                        strongSelf.onFollowPressed?()
+                        strongSelf.onDeletePressed()
                     }
                 )
             }
 
-            optionsButton.menu = TXMenu(children: children)
+            optionsButton.menu = TXMenu(
+                children: children
+            )
         }
         
         // Interact
-        @objc private func onOptionsPressed(_ sender: TXButton) {
+        @objc private func onOptionsPressed(
+            _ sender: TXButton
+        ) {
             onOptionsPressed?()
         }
         

@@ -50,6 +50,14 @@ class FeedViewController: TXFloatingActionViewController {
         populateTableView()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(
+            animated
+        )
+        
+        tableView.reloadData()
+    }
+    
     private func addSubviews() {
         containerView.addSubview(tableView)
     }
@@ -128,21 +136,25 @@ extension FeedViewController {
             
             state = .success(updatedPaginatedTweets)
             
-            DispatchQueue.main.async {
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + 0.1
+            ) {
                 [weak self] in
                 guard let strongSelf = self else {
                     return
                 }
                 
-                strongSelf.tableView.insertRows(
-                    at: [
-                        IndexPath(
-                            row: 0,
-                            section: FeedTableViewSection.tweets.rawValue
-                        )
-                    ],
-                    with: .automatic
-                )
+                if strongSelf.tableView.window != nil {
+                    strongSelf.tableView.insertRows(
+                        at: [
+                            IndexPath(
+                                row: 0,
+                                section: FeedTableViewSection.tweets.rawValue
+                            )
+                        ],
+                        with: .automatic
+                    )
+                }
             }
         }
     }
@@ -165,21 +177,26 @@ extension FeedViewController {
                 
                 state = .success(updatedPaginatedTweets)
                 
-                DispatchQueue.main.async {
+                DispatchQueue.main.asyncAfter (
+                    deadline: .now() + 0.1
+                ) {
                     [weak self] in
                     guard let strongSelf = self else {
                         return
                     }
                     
-                    strongSelf.tableView.deleteRows(
-                        at: [
-                            IndexPath(
-                                row: index,
-                                section: FeedTableViewSection.tweets.rawValue
-                            )
-                        ],
-                        with: .automatic
-                    )
+                    
+                    if strongSelf.tableView.window != nil {
+                        strongSelf.tableView.deleteRows(
+                            at: [
+                                IndexPath(
+                                    row: index,
+                                    section: FeedTableViewSection.tweets.rawValue
+                                )
+                            ],
+                            with: .automatic
+                        )
+                    }
                 }
             }
         }
