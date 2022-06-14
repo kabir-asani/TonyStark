@@ -7,11 +7,17 @@
 
 import UIKit
 
+protocol EmptyFeedTableViewCellInteractionsHandler: AnyObject {
+    func emtpyFeedCellDidPressSearch(_ cell: EmptyFeedTableViewCell)
+}
+
 class EmptyFeedTableViewCell: TXTableViewCell {
     // Declare
     override class var reuseIdentifier: String {
         String(describing: EmptyFeedTableViewCell.self)
     }
+    
+    weak var intractionsHandler: EmptyFeedTableViewCellInteractionsHandler?
     
     private let emptyFeedText: TXLabel = {
         let emptyFeedText = TXLabel()
@@ -150,10 +156,6 @@ class EmptyFeedTableViewCell: TXTableViewCell {
     
     // Interact
     @objc private func onSearchTwitterXPressed(_ sender: TXButton) {
-        TXEventBroker.shared.emit(
-            event: HomeTabSwitchEvent(
-                tab: .explore
-            )
-        )
+        intractionsHandler?.emtpyFeedCellDidPressSearch(self)
     }
 }

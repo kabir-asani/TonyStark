@@ -7,23 +7,11 @@
 
 import UIKit
 
-class EmptyTweetsTableViewCell: TXTableViewCell {
+class EmptySelfTweetsTableViewCell: TXTableViewCell {
     // Declare
     override class var reuseIdentifier: String {
-        String(describing: EmptyTweetsTableViewCell.self)
+        String(describing: EmptySelfTweetsTableViewCell.self)
     }
-    
-    private let emptyTweetsImage: TXImageView = {
-        let emptyTweetsImage = TXImageView()
-        
-        emptyTweetsImage.enableAutolayout()
-        emptyTweetsImage.image = UIImage(systemName: "list.bullet.rectangle")
-        emptyTweetsImage.contentMode = .scaleAspectFit
-        emptyTweetsImage.squareOff(withSide: 60)
-        emptyTweetsImage.tintColor = .label
-        
-        return emptyTweetsImage
-    }()
     
     private let emptyTweetsText: TXLabel = {
         let emptyTweetsText = TXLabel()
@@ -55,34 +43,6 @@ class EmptyTweetsTableViewCell: TXTableViewCell {
         return emptyTweetsSubtext
     }()
     
-    private let composeTweetButton: TXButton = {
-        let composeTweetButton = TXButton()
-        
-        composeTweetButton.enableAutolayout()
-        if #available(iOS 15.0, *) {
-            composeTweetButton.tintColor = .systemBlue
-            composeTweetButton.configuration = TXButton.Configuration.borderedProminent()
-        } else {
-            composeTweetButton.setTitleColor(
-                .white,
-                for: .normal
-            )
-            composeTweetButton.setTitleColor(
-                .white.withAlphaComponent(0.8),
-                for: .highlighted
-            )
-            composeTweetButton.contentEdgeInsets = .symmetric(
-                horizontal: 16,
-                vertical: 8
-            )
-            composeTweetButton.backgroundColor = .systemBlue
-            composeTweetButton.clipsToBounds = true
-            composeTweetButton.layer.cornerRadius = 8
-        }
-        
-        return composeTweetButton
-    }()
-    
     
     // Arrange
     override init(
@@ -109,7 +69,6 @@ class EmptyTweetsTableViewCell: TXTableViewCell {
     private func arrangeSubviews() {
         arrangeEmptyFeedText()
         arrangeEmptySubText()
-        arrangeSearchButton()
         
         let combinedStackView = makeCombinedStackView()
         
@@ -119,7 +78,7 @@ class EmptyTweetsTableViewCell: TXTableViewCell {
             to: self,
             withInsets: .symmetric(
                 horizontal: 16,
-                vertical: 32
+                vertical: 64
             )
         )
     }
@@ -127,10 +86,8 @@ class EmptyTweetsTableViewCell: TXTableViewCell {
     private func makeCombinedStackView() -> TXStackView {
         let combinedStack = TXStackView(
             arrangedSubviews: [
-                emptyTweetsImage,
                 emptyTweetsText,
-                emptyTweetsSubtext,
-                composeTweetButton
+                emptyTweetsSubtext
             ]
         )
         
@@ -148,31 +105,13 @@ class EmptyTweetsTableViewCell: TXTableViewCell {
     }
     
     private func arrangeEmptySubText() {
-        emptyTweetsSubtext.text = "When you compose tweets, they'll show up here"
-    }
-    
-    private func arrangeSearchButton() {
-        composeTweetButton.setTitle(
-            "Compose Tweet",
-            for: .normal
-        )
-        
-        composeTweetButton.addTarget(
-            self,
-            action: #selector(onComposeTweetPressed(_:)),
-            for: .touchUpInside
-        )
+        emptyTweetsSubtext.text = """
+        When you compose tweets, they'll show up here
+        """
     }
     
     // Configure
     
     
     // Interact
-    @objc private func onComposeTweetPressed(_ sender: TXButton) {
-        TXEventBroker.shared.emit(
-            event: HomeTabSwitchEvent(
-                tab: .feed
-            )
-        )
-    }
 }

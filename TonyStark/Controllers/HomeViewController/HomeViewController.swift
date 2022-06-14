@@ -22,6 +22,10 @@ class HomeViewController: TXTabBarController {
         
         configureEventListener()
         configureViewControllers()
+        
+        Task {
+            await CurrentUserDataStore.shared.refreshUser()
+        }
     }
     
     private func configureEventListener() {

@@ -9,6 +9,10 @@ import UIKit
 
 class NotificationsViewController: TXViewController {
     // Declare
+    enum NotificationsTableViewSection: Int, CaseIterable {
+        case main
+    }
+    
     private let tableView: TXTableView = {
         let tableView = TXTableView()
         
@@ -33,8 +37,7 @@ class NotificationsViewController: TXViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "Notifications"
-        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = ""
     }
     
     private func configureTableView() {
@@ -42,8 +45,8 @@ class NotificationsViewController: TXViewController {
         tableView.delegate = self
         
         tableView.register(
-            PartialTweetTableViewCell.self,
-            forCellReuseIdentifier: PartialTweetTableViewCell.reuseIdentifier
+            EmptyNotificationsTableViewCell.self,
+            forCellReuseIdentifier: EmptyNotificationsTableViewCell.reuseIdentifier
         )
         
         tableView.appendSpacerOnHeader()
@@ -66,28 +69,45 @@ class NotificationsViewController: TXViewController {
 
 // MARK: TXTableViewDataSource
 extension NotificationsViewController: TXTableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        0
+    func numberOfSections(
+        in tableView: UITableView
+    ) -> Int {
+        NotificationsTableViewSection.allCases.count
     }
     
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        0
+        1
     }
     
     func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        TXTableViewCell()
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: EmptyNotificationsTableViewCell.reuseIdentifier,
+            for: indexPath
+        ) as! EmptyNotificationsTableViewCell
+        
+        return cell
     }
 }
 
 // MARK: TXTableViewDelegate
 extension NotificationsViewController: TXTableViewDelegate {
-    
+    func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        if indexPath.row == tableView.numberOfRows(inSection: NotificationsTableViewSection.main.rawValue) - 1 {
+            tableView.removeSeparatorOnCell(cell)
+        } else {
+            tableView.appendSeparatorOnCell(cell)
+        }
+    }
 }
 
 extension NotificationsViewController: TXRefreshControlDelegate {

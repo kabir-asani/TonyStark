@@ -72,6 +72,10 @@ class SelfViewController: TXFloatingActionViewController {
             forCellReuseIdentifier: CurrentUserTableViewCell.reuseIdentifier
         )
         tableView.register(
+            EmptySelfTweetsTableViewCell.self,
+            forCellReuseIdentifier: EmptySelfTweetsTableViewCell.reuseIdentifier
+        )
+        tableView.register(
             PartialTweetTableViewCell.self,
             forCellReuseIdentifier: PartialTweetTableViewCell.reuseIdentifier
         )
@@ -186,6 +190,10 @@ extension SelfViewController {
                     withId: event.id
                 )
             }
+            
+            if event is RefreshedCurrentUserEvent {
+                strongSelf.onCurrentUserRefreshed()
+            }
         }
     }
     
@@ -208,7 +216,7 @@ extension SelfViewController {
             
             state = .success(updatedPaginatedTweets)
             
-            DispatchQueue.main.asyncAfter (
+            DispatchQueue.main.asyncAfter(
                 deadline: .now() + 0.1
             ) {
                 [weak self] in
@@ -216,21 +224,7 @@ extension SelfViewController {
                     return
                 }
                 
-                strongSelf.tableView.insertRows(
-                    at: [
-                        IndexPath(
-                            row: 0,
-                            section: SelfTableViewSection.tweets.rawValue
-                        )
-                    ],
-                    with: .automatic
-                )
-                strongSelf.tableView.reloadSections(
-                    IndexSet(
-                        integer: SelfTableViewSection.user.rawValue
-                    ),
-                    with: .none
-                )
+                strongSelf.tableView.reloadData()
             }
         }
     }
@@ -239,45 +233,36 @@ extension SelfViewController {
         withId id: String
     ) {
         state.mapOnlyOnSuccess { previousPaginatedTweets in
-            let mayBeIndex = previousPaginatedTweets.page.firstIndex { tweet in
-                tweet.id == id
-            }
-
-            if let index = mayBeIndex {
-                let updatedPaginatedTweets = Paginated<Tweet>(
-                    page: previousPaginatedTweets.page.filter({ tweet in
-                        tweet.id != id
-                    }),
-                    nextToken: previousPaginatedTweets.nextToken
-                )
-                
-                state = .success(updatedPaginatedTweets)
-                
-                DispatchQueue.main.asyncAfter (
-                    deadline: .now() + 0.1
-                ) {
-                    [weak self] in
-                    guard let strongSelf = self, strongSelf.tableView.window != nil else {
-                        return
-                    }
-                    
-                    strongSelf.tableView.deleteRows(
-                        at: [
-                            IndexPath(
-                                row: index,
-                                section: SelfTableViewSection.tweets.rawValue
-                            )
-                        ],
-                        with: .automatic
-                    )
-                    strongSelf.tableView.reloadSections(
-                        IndexSet(
-                            integer: SelfTableViewSection.user.rawValue
-                        ),
-                        with: .none
-                    )
+            let updatedPaginatedTweets = Paginated<Tweet>(
+                page: previousPaginatedTweets.page.filter { $0.id != id },
+                nextToken: previousPaginatedTweets.nextToken
+            )
+            
+            state = .success(updatedPaginatedTweets)
+            
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
                 }
+                
+                strongSelf.tableView.reloadData()
             }
+        }
+    }
+    
+    private func onCurrentUserRefreshed() {
+        DispatchQueue.main.asyncAfter(
+            deadline: .now() + 0.1
+        ) {
+            [weak self] in
+            guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                return
+            }
+            
+            strongSelf.tableView.reloadData()
         }
     }
 }
@@ -417,7 +402,11 @@ extension SelfViewController: TXTableViewDataSource {
             return 1
         case SelfTableViewSection.tweets.rawValue:
             return state.mapOnSuccess { paginatedTweets in
-                paginatedTweets.page.count
+                if paginatedTweets.page.isEmpty {
+                    return 1
+                } else {
+                    return paginatedTweets.page.count
+                }
             } orElse: {
                 0
             }
@@ -450,17 +439,26 @@ extension SelfViewController: TXTableViewDataSource {
             return cell
         case SelfTableViewSection.tweets.rawValue:
             return state.mapOnSuccess { paginatedTweets in
-                let cell = tableView.dequeueReusableCell(
-                    withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
-                    for: indexPath
-                ) as! PartialTweetTableViewCell
-                
-                cell.interactionsHandler = self
-                cell.configure(withTweet: paginatedTweets.page[indexPath.row])
-                
-                return cell
+                if paginatedTweets.page.isEmpty {
+                    let cell = tableView.dequeueReusableCell(
+                        withIdentifier: EmptySelfTweetsTableViewCell.reuseIdentifier,
+                        for: indexPath
+                    ) as! EmptySelfTweetsTableViewCell
+                    
+                    return cell
+                } else {
+                    let cell = tableView.dequeueReusableCell(
+                        withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
+                        for: indexPath
+                    ) as! PartialTweetTableViewCell
+                    
+                    cell.interactionsHandler = self
+                    cell.configure(withTweet: paginatedTweets.page[indexPath.row])
+                    
+                    return cell
+                }
             } orElse: {
-                UITableViewCell()
+                TXTableViewCell()
             }
         default:
             fatalError()

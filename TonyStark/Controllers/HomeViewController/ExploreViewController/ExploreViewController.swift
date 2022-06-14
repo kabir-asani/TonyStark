@@ -13,10 +13,13 @@ class ExploreViewController: TXViewController {
         case previousSearches
     }
     
-    private var state: State<[String], PreviousSearchKeywordsFailure> = .processing
+    private var previouslySearchedKeywords: [String] = []
     
     private let tableView: TXTableView = {
-        let tableView = TXTableView()
+        let tableView = TXTableView(
+            frame: .zero,
+            style: .insetGrouped
+        )
         
         tableView.enableAutolayout()
         
@@ -35,8 +38,6 @@ class ExploreViewController: TXViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.delegate = self
-        
         addSubviews()
         
         configureNavigationBar()
@@ -48,6 +49,7 @@ class ExploreViewController: TXViewController {
         super.viewWillAppear(animated)
         
         startKeyboardAwareness()
+        populateTableView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -83,6 +85,10 @@ class ExploreViewController: TXViewController {
             SearchedKeywordTableViewCell.self,
             forCellReuseIdentifier: SearchedKeywordTableViewCell.reuseIdentifier
         )
+        tableView.register(
+            EmptyExploreTableViewCell.self,
+            forCellReuseIdentifier: EmptyExploreTableViewCell.reuseIdentifier
+        )
         
         tableView.pin(
             to: view,
@@ -93,18 +99,6 @@ class ExploreViewController: TXViewController {
     // Populate
     
     // Interact
-}
-
-extension ExploreViewController: TXNavigationControllerDelegate {
-    func navigationController(
-        _ navigationController: UINavigationController,
-        didShow viewController: UIViewController,
-        animated: Bool
-    ) {
-        if viewController === self {
-            populateTableView()
-        }
-    }
 }
 
 // MARK: TXSearchBarDelegate
@@ -152,9 +146,9 @@ extension ExploreViewController: TXTableViewDataSource {
             let previousSearchesResult = await SearchDataStore.shared.previouslySearchKeywords()
             
             previousSearchesResult.map { previousSearches in
-                state = .success(previousSearches)
+                previouslySearchedKeywords = previousSearches
             } onFailure: { cause in
-                state = .failure(cause)
+                previouslySearchedKeywords = []
             }
             
             tableView.reloadData()
@@ -169,10 +163,10 @@ extension ExploreViewController: TXTableViewDataSource {
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        state.mapOnSuccess { previousSearches in
-            previousSearches.count
-        } orElse: {
-            0
+        if previouslySearchedKeywords.isEmpty {
+            return 1
+        } else {
+            return previouslySearchedKeywords.count
         }
     }
     
@@ -180,8 +174,15 @@ extension ExploreViewController: TXTableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        state.mapOnSuccess { previousSearches in
-            let keyword = previousSearches[indexPath.row]
+        if previouslySearchedKeywords.isEmpty {
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: EmptyExploreTableViewCell.reuseIdentifier,
+                for: indexPath
+            ) as! EmptyExploreTableViewCell
+            
+            return cell
+        } else {
+            let keyword = previouslySearchedKeywords[indexPath.row]
             
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: SearchedKeywordTableViewCell.reuseIdentifier,
@@ -191,24 +192,12 @@ extension ExploreViewController: TXTableViewDataSource {
             cell.configure(withKeyword: keyword)
             
             return cell
-        } orElse: {
-            TXTableViewCell()
         }
     }
 }
 
 // MARK: TXTableViewDelegate
 extension ExploreViewController: TXTableViewDelegate {
-    func tableView(
-        _ tableView: UITableView,
-        willDisplay cell: UITableViewCell,
-        forRowAt indexPath: IndexPath
-    ) {
-        if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
-            tableView.removeSeparatorOnCell(cell)
-        }
-    }
-    
     func tableView(
         _ tableView: UITableView,
         estimatedHeightForRowAt indexPath: IndexPath
@@ -225,19 +214,17 @@ extension ExploreViewController: TXTableViewDelegate {
             animated: true
         )
         
-        state.mapOnlyOnSuccess { previousSearches in
-            let keyword = previousSearches[indexPath.row]
-            
-            let searchResultsViewController = SearchViewController()
-            
-            searchResultsViewController.populate(withKeyword: keyword)
-            
-            navigationController?.pushViewController(
-                searchResultsViewController,
-                animated: true
-            )
-            
-            searchBar.resignFirstResponder()
-        }
+        let keyword = previouslySearchedKeywords[indexPath.row]
+        
+        let searchResultsViewController = SearchViewController()
+        
+        searchResultsViewController.populate(withKeyword: keyword)
+        
+        navigationController?.pushViewController(
+            searchResultsViewController,
+            animated: true
+        )
+        
+        searchBar.resignFirstResponder()
     }
 }

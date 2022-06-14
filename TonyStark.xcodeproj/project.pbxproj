@@ -77,7 +77,7 @@
 		163D2DA728191DF200CE5646 /* PartialUserTableViewCell+Trailing+Header+Trailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2DA628191DF200CE5646 /* PartialUserTableViewCell+Trailing+Header+Trailing.swift */; };
 		163D2DAA2819258300CE5646 /* SocialsDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2DA92819258300CE5646 /* SocialsDataStore.swift */; };
 		163D2DAE281927D200CE5646 /* LikesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163D2DAD281927D200CE5646 /* LikesViewController.swift */; };
-		163FD5EF28251C03003E0409 /* EmptyTweetsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163FD5EE28251C03003E0409 /* EmptyTweetsTableViewCell.swift */; };
+		163FD5EF28251C03003E0409 /* EmptySelfTweetsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163FD5EE28251C03003E0409 /* EmptySelfTweetsTableViewCell.swift */; };
 		164828D22815C96E002C6C06 /* TXMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164828D12815C96E002C6C06 /* TXMenu.swift */; };
 		164828D52815D097002C6C06 /* LikesDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164828D42815D097002C6C06 /* LikesDataStore.swift */; };
 		164828D82815D678002C6C06 /* TXBundledImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164828D72815D678002C6C06 /* TXBundledImage.swift */; };
@@ -96,6 +96,8 @@
 		165ED0312811E41A0022D822 /* TXVisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165ED0302811E41A0022D822 /* TXVisualEffectView.swift */; };
 		1667093B2817B79E00889B0C /* TweetTableViewCell+Footer+Footer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1667093A2817B79E00889B0C /* TweetTableViewCell+Footer+Footer.swift */; };
 		1667093E2817B7AA00889B0C /* TweetTableViewCell+Footer+Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1667093D2817B7AA00889B0C /* TweetTableViewCell+Footer+Header.swift */; };
+		16689CF82858A8830004CB38 /* EmptyExploreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16689CF72858A8830004CB38 /* EmptyExploreTableViewCell.swift */; };
+		16689CFC2858AAE80004CB38 /* EmptyNotificationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16689CFB2858AAE80004CB38 /* EmptyNotificationsTableViewCell.swift */; };
 		166C324A281E7F24009D6961 /* EditUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166C3249281E7F24009D6961 /* EditUsernameViewController.swift */; };
 		166C325E281E8551009D6961 /* EditBioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166C325D281E8551009D6961 /* EditBioViewController.swift */; };
 		167224D3281BC1CB005D79EB /* TXLabelX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167224D2281BC1CB005D79EB /* TXLabelX.swift */; };
@@ -262,7 +264,7 @@
 		163D2DA628191DF200CE5646 /* PartialUserTableViewCell+Trailing+Header+Trailing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialUserTableViewCell+Trailing+Header+Trailing.swift"; sourceTree = "<group>"; };
 		163D2DA92819258300CE5646 /* SocialsDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialsDataStore.swift; sourceTree = "<group>"; };
 		163D2DAD281927D200CE5646 /* LikesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesViewController.swift; sourceTree = "<group>"; };
-		163FD5EE28251C03003E0409 /* EmptyTweetsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTweetsTableViewCell.swift; sourceTree = "<group>"; };
+		163FD5EE28251C03003E0409 /* EmptySelfTweetsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySelfTweetsTableViewCell.swift; sourceTree = "<group>"; };
 		164828D12815C96E002C6C06 /* TXMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXMenu.swift; sourceTree = "<group>"; };
 		164828D42815D097002C6C06 /* LikesDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesDataStore.swift; sourceTree = "<group>"; };
 		164828D72815D678002C6C06 /* TXBundledImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXBundledImage.swift; sourceTree = "<group>"; };
@@ -281,6 +283,8 @@
 		165ED0302811E41A0022D822 /* TXVisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXVisualEffectView.swift; sourceTree = "<group>"; };
 		1667093A2817B79E00889B0C /* TweetTableViewCell+Footer+Footer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetTableViewCell+Footer+Footer.swift"; sourceTree = "<group>"; };
 		1667093D2817B7AA00889B0C /* TweetTableViewCell+Footer+Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetTableViewCell+Footer+Header.swift"; sourceTree = "<group>"; };
+		16689CF72858A8830004CB38 /* EmptyExploreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyExploreTableViewCell.swift; sourceTree = "<group>"; };
+		16689CFB2858AAE80004CB38 /* EmptyNotificationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyNotificationsTableViewCell.swift; sourceTree = "<group>"; };
 		166C3249281E7F24009D6961 /* EditUsernameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUsernameViewController.swift; sourceTree = "<group>"; };
 		166C325D281E8551009D6961 /* EditBioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBioViewController.swift; sourceTree = "<group>"; };
 		167224D2281BC1CB005D79EB /* TXLabelX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXLabelX.swift; sourceTree = "<group>"; };
@@ -502,6 +506,7 @@
 		160437C627E1B65A00EA615F /* NotificationsViewController */ = {
 			isa = PBXGroup;
 			children = (
+				16689CF92858AADA0004CB38 /* Views */,
 				160437D227E1B7B100EA615F /* NotificationsViewController.swift */,
 			);
 			path = NotificationsViewController;
@@ -657,7 +662,8 @@
 		16133F802822519500171F68 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				16133F81282251A100171F68 /* SearchedKeywordTableViewCell.swift */,
+				16689CF62858A8740004CB38 /* EmptyExploreTableViewCell */,
+				16689CF52858A86F0004CB38 /* SearchedKeywordTableViewCell */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -984,12 +990,12 @@
 			path = LikesViewController;
 			sourceTree = "<group>";
 		};
-		163FD5ED28251BF8003E0409 /* EmptyTweetsTableViewCell */ = {
+		163FD5ED28251BF8003E0409 /* EmptySelfTweetsTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				163FD5EE28251C03003E0409 /* EmptyTweetsTableViewCell.swift */,
+				163FD5EE28251C03003E0409 /* EmptySelfTweetsTableViewCell.swift */,
 			);
-			path = EmptyTweetsTableViewCell;
+			path = EmptySelfTweetsTableViewCell;
 			sourceTree = "<group>";
 		};
 		164828CB2815C167002C6C06 /* TXBarButtonItem */ = {
@@ -1181,6 +1187,38 @@
 			path = TXVisualEffectView;
 			sourceTree = "<group>";
 		};
+		16689CF52858A86F0004CB38 /* SearchedKeywordTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				16133F81282251A100171F68 /* SearchedKeywordTableViewCell.swift */,
+			);
+			path = SearchedKeywordTableViewCell;
+			sourceTree = "<group>";
+		};
+		16689CF62858A8740004CB38 /* EmptyExploreTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				16689CF72858A8830004CB38 /* EmptyExploreTableViewCell.swift */,
+			);
+			path = EmptyExploreTableViewCell;
+			sourceTree = "<group>";
+		};
+		16689CF92858AADA0004CB38 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				16689CFA2858AADC0004CB38 /* EmptyNotificationsTableViewCell */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		16689CFA2858AADC0004CB38 /* EmptyNotificationsTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				16689CFB2858AAE80004CB38 /* EmptyNotificationsTableViewCell.swift */,
+			);
+			path = EmptyNotificationsTableViewCell;
+			sourceTree = "<group>";
+		};
 		166C3248281E7F14009D6961 /* EditUsernameViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1213,7 +1251,7 @@
 		166C324D281E8247009D6961 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				163FD5ED28251BF8003E0409 /* EmptyTweetsTableViewCell */,
+				163FD5ED28251BF8003E0409 /* EmptySelfTweetsTableViewCell */,
 				16993CD7280C42BB00FFE71B /* CurrentUserTableViewCell */,
 			);
 			path = Views;
@@ -1890,6 +1928,7 @@
 				1691E453280EA8D800BA223D /* TXView.swift in Sources */,
 				16D3DFD228166CDD0083B7E9 /* TweetTableViewCell.swift in Sources */,
 				16D3DFD928166D790083B7E9 /* TweetTableViewCell+Body.swift in Sources */,
+				16689CFC2858AAE80004CB38 /* EmptyNotificationsTableViewCell.swift in Sources */,
 				1653E87E284FDCB60060FD32 /* HomeViewController+Events.swift in Sources */,
 				16237AF3281FB71000837064 /* EditUsernameTableViewCell.swift in Sources */,
 				1611237D2806C99500908D98 /* Like.swift in Sources */,
@@ -1903,6 +1942,7 @@
 				16993CE6280C4A0200FFE71B /* TXButton.swift in Sources */,
 				16D3DFDB28166D7F0083B7E9 /* TweetTableViewCell+Footer.swift in Sources */,
 				167224D6281BC73C005D79EB /* ResultX.swift in Sources */,
+				16689CF82858A8830004CB38 /* EmptyExploreTableViewCell.swift in Sources */,
 				16D3DFE028166F770083B7E9 /* TweetTableViewCell+Header+Middle.swift in Sources */,
 				16D27C71281FE8CF00D2A2C3 /* AuthenticationActionsTableViewCell.swift in Sources */,
 				161250F227DBB56E006BCE5A /* AppDelegate.swift in Sources */,
@@ -1910,7 +1950,7 @@
 				168992A7281B135000D5D85C /* AvatarImage.swift in Sources */,
 				160437CD27E1B76200EA615F /* ComposeViewController.swift in Sources */,
 				162AB408284FA42F006E2C55 /* TXJsonAssistant.swift in Sources */,
-				163FD5EF28251C03003E0409 /* EmptyTweetsTableViewCell.swift in Sources */,
+				163FD5EF28251C03003E0409 /* EmptySelfTweetsTableViewCell.swift in Sources */,
 				16C4AFD8284E7B25008791B8 /* TXAppleAssistant.swift in Sources */,
 				16493D212812B372004912BB /* TXTextView.swift in Sources */,
 				165A8A0E28509F8A00A89AD6 /* DataStore+Response.swift in Sources */,

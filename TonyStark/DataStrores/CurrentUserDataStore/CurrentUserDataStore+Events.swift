@@ -14,3 +14,7 @@ class LogInEvent: TXEvent {
 class LogOutEvent: TXEvent {
     
 }
+
+class RefreshedCurrentUserEvent: TXEvent {
+    
+}

@@ -80,6 +80,10 @@ class FeedViewController: TXFloatingActionViewController {
             PartialTweetTableViewCell.self,
             forCellReuseIdentifier: PartialTweetTableViewCell.reuseIdentifier
         )
+        tableView.register(
+            EmptyFeedTableViewCell.self,
+            forCellReuseIdentifier: EmptyFeedTableViewCell.reuseIdentifier
+        )
         
         tableView.pin(
             to: view,
@@ -144,15 +148,7 @@ extension FeedViewController {
                     return
                 }
                 
-                strongSelf.tableView.insertRows(
-                    at: [
-                        IndexPath(
-                            row: 0,
-                            section: FeedTableViewSection.tweets.rawValue
-                        )
-                    ],
-                    with: .automatic
-                )
+                strongSelf.tableView.reloadData()
             }
         }
     }
@@ -161,38 +157,22 @@ extension FeedViewController {
         withId id: String
     ) {
         state.mapOnlyOnSuccess { previousPaginatedTweets in
-            let mayBeIndex = previousPaginatedTweets.page.firstIndex { tweet in
-                tweet.id == id
-            }
-
-            if let index = mayBeIndex {
-                let updatedPaginatedTweets = Paginated<Tweet>(
-                    page: previousPaginatedTweets.page.filter({ tweet in
-                        tweet.id != id
-                    }),
-                    nextToken: previousPaginatedTweets.nextToken
-                )
-                
-                state = .success(updatedPaginatedTweets)
-                
-                DispatchQueue.main.asyncAfter (
-                    deadline: .now() + 0.1
-                ) {
-                    [weak self] in
-                    guard let strongSelf = self, strongSelf.tableView.window != nil else {
-                        return
-                    }
-                    
-                    strongSelf.tableView.deleteRows(
-                        at: [
-                            IndexPath(
-                                row: index,
-                                section: FeedTableViewSection.tweets.rawValue
-                            )
-                        ],
-                        with: .automatic
-                    )
+            let updatedPaginatedTweets = Paginated<Tweet>(
+                page: previousPaginatedTweets.page.filter { $0.id != id },
+                nextToken: previousPaginatedTweets.nextToken
+            )
+            
+            state = .success(updatedPaginatedTweets)
+            
+            DispatchQueue.main.asyncAfter (
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
                 }
+                
+                strongSelf.tableView.reloadData()
             }
         }
     }
@@ -285,7 +265,11 @@ extension FeedViewController: TXTableViewDataSource {
         numberOfRowsInSection section: Int
     ) -> Int {
         state.mapOnSuccess { paginatedFeed in
-            paginatedFeed.page.count
+            if paginatedFeed.page.isEmpty {
+                return 1
+            } else {
+                return paginatedFeed.page.count
+            }
         } orElse: {
             0
         }
@@ -296,15 +280,26 @@ extension FeedViewController: TXTableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         state.mapOnSuccess { paginatedFeed in
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
-                for: indexPath
-            ) as! PartialTweetTableViewCell
-            
-            cell.interactionsHandler = self
-            cell.configure(withTweet: paginatedFeed.page[indexPath.row])
-            
-            return cell
+            if paginatedFeed.page.isEmpty {
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: EmptyFeedTableViewCell.reuseIdentifier,
+                    for: indexPath
+                ) as! EmptyFeedTableViewCell
+                
+                cell.intractionsHandler = self
+                
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
+                    for: indexPath
+                ) as! PartialTweetTableViewCell
+                
+                cell.interactionsHandler = self
+                cell.configure(withTweet: paginatedFeed.page[indexPath.row])
+                
+                return cell
+            }
         } orElse: {
             TXTableViewCell()
         }
@@ -366,6 +361,17 @@ extension FeedViewController: TXRefreshControlDelegate {
         if control.isRefreshing {
             refreshTableView()
         }
+    }
+}
+
+// MARK: EmptyFeedTableViewCellInteractionsHandler
+extension FeedViewController: EmptyFeedTableViewCellInteractionsHandler {
+    func emtpyFeedCellDidPressSearch(_ cell: EmptyFeedTableViewCell) {
+        TXEventBroker.shared.emit(
+            event: HomeTabSwitchEvent(
+                tab: .explore
+            )
+        )
     }
 }
 
