@@ -212,27 +212,25 @@ extension SelfViewController {
                 deadline: .now() + 0.1
             ) {
                 [weak self] in
-                guard let strongSelf = self else {
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
                     return
                 }
                 
-                if strongSelf.tableView.window != nil {
-                    strongSelf.tableView.insertRows(
-                        at: [
-                            IndexPath(
-                                row: 0,
-                                section: SelfTableViewSection.tweets.rawValue
-                            )
-                        ],
-                        with: .automatic
-                    )
-                    strongSelf.tableView.reloadSections(
-                        IndexSet(
-                            integer: SelfTableViewSection.user.rawValue
-                        ),
-                        with: .none
-                    )
-                }
+                strongSelf.tableView.insertRows(
+                    at: [
+                        IndexPath(
+                            row: 0,
+                            section: SelfTableViewSection.tweets.rawValue
+                        )
+                    ],
+                    with: .automatic
+                )
+                strongSelf.tableView.reloadSections(
+                    IndexSet(
+                        integer: SelfTableViewSection.user.rawValue
+                    ),
+                    with: .none
+                )
             }
         }
     }
@@ -259,27 +257,25 @@ extension SelfViewController {
                     deadline: .now() + 0.1
                 ) {
                     [weak self] in
-                    guard let strongSelf = self else {
+                    guard let strongSelf = self, strongSelf.tableView.window != nil else {
                         return
                     }
                     
-                    if strongSelf.tableView.window != nil {
-                        strongSelf.tableView.deleteRows(
-                            at: [
-                                IndexPath(
-                                    row: index,
-                                    section: SelfTableViewSection.tweets.rawValue
-                                )
-                            ],
-                            with: .automatic
-                        )
-                        strongSelf.tableView.reloadSections(
-                            IndexSet(
-                                integer: SelfTableViewSection.user.rawValue
-                            ),
-                            with: .none
-                        )
-                    }
+                    strongSelf.tableView.deleteRows(
+                        at: [
+                            IndexPath(
+                                row: index,
+                                section: SelfTableViewSection.tweets.rawValue
+                            )
+                        ],
+                        with: .automatic
+                    )
+                    strongSelf.tableView.reloadSections(
+                        IndexSet(
+                            integer: SelfTableViewSection.user.rawValue
+                        ),
+                        with: .none
+                    )
                 }
             }
         }

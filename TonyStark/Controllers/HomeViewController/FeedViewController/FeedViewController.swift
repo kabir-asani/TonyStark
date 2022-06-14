@@ -140,21 +140,19 @@ extension FeedViewController {
                 deadline: .now() + 0.1
             ) {
                 [weak self] in
-                guard let strongSelf = self else {
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
                     return
                 }
                 
-                if strongSelf.tableView.window != nil {
-                    strongSelf.tableView.insertRows(
-                        at: [
-                            IndexPath(
-                                row: 0,
-                                section: FeedTableViewSection.tweets.rawValue
-                            )
-                        ],
-                        with: .automatic
-                    )
-                }
+                strongSelf.tableView.insertRows(
+                    at: [
+                        IndexPath(
+                            row: 0,
+                            section: FeedTableViewSection.tweets.rawValue
+                        )
+                    ],
+                    with: .automatic
+                )
             }
         }
     }
@@ -181,22 +179,19 @@ extension FeedViewController {
                     deadline: .now() + 0.1
                 ) {
                     [weak self] in
-                    guard let strongSelf = self else {
+                    guard let strongSelf = self, strongSelf.tableView.window != nil else {
                         return
                     }
                     
-                    
-                    if strongSelf.tableView.window != nil {
-                        strongSelf.tableView.deleteRows(
-                            at: [
-                                IndexPath(
-                                    row: index,
-                                    section: FeedTableViewSection.tweets.rawValue
-                                )
-                            ],
-                            with: .automatic
-                        )
-                    }
+                    strongSelf.tableView.deleteRows(
+                        at: [
+                            IndexPath(
+                                row: index,
+                                section: FeedTableViewSection.tweets.rawValue
+                            )
+                        ],
+                        with: .automatic
+                    )
                 }
             }
         }
