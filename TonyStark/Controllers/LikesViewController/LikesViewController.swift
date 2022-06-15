@@ -279,12 +279,14 @@ extension LikesViewController: TXTableViewDelegate {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        if indexPath.row == tableView.numberOfRows(inSection: LikesTableViewSection.likes.rawValue) - 1 {
-            tableView.removeSeparatorOnCell(cell)
-            
-            extendTableView()
-        } else {
-            tableView.appendSeparatorOnCell(cell)
+        state.mapOnlyOnSuccess { paginatedLikes in
+            if indexPath.row == paginatedLikes.page.count - 1 {
+                tableView.removeSeparatorOnCell(cell)
+                
+                extendTableView()
+            } else {
+                tableView.appendSeparatorOnCell(cell)
+            }
         }
     }
     

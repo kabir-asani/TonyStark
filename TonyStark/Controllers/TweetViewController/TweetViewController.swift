@@ -536,12 +536,14 @@ extension TweetViewController: TXTableViewDelegate {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        if indexPath.row == tableView.numberOfRows(inSection: TweetsTableViewSection.comments.rawValue) - 1 {
-            tableView.removeSeparatorOnCell(cell)
-            
-            extendTableView()
-        } else {
-            tableView.appendSeparatorOnCell(cell)
+        state.mapOnlyOnSuccess { paginatedComments in
+            if indexPath.row == paginatedComments.page.count - 1 {
+                tableView.removeSeparatorOnCell(cell)
+                
+                extendTableView()
+            } else {
+                tableView.appendSeparatorOnCell(cell)
+            }
         }
     }
 }

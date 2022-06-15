@@ -37,7 +37,9 @@ class TweetsDataStore: DataStore {
                         withAccessToken: session.accessToken
                     ),
                     content: [
-                        "text": details.text
+                        "text": details.text.trimmingCharacters(
+                            in: .whitespacesAndNewlines
+                        )
                     ]
                 )
                 

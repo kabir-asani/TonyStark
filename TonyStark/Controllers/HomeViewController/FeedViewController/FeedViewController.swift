@@ -212,6 +212,7 @@ extension FeedViewController {
                 }
                 
                 strongSelf.tableView.reloadData()
+                strongSelf.tableView.appendSepartorToLastMostVisibleCell()
             }
         }
     }
@@ -459,12 +460,14 @@ extension FeedViewController: TXTableViewDelegate {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        if indexPath.row == tableView.numberOfRows(inSection: FeedTableViewSection.tweets.rawValue) - 1 {
-            tableView.removeSeparatorOnCell(cell)
-            
-            extendTableView()
-        } else {
-            tableView.appendSeparatorOnCell(cell)
+        state.mapOnlyOnSuccess { paginatedTweets in
+            if indexPath.row == paginatedTweets.page.count - 1 {
+                tableView.removeSeparatorOnCell(cell)
+                
+                extendTableView()
+            } else {
+                tableView.appendSeparatorOnCell(cell)
+            }
         }
     }
     

@@ -207,12 +207,14 @@ extension FolloweesViewController: TXTableViewDelegate {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
-            tableView.removeSeparatorOnCell(cell)
-            
-            extendTableView()
-        } else {
-            tableView.appendSeparatorOnCell(cell)
+        state.mapOnlyOnSuccess { paginatedUsers in
+            if indexPath.row == paginatedUsers.page.count - 1 {
+                tableView.removeSeparatorOnCell(cell)
+                
+                extendTableView()
+            } else {
+                tableView.appendSeparatorOnCell(cell)
+            }
         }
     }
     

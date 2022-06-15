@@ -39,6 +39,7 @@ class NameTableViewCell: TXTableViewCell {
         
         trailing.enableAutolayout()
         trailing.placeholder = "Add your name"
+        trailing.autocapitalizationType = .words
         trailing.returnKeyType = .done
         
         return trailing

@@ -49,7 +49,9 @@ extension UITableView {
         }
     }
     
-    func appendSpacerOnHeader(withHeight height: Double = 0) {
+    func appendSpacerOnHeader(
+        withHeight height: Double = 0
+    ) {
         DispatchQueue.main.async {
             [weak self] in
             guard let strongSelf = self else {
@@ -80,7 +82,9 @@ extension UITableView {
         }
     }
     
-    func appendSpacerOnFooter(withHeight height: Double = 100) {
+    func appendSpacerOnFooter(
+        withHeight height: Double = 100
+    ) {
         DispatchQueue.main.async {
             [weak self] in
             guard let strongSelf = self else {

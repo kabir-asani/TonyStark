@@ -349,12 +349,14 @@ extension OtherUserViewController: TXTableViewDelegate {
                 withInset: .leading(0)
             )
         case OtherUserTableViewSection.tweets.rawValue:
-            if indexPath.row == tableView.numberOfRows(inSection: OtherUserTableViewSection.tweets.rawValue) - 1 {
-                tableView.removeSeparatorOnCell(cell)
-                
-                extendTableView()
-            } else {
-                tableView.appendSeparatorOnCell(cell)
+            state.mapOnlyOnSuccess { paginatedTweets in
+                if indexPath.row == paginatedTweets.page.count - 1 {
+                    tableView.removeSeparatorOnCell(cell)
+                    
+                    extendTableView()
+                } else {
+                    tableView.appendSeparatorOnCell(cell)
+                }
             }
         default:
             fatalError()

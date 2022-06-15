@@ -41,6 +41,7 @@ class EditUsernameTableViewCell: TXTableViewCell {
         usernameText.backgroundColor = .clear
         usernameText.returnKeyType = .done
         usernameText.autocapitalizationType = .none
+        usernameText.autocorrectionType = .no
         usernameText.placeholder = "Add your username"
         
         return usernameText

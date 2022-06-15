@@ -402,12 +402,14 @@ extension BookmarksViewController: TXTableViewDelegate {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        if indexPath.row == tableView.numberOfRows(inSection: BookmarksTableViewSection.bookmarks.rawValue) - 1 {
-            tableView.removeSeparatorOnCell(cell)
-            
-            extendTableView()
-        } else {
-            tableView.appendSeparatorOnCell(cell)
+        state.mapOnlyOnSuccess { paginatedBookmarks in
+            if indexPath.row == paginatedBookmarks.page.count - 1 {
+                tableView.removeSeparatorOnCell(cell)
+                
+                extendTableView()
+            } else {
+                tableView.appendSeparatorOnCell(cell)
+            }
         }
     }
     
