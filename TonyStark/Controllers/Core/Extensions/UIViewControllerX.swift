@@ -117,6 +117,22 @@ extension UIViewController {
         variant: SnackBar.Variant = .informative,
         duration: TimeInterval = 2,
         dismissible: Bool = true
+    ) {
+        Task {
+            await showSnackBar(
+                text: text,
+                variant: variant,
+                duration: duration,
+                dismissible: dismissible
+            )
+        }
+    }
+    
+    private func showSnackBar(
+        text: String,
+        variant: SnackBar.Variant = .informative,
+        duration: TimeInterval = 2,
+        dismissible: Bool = true
     ) async {
         await hideSnackBar()
         
@@ -196,7 +212,13 @@ extension UIViewController {
         }
     }
     
-    func hideSnackBar(
+    func hideSnackBar() {
+        Task {
+            await hideSnackBar()
+        }
+    }
+    
+    private func hideSnackBar(
         _ snackBar: SnackBar? = nil
     ) async {
         let mayBeSnackBar = snackBar ?? view.subviews.first {

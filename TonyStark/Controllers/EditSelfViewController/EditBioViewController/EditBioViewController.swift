@@ -105,6 +105,10 @@ class EditBioViewController: TXViewController {
             self,
             didUpdateBio: bio
         )
+        
+        navigationController?.popViewController(
+            animated: true
+        )
     }
 }
 

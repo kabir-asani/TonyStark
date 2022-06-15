@@ -25,10 +25,16 @@ class TweetOptionsAlertController: TXAlertController {
     }
     
     // Declare
+    private(set) var tweet: Tweet!
+    
     weak var interactionsHandler: TweetOptionsAlertControllerInteractionsHandler?
 
     // Configure
-    func configure(withTweet tweet: Tweet) {
+    func configure(
+        withTweet tweet: Tweet
+    ) {
+        self.tweet = tweet
+        
         let bookmarkAction = UIAlertAction(
             title: tweet.viewables.bookmarked ? "Remove bookmark" : "Bookmark",
             style: .default

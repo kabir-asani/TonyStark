@@ -10,7 +10,7 @@ import UIKit
 protocol NameTableViewCellDelegate: AnyObject {
     func nameCell(
         _ cell: NameTableViewCell,
-        didChangeName name: String
+        didUpdateName name: String
     )
 }
 
@@ -39,6 +39,7 @@ class NameTableViewCell: TXTableViewCell {
         
         trailing.enableAutolayout()
         trailing.placeholder = "Add your name"
+        trailing.returnKeyType = .done
         
         return trailing
     }()
@@ -119,7 +120,7 @@ extension NameTableViewCell: TXTextFieldDelegate {
         if let text = textField.text {
             delegate?.nameCell(
                 self,
-                didChangeName: text
+                didUpdateName: text
             )
         }
     }
@@ -134,7 +135,7 @@ extension NameTableViewCell: TXTextFieldDelegate {
         if let text = textField.text {
             delegate?.nameCell(
                 self,
-                didChangeName: text
+                didUpdateName: text
             )
         }
     }

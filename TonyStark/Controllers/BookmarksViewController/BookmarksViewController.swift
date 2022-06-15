@@ -85,6 +85,10 @@ extension BookmarksViewController {
                 return
             }
             
+            if event is RefreshedCurrentUserEvent {
+                strongSelf.onCurrentUserRefreshed()
+            }
+            
             if let event = event as? TweetDeletedEvent {
                 strongSelf.onTweetDeleted(
                     withId: event.id
@@ -105,6 +109,62 @@ extension BookmarksViewController {
         }
     }
     
+    private func onCurrentUserRefreshed() {
+        if let currentUser = CurrentUserDataStore.shared.user {
+            state.mapOnlyOnSuccess { previousPaginatedBookmarks in
+                var indices: [Int] = []
+                
+                previousPaginatedBookmarks.page.enumerated().forEach { index, bookmark in
+                    if bookmark.viewables.tweet.viewables.author.id == currentUser.id {
+                        indices.append(
+                            index
+                        )
+                    }
+                }
+                
+                let updatedPaginatedBookmarks = Paginated<Bookmark>(
+                    page: previousPaginatedBookmarks.page.map { bookmark in
+                        if bookmark.viewables.tweet.viewables.author.id == currentUser.id {
+                            let viewables = bookmark.viewables
+                            let tweet = viewables.tweet
+                            
+                            let tweetViewables = viewables.tweet.viewables
+                            let updatedTweetViewables = tweetViewables.copyWith(
+                                author: currentUser
+                            )
+                            
+                            let updatedTweet = tweet.copyWith(
+                                viewables: updatedTweetViewables
+                            )
+                            let updatedViewables = viewables.copyWith(
+                                tweet: updatedTweet
+                            )
+                            
+                            return bookmark.copyWith(
+                                viewables: updatedViewables
+                            )
+                        } else {
+                            return bookmark
+                        }
+                    },
+                    nextToken: previousPaginatedBookmarks.nextToken
+                )
+                
+                state = .success(updatedPaginatedBookmarks)
+                
+                DispatchQueue.main.asyncAfter(
+                    deadline: .now() + 0.1
+                ) {
+                    [weak self] in
+                    guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                        return
+                    }
+                    
+                    strongSelf.tableView.reloadData()
+                }
+            }
+        }
+    }
     
     private func onTweetDeleted(
         withId id: String

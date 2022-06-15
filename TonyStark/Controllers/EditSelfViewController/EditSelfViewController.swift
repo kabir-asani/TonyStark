@@ -13,7 +13,8 @@ class EditSelfViewController: TXViewController {
     }
     
     enum Details: Int, CaseIterable {
-        case profilePicture
+        // TODO: Add profile picture edition
+        //        case profilePicture
         case name
         case username
         case bio
@@ -23,7 +24,10 @@ class EditSelfViewController: TXViewController {
     private(set) var user: User!
     
     private let tableView: TXTableView = {
-        let tableView = TXTableView()
+        let tableView = TXTableView(
+            frame: .zero,
+            style: .insetGrouped
+        )
         
         tableView.enableAutolayout()
         
@@ -47,17 +51,51 @@ class EditSelfViewController: TXViewController {
     private func configureNavigationBar() {
         navigationItem.title = "Edit Profile"
         
-        navigationItem.leftBarButtonItem = TXBarButtonItem(
+        configureLeftBarButtonWithCancelButton()
+        configureRightBarButtonWithTweetBarButton()
+    }
+    
+    private func configureLeftBarButtonWithCancelButton() {
+        let cancelBarButtonItem = TXBarButtonItem(
             barButtonSystemItem: .cancel,
             target: self,
             action: #selector(onCancelPressed(_:))
         )
         
-        navigationItem.rightBarButtonItem = TXBarButtonItem(
-            barButtonSystemItem: .done,
+        navigationItem.leftBarButtonItem = cancelBarButtonItem
+    }
+    
+    private func configureRightBarButtonWithTweetBarButton() {
+        let tweetBarButtonItem = TXBarButtonItem(
+            title: "Done",
+            style: .done,
             target: self,
             action: #selector(onDonePressed(_:))
         )
+        
+        navigationItem.rightBarButtonItem = tweetBarButtonItem
+    }
+    
+    private func configureRightBarButtonWithActivityIndicator() {
+        let activityIndicator = TXActivityIndicatorView()
+        
+        activityIndicator.startAnimating()
+        
+        let activityIndicatorBarButtonItem = TXBarButtonItem(
+            customView: activityIndicator
+        )
+        
+        navigationItem.rightBarButtonItem = activityIndicatorBarButtonItem
+    }
+    
+    private func showActivityIndicatorOnNavigationBar() {
+        configureRightBarButtonWithActivityIndicator()
+        view.isUserInteractionEnabled = false
+    }
+    
+    private func hideActivityIndicatorOnNavigationBar() {
+        configureRightBarButtonWithTweetBarButton()
+        view.isUserInteractionEnabled = true
     }
     
     private func configureTableView() {
@@ -67,10 +105,11 @@ class EditSelfViewController: TXViewController {
         tableView.tableHeaderView = .init(frame: .zero)
         tableView.keyboardDismissMode = .onDrag
         
-        tableView.register(
-            ProfileImageTableViewCell.self,
-            forCellReuseIdentifier: ProfileImageTableViewCell.reuseIdentifier
-        )
+        // TODO: Add profile picture edition
+        //        tableView.register(
+        //            ProfileImageTableViewCell.self,
+        //            forCellReuseIdentifier: ProfileImageTableViewCell.reuseIdentifier
+        //        )
         tableView.register(
             NameTableViewCell.self,
             forCellReuseIdentifier: NameTableViewCell.reuseIdentifier
@@ -97,11 +136,44 @@ class EditSelfViewController: TXViewController {
     
     // Interact
     @objc private func onCancelPressed(_ sender: TXBarButtonItem) {
-        dismiss(animated: true)
+        dismiss(
+            animated: true
+        )
     }
     
     @objc private func onDonePressed(_ sender: TXBarButtonItem) {
-        print(#function)
+        Task {
+            showActivityIndicatorOnNavigationBar()
+            
+            let currentUserUpdationResult = await CurrentUserDataStore.shared.updateUser(
+                to: user
+            )
+            
+            hideActivityIndicatorOnNavigationBar()
+            
+            currentUserUpdationResult.mapOnSuccess {
+                dismiss(
+                    animated: true
+                )
+            } orElse: {
+                showUnknownFailureSnackBar()
+            }
+            
+            currentUserUpdationResult.map {
+                dismiss(
+                    animated: true
+                )
+            } onFailure: { failure in
+                if failure == UpdateUserFailure.usernameUnavailable {
+                    showSnackBar(
+                        text: "Uh oh! That username is not available!",
+                        variant: .warning
+                    )
+                } else {
+                    showUnknownFailureSnackBar()
+                }
+            }
+        }
     }
 }
 
@@ -130,17 +202,18 @@ extension EditSelfViewController: TXTableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         switch indexPath.row {
-        case Details.profilePicture.rawValue:
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: ProfileImageTableViewCell.reuseIdentifier,
-                for: indexPath
-            ) as! ProfileImageTableViewCell
-            
-            cell.configure(
-                withImageURL: user.image
-            )
-            
-            return cell
+            // TODO: Add profile picture edition
+            //        case Details.profilePicture.rawValue:
+            //            let cell = tableView.dequeueReusableCell(
+            //                withIdentifier: ProfileImageTableViewCell.reuseIdentifier,
+            //                for: indexPath
+            //            ) as! ProfileImageTableViewCell
+            //
+            //            cell.configure(
+            //                withImageURL: user.image
+            //            )
+            //
+            //            return cell
         case Details.name.rawValue:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: NameTableViewCell.reuseIdentifier,
@@ -232,6 +305,17 @@ extension EditSelfViewController: EditUsernameViewControllerInteractionsHandler 
         user = user.copyWith(
             username: username
         )
+        
+        DispatchQueue.main.asyncAfter(
+            deadline: .now() + 0.1
+        ) {
+            [weak self]  in
+            guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                return
+            }
+            
+            strongSelf.tableView.reloadData()
+        }
     }
 }
 
@@ -244,13 +328,24 @@ extension EditSelfViewController: EditBioViewControllerInteractionsHandler {
         user = user.copyWith(
             description: bio
         )
+        
+        DispatchQueue.main.asyncAfter(
+            deadline: .now() + 0.1
+        ) {
+            [weak self]  in
+            guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                return
+            }
+            
+            strongSelf.tableView.reloadData()
+        }
     }
 }
 
 extension EditSelfViewController: NameTableViewCellDelegate {
     func nameCell(
         _ cell: NameTableViewCell,
-        didChangeName name: String
+        didUpdateName name: String
     ) {
         if name.isEmpty {
             navigationItem.rightBarButtonItem?.isEnabled = false

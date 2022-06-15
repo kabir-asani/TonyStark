@@ -40,6 +40,7 @@ class EditUsernameTableViewCell: TXTableViewCell {
         )
         usernameText.backgroundColor = .clear
         usernameText.returnKeyType = .done
+        usernameText.autocapitalizationType = .none
         usernameText.placeholder = "Add your username"
         
         return usernameText

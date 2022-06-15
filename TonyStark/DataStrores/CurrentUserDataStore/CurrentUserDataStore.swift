@@ -237,6 +237,10 @@ class CurrentUserDataStore: DataStore {
                     
                     self.user = user
                     
+                    TXEventBroker.shared.emit(
+                        event: RefreshedCurrentUserEvent()
+                    )
+                    
                     return .success(Void())
                 } else {
                     return .failure(.unknown)

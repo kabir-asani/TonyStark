@@ -104,6 +104,8 @@ class TweetViewController: TXViewController {
         if options.autoFocus {
             _ = commentInputBar.becomeFirstResponder()
         }
+        
+        tableView.reloadData()
     }
     
     private func addSubviews() {
@@ -374,12 +376,85 @@ extension TweetViewController {
                 return
             }
             
+            if event is RefreshedCurrentUserEvent {
+                strongSelf.onCurrentUserRefreshed()
+            }
+            
             if let event = event as? LikeCreatedEvent, event.tweetId == strongSelf.tweet.id {
                 strongSelf.onTweetLiked()
             }
             
             if let event = event as? LikeDeletedEvent, event.tweetId == strongSelf.tweet.id {
                 strongSelf.onTweetUnliked()
+            }
+        }
+    }
+    
+    private func onCurrentUserRefreshed() {
+        if let currentUser = CurrentUserDataStore.shared.user {
+            if tweet.viewables.author.id == currentUser.id {
+                let viewables = tweet.viewables
+                let updatedViewables = viewables.copyWith(
+                    author: currentUser
+                )
+                
+                tweet = tweet.copyWith(
+                    viewables: updatedViewables
+                )
+                
+                DispatchQueue.main.asyncAfter(
+                    deadline: .now() + 0.1
+                ) {
+                    [weak self] in
+                    guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                        return
+                    }
+                    
+                    strongSelf.tableView.reloadData()
+                }
+            }
+            
+            state.mapOnlyOnSuccess { previousPaginatedComments in
+                var indices: [Int] = []
+                
+                previousPaginatedComments.page.enumerated().forEach { index, comment in
+                    if comment.viewables.author.id == currentUser.id {
+                        indices.append(
+                            index
+                        )
+                    }
+                }
+                
+                let updatedPaginatedComments = Paginated<Comment>(
+                    page: previousPaginatedComments.page.map { comment in
+                        if comment.viewables.author.id == currentUser.id {
+                            let viewables = comment.viewables
+                            let updatedViewables = viewables.copyWith(
+                                author: currentUser
+                            )
+                            
+                            return comment.copyWith(
+                                viewables: updatedViewables
+                            )
+                        } else {
+                            return comment
+                        }
+                    },
+                    nextToken: previousPaginatedComments.nextToken
+                )
+                
+                state = .success(updatedPaginatedComments)
+                
+                DispatchQueue.main.asyncAfter(
+                    deadline: .now() + 0.1
+                ) {
+                    [weak self] in
+                    guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                        return
+                    }
+                    
+                    strongSelf.tableView.reloadData()
+                }
             }
         }
     }
@@ -630,15 +705,21 @@ extension TweetViewController: CommentTableViewCellInteractionsHandler {
 
 // MARK:
 extension TweetViewController: TweetOptionsAlertControllerInteractionsHandler {
-    func tweetOptionsAlertControllerDidPressBookmark(_ controller: TweetOptionsAlertController) {
+    func tweetOptionsAlertControllerDidPressBookmark(
+        _ controller: TweetOptionsAlertController
+    ) {
         print(#function)
     }
     
-    func tweetOptionsAlertControllerDidPressFollow(_ controller: TweetOptionsAlertController) {
+    func tweetOptionsAlertControllerDidPressFollow(
+        _ controller: TweetOptionsAlertController
+    ) {
         print(#function)
     }
     
-    func tweetOptionsAlertControllerDidPressDelete(_ controller: TweetOptionsAlertController) {
+    func tweetOptionsAlertControllerDidPressDelete(
+        _ controller: TweetOptionsAlertController
+    ) {
         print(#function)
     }
 }

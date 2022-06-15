@@ -115,6 +115,10 @@ extension FeedViewController {
                 return
             }
             
+            if event is RefreshedCurrentUserEvent {
+                strongSelf.onCurrentUserRefreshed()
+            }
+            
             if let event = event as? TweetCreatedEvent {
                 strongSelf.onTweetCreated(
                     tweet: event.tweet
@@ -137,6 +141,53 @@ extension FeedViewController {
                 strongSelf.onTweetUnliked(
                     withId: event.tweetId
                 )
+            }
+        }
+    }
+    
+    private func onCurrentUserRefreshed() {
+        if let currentUser = CurrentUserDataStore.shared.user {
+            state.mapOnlyOnSuccess { previousPaginatedTweets in
+                var indices: [Int] = []
+                
+                previousPaginatedTweets.page.enumerated().forEach { index, tweet in
+                    if tweet.viewables.author.id == currentUser.id {
+                        indices.append(
+                            index
+                        )
+                    }
+                }
+                
+                let updatedPaginatedTweets = Paginated<Tweet>(
+                    page: previousPaginatedTweets.page.map { tweet in
+                        if tweet.viewables.author.id == currentUser.id {
+                            let viewables = tweet.viewables
+                            let updatedViewables = viewables.copyWith(
+                                author: currentUser
+                            )
+                            
+                            return tweet.copyWith(
+                                viewables: updatedViewables
+                            )
+                        } else {
+                            return tweet
+                        }
+                    },
+                    nextToken: previousPaginatedTweets.nextToken
+                )
+                
+                state = .success(updatedPaginatedTweets)
+                
+                DispatchQueue.main.asyncAfter(
+                    deadline: .now() + 0.1
+                ) {
+                    [weak self] in
+                    guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                        return
+                    }
+                    
+                    strongSelf.tableView.reloadData()
+                }
             }
         }
     }

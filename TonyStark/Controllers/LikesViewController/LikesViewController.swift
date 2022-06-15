@@ -31,11 +31,21 @@ class LikesViewController: TXViewController {
         
         addSubviews()
         
+        configureEventListener()
+        
         configureNavigationBar()
         configureTableView()
         configureRefreshControl()
         
         populateTableView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(
+            animated
+        )
+        
+        tableView.reloadData()
     }
     
     private func addSubviews() {
@@ -79,6 +89,59 @@ class LikesViewController: TXViewController {
     // Interact
 }
 
+// MARK: Event Listener
+extension LikesViewController {
+    private func configureEventListener() {
+        TXEventBroker.shared.listen {
+            [weak self] event in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            if event is RefreshedCurrentUserEvent {
+                strongSelf.onCurrentUserRefreshed()
+            }
+        }
+    }
+    
+    private func onCurrentUserRefreshed() {
+        if let currentUser = CurrentUserDataStore.shared.user {
+            state.mapOnlyOnSuccess { previousPaginatedLikes in
+                let updatedPaginatedLikes = Paginated<Like>(
+                    page: previousPaginatedLikes.page.map { like in
+                        if like.viewables.author.id == currentUser.id {
+                            let viewables = like.viewables
+                            let updatedViewables = viewables.copyWith(
+                                author: currentUser
+                            )
+                            
+                            return like.copyWith(
+                                viewables: updatedViewables
+                            )
+                        } else {
+                            return like
+                        }
+                    },
+                    nextToken: previousPaginatedLikes.nextToken
+                )
+                
+                state = .success(updatedPaginatedLikes)
+                
+                DispatchQueue.main.asyncAfter(
+                    deadline: .now() + 0.1
+                ) {
+                    [weak self] in
+                    guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                        return
+                    }
+                    
+                    strongSelf.tableView.reloadData()
+                }
+            }
+        }
+    }
+}
+
 // MARK: TXTableViewDataSource
 extension LikesViewController: TXTableViewDataSource {
     private func populateTableView() {
@@ -105,7 +168,9 @@ extension LikesViewController: TXTableViewDataSource {
         Task {
             tableView.beginRefreshing()
             
-            let likesResult = await LikesDataStore.shared.likes(onTweetWithId: tweet.id)
+            let likesResult = await LikesDataStore.shared.likes(
+                onTweetWithId: tweet.id
+            )
             
             tableView.endRefreshing()
             
@@ -178,7 +243,9 @@ extension LikesViewController: TXTableViewDataSource {
             let like = paginatedLikes.page[indexPath.row]
             
             cell.interactionsHandler = self
-            cell.configure(withUser: like.viewables.author)
+            cell.configure(
+                withUser: like.viewables.author
+            )
             
             return cell
         } orElse: {
@@ -189,6 +256,24 @@ extension LikesViewController: TXTableViewDataSource {
 
 // MARK: TXTableViewDelegate
 extension LikesViewController: TXTableViewDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        tableView.deselectRow(
+            at: indexPath,
+            animated: true
+        )
+        
+        state.mapOnlyOnSuccess { paginatedLikes in
+            let like = paginatedLikes.page[indexPath.row]
+            
+            navigationController?.openUserViewController(
+                withUser: like.viewables.author
+            )
+        }
+    }
+    
     func tableView(
         _ tableView: UITableView,
         willDisplay cell: UITableViewCell,
@@ -222,13 +307,17 @@ extension LikesViewController: TXRefreshControlDelegate {
 
 // MARK: PartialUserTableViewCellInteractionsHandler
 extension LikesViewController: PartialUserTableViewCellInteractionsHandler {
-    func partialUserCellDidPressProfileImage(_ cell: PartialUserTableViewCell) {
+    func partialUserCellDidPressProfileImage(
+        _ cell: PartialUserTableViewCell
+    ) {
         state.mapOnlyOnSuccess { paginatedLikes in
-            guard let like = paginatedLikes.page.first(where: { $0.id == cell.user.id } ) else {
+            guard let like = paginatedLikes.page.first(where: { $0.viewables.author.id == cell.user.id } ) else {
                 return
             }
             
-            navigationController?.openUserViewController(withUser: like.viewables.author)
+            navigationController?.openUserViewController(
+                withUser: like.viewables.author
+            )
         }
     }
 }

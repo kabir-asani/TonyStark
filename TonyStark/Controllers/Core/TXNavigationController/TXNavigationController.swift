@@ -30,11 +30,15 @@ class TXNavigationController: UINavigationController {
 }
 
 extension UINavigationController {
-    func openUserViewController(withUser user: User) {
-        if user.id == CurrentUserDataStore.shared.user!.id {
-            let event = HomeTabSwitchEvent(tab: HomeViewController.TabItem.user)
-            
-            TXEventBroker.shared.emit(event: event)
+    func openUserViewController(
+        withUser user: User
+    ) {
+        if let currentUser = CurrentUserDataStore.shared.user, user.id == currentUser.id {
+            TXEventBroker.shared.emit(
+                event: HomeTabSwitchEvent(
+                    tab: HomeViewController.TabItem.user
+                )
+            )
         } else {
             let mayBeOtherUserViewController = viewControllers.first { viewController in
                 if let otherUserViewController = viewController as? OtherUserViewController {

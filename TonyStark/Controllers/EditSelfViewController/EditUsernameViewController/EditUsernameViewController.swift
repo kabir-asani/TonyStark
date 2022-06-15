@@ -101,11 +101,13 @@ class EditUsernameViewController: TXViewController {
     
     // Interact
     @objc private func onDonePressed(_ sender: TXBarButtonItem) {
-        // TOOD: Validate username
-        
         interactionsHandler?.editUsernameViewController(
             self,
             didUpdateUsername: username
+        )
+        
+        navigationController?.popViewController(
+            animated: true
         )
     }
 }
