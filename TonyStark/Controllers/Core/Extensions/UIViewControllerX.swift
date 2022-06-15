@@ -264,6 +264,24 @@ extension UIViewController {
             )
         }
     }
+    
+    func showBookmarkCreatedSnackBar() {
+        Task {
+            await showSnackBar(
+                text: "Tweet Bookmarked Successfully!",
+                variant: .success
+            )
+        }
+    }
+    
+    func showBookmarkDeletedSnackBar() {
+        Task {
+            await showSnackBar(
+                text: "Bookmark Removed",
+                variant: .informative
+            )
+        }
+    }
 }
 
 // MARK: ActivityIndicator

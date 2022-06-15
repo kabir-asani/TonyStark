@@ -280,6 +280,11 @@ extension LikesViewController: TXTableViewDelegate {
         forRowAt indexPath: IndexPath
     ) {
         state.mapOnlyOnSuccess { paginatedLikes in
+            if paginatedLikes.page.isEmpty {
+                tableView.removeSeparatorOnCell(cell)
+                return
+            }
+            
             if indexPath.row == paginatedLikes.page.count - 1 {
                 tableView.removeSeparatorOnCell(cell)
                 

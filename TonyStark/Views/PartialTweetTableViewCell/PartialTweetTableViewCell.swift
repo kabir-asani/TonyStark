@@ -15,7 +15,7 @@ protocol PartialTweetTableViewCellInteractionsHandler: AnyObject {
     func partialTweetCellDidPressProfileImage(_ cell: PartialTweetTableViewCell)
     
     @available(iOS 14, *)
-    func partialTweetCellDidPressBookmarksOption(_ cell: PartialTweetTableViewCell)
+    func partialTweetCellDidPressBookmarkOption(_ cell: PartialTweetTableViewCell)
     
     @available(iOS 14, *)
     func partialTweetCellDidPressFollowOption(_ cell: PartialTweetTableViewCell)
@@ -146,7 +146,7 @@ class PartialTweetTableViewCell: TXTableViewCell {
                     return
                 }
                 
-                strongSelf.interactionsHandler?.partialTweetCellDidPressBookmarksOption(strongSelf)
+                strongSelf.interactionsHandler?.partialTweetCellDidPressBookmarkOption(strongSelf)
             } onFollowPressed: {
                 [weak self] in
                 

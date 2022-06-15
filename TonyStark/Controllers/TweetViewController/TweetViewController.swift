@@ -242,7 +242,9 @@ extension TweetViewController: TXTableViewDataSource {
         Task {
             tableView.beginPaginating()
             
-            let commentsResult = await CommentsDataStore.shared.comments(ofTweetWithId: tweet.id)
+            let commentsResult = await CommentsDataStore.shared.comments(
+                onTweetWithId: tweet.id
+            )
             
             tableView.endPaginating()
             
@@ -260,7 +262,9 @@ extension TweetViewController: TXTableViewDataSource {
         Task {
             tableView.beginRefreshing()
             
-            let commentsResult = await CommentsDataStore.shared.comments(ofTweetWithId: tweet.id)
+            let commentsResult = await CommentsDataStore.shared.comments(
+                onTweetWithId: tweet.id
+            )
             
             tableView.endRefreshing()
             
@@ -284,7 +288,7 @@ extension TweetViewController: TXTableViewDataSource {
                 tableView.beginPaginating()
                 
                 let commentsResult = await CommentsDataStore.shared.comments(
-                    ofTweetWithId: tweet.id,
+                    onTweetWithId: tweet.id,
                     after: nextToken
                 )
                 
@@ -386,6 +390,14 @@ extension TweetViewController {
             
             if let event = event as? LikeDeletedEvent, event.tweetId == strongSelf.tweet.id {
                 strongSelf.onTweetUnliked()
+            }
+            
+            if let event = event as? BookmarkCreatedEvent, event.tweetId == strongSelf.tweet.id {
+                strongSelf.onBookmarkCreated()
+            }
+            
+            if let event = event as? BookmarkDeletedEvent, event.tweetId == strongSelf.tweet.id {
+                strongSelf.onBookmarkDeleted()
             }
         }
     }
@@ -518,6 +530,50 @@ extension TweetViewController {
             }
         }
     }
+    
+    private func onBookmarkCreated() {
+        let viewables = tweet.viewables
+        let updatedViewables = viewables.copyWith(
+            bookmarked: true
+        )
+        
+        tweet = tweet.copyWith(
+            viewables: updatedViewables
+        )
+        
+        DispatchQueue.main.asyncAfter (
+            deadline: .now() + 0.1
+        ) {
+            [weak self] in
+            guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                return
+            }
+            
+            strongSelf.tableView.reloadData()
+        }
+    }
+    
+    private func onBookmarkDeleted() {
+        let viewables = tweet.viewables
+        let updatedViewables = viewables.copyWith(
+            bookmarked: false
+        )
+        
+        tweet = tweet.copyWith(
+            viewables: updatedViewables
+        )
+        
+        DispatchQueue.main.asyncAfter (
+            deadline: .now() + 0.1
+        ) {
+            [weak self] in
+            guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                return
+            }
+            
+            strongSelf.tableView.reloadData()
+        }
+    }
 }
 
 // MARK: TXRefreshControlDelegate
@@ -537,6 +593,11 @@ extension TweetViewController: TXTableViewDelegate {
         forRowAt indexPath: IndexPath
     ) {
         state.mapOnlyOnSuccess { paginatedComments in
+            if paginatedComments.page.isEmpty {
+                tableView.removeSeparatorOnCell(cell)
+                return
+            }
+            
             if indexPath.row == paginatedComments.page.count - 1 {
                 tableView.removeSeparatorOnCell(cell)
                 
@@ -620,7 +681,29 @@ extension TweetViewController: TweetTableViewCellInteractionsHandler {
     }
     
     func tweetCellDidPressBookmarkOption(_ cell: TweetTableViewCell) {
-        print(#function)
+        Task {
+            if tweet.viewables.bookmarked {
+                let bookmarkDeletionResult = await BookmarksDataStore.shared.deleteBookmark(
+                    onTweetWithId: tweet.id
+                )
+                
+                bookmarkDeletionResult.map {
+                    showBookmarkDeletedSnackBar()
+                } onFailure: { failure in
+                    showUnknownFailureSnackBar()
+                }
+            } else {
+                let bookmarkCreationResult = await BookmarksDataStore.shared.createBookmark(
+                    onTweetWithId: tweet.id
+                )
+                
+                bookmarkCreationResult.map {
+                    showBookmarkCreatedSnackBar()
+                } onFailure: { failure in
+                    showUnknownFailureSnackBar()
+                }
+            }
+        }
     }
     
     func tweetCellDidPressFollowOption(_ cell: TweetTableViewCell) {

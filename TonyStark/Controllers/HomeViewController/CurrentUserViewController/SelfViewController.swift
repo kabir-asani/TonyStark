@@ -206,6 +206,18 @@ extension SelfViewController {
             if event is RefreshedCurrentUserEvent {
                 strongSelf.onCurrentUserRefreshed()
             }
+            
+            if let event = event as? BookmarkCreatedEvent {
+                strongSelf.onBookmarkCreated(
+                    ofTweetWithId: event.tweetId
+                )
+            }
+            
+            if let event = event as? BookmarkDeletedEvent {
+                strongSelf.onBookmarkDeleted(
+                    ofTweetWithId: event.tweetId
+                )
+            }
         }
     }
     
@@ -379,6 +391,80 @@ extension SelfViewController {
                     
                     strongSelf.tableView.reloadData()
                 }
+            }
+        }
+    }
+    
+    private func onBookmarkCreated(
+        ofTweetWithId tweetId: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedTweets in
+            let updatedPaginatedTweets = Paginated<Tweet>(
+                page: previousPaginatedTweets.page.map { tweet in
+                    if tweet.id == tweetId && !tweet.viewables.bookmarked {
+                        let viewables = tweet.viewables
+                        let updatedViewables = viewables.copyWith(
+                            bookmarked: true
+                        )
+                        
+                        return tweet.copyWith(
+                            viewables: updatedViewables
+                        )
+                    } else {
+                        return tweet
+                    }
+                },
+                nextToken: previousPaginatedTweets.nextToken
+            )
+            
+            state = .success(updatedPaginatedTweets)
+            
+            DispatchQueue.main.asyncAfter (
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func onBookmarkDeleted(
+        ofTweetWithId tweetId: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedTweets in
+            let updatedPaginatedTweets = Paginated<Tweet>(
+                page: previousPaginatedTweets.page.map { tweet in
+                    if tweet.id == tweetId && tweet.viewables.bookmarked {
+                        let viewables = tweet.viewables
+                        let updatedViewables = viewables.copyWith(
+                            bookmarked: false
+                        )
+                        
+                        return tweet.copyWith(
+                            viewables: updatedViewables
+                        )
+                    } else {
+                        return tweet
+                    }
+                },
+                nextToken: previousPaginatedTweets.nextToken
+            )
+            
+            state = .success(updatedPaginatedTweets)
+            
+            DispatchQueue.main.asyncAfter (
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
             }
         }
     }
@@ -592,9 +678,17 @@ extension SelfViewController: TXTableViewDelegate {
     ) {
         switch indexPath.section {
         case SelfTableViewSection.user.rawValue:
-            tableView.appendSeparatorOnCell(cell, withInset: .leading(0))
+            tableView.appendSeparatorOnCell(
+                cell,
+                withInset: .leading(0)
+            )
         case SelfTableViewSection.tweets.rawValue:
             state.mapOnlyOnSuccess { paginatedTweets in
+                if paginatedTweets.page.isEmpty {
+                    tableView.removeSeparatorOnCell(cell)
+                    return
+                }
+                
                 if indexPath.row == paginatedTweets.page.count - 1 {
                     tableView.removeSeparatorOnCell(cell)
                     
@@ -770,8 +864,30 @@ extension SelfViewController: PartialTweetTableViewCellInteractionsHandler {
         print(#function)
     }
     
-    func partialTweetCellDidPressBookmarksOption(_ cell: PartialTweetTableViewCell) {
-        print(#function)
+    func partialTweetCellDidPressBookmarkOption(_ cell: PartialTweetTableViewCell) {
+        Task {
+            if cell.tweet.viewables.bookmarked {
+                let bookmarkDeletionResult = await BookmarksDataStore.shared.deleteBookmark(
+                    onTweetWithId: cell.tweet.id
+                )
+                
+                bookmarkDeletionResult.map {
+                    showBookmarkDeletedSnackBar()
+                } onFailure: { failure in
+                    showUnknownFailureSnackBar()
+                }
+            } else {
+                let bookmarkCreationResult = await BookmarksDataStore.shared.createBookmark(
+                    onTweetWithId: cell.tweet.id
+                )
+                
+                bookmarkCreationResult.map {
+                    showBookmarkCreatedSnackBar()
+                } onFailure: { failure in
+                    showUnknownFailureSnackBar()
+                }
+            }
+        }
     }
     
     func partialTweetCellDidPressFollowOption(_ cell: PartialTweetTableViewCell) {

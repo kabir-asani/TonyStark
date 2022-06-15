@@ -14,7 +14,7 @@ class TXTableViewCell: UITableViewCell {
     
     var defaultSeparatorInsets: UIEdgeInsets {
         get {
-            .leading(20)
+            .leading(16)
         }
     }
     
@@ -46,5 +46,6 @@ class TXTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         revertAllPreparationsMadeForDelete()
+        separatorInset = defaultSeparatorInsets
     }
 }

@@ -192,6 +192,11 @@ extension FollowersViewController: TXTableViewDelegate {
         forRowAt indexPath: IndexPath
     ) {
         state.mapOnlyOnSuccess { paginatedUsers in
+            if paginatedUsers.page.isEmpty {
+                tableView.removeSeparatorOnCell(cell)
+                return
+            }
+            
             if indexPath.row == paginatedUsers.page.count - 1 {
                 tableView.removeSeparatorOnCell(cell)
                 

@@ -9,6 +9,8 @@ import UIKit
 
 class SocialDetails: TXView {
     // Declare
+    var identifier: String?
+    
     private var onPressed: (() -> Void)?
     
     private let leadingText: TXLabel = {

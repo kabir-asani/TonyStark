@@ -106,7 +106,7 @@ class LikesDataStore: DataStore {
                     "nextToken": nextToken!
                 ] : nil
                 
-                let likeCreationResult = try await TXNetworkAssistant.shared.get(
+                let likesResult = try await TXNetworkAssistant.shared.get(
                     url: Self.likesURL(
                         tweetId: tweetId
                     ),
@@ -116,10 +116,10 @@ class LikesDataStore: DataStore {
                     )
                 )
                 
-                if likeCreationResult.statusCode == 200 {
+                if likesResult.statusCode == 200 {
                     let likes = try TXJsonAssistant.decode(
                         SuccessData<Paginated<Like>>.self,
-                        from: likeCreationResult.data
+                        from: likesResult.data
                     ).data
                     
                     return .success(likes)

@@ -11,22 +11,18 @@ class BookmarksDataStore: DataStore {
     static let shared = BookmarksDataStore()
     
     private static let bookmarksURL = "\(BookmarksDataStore.baseUrl)/self/bookmarks"
-    private static let bookmarkURL = "\(BookmarksDataStore.bookmarksURL)"
-    private static func unbookmarkURL(
-        bookmarkId: String
-    ) -> String{
-        "\(BookmarksDataStore.bookmarksURL)/\(bookmarkId)"
-    }
+    private static let createBookmarkURL = "\(BookmarksDataStore.bookmarksURL)"
+    private static let deleteBookmarkURL = "\(BookmarksDataStore.bookmarksURL)/"
     
     private override init() { }
     
     func createBookmark(
-        forTweetWithId tweetId: String
-    ) async -> Result<Bookmark, BookmarkFailure> {
+        onTweetWithId tweetId: String
+    ) async -> Result<Void, BookmarkFailure> {
         if let session = CurrentUserDataStore.shared.session {
             do {
                 let bookmarkResult = try await TXNetworkAssistant.shared.post(
-                    url: Self.bookmarkURL,
+                    url: Self.createBookmarkURL,
                     headers: secureHeaders(
                         withAccessToken: session.accessToken
                     ),
@@ -35,19 +31,14 @@ class BookmarksDataStore: DataStore {
                     ]
                 )
                 
-                if bookmarkResult.statusCode == 201 {
-                    let bookmark = try TXJsonAssistant.decode(
-                        SuccessData<Bookmark>.self,
-                        from: bookmarkResult.data
-                    ).data
-                    
+                if bookmarkResult.statusCode == 204 {
                     TXEventBroker.shared.emit(
-                        event: CreateBookmarkEvent(
-                            bookmark: bookmark
+                        event: BookmarkCreatedEvent(
+                            tweetId: tweetId
                         )
                     )
                     
-                    return .success(bookmark)
+                    return .success(Void())
                 } else {
                     return .failure(.unknown)
                 }
@@ -59,16 +50,16 @@ class BookmarksDataStore: DataStore {
         }
     }
     
-    func removeBookmark(
-        withId bookmarkId: String,
-        andWithTweetId tweetId: String
+    func deleteBookmark(
+        onTweetWithId tweetId: String
     ) async -> Result<Void, UnbookmarkFailure> {
         if let session = CurrentUserDataStore.shared.session {
             do {
                 let removeBookmarkResult = try await TXNetworkAssistant.shared.delete(
-                    url: Self.unbookmarkURL(
-                        bookmarkId: bookmarkId
-                    ),
+                    url: Self.deleteBookmarkURL,
+                    query: [
+                        "tweetId": tweetId
+                    ],
                     headers: secureHeaders(
                         withAccessToken: session.accessToken
                     )
@@ -76,8 +67,7 @@ class BookmarksDataStore: DataStore {
                 
                 if removeBookmarkResult.statusCode == 204 {
                     TXEventBroker.shared.emit(
-                        event: DeleteBookmarkEvent(
-                            bookmarkId: bookmarkId,
+                        event: BookmarkDeletedEvent(
                             tweetId: tweetId
                         )
                     )
@@ -97,6 +87,35 @@ class BookmarksDataStore: DataStore {
     func bookmarks(
         after nextToken: String? = nil
     ) async -> Result<Paginated<Bookmark>, BookmarksFailure> {
-        return .failure(.unknown)
+        if let session = CurrentUserDataStore.shared.session {
+            do {
+                let query = nextToken != nil ? [
+                    "nextToken": nextToken!
+                ] : nil
+                
+                let bookmarksResult = try await TXNetworkAssistant.shared.get(
+                    url: Self.bookmarksURL,
+                    query: query,
+                    headers: secureHeaders(
+                        withAccessToken: session.accessToken
+                    )
+                )
+                
+                if bookmarksResult.statusCode == 200 {
+                    let bookmarks = try TXJsonAssistant.decode(
+                        SuccessData<Paginated<Bookmark>>.self,
+                        from: bookmarksResult.data
+                    ).data
+                    
+                    return .success(bookmarks)
+                } else {
+                    return .failure(.unknown)
+                }
+            } catch {
+                return .failure(.unknown)
+            }
+        } else {
+            return .failure(.unknown)
+        }
     }
 }

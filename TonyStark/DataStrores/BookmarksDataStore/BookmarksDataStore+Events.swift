@@ -7,25 +7,22 @@
 
 import Foundation
 
-class CreateBookmarkEvent: TXEvent {
-    let bookmark: Bookmark
-    
+class BookmarkCreatedEvent: TXEvent {
+    let tweetId: String
+
     init(
-        bookmark: Bookmark
+        tweetId: String
     ) {
-        self.bookmark = bookmark
+        self.tweetId = tweetId
     }
 }
 
-class DeleteBookmarkEvent: TXEvent {
-    let bookmarkId: String
+class BookmarkDeletedEvent: TXEvent {
     let tweetId: String
     
     init(
-        bookmarkId: String,
         tweetId: String
     ) {
-        self.bookmarkId = bookmarkId
         self.tweetId = tweetId
     }
 }

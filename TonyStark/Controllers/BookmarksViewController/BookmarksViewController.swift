@@ -106,6 +106,12 @@ extension BookmarksViewController {
                     withId: event.tweetId
                 )
             }
+            
+            if let event = event as? BookmarkDeletedEvent {
+                strongSelf.onBookmarkDeleted(
+                    ofTweetWithId: event.tweetId
+                )
+            }
         }
     }
     
@@ -287,6 +293,32 @@ extension BookmarksViewController {
             }
         }
     }
+    
+    private func onBookmarkDeleted(
+        ofTweetWithId tweetId: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedBookmarks in
+            let updatedPaginatedBookmarks = Paginated<Bookmark>(
+                page: previousPaginatedBookmarks.page.filter { bookmark  in
+                    bookmark.viewables.tweet.id != tweetId
+                },
+                nextToken: previousPaginatedBookmarks.nextToken
+            )
+            
+            state = .success(updatedPaginatedBookmarks)
+            
+            DispatchQueue.main.asyncAfter (
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
+    }
 }
 
 // MARK: TXTableViewDataSource
@@ -403,6 +435,11 @@ extension BookmarksViewController: TXTableViewDelegate {
         forRowAt indexPath: IndexPath
     ) {
         state.mapOnlyOnSuccess { paginatedBookmarks in
+            if paginatedBookmarks.page.isEmpty {
+                tableView.removeSeparatorOnCell(cell)
+                return
+            }
+            
             if indexPath.row == paginatedBookmarks.page.count - 1 {
                 tableView.removeSeparatorOnCell(cell)
                 
@@ -514,10 +551,32 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
         }
     }
     
-    func partialTweetCellDidPressBookmarksOption(
+    func partialTweetCellDidPressBookmarkOption(
         _ cell: PartialTweetTableViewCell
     ) {
-        print(#function)
+        Task {
+            if cell.tweet.viewables.bookmarked {
+                let bookmarkDeletionResult = await BookmarksDataStore.shared.deleteBookmark(
+                    onTweetWithId: cell.tweet.id
+                )
+                
+                bookmarkDeletionResult.map {
+                    showBookmarkDeletedSnackBar()
+                } onFailure: { failure in
+                    showUnknownFailureSnackBar()
+                }
+            } else {
+                let bookmarkCreationResult = await BookmarksDataStore.shared.createBookmark(
+                    onTweetWithId: cell.tweet.id
+                )
+                
+                bookmarkCreationResult.map {
+                    showBookmarkCreatedSnackBar()
+                } onFailure: { failure in
+                    showUnknownFailureSnackBar()
+                }
+            }
+        }
     }
     
     func partialTweetCellDidPressFollowOption(
