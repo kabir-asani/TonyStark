@@ -29,6 +29,8 @@ class BookmarksViewController: TXViewController {
         
         addSubviews()
         
+        configureEventListener()
+        
         configureNavigationBar()
         configureTableView()
         configureRefreshControl()
@@ -65,13 +67,166 @@ class BookmarksViewController: TXViewController {
     private func configureRefreshControl() {
         let refreshControl = TXRefreshControl()
         refreshControl.delegate = self
-            
+        
         tableView.refreshControl = refreshControl
     }
     
     // Populate
     
     // Interact
+}
+
+// MARK: Event Listeners
+extension BookmarksViewController {
+    private func configureEventListener() {
+        TXEventBroker.shared.listen {
+            [weak self] event in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            if let event = event as? TweetDeletedEvent {
+                strongSelf.onTweetDeleted(
+                    withId: event.id
+                )
+            }
+            
+            if let event = event as? LikeCreatedEvent {
+                strongSelf.onTweetLiked(
+                    withId: event.tweetId
+                )
+            }
+            
+            if let event = event as? LikeDeletedEvent {
+                strongSelf.onTweetUnliked(
+                    withId: event.tweetId
+                )
+            }
+        }
+    }
+    
+    
+    private func onTweetDeleted(
+        withId id: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedBookmarks in
+            let updatedPaginatedBookmarks = Paginated<Bookmark>(
+                page: previousPaginatedBookmarks.page.filter { $0.viewables.tweet.id != id },
+                nextToken: previousPaginatedBookmarks.nextToken
+            )
+            
+            state = .success(updatedPaginatedBookmarks)
+            
+            DispatchQueue.main.asyncAfter (
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func onTweetLiked(
+        withId id: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedBookmarks in
+            let updatedPaginatedBookmarks = Paginated<Bookmark>(
+                page: previousPaginatedBookmarks.page.map { bookmark in
+                    if bookmark.viewables.tweet.id == id && !bookmark.viewables.tweet.viewables.liked {
+                        let interactionDetails = bookmark.viewables.tweet.interactionDetails
+                        let updatedInteractionDetails = interactionDetails.copyWith(
+                            likesCount: interactionDetails.likesCount + 1
+                        )
+                        
+                        let viewables = bookmark.viewables.tweet.viewables
+                        let updatedTweetViewables = viewables.copyWith(
+                            liked: true
+                        )
+                        
+                        let updatedTweet = bookmark.viewables.tweet.copyWith(
+                            interactionDetails: updatedInteractionDetails,
+                            viewables: updatedTweetViewables
+                        )
+                        
+                        return bookmark.copyWith(
+                            viewables: bookmark.viewables.copyWith(
+                                tweet: updatedTweet
+                            )
+                        )
+                    } else {
+                        return bookmark
+                    }
+                },
+                nextToken: previousPaginatedBookmarks.nextToken
+            )
+            
+            state = .success(updatedPaginatedBookmarks)
+            
+            DispatchQueue.main.asyncAfter (
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func onTweetUnliked(
+        withId id: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedBookmarks in
+            let updatedPaginatedBookmarks = Paginated<Bookmark>(
+                page: previousPaginatedBookmarks.page.map { bookmark in
+                    if bookmark.viewables.tweet.id == id && bookmark.viewables.tweet.viewables.liked {
+                        let interactionDetails = bookmark.viewables.tweet.interactionDetails
+                        let updatedInteractionDetails = interactionDetails.copyWith(
+                            likesCount: interactionDetails.likesCount - 1
+                        )
+                        
+                        let viewables = bookmark.viewables.tweet.viewables
+                        let updatedTweetViewables = viewables.copyWith(
+                            liked: false
+                        )
+                        
+                        let updatedTweet = bookmark.viewables.tweet.copyWith(
+                            interactionDetails: updatedInteractionDetails,
+                            viewables: updatedTweetViewables
+                        )
+                        
+                        return bookmark.copyWith(
+                            viewables: bookmark.viewables.copyWith(
+                                tweet: updatedTweet
+                            )
+                        )
+                    } else {
+                        return bookmark
+                    }
+                },
+                nextToken: previousPaginatedBookmarks.nextToken
+            )
+            
+            state = .success(updatedPaginatedBookmarks)
+            
+            DispatchQueue.main.asyncAfter (
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
+    }
 }
 
 // MARK: TXTableViewDataSource
@@ -141,7 +296,9 @@ extension BookmarksViewController: TXTableViewDataSource {
     }
     
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(
+        in tableView: UITableView
+    ) -> Int {
         BookmarksTableViewSection.allCases.count
     }
     
@@ -222,11 +379,53 @@ extension BookmarksViewController: TXRefreshControlDelegate {
 
 // MARK: PartialTweetTableViewCellInteractionsHandler
 extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler {
-    func partialTweetCellDidPressLike(_ cell: PartialTweetTableViewCell) {
-        print(#function)
+    func partialTweetCellDidPressLike(
+        _ cell: PartialTweetTableViewCell
+    ) {
+        state.mapOnlyOnSuccess { paginatedFeed in
+            if cell.tweet.viewables.liked {
+                onTweetUnliked(
+                    withId: cell.tweet.id
+                )
+            } else {
+                onTweetLiked(
+                    withId: cell.tweet.id
+                )
+            }
+            
+            Task {
+                if cell.tweet.viewables.liked {
+                    let likeCreationResult = await LikesDataStore.shared.deleteLike(
+                        onTweetWithId: cell.tweet.id
+                    )
+                    
+                    likeCreationResult.mapOnlyOnFailure { failure in
+                        showUnknownFailureSnackBar()
+                        
+                        onTweetLiked(
+                            withId: cell.tweet.id
+                        )
+                    }
+                } else {
+                    let likeDeletionResult = await LikesDataStore.shared.createLike(
+                        onTweetWithId: cell.tweet.id
+                    )
+                    
+                    likeDeletionResult.mapOnlyOnFailure { failure in
+                        showUnknownFailureSnackBar()
+                        
+                        onTweetUnliked(
+                            withId: cell.tweet.id
+                        )
+                    }
+                }
+            }
+        }
     }
     
-    func partialTweetCellDidPressComment(_ cell: PartialTweetTableViewCell) {
+    func partialTweetCellDidPressComment(
+        _ cell: PartialTweetTableViewCell
+    ) {
         state.mapOnlyOnSuccess { paginatedBookmarks in
             guard let bookmark = paginatedBookmarks.page.first(where: { $0.id == cell.tweet.id }) else {
                 return
@@ -241,7 +440,9 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
         }
     }
     
-    func partialTweetCellDidPressProfileImage(_ cell: PartialTweetTableViewCell) {
+    func partialTweetCellDidPressProfileImage(
+        _ cell: PartialTweetTableViewCell
+    ) {
         state.mapOnlyOnSuccess { paginatedBookmarks in
             guard let bookmark = paginatedBookmarks.page.first(where: { $0.id == cell.tweet.id }) else {
                 return
@@ -251,19 +452,27 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
         }
     }
     
-    func partialTweetCellDidPressBookmarksOption(_ cell: PartialTweetTableViewCell) {
+    func partialTweetCellDidPressBookmarksOption(
+        _ cell: PartialTweetTableViewCell
+    ) {
         print(#function)
     }
     
-    func partialTweetCellDidPressFollowOption(_ cell: PartialTweetTableViewCell) {
+    func partialTweetCellDidPressFollowOption(
+        _ cell: PartialTweetTableViewCell
+    ) {
         print(#function)
     }
     
-    func partialTweetCellDidPressDeleteOption(_ cell: PartialTweetTableViewCell) {
+    func partialTweetCellDidPressDeleteOption(
+        _ cell: PartialTweetTableViewCell
+    ) {
         print(#function)
     }
     
-    func partialTweetCellDidPressOptions(_ cell: PartialTweetTableViewCell) {
+    func partialTweetCellDidPressOptions(
+        _ cell: PartialTweetTableViewCell
+    ) {
         state.mapOnlyOnSuccess { paginatedBookmarks in
             guard let bookmark = paginatedBookmarks.page.first(where: { $0.id == cell.tweet.id }) else {
                 return
@@ -285,15 +494,21 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
 }
 
 extension BookmarksViewController: TweetOptionsAlertControllerInteractionsHandler {
-    func tweetOptionsAlertControllerDidPressBookmark(_ controller: TweetOptionsAlertController) {
+    func tweetOptionsAlertControllerDidPressBookmark(
+        _ controller: TweetOptionsAlertController
+    ) {
         print(#function)
     }
     
-    func tweetOptionsAlertControllerDidPressFollow(_ controller: TweetOptionsAlertController) {
+    func tweetOptionsAlertControllerDidPressFollow(
+        _ controller: TweetOptionsAlertController
+    ) {
         print(#function)
     }
     
-    func tweetOptionsAlertControllerDidPressDelete(_ controller: TweetOptionsAlertController) {
+    func tweetOptionsAlertControllerDidPressDelete(
+        _ controller: TweetOptionsAlertController
+    ) {
         print(#function)
     }
 }

@@ -83,6 +83,113 @@ class OtherUserViewController: TXViewController {
     }
 }
 
+// MARK: EventListener
+extension OtherUserViewController {
+    private func configureEventListener() {
+        TXEventBroker.shared.listen {
+            [weak self] event in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            if let event = event as? LikeCreatedEvent {
+                strongSelf.onTweetLiked(
+                    withId: event.tweetId
+                )
+            }
+            
+            if let event = event as? LikeDeletedEvent {
+                strongSelf.onTweetUnliked(
+                    withId: event.tweetId
+                )
+            }
+        }
+    }
+    
+    private func onTweetLiked(withId id: String) {
+        state.mapOnlyOnSuccess { previousPaginatedTweets in
+            let updatedPaginatedTweets = Paginated<Tweet>(
+                page: previousPaginatedTweets.page.map { tweet in
+                    if tweet.id == id && !tweet.viewables.liked {
+                        let interactionDetails = tweet.interactionDetails
+                        let updatedInteractionDetails = interactionDetails.copyWith(
+                            likesCount: interactionDetails.likesCount + 1
+                        )
+                        
+                        let viewables = tweet.viewables
+                        let updatedViewables = viewables.copyWith(
+                            liked: true
+                        )
+                        
+                        return tweet.copyWith(
+                            interactionDetails: updatedInteractionDetails,
+                            viewables: updatedViewables
+                        )
+                    } else {
+                        return tweet
+                    }
+                },
+                nextToken: previousPaginatedTweets.nextToken
+            )
+            
+            state = .success(updatedPaginatedTweets)
+            
+            DispatchQueue.main.asyncAfter (
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func onTweetUnliked(withId id: String) {
+        state.mapOnlyOnSuccess { previousPaginatedTweets in
+            let updatedPaginatedTweets = Paginated<Tweet>(
+                page: previousPaginatedTweets.page.map { tweet in
+                    if tweet.id == id && tweet.viewables.liked {
+                        let interactionDetails = tweet.interactionDetails
+                        let updatedInteractionDetails = interactionDetails.copyWith(
+                            likesCount: interactionDetails.likesCount - 1
+                        )
+                        
+                        let viewables = tweet.viewables
+                        let updatedViewables = viewables.copyWith(
+                            liked: false
+                        )
+                        
+                        return tweet.copyWith(
+                            interactionDetails: updatedInteractionDetails,
+                            viewables: updatedViewables
+                        )
+
+                    } else {
+                        return tweet
+                    }
+                },
+                nextToken: previousPaginatedTweets.nextToken
+            )
+            
+            state = .success(updatedPaginatedTweets)
+            
+            DispatchQueue.main.asyncAfter (
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
+    }
+}
+
 // MARK: TXScrollViewDelegate
 extension OtherUserViewController: TXScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -104,7 +211,9 @@ extension OtherUserViewController: TXTableViewDataSource {
         Task {
             tableView.beginPaginating()
             
-            let tweetsResult = await TweetsDataStore.shared.tweets(ofUserWithId: user.id)
+            let tweetsResult = await TweetsDataStore.shared.tweets(
+                ofUserWithId: user.id
+            )
             
             tableView.endPaginating()
             
@@ -122,7 +231,9 @@ extension OtherUserViewController: TXTableViewDataSource {
         Task {
             tableView.beginRefreshing()
             
-            let tweetsResult = await TweetsDataStore.shared.tweets(ofUserWithId: user.id)
+            let tweetsResult = await TweetsDataStore.shared.tweets(
+                ofUserWithId: user.id
+            )
             
             tableView.endRefreshing()
             
@@ -321,7 +432,45 @@ extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
 // MARK: PartialTweetTableViewCellInteractionsHandler
 extension OtherUserViewController: PartialTweetTableViewCellInteractionsHandler {
     func partialTweetCellDidPressLike(_ cell: PartialTweetTableViewCell) {
-        print(#function)
+        state.mapOnlyOnSuccess { paginatedFeed in
+            if cell.tweet.viewables.liked {
+                onTweetUnliked(
+                    withId: cell.tweet.id
+                )
+            } else {
+                onTweetLiked(
+                    withId: cell.tweet.id
+                )
+            }
+            
+            Task {
+                if cell.tweet.viewables.liked {
+                    let likeCreationResult = await LikesDataStore.shared.deleteLike(
+                        onTweetWithId: cell.tweet.id
+                    )
+                    
+                    likeCreationResult.mapOnlyOnFailure { failure in
+                        showUnknownFailureSnackBar()
+                        
+                        onTweetLiked(
+                            withId: cell.tweet.id
+                        )
+                    }
+                } else {
+                    let likeDeletionResult = await LikesDataStore.shared.createLike(
+                        onTweetWithId: cell.tweet.id
+                    )
+                    
+                    likeDeletionResult.mapOnlyOnFailure { failure in
+                        showUnknownFailureSnackBar()
+                        
+                        onTweetUnliked(
+                            withId: cell.tweet.id
+                        )
+                    }
+                }
+            }
+        }
     }
     
     func partialTweetCellDidPressComment(_ cell: PartialTweetTableViewCell) {

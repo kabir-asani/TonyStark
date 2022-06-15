@@ -10,18 +10,84 @@ import Foundation
 class LikesDataStore: DataStore {
     static let shared = LikesDataStore()
     
-    private override init() { }
-
-    func like(
-        teetWithId tweetId: String
-    ) async -> Result<Void, LikeFailure> {
-        return .failure(.unknown)
+    static func createLikeURL(
+        tweetId: String
+    ) -> String {
+        "\(LikesDataStore.baseUrl)/self/tweets/\(tweetId)/likes"
     }
     
-    func unlike(
-        tweetWithId tweetId: String
+    static func deleteLikeURL(
+        tweetId: String
+    ) -> String {
+        "\(LikesDataStore.baseUrl)/self/tweets/\(tweetId)/likes"
+    }
+    
+    private override init() { }
+
+    func createLike(
+        onTweetWithId tweetId: String
+    ) async -> Result<Void, LikeFailure> {
+        if let session = CurrentUserDataStore.shared.session {
+            do {
+                let likeCreationResult = try await TXNetworkAssistant.shared.post(
+                    url: Self.createLikeURL(
+                        tweetId: tweetId
+                    ),
+                    headers: secureHeaders(
+                        withAccessToken: session.accessToken
+                    )
+                )
+                
+                if likeCreationResult.statusCode == 204 {
+                    TXEventBroker.shared.emit(
+                        event: LikeCreatedEvent(
+                            tweetId: tweetId
+                        )
+                    )
+                    
+                    return .success(Void())
+                } else {
+                    return .failure(.unknown)
+                }
+            } catch {
+                return .failure(.unknown)
+            }
+        } else {
+            return .failure(.unknown)
+        }
+    }
+    
+    func deleteLike(
+        onTweetWithId tweetId: String
     ) async -> Result<Void, UnlikeFailure> {
-        return .failure(.unknown)
+        if let session = CurrentUserDataStore.shared.session {
+            do {
+                let likeCreationResult = try await TXNetworkAssistant.shared.delete(
+                    url: Self.deleteLikeURL(
+                        tweetId: tweetId
+                    ),
+                    headers: secureHeaders(
+                        withAccessToken: session.accessToken
+                    )
+                )
+                
+                if likeCreationResult.statusCode == 204 {
+                    TXEventBroker.shared.emit(
+                        event: LikeDeletedEvent(
+                            tweetId: tweetId
+                        )
+                    )
+                    
+                    return .success(Void())
+                } else {
+                    return .failure(.unknown)
+                }
+            } catch {
+                return .failure(.unknown)
+            }
+        } else {
+            return .failure(.unknown)
+        }
     }
     
     func likes(

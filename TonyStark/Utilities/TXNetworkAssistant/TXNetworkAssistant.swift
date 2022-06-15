@@ -52,7 +52,7 @@ class TXNetworkAssistant {
         url: String,
         query: [String: String]? = nil,
         headers: [String: String]? = nil,
-        content: Encodable
+        content: Encodable? = nil
     ) async throws -> TXNetworkSuccess {
         let result = try await request(
             url: url,
@@ -69,7 +69,7 @@ class TXNetworkAssistant {
         url: String,
         query: [String: String]? = nil,
         headers: [String: String]? = nil,
-        content: Encodable
+        content: Encodable? = nil
     ) async throws -> TXNetworkSuccess {
         let result = try await request(
             url: url,
@@ -86,7 +86,7 @@ class TXNetworkAssistant {
         url: String,
         query: [String: String]? = nil,
         headers: [String: String]? = nil,
-        content: Encodable
+        content: Encodable? = nil
     ) async throws -> TXNetworkSuccess {
         let result = try await request(
             url: url,
@@ -120,7 +120,7 @@ class TXNetworkAssistant {
         method: HTTPMethod,
         query: [String: String]? = nil,
         headers: [String: String]? = nil,
-        content: Encodable?
+        content: Encodable? = nil
     ) async throws -> TXNetworkSuccess {
         if TXNetworkMonitor.shared.status == .disconnected {
             throw TXNetworkFailure.internetUnavailable

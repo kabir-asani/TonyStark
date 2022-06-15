@@ -69,6 +69,8 @@ class TweetViewController: TXViewController {
         
         addSubviews()
         
+        configureEventListener()
+        
         configureNavigationBar()
         configureTableView()
         configureRefreshControl()
@@ -93,6 +95,7 @@ class TweetViewController: TXViewController {
         stopKeyboardAwareness()
         
         tabBarController?.tabBar.clipsToBounds = false
+        tableView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -334,7 +337,9 @@ extension TweetViewController: TXTableViewDataSource {
             ) as! TweetTableViewCell
             
             cell.interactionsHandler = self
-            cell.configure(withTweet: tweet)
+            cell.configure(
+                withTweet: tweet
+            )
             
             return cell
         case TweetsTableViewSection.comments.rawValue:
@@ -347,7 +352,9 @@ extension TweetViewController: TXTableViewDataSource {
                 ) as! CommentTableViewCell
                 
                 cell.interactionsHandler = self
-                cell.configure(withComment: comment)
+                cell.configure(
+                    withComment: comment
+                )
                 
                 return cell
             } orElse: {
@@ -355,6 +362,85 @@ extension TweetViewController: TXTableViewDataSource {
             }
         default:
             fatalError("No other sections are present")
+        }
+    }
+}
+
+extension TweetViewController {
+    private func configureEventListener() {
+        TXEventBroker.shared.listen {
+            [weak self] event in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            if let event = event as? LikeCreatedEvent, event.tweetId == strongSelf.tweet.id {
+                strongSelf.onTweetLiked()
+            }
+            
+            if let event = event as? LikeDeletedEvent, event.tweetId == strongSelf.tweet.id {
+                strongSelf.onTweetUnliked()
+            }
+        }
+    }
+    
+    private func onTweetLiked() {
+        if !tweet.viewables.liked {
+            let intractionDetails = tweet.interactionDetails
+            let updatedInteractionDetails = intractionDetails.copyWith(
+                likesCount: intractionDetails.likesCount + 1
+            )
+            
+            let viewables = tweet.viewables
+            let updatedViewables = viewables.copyWith(
+                liked: true
+            )
+            
+            tweet = tweet.copyWith(
+                interactionDetails: updatedInteractionDetails,
+                viewables: updatedViewables
+            )
+            
+            DispatchQueue.main.asyncAfter (
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func onTweetUnliked() {
+        if tweet.viewables.liked {
+            let intractionDetails = tweet.interactionDetails
+            let updatedInteractionDetails = intractionDetails.copyWith(
+                likesCount: intractionDetails.likesCount - 1
+            )
+            
+            let viewables = tweet.viewables
+            let updatedViewables = viewables.copyWith(
+                liked: false
+            )
+            
+            tweet = tweet.copyWith(
+                interactionDetails: updatedInteractionDetails,
+                viewables: updatedViewables
+            )
+            
+            DispatchQueue.main.asyncAfter (
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
         }
     }
 }
@@ -387,23 +473,63 @@ extension TweetViewController: TXTableViewDelegate {
 
 // MARK: TweetTableViewCellInteractionsHandler
 extension TweetViewController: TweetTableViewCellInteractionsHandler {
-    func tweetCellDidPressProfileImage(_ cell: TweetTableViewCell) {
+    func tweetCellDidPressProfileImage(
+        _ cell: TweetTableViewCell
+    ) {
         let user = tweet.viewables.author
         
-        navigationController?.openUserViewController(withUser: user)
+        navigationController?.openUserViewController(
+            withUser: user
+        )
     }
     
-    func tweetCellDidPressProfileDetails(_ cell: TweetTableViewCell) {
+    func tweetCellDidPressProfileDetails(
+        _ cell: TweetTableViewCell
+    ) {
         let user = tweet.viewables.author
         
-        navigationController?.openUserViewController(withUser: user)
+        navigationController?.openUserViewController(
+            withUser: user
+        )
     }
     
-    func tweetCellDidPressLike(_ cell: TweetTableViewCell) {
-        print(#function)
+    func tweetCellDidPressLike(
+        _ cell: TweetTableViewCell
+    ) {
+        if cell.tweet.viewables.liked {
+            onTweetUnliked()
+        } else {
+            onTweetLiked()
+        }
+        
+        Task {
+            if cell.tweet.viewables.liked {
+                let likeCreationResult = await LikesDataStore.shared.deleteLike(
+                    onTweetWithId: tweet.id
+                )
+                
+                likeCreationResult.mapOnlyOnFailure { failure in
+                    showUnknownFailureSnackBar()
+                    
+                    onTweetLiked()
+                }
+            } else {
+                let likeDeletionResult = await LikesDataStore.shared.createLike(
+                    onTweetWithId: tweet.id
+                )
+                
+                likeDeletionResult.mapOnlyOnFailure { failure in
+                    showUnknownFailureSnackBar()
+                    
+                    onTweetUnliked()
+                }
+            }
+        }
     }
     
-    func tweetCellDidPressLikeDetails(_ cell: TweetTableViewCell) {
+    func tweetCellDidPressLikeDetails(
+        _ cell: TweetTableViewCell
+    ) {
         if tweet.interactionDetails.likesCount > 0 {
             let likesViewController = LikesViewController()
             
