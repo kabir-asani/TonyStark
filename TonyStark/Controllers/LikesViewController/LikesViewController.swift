@@ -85,7 +85,9 @@ extension LikesViewController: TXTableViewDataSource {
         Task {
             tableView.beginPaginating()
             
-            let likesResult = await LikesDataStore.shared.likes(onTweetWithId: tweet.id)
+            let likesResult = await LikesDataStore.shared.likes(
+                onTweetWithId: tweet.id
+            )
             
             tableView.endPaginating()
             

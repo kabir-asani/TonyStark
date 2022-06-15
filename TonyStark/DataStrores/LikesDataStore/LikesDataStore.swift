@@ -10,6 +10,12 @@ import Foundation
 class LikesDataStore: DataStore {
     static let shared = LikesDataStore()
     
+    static func likesURL(
+        tweetId: String
+    ) -> String {
+        "\(LikesDataStore.baseUrl)/self/tweets/\(tweetId)/likes"
+    }
+    
     static func createLikeURL(
         tweetId: String
     ) -> String {
@@ -94,6 +100,37 @@ class LikesDataStore: DataStore {
         onTweetWithId tweetId: String,
         after nextToken: String? = nil
     ) async -> Result<Paginated<Like>, LikesFailure> {
-        return .failure(.unknown)
+        if let session = CurrentUserDataStore.shared.session {
+            do {
+                let query = nextToken != nil ? [
+                    "nextToken": nextToken!
+                ] : nil
+                
+                let likeCreationResult = try await TXNetworkAssistant.shared.get(
+                    url: Self.likesURL(
+                        tweetId: tweetId
+                    ),
+                    query: query,
+                    headers: secureHeaders(
+                        withAccessToken: session.accessToken
+                    )
+                )
+                
+                if likeCreationResult.statusCode == 200 {
+                    let likes = try TXJsonAssistant.decode(
+                        SuccessData<Paginated<Like>>.self,
+                        from: likeCreationResult.data
+                    ).data
+                    
+                    return .success(likes)
+                } else {
+                    return .failure(.unknown)
+                }
+            } catch {
+                return .failure(.unknown)
+            }
+        } else {
+            return .failure(.unknown)
+        }
     }
 }
