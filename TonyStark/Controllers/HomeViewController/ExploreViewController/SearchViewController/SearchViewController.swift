@@ -68,6 +68,10 @@ class SearchViewController: TXViewController {
             PartialUserTableViewCell.self,
             forCellReuseIdentifier: PartialUserTableViewCell.reuseIdentifier
         )
+        tableView.register(
+            EmptySearchTableViewCell.self,
+            forCellReuseIdentifier: EmptySearchTableViewCell.reuseIdentifier
+        )
         
         tableView.pin(
             to: view,
@@ -160,7 +164,11 @@ extension SearchViewController: TXTableViewDataSource {
         numberOfRowsInSection section: Int
     ) -> Int {
         state.mapOnSuccess { paginatedSearch in
-            paginatedSearch.page.count
+            if paginatedSearch.page.isEmpty {
+                return 1
+            } else {
+                return paginatedSearch.page.count
+            }
         } orElse: {
             0
         }
@@ -171,17 +179,26 @@ extension SearchViewController: TXTableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         state.mapOnSuccess { paginatedSearch in
-            let user = paginatedSearch.page[indexPath.row]
-            
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: PartialUserTableViewCell.reuseIdentifier,
-                for: indexPath
-            ) as! PartialUserTableViewCell
-            
-            cell.interactionsHandler = self
-            cell.configure(withUser: user)
-            
-            return cell
+            if paginatedSearch.page.isEmpty {
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: EmptySearchTableViewCell.reuseIdentifier,
+                    for: indexPath
+                ) as! EmptySearchTableViewCell
+                
+                return cell
+            } else {
+                let user = paginatedSearch.page[indexPath.row]
+                
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: PartialUserTableViewCell.reuseIdentifier,
+                    for: indexPath
+                ) as! PartialUserTableViewCell
+                
+                cell.interactionsHandler = self
+                cell.configure(withUser: user)
+                
+                return cell
+            }
         } orElse: {
             TXTableViewCell()
         }

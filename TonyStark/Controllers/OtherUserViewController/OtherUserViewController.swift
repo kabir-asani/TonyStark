@@ -32,11 +32,23 @@ class OtherUserViewController: TXViewController {
         
         addSubviews()
         
+        configureEventListener()
+        
         configureNavigationBar()
         configureTableView()
         configureRefreshControl()
         
         populateTableView()
+    }
+    
+    override func viewDidAppear(
+        _ animated: Bool
+    ) {
+        super.viewDidAppear(
+            animated
+        )
+        
+        tableView.reloadData()
     }
     
     private func addSubviews() {

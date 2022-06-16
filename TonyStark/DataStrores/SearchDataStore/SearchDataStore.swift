@@ -12,6 +12,8 @@ class SearchDataStore: DataStore {
     
     private static let keywordsStorageKey = "keywordsStorageKey"
     
+    private static let searchURL = "\(SearchDataStore.baseUrl)/search"
+    
     private override init() { }
     
     override func bootUp() async {
@@ -28,7 +30,45 @@ class SearchDataStore: DataStore {
     ) async -> Result<Paginated<User>, SearchFailure> {
         await captureKeyword(keyword)
         
-        return .failure(.unknown)
+        if let session = CurrentUserDataStore.shared.session {
+            do {
+                var query = [
+                    "keyword": keyword,
+                ]
+                
+                if let nextToken = nextToken {
+                    query["nextToken"] = nextToken
+                }
+                
+                let searchResult = try await TXNetworkAssistant.shared.get(
+                    url: Self.searchURL,
+                    query: query,
+                    headers: secureHeaders(
+                        withAccessToken: session.accessToken
+                    )
+                )
+                
+                if searchResult.statusCode == 200 {
+                    let paginatedSearch = try TXJsonAssistant.decode(
+                        SuccessData<Paginated<User>>.self,
+                        from: searchResult.data
+                    ).data
+                    
+                    let paginatedSearchWithoutCurrentUser = Paginated<User>(
+                        page: paginatedSearch.page.filter { $0.id != CurrentUserDataStore.shared.user?.id },
+                        nextToken: paginatedSearch.nextToken
+                    )
+                    
+                    return .success(paginatedSearchWithoutCurrentUser)
+                } else {
+                    return .failure(.unknown)
+                }
+            } catch {
+                return .failure(.unknown)
+            }
+        } else {
+            return .failure(.unknown)
+        }
     }
     
     private func captureKeyword(_ keyword: String) async {
