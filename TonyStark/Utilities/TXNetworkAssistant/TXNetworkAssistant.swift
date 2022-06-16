@@ -211,10 +211,17 @@ fileprivate extension String {
         var url = self
         
         if let query = query, !query.isEmpty {
-            let stringifiedQuery = query.compactMap { "\($0)=\($1)" }.joined(separator: "&")
+            let stringifiedQuery = query.compactMap { (key: String, value: String) in
+                let encodedValue = value.addingPercentEncoding(
+                    withAllowedCharacters: .alphanumerics
+                )
+                
+                return "\(key)=\(encodedValue ?? value)"
+            }.joined(separator: "&")
             
             url += ("?" + stringifiedQuery)
         }
+        
         
         return url
     }
