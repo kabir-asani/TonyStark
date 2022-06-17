@@ -372,6 +372,283 @@ extension TweetViewController: TXTableViewDataSource {
     }
 }
 
+// MARK: TXRefreshControlDelegate
+extension TweetViewController: TXRefreshControlDelegate {
+    func refreshControlDidChange(_ control: TXRefreshControl) {
+        if control.isRefreshing {
+            refreshTableView()
+        }
+    }
+}
+
+// MARK: TXTableViewDelegate
+extension TweetViewController: TXTableViewDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        state.mapOnlyOnSuccess { paginatedComments in
+            if paginatedComments.page.isEmpty {
+                return
+            }
+            
+            if indexPath.row == paginatedComments.page.count - 1 {
+                extendTableView()
+            }
+        }
+    }
+}
+
+// MARK: TweetTableViewCellInteractionsHandler
+extension TweetViewController: TweetTableViewCellInteractionsHandler {
+    func tweetCellDidPressProfileImage(
+        _ cell: TweetTableViewCell
+    ) {
+        let user = tweet.viewables.author
+        
+        navigationController?.openUserViewController(
+            withUser: user
+        )
+    }
+    
+    func tweetCellDidPressProfileDetails(
+        _ cell: TweetTableViewCell
+    ) {
+        let user = tweet.viewables.author
+        
+        navigationController?.openUserViewController(
+            withUser: user
+        )
+    }
+    
+    func tweetCellDidPressLike(
+        _ cell: TweetTableViewCell
+    ) {
+        if cell.tweet.viewables.liked {
+            onTweetUnliked()
+        } else {
+            onTweetLiked()
+        }
+        
+        Task {
+            if cell.tweet.viewables.liked {
+                let likeCreationResult = await LikesDataStore.shared.deleteLike(
+                    onTweetWithId: tweet.id
+                )
+                
+                likeCreationResult.mapOnlyOnFailure { failure in
+                    showUnknownFailureSnackBar()
+                    
+                    onTweetLiked()
+                }
+            } else {
+                let likeDeletionResult = await LikesDataStore.shared.createLike(
+                    onTweetWithId: tweet.id
+                )
+                
+                likeDeletionResult.mapOnlyOnFailure { failure in
+                    showUnknownFailureSnackBar()
+                    
+                    onTweetUnliked()
+                }
+            }
+        }
+    }
+    
+    func tweetCellDidPressLikeDetails(
+        _ cell: TweetTableViewCell
+    ) {
+        if tweet.interactionDetails.likesCount > 0 {
+            let likesViewController = LikesViewController()
+            
+            likesViewController.populate(withTweet: tweet)
+            
+            navigationController?.pushViewController(
+                likesViewController,
+                animated: true
+            )
+        }
+    }
+    
+    func tweetCellDidPressBookmarkOption(_ cell: TweetTableViewCell) {
+        Task {
+            if tweet.viewables.bookmarked {
+                let bookmarkDeletionResult = await BookmarksDataStore.shared.deleteBookmark(
+                    onTweetWithId: tweet.id
+                )
+                
+                bookmarkDeletionResult.map {
+                    showBookmarkDeletedSnackBar()
+                } onFailure: { failure in
+                    showUnknownFailureSnackBar()
+                }
+            } else {
+                let bookmarkCreationResult = await BookmarksDataStore.shared.createBookmark(
+                    onTweetWithId: tweet.id
+                )
+                
+                bookmarkCreationResult.map {
+                    showBookmarkCreatedSnackBar()
+                } onFailure: { failure in
+                    showUnknownFailureSnackBar()
+                }
+            }
+        }
+    }
+    
+    func tweetCellDidPressFollowOption(
+        _ cell: TweetTableViewCell
+    ) {
+        guard cell.tweet.viewables.author.id != CurrentUserDataStore.shared.user?.id else {
+            return
+        }
+        
+        if cell.tweet.viewables.author.viewables.following {
+            onSomeoneUnfollowed(
+                withId: cell.tweet.viewables.author.id
+            )
+        } else {
+            onSomeoneFollowed(
+                withId: cell.tweet.viewables.author.id
+            )
+        }
+        
+        Task {
+            if cell.tweet.viewables.author.viewables.following {
+                let unfollowResult = await SocialsDataStore.shared.unfollow(
+                    userWithId: cell.tweet.viewables.author.id
+                )
+                
+                unfollowResult.map {
+                    showUnfollowSuccessfulSnackBar(
+                        user: cell.tweet.viewables.author
+                    )
+                } onFailure: { failure in
+                    showUnknownFailureSnackBar()
+                    onSomeoneFollowed(
+                        withId: cell.tweet.viewables.author.id
+                    )
+                }
+            } else {
+                let followResult = await SocialsDataStore.shared.follow(
+                    userWithId: cell.tweet.viewables.author.id
+                )
+                
+                followResult.map {
+                    showFollowSuccesfulSnackBar(
+                        user: cell.tweet.viewables.author
+                    )
+                } onFailure: { failure in
+                    showUnknownFailureSnackBar()
+                    onSomeoneUnfollowed(
+                        withId: cell.tweet.viewables.author.id
+                    )
+                }
+            }
+        }
+    }
+    
+    func tweetCellDidPressDeleteOption(_ cell: TweetTableViewCell) {
+        Task {
+            DispatchQueue.main.async {
+                [weak self]  in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.view.alpha = 0.4
+                strongSelf.view.isUserInteractionEnabled = false
+            }
+            
+            let deleteTweetResult = await TweetsDataStore.shared.deleteTweet(
+                withId: cell.tweet.id
+            )
+            
+            deleteTweetResult.mapOnSuccess {
+                DispatchQueue.main.async {
+                    [weak self] in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    
+                    strongSelf.navigationController?.popViewController(
+                        animated: true
+                    )
+                }
+            } orElse: {
+                DispatchQueue.main.async {
+                    [weak self] in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    
+                    strongSelf.showUnknownFailureSnackBar()
+                }
+            }
+            
+            DispatchQueue.main.async {
+                [weak self]  in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.view.alpha = 1.0
+                strongSelf.view.isUserInteractionEnabled = false
+            }
+        }
+    }
+    
+    func tweetCellDidPressOptions(_ cell: TweetTableViewCell) {
+        let alert = TweetOptionsAlertController.regular()
+        
+        alert.interactionsHandler = self
+        alert.configure(withTweet: tweet)
+        
+        present(
+            alert,
+            animated: true
+        )
+    }
+}
+
+// MARK: CommentTableViewCellInteractionsHandler
+extension TweetViewController: CommentTableViewCellInteractionsHandler {
+    func commentCellDidPressProfileImage(_ cell: CommentTableViewCell) {
+        state.mapOnlyOnSuccess { paginatedComments in
+            guard let comment = paginatedComments.page.first(where: { $0.id == cell.comment.id }) else {
+                return
+            }
+            
+            let user = comment.viewables.author
+            
+            navigationController?.openUserViewController(withUser: user)
+        }
+    }
+}
+
+// MARK: TweetOptionsAlertControllerInteractionsHandler
+extension TweetViewController: TweetOptionsAlertControllerInteractionsHandler {
+    func tweetOptionsAlertControllerDidPressBookmark(
+        _ controller: TweetOptionsAlertController
+    ) {
+        print(#function)
+    }
+    
+    func tweetOptionsAlertControllerDidPressFollow(
+        _ controller: TweetOptionsAlertController
+    ) {
+        print(#function)
+    }
+    
+    func tweetOptionsAlertControllerDidPressDelete(
+        _ controller: TweetOptionsAlertController
+    ) {
+        print(#function)
+    }
+}
+
+// MARK: EventListener
 extension TweetViewController {
     private func configureEventListener() {
         TXEventBroker.shared.listen {
@@ -398,6 +675,18 @@ extension TweetViewController {
             
             if let event = event as? BookmarkDeletedEvent, event.tweetId == strongSelf.tweet.id {
                 strongSelf.onBookmarkDeleted()
+            }
+            
+            if let event = event as? FollowCreatedEvent {
+                strongSelf.onSomeoneFollowed(
+                    withId: event.userId
+                )
+            }
+            
+            if let event = event as? FollowDeletedEvent {
+                strongSelf.onSomeoneUnfollowed(
+                    withId: event.userId
+                )
             }
         }
     }
@@ -574,256 +863,188 @@ extension TweetViewController {
             strongSelf.tableView.reloadData()
         }
     }
-}
-
-// MARK: TXRefreshControlDelegate
-extension TweetViewController: TXRefreshControlDelegate {
-    func refreshControlDidChange(_ control: TXRefreshControl) {
-        if control.isRefreshing {
-            refreshTableView()
-        }
-    }
-}
-
-// MARK: TXTableViewDelegate
-extension TweetViewController: TXTableViewDelegate {
-    func tableView(
-        _ tableView: UITableView,
-        willDisplay cell: UITableViewCell,
-        forRowAt indexPath: IndexPath
-    ) {
-        state.mapOnlyOnSuccess { paginatedComments in
-            if paginatedComments.page.isEmpty {
-                return
-            }
-            
-            if indexPath.row == paginatedComments.page.count - 1 {
-                extendTableView()
-            }
-        }
-    }
-}
-
-// MARK: TweetTableViewCellInteractionsHandler
-extension TweetViewController: TweetTableViewCellInteractionsHandler {
-    func tweetCellDidPressProfileImage(
-        _ cell: TweetTableViewCell
-    ) {
-        let user = tweet.viewables.author
-        
-        navigationController?.openUserViewController(
-            withUser: user
-        )
-    }
     
-    func tweetCellDidPressProfileDetails(
-        _ cell: TweetTableViewCell
+    private func onSomeoneFollowed(
+        withId id: String
     ) {
-        let user = tweet.viewables.author
+        let viewables = tweet.viewables
+        let author = viewables.author
         
-        navigationController?.openUserViewController(
-            withUser: user
-        )
-    }
-    
-    func tweetCellDidPressLike(
-        _ cell: TweetTableViewCell
-    ) {
-        if cell.tweet.viewables.liked {
-            onTweetUnliked()
-        } else {
-            onTweetLiked()
-        }
-        
-        Task {
-            if cell.tweet.viewables.liked {
-                let likeCreationResult = await LikesDataStore.shared.deleteLike(
-                    onTweetWithId: tweet.id
-                )
-                
-                likeCreationResult.mapOnlyOnFailure { failure in
-                    showUnknownFailureSnackBar()
-                    
-                    onTweetLiked()
-                }
-            } else {
-                let likeDeletionResult = await LikesDataStore.shared.createLike(
-                    onTweetWithId: tweet.id
-                )
-                
-                likeDeletionResult.mapOnlyOnFailure { failure in
-                    showUnknownFailureSnackBar()
-                    
-                    onTweetUnliked()
-                }
-            }
-        }
-    }
-    
-    func tweetCellDidPressLikeDetails(
-        _ cell: TweetTableViewCell
-    ) {
-        if tweet.interactionDetails.likesCount > 0 {
-            let likesViewController = LikesViewController()
+        if author.id == id && author.viewables.following {
+            let authorViewables = author.viewables
+            let authorSocialDetails = author.socialDetails
             
-            likesViewController.populate(withTweet: tweet)
-            
-            navigationController?.pushViewController(
-                likesViewController,
-                animated: true
+            let updatedAuthorViewables = authorViewables.copyWith(
+                following: true
             )
-        }
-    }
-    
-    func tweetCellDidPressBookmarkOption(_ cell: TweetTableViewCell) {
-        Task {
-            if tweet.viewables.bookmarked {
-                let bookmarkDeletionResult = await BookmarksDataStore.shared.deleteBookmark(
-                    onTweetWithId: tweet.id
-                )
-                
-                bookmarkDeletionResult.map {
-                    showBookmarkDeletedSnackBar()
-                } onFailure: { failure in
-                    showUnknownFailureSnackBar()
-                }
-            } else {
-                let bookmarkCreationResult = await BookmarksDataStore.shared.createBookmark(
-                    onTweetWithId: tweet.id
-                )
-                
-                bookmarkCreationResult.map {
-                    showBookmarkCreatedSnackBar()
-                } onFailure: { failure in
-                    showUnknownFailureSnackBar()
-                }
-            }
-        }
-    }
-    
-    func tweetCellDidPressFollowOption(
-        _ cell: TweetTableViewCell
-    ) {
-        guard cell.tweet.viewables.author.id != CurrentUserDataStore.shared.user?.id else {
-            return
-        }
-        
-        Task {
-            if cell.tweet.viewables.author.viewables.following {
-                let unfollowResult = await SocialsDataStore.shared.unfollow(
-                    userWithId: cell.tweet.viewables.author.id
-                )
-                
-                unfollowResult.mapOnlyOnFailure { failure in
-                    showUnknownFailureSnackBar()
-                }
-            } else {
-                let followResult = await SocialsDataStore.shared.follow(
-                    userWithId: cell.tweet.viewables.author.id
-                )
-                
-                followResult.mapOnlyOnFailure { failure in
-                    showUnknownFailureSnackBar()
-                }
-            }
-        }
-    }
-    
-    func tweetCellDidPressDeleteOption(_ cell: TweetTableViewCell) {
-        Task {
-            DispatchQueue.main.async {
-                [weak self]  in
-                guard let strongSelf = self else {
+            let updatedAuthorSocialDetails = authorSocialDetails.copyWith(
+                followersCount: authorSocialDetails.followersCount + 1
+            )
+            
+            let updatedAuthor = author.copyWith(
+                socialDetails: updatedAuthorSocialDetails,
+                viewables: updatedAuthorViewables
+            )
+            
+            let updatedViewables = viewables.copyWith(
+                author: updatedAuthor
+            )
+            
+            tweet = tweet.copyWith(
+                viewables: updatedViewables
+            )
+            
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
                     return
                 }
                 
-                strongSelf.view.alpha = 0.4
-                strongSelf.view.isUserInteractionEnabled = false
+                strongSelf.tableView.reloadData()
             }
-            
-            let deleteTweetResult = await TweetsDataStore.shared.deleteTweet(
-                withId: cell.tweet.id
-            )
-            
-            deleteTweetResult.mapOnSuccess {
-                DispatchQueue.main.async {
-                    [weak self] in
-                    guard let strongSelf = self else {
-                        return
+        }
+        
+        state.mapOnlyOnSuccess { previousPaginatedComments in
+            let updatedPaginatedComments = previousPaginatedComments.copyWith(
+                page: previousPaginatedComments.page.map { comment in
+                    let viewables = comment.viewables
+                    let author = viewables.author
+                    
+                    if author.id != id || author.viewables.following {
+                        return comment
                     }
                     
-                    strongSelf.navigationController?.popViewController(
-                        animated: true
+                    let authorViewables = author.viewables
+                    let updatedAuthorViewables = authorViewables.copyWith(
+                        following: true
+                    )
+                    
+                    let authorSocialDetails = author.socialDetails
+                    let updatedAuthorSocialDetails = authorSocialDetails.copyWith(
+                        followersCount: authorSocialDetails.followersCount + 1
+                    )
+                    
+                    let updatedAuthor = author.copyWith(
+                        socialDetails: updatedAuthorSocialDetails,
+                        viewables: updatedAuthorViewables
+                    )
+                    
+                    let updatedViewables = viewables.copyWith(
+                        author: updatedAuthor
+                    )
+                    
+                    return comment.copyWith(
+                        viewables: updatedViewables
                     )
                 }
-            } orElse: {
-                DispatchQueue.main.async {
-                    [weak self] in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    
-                    strongSelf.showUnknownFailureSnackBar()
-                }
-            }
+            )
             
-            DispatchQueue.main.async {
-                [weak self]  in
-                guard let strongSelf = self else {
+            state = .success(updatedPaginatedComments)
+            
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
                     return
                 }
                 
-                strongSelf.view.alpha = 1.0
-                strongSelf.view.isUserInteractionEnabled = false
+                strongSelf.tableView.reloadData()
             }
         }
     }
     
-    func tweetCellDidPressOptions(_ cell: TweetTableViewCell) {
-        let alert = TweetOptionsAlertController.regular()
+    private func onSomeoneUnfollowed(
+        withId id: String
+    ) {
+        let viewables = tweet.viewables
+        let author = viewables.author
         
-        alert.interactionsHandler = self
-        alert.configure(withTweet: tweet)
-        
-        present(
-            alert,
-            animated: true
-        )
-    }
-}
-
-// MARK: CommentTableViewCellInteractionsHandler
-extension TweetViewController: CommentTableViewCellInteractionsHandler {
-    func commentCellDidPressProfileImage(_ cell: CommentTableViewCell) {
-        state.mapOnlyOnSuccess { paginatedComments in
-            guard let comment = paginatedComments.page.first(where: { $0.id == cell.comment.id }) else {
-                return
+        if author.id == id && author.viewables.following {
+            let authorViewables = author.viewables
+            let authorSocialDetails = author.socialDetails
+            
+            let updatedAuthorViewables = authorViewables.copyWith(
+                following: false
+            )
+            let updatedAuthorSocialDetails = authorSocialDetails.copyWith(
+                followersCount: authorSocialDetails.followersCount - 1
+            )
+            
+            let updatedAuthor = author.copyWith(
+                socialDetails: updatedAuthorSocialDetails,
+                viewables: updatedAuthorViewables
+            )
+            
+            let updatedViewables = viewables.copyWith(
+                author: updatedAuthor
+            )
+            
+            tweet = tweet.copyWith(
+                viewables: updatedViewables
+            )
+            
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
             }
-            
-            let user = comment.viewables.author
-            
-            navigationController?.openUserViewController(withUser: user)
         }
-    }
-}
-
-// MARK:
-extension TweetViewController: TweetOptionsAlertControllerInteractionsHandler {
-    func tweetOptionsAlertControllerDidPressBookmark(
-        _ controller: TweetOptionsAlertController
-    ) {
-        print(#function)
-    }
-    
-    func tweetOptionsAlertControllerDidPressFollow(
-        _ controller: TweetOptionsAlertController
-    ) {
-        print(#function)
-    }
-    
-    func tweetOptionsAlertControllerDidPressDelete(
-        _ controller: TweetOptionsAlertController
-    ) {
-        print(#function)
+        
+        state.mapOnlyOnSuccess { previousPaginatedComments in
+            let updatedPaginatedComments = previousPaginatedComments.copyWith(
+                page: previousPaginatedComments.page.map { comment in
+                    let viewables = comment.viewables
+                    let author = viewables.author
+                    
+                    if author.id != id || !author.viewables.following {
+                        return comment
+                    }
+                    
+                    let authorViewables = author.viewables
+                    let updatedAuthorViewables = authorViewables.copyWith(
+                        following: false
+                    )
+                    
+                    let authorSocialDetails = author.socialDetails
+                    let updatedAuthorSocialDetails = authorSocialDetails.copyWith(
+                        followersCount: authorSocialDetails.followersCount - 1
+                    )
+                    
+                    let updatedAuthor = author.copyWith(
+                        socialDetails: updatedAuthorSocialDetails,
+                        viewables: updatedAuthorViewables
+                    )
+                    
+                    let updatedViewables = viewables.copyWith(
+                        author: updatedAuthor
+                    )
+                    
+                    return comment.copyWith(
+                        viewables: updatedViewables
+                    )
+                }
+            )
+            
+            state = .success(updatedPaginatedComments)
+            
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
     }
 }

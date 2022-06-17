@@ -427,23 +427,48 @@ extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
             return
         }
         
+        if cell.tweet.viewables.author.viewables.following {
+            onSomeoneUnfollowed(
+                withId: cell.tweet.viewables.author.id
+            )
+        } else {
+            onSomeoneFollowed(
+                withId: cell.tweet.viewables.author.id
+            )
+        }
+        
         Task {
             if cell.tweet.viewables.author.viewables.following {
                 let unfollowResult = await SocialsDataStore.shared.unfollow(
                     userWithId: cell.tweet.viewables.author.id
                 )
                 
-                unfollowResult.mapOnlyOnFailure { failure in
+                unfollowResult.map {
+                    showUnfollowSuccessfulSnackBar(
+                        user: cell.tweet.viewables.author
+                    )
+                } onFailure: { failure in
                     showUnknownFailureSnackBar()
+                    onSomeoneFollowed(
+                        withId: cell.tweet.viewables.author.id
+                    )
                 }
             } else {
                 let followResult = await SocialsDataStore.shared.follow(
                     userWithId: cell.tweet.viewables.author.id
                 )
                 
-                followResult.mapOnlyOnFailure { failure in
+                followResult.map {
+                    showFollowSuccesfulSnackBar(
+                        user: cell.tweet.viewables.author
+                    )
+                } onFailure: { failure in
                     showUnknownFailureSnackBar()
+                    onSomeoneUnfollowed(
+                        withId: cell.tweet.viewables.author.id
+                    )
                 }
+
             }
         }
     }
@@ -564,6 +589,18 @@ extension FeedViewController {
                     ofTweetWithId: event.tweetId
                 )
             }
+            
+            if let event = event as? FollowCreatedEvent {
+                strongSelf.onSomeoneFollowed(
+                    withId: event.userId
+                )
+            }
+            
+            if let event = event as? FollowDeletedEvent {
+                strongSelf.onSomeoneUnfollowed(
+                    withId: event.userId
+                )
+            }
         }
     }
     
@@ -660,6 +697,90 @@ extension FeedViewController {
                 
                 strongSelf.tableView.reloadData()
             }
+        }
+    }
+    
+    private func onSomeoneFollowed(
+        withId id: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedTweets in
+            let updatedPaginatedTweets = previousPaginatedTweets.copyWith(
+                page: previousPaginatedTweets.page.map { tweet in
+                    let viewables = tweet.viewables
+                    let author = viewables.author
+                    
+                    if author.id != id || author.viewables.following {
+                        return tweet
+                    }
+                    
+                    let authorViewables = author.viewables
+                    let updatedAuthorViewables = authorViewables.copyWith(
+                        following: true
+                    )
+                    
+                    let authorSocialDetails = author.socialDetails
+                    let updatedAuthorSocialDetails = authorSocialDetails.copyWith(
+                        followersCount: authorSocialDetails.followersCount + 1
+                    )
+                    
+                    let updatedAuthor = author.copyWith(
+                        socialDetails: updatedAuthorSocialDetails,
+                        viewables: updatedAuthorViewables
+                    )
+                    
+                    let updatedViewables = viewables.copyWith(
+                        author: updatedAuthor
+                    )
+                    
+                    return tweet.copyWith(
+                        viewables: updatedViewables
+                    )
+                }
+            )
+            
+            state = .success(updatedPaginatedTweets)
+        }
+    }
+    
+    private func onSomeoneUnfollowed(
+        withId id: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedTweets in
+            let updatedPaginatedTweets = previousPaginatedTweets.copyWith(
+                page: previousPaginatedTweets.page.map { tweet in
+                    let viewables = tweet.viewables
+                    let author = viewables.author
+                    
+                    if author.id != id || !author.viewables.following {
+                        return tweet
+                    }
+                    
+                    let authorViewables = author.viewables
+                    let updatedAuthorViewables = authorViewables.copyWith(
+                        following: false
+                    )
+                    
+                    let authorSocialDetails = author.socialDetails
+                    let updatedAuthorSocialDetails = authorSocialDetails.copyWith(
+                        followersCount: authorSocialDetails.followersCount - 1
+                    )
+                    
+                    let updatedAuthor = author.copyWith(
+                        socialDetails: updatedAuthorSocialDetails,
+                        viewables: updatedAuthorViewables
+                    )
+                    
+                    let updatedViewables = viewables.copyWith(
+                        author: updatedAuthor
+                    )
+                    
+                    return tweet.copyWith(
+                        viewables: updatedViewables
+                    )
+                }
+            )
+            
+            state = .success(updatedPaginatedTweets)
         }
     }
     

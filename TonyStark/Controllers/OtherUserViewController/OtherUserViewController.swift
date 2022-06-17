@@ -385,16 +385,6 @@ extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
                     userWithId: cell.user.id
                 )
                 
-                unfollowResult.map {
-                    showUnfollowSuccessfulSnackBar(
-                        user: cell.user
-                    )
-                } onFailure: { failure in
-                    showUnknownFailureSnackBar()
-                    onUserFollowed()
-                }
-
-                
                 unfollowResult.mapOnlyOnFailure { failure in
                     showUnknownFailureSnackBar()
                     onUserFollowed()
@@ -404,11 +394,7 @@ extension OtherUserViewController: OtherUserTableViewCellInteractionsHandler {
                     userWithId: cell.user.id
                 )
                 
-                followResult.map {
-                    showFollowSuccesfulSnackBar(
-                        user: cell.user
-                    )
-                } onFailure: { failure in
+                followResult.mapOnlyOnFailure { failure in
                     showUnknownFailureSnackBar()
                     onUserUnfollowed()
                 }
@@ -552,23 +538,40 @@ extension OtherUserViewController: PartialTweetTableViewCellInteractionsHandler 
             return
         }
         
+        if cell.tweet.viewables.author.viewables.following {
+            onUserFollowed()
+        } else {
+            onUserUnfollowed()
+        }
+        
         Task {
             if cell.tweet.viewables.author.viewables.following {
                 let unfollowResult = await SocialsDataStore.shared.unfollow(
                     userWithId: cell.tweet.viewables.author.id
                 )
                 
-                unfollowResult.mapOnlyOnFailure { failure in
+                unfollowResult.map {
+                    showUnfollowSuccessfulSnackBar(
+                        user: cell.tweet.viewables.author
+                    )
+                } onFailure: { failure in
                     showUnknownFailureSnackBar()
+                    onUserFollowed()
                 }
             } else {
                 let followResult = await SocialsDataStore.shared.follow(
                     userWithId: cell.tweet.viewables.author.id
                 )
                 
-                followResult.mapOnlyOnFailure { failure in
+                followResult.map {
+                    showFollowSuccesfulSnackBar(
+                        user: cell.tweet.viewables.author
+                    )
+                } onFailure: { failure in
                     showUnknownFailureSnackBar()
+                    onUserUnfollowed()
                 }
+
             }
         }
     }

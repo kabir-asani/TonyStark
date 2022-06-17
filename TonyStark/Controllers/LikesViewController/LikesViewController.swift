@@ -89,59 +89,6 @@ class LikesViewController: TXViewController {
     // Interact
 }
 
-// MARK: Event Listener
-extension LikesViewController {
-    private func configureEventListener() {
-        TXEventBroker.shared.listen {
-            [weak self] event in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            if event is RefreshedCurrentUserEvent {
-                strongSelf.onCurrentUserRefreshed()
-            }
-        }
-    }
-    
-    private func onCurrentUserRefreshed() {
-        if let currentUser = CurrentUserDataStore.shared.user {
-            state.mapOnlyOnSuccess { previousPaginatedLikes in
-                let updatedPaginatedLikes = Paginated<Like>(
-                    page: previousPaginatedLikes.page.map { like in
-                        if like.viewables.author.id == currentUser.id {
-                            let viewables = like.viewables
-                            let updatedViewables = viewables.copyWith(
-                                author: currentUser
-                            )
-                            
-                            return like.copyWith(
-                                viewables: updatedViewables
-                            )
-                        } else {
-                            return like
-                        }
-                    },
-                    nextToken: previousPaginatedLikes.nextToken
-                )
-                
-                state = .success(updatedPaginatedLikes)
-                
-                DispatchQueue.main.asyncAfter(
-                    deadline: .now() + 0.1
-                ) {
-                    [weak self] in
-                    guard let strongSelf = self, strongSelf.tableView.window != nil else {
-                        return
-                    }
-                    
-                    strongSelf.tableView.reloadData()
-                }
-            }
-        }
-    }
-}
-
 // MARK: TXTableViewDataSource
 extension LikesViewController: TXTableViewDataSource {
     private func populateTableView() {
@@ -327,5 +274,177 @@ extension LikesViewController: PartialUserTableViewCellInteractionsHandler {
         _ cell: PartialUserTableViewCell
     ) {
         print(#function)
+    }
+}
+
+// MARK: EventListener
+extension LikesViewController {
+    private func configureEventListener() {
+        TXEventBroker.shared.listen {
+            [weak self] event in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            if event is RefreshedCurrentUserEvent {
+                strongSelf.onCurrentUserRefreshed()
+            }
+            
+            if let event = event as? FollowCreatedEvent {
+                strongSelf.onSomeoneFollowed(
+                    withId: event.userId
+                )
+            }
+            
+            if let event = event as? FollowDeletedEvent {
+                strongSelf.onSomeoneUnfollowed(
+                    withId: event.userId
+                )
+            }
+        }
+    }
+    
+    private func onCurrentUserRefreshed() {
+        if let currentUser = CurrentUserDataStore.shared.user {
+            state.mapOnlyOnSuccess { previousPaginatedLikes in
+                let updatedPaginatedLikes = Paginated<Like>(
+                    page: previousPaginatedLikes.page.map { like in
+                        if like.viewables.author.id == currentUser.id {
+                            let viewables = like.viewables
+                            let updatedViewables = viewables.copyWith(
+                                author: currentUser
+                            )
+                            
+                            return like.copyWith(
+                                viewables: updatedViewables
+                            )
+                        } else {
+                            return like
+                        }
+                    },
+                    nextToken: previousPaginatedLikes.nextToken
+                )
+                
+                state = .success(updatedPaginatedLikes)
+                
+                DispatchQueue.main.asyncAfter(
+                    deadline: .now() + 0.1
+                ) {
+                    [weak self] in
+                    guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                        return
+                    }
+                    
+                    strongSelf.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
+    
+    private func onSomeoneFollowed(
+        withId id: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedLikes in
+            let updatedPaginatedLikes = previousPaginatedLikes.copyWith(
+                page: previousPaginatedLikes.page.map { like in
+                    let viewables = like.viewables
+                    let author = viewables.author
+                    
+                    if author.id != id || author.viewables.following {
+                        return like
+                    }
+                    
+                    let authorViewables = author.viewables
+                    let updatedAuthorViewables = authorViewables.copyWith(
+                        following: true
+                    )
+                    
+                    let authorSocialDetails = author.socialDetails
+                    let updatedAuthorSocialDetails = authorSocialDetails.copyWith(
+                        followersCount: authorSocialDetails.followersCount + 1
+                    )
+                    
+                    let updatedAuthor = author.copyWith(
+                        socialDetails: updatedAuthorSocialDetails,
+                        viewables: updatedAuthorViewables
+                    )
+                    
+                    let updatedViewables = viewables.copyWith(
+                        author: updatedAuthor
+                    )
+                    
+                    return like.copyWith(
+                        viewables: updatedViewables
+                    )
+                }
+            )
+            
+            state = .success(updatedPaginatedLikes)
+            
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func onSomeoneUnfollowed(
+        withId id: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedLikes in
+            let updatedPaginatedLikes = previousPaginatedLikes.copyWith(
+                page: previousPaginatedLikes.page.map { like in
+                    let viewables = like.viewables
+                    let author = viewables.author
+                    
+                    if author.id != id || !author.viewables.following {
+                        return like
+                    }
+                    
+                    let authorViewables = author.viewables
+                    let updatedAuthorViewables = authorViewables.copyWith(
+                        following: false
+                    )
+                    
+                    let authorSocialDetails = author.socialDetails
+                    let updatedAuthorSocialDetails = authorSocialDetails.copyWith(
+                        followersCount: authorSocialDetails.followersCount - 1
+                    )
+                    
+                    let updatedAuthor = author.copyWith(
+                        socialDetails: updatedAuthorSocialDetails,
+                        viewables: updatedAuthorViewables
+                    )
+                    
+                    let updatedViewables = viewables.copyWith(
+                        author: updatedAuthor
+                    )
+                    
+                    return like.copyWith(
+                        viewables: updatedViewables
+                    )
+                }
+            )
+            
+            state = .success(updatedPaginatedLikes)
+            
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
     }
 }

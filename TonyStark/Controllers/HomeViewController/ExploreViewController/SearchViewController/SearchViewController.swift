@@ -37,6 +37,8 @@ class SearchViewController: TXViewController {
         
         addSubviews()
         
+        configureEventListener()
+        
         configureNavigationBar()
         configureSearchBar()
         configureTableView()
@@ -257,6 +259,155 @@ extension SearchViewController: PartialUserTableViewCellInteractionsHandler {
     func partialUserCellDidPressPrimaryAction(
         _ cell: PartialUserTableViewCell
     ) {
-        print(#function)
+        guard cell.user.id != CurrentUserDataStore.shared.user?.id else {
+            navigationController?.openUserViewController(
+                withUser: cell.user
+            )
+            return
+        }
+        
+        if cell.user.viewables.following {
+            onSomeoneUnfollowed(
+                userId: cell.user.id
+            )
+        } else {
+            onSomeoneFollowed(
+                userId: cell.user.id
+            )
+        }
+        
+        Task {
+            if cell.user.viewables.following {
+                let unfollowResult = await SocialsDataStore.shared.unfollow(
+                    userWithId: cell.user.id
+                )
+                
+                unfollowResult.mapOnlyOnFailure { failure in
+                    showUnknownFailureSnackBar()
+                    onSomeoneFollowed(
+                        userId: cell.user.id
+                    )
+                }
+            } else {
+                let followResult = await SocialsDataStore.shared.follow(
+                    userWithId: cell.user.id
+                )
+                
+                followResult.mapOnlyOnFailure { failure in
+                    showUnknownFailureSnackBar()
+                    onSomeoneUnfollowed(
+                        userId: cell.user.id
+                    )
+                }
+            }
+        }
+    }
+}
+
+// MARK: EventListener
+extension SearchViewController {
+    private func configureEventListener() {
+        TXEventBroker.shared.listen {
+            [weak self] event in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            if let event = event as? FollowCreatedEvent {
+                strongSelf.onSomeoneFollowed(
+                    userId: event.userId
+                )
+            }
+            
+            if let event = event as? FollowDeletedEvent {
+                strongSelf.onSomeoneUnfollowed(
+                    userId: event.userId
+                )
+            }
+        }
+    }
+    
+    private func onSomeoneFollowed(
+        userId: String
+    ) {
+        state.mapOnlyOnSuccess { paginatedUsers in
+            let updatedPaginatedUsers = paginatedUsers.copyWith(
+                page: paginatedUsers.page.map { user in
+                    if user.id != userId || user.viewables.following {
+                        return user
+                    }
+                    
+                    let viewables = user.viewables
+                    let socialDetails = user.socialDetails
+                    
+                    let updatedViewables = viewables.copyWith(
+                        following: true
+                    )
+                    let updatedSocialDetails = socialDetails.copyWith(
+                        followersCount: socialDetails.followersCount + 1
+                    )
+                    
+                    return user.copyWith(
+                        socialDetails: updatedSocialDetails,
+                        viewables: updatedViewables
+                    )
+                }
+            )
+            
+            state = .success(updatedPaginatedUsers)
+            
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func onSomeoneUnfollowed(
+        userId: String
+    ) {
+        state.mapOnlyOnSuccess { paginatedUsers in
+            let updatedPaginatedUsers = paginatedUsers.copyWith(
+                page: paginatedUsers.page.map { user in
+                    if user.id != userId || !user.viewables.following {
+                        return user
+                    }
+                    
+                    let viewables = user.viewables
+                    let socialDetails = user.socialDetails
+                    
+                    let updatedViewables = viewables.copyWith(
+                        following: false
+                    )
+                    let updatedSocialDetails = socialDetails.copyWith(
+                        followersCount: socialDetails.followersCount - 1
+                    )
+                    
+                    return user.copyWith(
+                        socialDetails: updatedSocialDetails,
+                        viewables: updatedViewables
+                    )
+                }
+            )
+            
+            state = .success(updatedPaginatedUsers)
+            
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
     }
 }

@@ -76,250 +76,6 @@ class BookmarksViewController: TXViewController {
     // Interact
 }
 
-// MARK: Event Listeners
-extension BookmarksViewController {
-    private func configureEventListener() {
-        TXEventBroker.shared.listen {
-            [weak self] event in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            if event is RefreshedCurrentUserEvent {
-                strongSelf.onCurrentUserRefreshed()
-            }
-            
-            if let event = event as? TweetDeletedEvent {
-                strongSelf.onTweetDeleted(
-                    withId: event.id
-                )
-            }
-            
-            if let event = event as? LikeCreatedEvent {
-                strongSelf.onTweetLiked(
-                    withId: event.tweetId
-                )
-            }
-            
-            if let event = event as? LikeDeletedEvent {
-                strongSelf.onTweetUnliked(
-                    withId: event.tweetId
-                )
-            }
-            
-            if let event = event as? BookmarkDeletedEvent {
-                strongSelf.onBookmarkDeleted(
-                    ofTweetWithId: event.tweetId
-                )
-            }
-        }
-    }
-    
-    private func onCurrentUserRefreshed() {
-        if let currentUser = CurrentUserDataStore.shared.user {
-            state.mapOnlyOnSuccess { previousPaginatedBookmarks in
-                var indices: [Int] = []
-                
-                previousPaginatedBookmarks.page.enumerated().forEach { index, bookmark in
-                    if bookmark.viewables.tweet.viewables.author.id == currentUser.id {
-                        indices.append(
-                            index
-                        )
-                    }
-                }
-                
-                let updatedPaginatedBookmarks = Paginated<Bookmark>(
-                    page: previousPaginatedBookmarks.page.map { bookmark in
-                        if bookmark.viewables.tweet.viewables.author.id == currentUser.id {
-                            let viewables = bookmark.viewables
-                            let tweet = viewables.tweet
-                            
-                            let tweetViewables = viewables.tweet.viewables
-                            let updatedTweetViewables = tweetViewables.copyWith(
-                                author: currentUser
-                            )
-                            
-                            let updatedTweet = tweet.copyWith(
-                                viewables: updatedTweetViewables
-                            )
-                            let updatedViewables = viewables.copyWith(
-                                tweet: updatedTweet
-                            )
-                            
-                            return bookmark.copyWith(
-                                viewables: updatedViewables
-                            )
-                        } else {
-                            return bookmark
-                        }
-                    },
-                    nextToken: previousPaginatedBookmarks.nextToken
-                )
-                
-                state = .success(updatedPaginatedBookmarks)
-                
-                DispatchQueue.main.asyncAfter(
-                    deadline: .now() + 0.1
-                ) {
-                    [weak self] in
-                    guard let strongSelf = self, strongSelf.tableView.window != nil else {
-                        return
-                    }
-                    
-                    strongSelf.tableView.reloadData()
-                }
-            }
-        }
-    }
-    
-    private func onTweetDeleted(
-        withId id: String
-    ) {
-        state.mapOnlyOnSuccess { previousPaginatedBookmarks in
-            let updatedPaginatedBookmarks = Paginated<Bookmark>(
-                page: previousPaginatedBookmarks.page.filter { $0.viewables.tweet.id != id },
-                nextToken: previousPaginatedBookmarks.nextToken
-            )
-            
-            state = .success(updatedPaginatedBookmarks)
-            
-            DispatchQueue.main.asyncAfter (
-                deadline: .now() + 0.1
-            ) {
-                [weak self] in
-                guard let strongSelf = self, strongSelf.tableView.window != nil else {
-                    return
-                }
-                
-                strongSelf.tableView.reloadData()
-            }
-        }
-    }
-    
-    private func onTweetLiked(
-        withId id: String
-    ) {
-        state.mapOnlyOnSuccess { previousPaginatedBookmarks in
-            let updatedPaginatedBookmarks = Paginated<Bookmark>(
-                page: previousPaginatedBookmarks.page.map { bookmark in
-                    if bookmark.viewables.tweet.id == id && !bookmark.viewables.tweet.viewables.liked {
-                        let interactionDetails = bookmark.viewables.tweet.interactionDetails
-                        let updatedInteractionDetails = interactionDetails.copyWith(
-                            likesCount: interactionDetails.likesCount + 1
-                        )
-                        
-                        let viewables = bookmark.viewables.tweet.viewables
-                        let updatedTweetViewables = viewables.copyWith(
-                            liked: true
-                        )
-                        
-                        let updatedTweet = bookmark.viewables.tweet.copyWith(
-                            interactionDetails: updatedInteractionDetails,
-                            viewables: updatedTweetViewables
-                        )
-                        
-                        return bookmark.copyWith(
-                            viewables: bookmark.viewables.copyWith(
-                                tweet: updatedTweet
-                            )
-                        )
-                    } else {
-                        return bookmark
-                    }
-                },
-                nextToken: previousPaginatedBookmarks.nextToken
-            )
-            
-            state = .success(updatedPaginatedBookmarks)
-            
-            DispatchQueue.main.asyncAfter (
-                deadline: .now() + 0.1
-            ) {
-                [weak self] in
-                guard let strongSelf = self, strongSelf.tableView.window != nil else {
-                    return
-                }
-                
-                strongSelf.tableView.reloadData()
-            }
-        }
-    }
-    
-    private func onTweetUnliked(
-        withId id: String
-    ) {
-        state.mapOnlyOnSuccess { previousPaginatedBookmarks in
-            let updatedPaginatedBookmarks = Paginated<Bookmark>(
-                page: previousPaginatedBookmarks.page.map { bookmark in
-                    if bookmark.viewables.tweet.id == id && bookmark.viewables.tweet.viewables.liked {
-                        let interactionDetails = bookmark.viewables.tweet.interactionDetails
-                        let updatedInteractionDetails = interactionDetails.copyWith(
-                            likesCount: interactionDetails.likesCount - 1
-                        )
-                        
-                        let viewables = bookmark.viewables.tweet.viewables
-                        let updatedTweetViewables = viewables.copyWith(
-                            liked: false
-                        )
-                        
-                        let updatedTweet = bookmark.viewables.tweet.copyWith(
-                            interactionDetails: updatedInteractionDetails,
-                            viewables: updatedTweetViewables
-                        )
-                        
-                        return bookmark.copyWith(
-                            viewables: bookmark.viewables.copyWith(
-                                tweet: updatedTweet
-                            )
-                        )
-                    } else {
-                        return bookmark
-                    }
-                },
-                nextToken: previousPaginatedBookmarks.nextToken
-            )
-            
-            state = .success(updatedPaginatedBookmarks)
-            
-            DispatchQueue.main.asyncAfter (
-                deadline: .now() + 0.1
-            ) {
-                [weak self] in
-                guard let strongSelf = self, strongSelf.tableView.window != nil else {
-                    return
-                }
-                
-                strongSelf.tableView.reloadData()
-            }
-        }
-    }
-    
-    private func onBookmarkDeleted(
-        ofTweetWithId tweetId: String
-    ) {
-        state.mapOnlyOnSuccess { previousPaginatedBookmarks in
-            let updatedPaginatedBookmarks = Paginated<Bookmark>(
-                page: previousPaginatedBookmarks.page.filter { bookmark  in
-                    bookmark.viewables.tweet.id != tweetId
-                },
-                nextToken: previousPaginatedBookmarks.nextToken
-            )
-            
-            state = .success(updatedPaginatedBookmarks)
-            
-            DispatchQueue.main.asyncAfter (
-                deadline: .now() + 0.1
-            ) {
-                [weak self] in
-                guard let strongSelf = self, strongSelf.tableView.window != nil else {
-                    return
-                }
-                
-                strongSelf.tableView.reloadData()
-            }
-        }
-    }
-}
 
 // MARK: TXTableViewDataSource
 extension BookmarksViewController: TXTableViewDataSource {
@@ -581,22 +337,46 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
             return
         }
         
+        if cell.tweet.viewables.author.viewables.following {
+            onSomeoneUnfollowed(
+                withId: cell.tweet.viewables.author.id
+            )
+        } else {
+            onSomeoneFollowed(
+                withId: cell.tweet.viewables.author.id
+            )
+        }
+        
         Task {
             if cell.tweet.viewables.author.viewables.following {
                 let unfollowResult = await SocialsDataStore.shared.unfollow(
                     userWithId: cell.tweet.viewables.author.id
                 )
                 
-                unfollowResult.mapOnlyOnFailure { failure in
+                unfollowResult.map {
+                    showUnfollowSuccessfulSnackBar(
+                        user: cell.tweet.viewables.author
+                    )
+                } onFailure: { failure in
                     showUnknownFailureSnackBar()
+                    onSomeoneFollowed(
+                        withId: cell.tweet.viewables.author.id
+                    )
                 }
             } else {
                 let followResult = await SocialsDataStore.shared.follow(
                     userWithId: cell.tweet.viewables.author.id
                 )
                 
-                followResult.mapOnlyOnFailure { failure in
+                followResult.map {
+                    showFollowSuccesfulSnackBar(
+                        user: cell.tweet.viewables.author
+                    )
+                } onFailure: { failure in
                     showUnknownFailureSnackBar()
+                    onSomeoneUnfollowed(
+                        withId: cell.tweet.viewables.author.id
+                    )
                 }
             }
         }
@@ -648,5 +428,389 @@ extension BookmarksViewController: TweetOptionsAlertControllerInteractionsHandle
         _ controller: TweetOptionsAlertController
     ) {
         print(#function)
+    }
+}
+
+
+// MARK: EventListener
+extension BookmarksViewController {
+    private func configureEventListener() {
+        TXEventBroker.shared.listen {
+            [weak self] event in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            if event is RefreshedCurrentUserEvent {
+                strongSelf.onCurrentUserRefreshed()
+            }
+            
+            if let event = event as? TweetDeletedEvent {
+                strongSelf.onTweetDeleted(
+                    withId: event.id
+                )
+            }
+            
+            if let event = event as? LikeCreatedEvent {
+                strongSelf.onTweetLiked(
+                    withId: event.tweetId
+                )
+            }
+            
+            if let event = event as? LikeDeletedEvent {
+                strongSelf.onTweetUnliked(
+                    withId: event.tweetId
+                )
+            }
+            
+            if let event = event as? BookmarkDeletedEvent {
+                strongSelf.onBookmarkDeleted(
+                    ofTweetWithId: event.tweetId
+                )
+            }
+            
+            if let event = event as? FollowCreatedEvent {
+                strongSelf.onSomeoneFollowed(
+                    withId: event.userId
+                )
+            }
+            
+            if let event = event as? FollowDeletedEvent {
+                strongSelf.onSomeoneUnfollowed(
+                    withId: event.userId
+                )
+            }
+        }
+    }
+    
+    private func onCurrentUserRefreshed() {
+        if let currentUser = CurrentUserDataStore.shared.user {
+            state.mapOnlyOnSuccess { previousPaginatedBookmarks in
+                var indices: [Int] = []
+                
+                previousPaginatedBookmarks.page.enumerated().forEach { index, bookmark in
+                    if bookmark.viewables.tweet.viewables.author.id == currentUser.id {
+                        indices.append(
+                            index
+                        )
+                    }
+                }
+                
+                let updatedPaginatedBookmarks = Paginated<Bookmark>(
+                    page: previousPaginatedBookmarks.page.map { bookmark in
+                        if bookmark.viewables.tweet.viewables.author.id == currentUser.id {
+                            let viewables = bookmark.viewables
+                            let tweet = viewables.tweet
+                            
+                            let tweetViewables = viewables.tweet.viewables
+                            let updatedTweetViewables = tweetViewables.copyWith(
+                                author: currentUser
+                            )
+                            
+                            let updatedTweet = tweet.copyWith(
+                                viewables: updatedTweetViewables
+                            )
+                            let updatedViewables = viewables.copyWith(
+                                tweet: updatedTweet
+                            )
+                            
+                            return bookmark.copyWith(
+                                viewables: updatedViewables
+                            )
+                        } else {
+                            return bookmark
+                        }
+                    },
+                    nextToken: previousPaginatedBookmarks.nextToken
+                )
+                
+                state = .success(updatedPaginatedBookmarks)
+                
+                DispatchQueue.main.asyncAfter(
+                    deadline: .now() + 0.1
+                ) {
+                    [weak self] in
+                    guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                        return
+                    }
+                    
+                    strongSelf.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
+    private func onTweetDeleted(
+        withId id: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedBookmarks in
+            let updatedPaginatedBookmarks = Paginated<Bookmark>(
+                page: previousPaginatedBookmarks.page.filter { $0.viewables.tweet.id != id },
+                nextToken: previousPaginatedBookmarks.nextToken
+            )
+            
+            state = .success(updatedPaginatedBookmarks)
+            
+            DispatchQueue.main.asyncAfter (
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func onTweetLiked(
+        withId id: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedBookmarks in
+            let updatedPaginatedBookmarks = Paginated<Bookmark>(
+                page: previousPaginatedBookmarks.page.map { bookmark in
+                    if bookmark.viewables.tweet.id == id && !bookmark.viewables.tweet.viewables.liked {
+                        let interactionDetails = bookmark.viewables.tweet.interactionDetails
+                        let updatedInteractionDetails = interactionDetails.copyWith(
+                            likesCount: interactionDetails.likesCount + 1
+                        )
+                        
+                        let viewables = bookmark.viewables.tweet.viewables
+                        let updatedTweetViewables = viewables.copyWith(
+                            liked: true
+                        )
+                        
+                        let updatedTweet = bookmark.viewables.tweet.copyWith(
+                            interactionDetails: updatedInteractionDetails,
+                            viewables: updatedTweetViewables
+                        )
+                        
+                        return bookmark.copyWith(
+                            viewables: bookmark.viewables.copyWith(
+                                tweet: updatedTweet
+                            )
+                        )
+                    } else {
+                        return bookmark
+                    }
+                },
+                nextToken: previousPaginatedBookmarks.nextToken
+            )
+            
+            state = .success(updatedPaginatedBookmarks)
+            
+            DispatchQueue.main.asyncAfter (
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func onTweetUnliked(
+        withId id: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedBookmarks in
+            let updatedPaginatedBookmarks = Paginated<Bookmark>(
+                page: previousPaginatedBookmarks.page.map { bookmark in
+                    if bookmark.viewables.tweet.id == id && bookmark.viewables.tweet.viewables.liked {
+                        let interactionDetails = bookmark.viewables.tweet.interactionDetails
+                        let updatedInteractionDetails = interactionDetails.copyWith(
+                            likesCount: interactionDetails.likesCount - 1
+                        )
+                        
+                        let viewables = bookmark.viewables.tweet.viewables
+                        let updatedTweetViewables = viewables.copyWith(
+                            liked: false
+                        )
+                        
+                        let updatedTweet = bookmark.viewables.tweet.copyWith(
+                            interactionDetails: updatedInteractionDetails,
+                            viewables: updatedTweetViewables
+                        )
+                        
+                        return bookmark.copyWith(
+                            viewables: bookmark.viewables.copyWith(
+                                tweet: updatedTweet
+                            )
+                        )
+                    } else {
+                        return bookmark
+                    }
+                },
+                nextToken: previousPaginatedBookmarks.nextToken
+            )
+            
+            state = .success(updatedPaginatedBookmarks)
+            
+            DispatchQueue.main.asyncAfter (
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func onBookmarkDeleted(
+        ofTweetWithId tweetId: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedBookmarks in
+            let updatedPaginatedBookmarks = Paginated<Bookmark>(
+                page: previousPaginatedBookmarks.page.filter { bookmark  in
+                    bookmark.viewables.tweet.id != tweetId
+                },
+                nextToken: previousPaginatedBookmarks.nextToken
+            )
+            
+            state = .success(updatedPaginatedBookmarks)
+            
+            DispatchQueue.main.asyncAfter (
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func onSomeoneFollowed(
+        withId id: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedBookmarks in
+            let updatedPaginatedComments = previousPaginatedBookmarks.copyWith(
+                page: previousPaginatedBookmarks.page.map { bookmark in
+                    let viewables = bookmark.viewables
+                    let tweet = viewables.tweet
+                    let tweetViewables = tweet.viewables
+                    let author = tweetViewables.author
+                    
+                    if author.id != id || author.viewables.following {
+                        return bookmark
+                    }
+                    
+                    let authorViewables = author.viewables
+                    let updatedAuthorViewables = authorViewables.copyWith(
+                        following: true
+                    )
+                    
+                    let authorSocialDetails = author.socialDetails
+                    let updatedAuthorSocialDetails = authorSocialDetails.copyWith(
+                        followersCount: authorSocialDetails.followersCount + 1
+                    )
+                    
+                    let updatedAuthor = author.copyWith(
+                        socialDetails: updatedAuthorSocialDetails,
+                        viewables: updatedAuthorViewables
+                    )
+                    
+                    let updatedTweetViewables = tweetViewables.copyWith(
+                        author: updatedAuthor
+                    )
+                    
+                    let updatedTweet = tweet.copyWith(
+                        viewables: updatedTweetViewables
+                    )
+                    
+                    let updatedViewables = viewables.copyWith(
+                        tweet: updatedTweet
+                    )
+                    
+                    return bookmark.copyWith(
+                        viewables: updatedViewables
+                    )
+                }
+            )
+            
+            state = .success(updatedPaginatedComments)
+            
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func onSomeoneUnfollowed(
+        withId id: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedBookmarks in
+            let updatedPaginatedComments = previousPaginatedBookmarks.copyWith(
+                page: previousPaginatedBookmarks.page.map { bookmark in
+                    let viewables = bookmark.viewables
+                    let tweet = viewables.tweet
+                    let tweetViewables = tweet.viewables
+                    let author = tweetViewables.author
+                    
+                    if author.id != id || !author.viewables.following {
+                        return bookmark
+                    }
+                    
+                    let authorViewables = author.viewables
+                    let updatedAuthorViewables = authorViewables.copyWith(
+                        following: false
+                    )
+                    
+                    let authorSocialDetails = author.socialDetails
+                    let updatedAuthorSocialDetails = authorSocialDetails.copyWith(
+                        followersCount: authorSocialDetails.followersCount - 1
+                    )
+                    
+                    let updatedAuthor = author.copyWith(
+                        socialDetails: updatedAuthorSocialDetails,
+                        viewables: updatedAuthorViewables
+                    )
+                    
+                    let updatedTweetViewables = tweetViewables.copyWith(
+                        author: updatedAuthor
+                    )
+                    
+                    let updatedTweet = tweet.copyWith(
+                        viewables: updatedTweetViewables
+                    )
+                    
+                    let updatedViewables = viewables.copyWith(
+                        tweet: updatedTweet
+                    )
+                    
+                    return bookmark.copyWith(
+                        viewables: updatedViewables
+                    )
+                }
+            )
+            
+            state = .success(updatedPaginatedComments)
+            
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
     }
 }

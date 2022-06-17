@@ -31,6 +31,8 @@ class FolloweesViewController: TXViewController {
         
         addSubviews()
         
+        configureEventListener()
+        
         configureNavigationBar()
         configureTableView()
         configureRefreshControl()
@@ -226,6 +228,7 @@ extension FolloweesViewController: TXTableViewDelegate {
     }
 }
 
+// MARK: TXRefreshControlDelegate
 extension FolloweesViewController: TXRefreshControlDelegate {
     func refreshControlDidChange(_ control: TXRefreshControl) {
         if control.isRefreshing {
@@ -248,5 +251,127 @@ extension FolloweesViewController: PartialUserTableViewCellInteractionsHandler {
     
     func partialUserCellDidPressPrimaryAction(_ cell: PartialUserTableViewCell) {
         print(#function)
+    }
+}
+
+// MARK: EventListener
+extension FolloweesViewController {
+    private func configureEventListener() {
+        TXEventBroker.shared.listen {
+            [weak self] event in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            if let event = event as? FollowCreatedEvent {
+                strongSelf.onSomeoneFollowed(
+                    withId: event.userId
+                )
+            }
+            
+            if let event = event as? FollowDeletedEvent {
+                strongSelf.onSomeoneUnfollowed(
+                    withId: event.userId
+                )
+            }
+        }
+    }
+    
+    private func onSomeoneFollowed(
+        withId id: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedFollowees in
+            let updatedPaginatedFollowees = previousPaginatedFollowees.copyWith(
+                page: previousPaginatedFollowees.page.map { followee in
+                    let user = followee.user
+                    
+                    if user.id != id || user.viewables.following {
+                        return followee
+                    }
+                    
+                    let viewables = user.viewables
+                    
+                    let updatedViewables = viewables.copyWith(
+                        following: true
+                    )
+                    
+                    let socialDetails = user.socialDetails
+                    let updatedSocialDetails = socialDetails.copyWith(
+                        followersCount: socialDetails.followersCount + 1
+                    )
+                    
+                    let updatedUser = user.copyWith(
+                        socialDetails: updatedSocialDetails,
+                        viewables: updatedViewables
+                    )
+                    
+                    return followee.copyWith(
+                        user: updatedUser
+                    )
+                }
+            )
+            
+            state = .success(updatedPaginatedFollowees)
+            
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func onSomeoneUnfollowed(
+        withId id: String
+    ) {
+        state.mapOnlyOnSuccess { previousPaginatedFollowees in
+            let updatedPaginatedFollowees = previousPaginatedFollowees.copyWith(
+                page: previousPaginatedFollowees.page.map { followee in
+                    let user = followee.user
+                    
+                    if user.id != id || !user.viewables.following {
+                        return followee
+                    }
+                    
+                    let viewables = user.viewables
+                    
+                    let updatedViewables = viewables.copyWith(
+                        following: false
+                    )
+                    
+                    let socialDetails = user.socialDetails
+                    let updatedSocialDetails = socialDetails.copyWith(
+                        followersCount: socialDetails.followersCount - 1
+                    )
+                    
+                    let updatedUser = user.copyWith(
+                        socialDetails: updatedSocialDetails,
+                        viewables: updatedViewables
+                    )
+                    
+                    return followee.copyWith(
+                        user: updatedUser
+                    )
+                }
+            )
+            
+            state = .success(updatedPaginatedFollowees)
+            
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + 0.1
+            ) {
+                [weak self] in
+                guard let strongSelf = self, strongSelf.tableView.window != nil else {
+                    return
+                }
+                
+                strongSelf.tableView.reloadData()
+            }
+        }
     }
 }
