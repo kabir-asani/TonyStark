@@ -141,23 +141,6 @@ extension OtherUserViewController: TXTableViewDataSource {
             
             tableView.endRefreshing()
         }
-        Task {
-            tableView.beginRefreshing()
-            
-            let tweetsResult = await TweetsDataStore.shared.tweets(
-                ofUserWithId: user.id
-            )
-            
-            tableView.endRefreshing()
-            
-            tweetsResult.map { paginatedTweets in
-                state = .success(paginatedTweets)
-            } onFailure: { cause in
-                state = .failure(cause)
-            }
-            
-            tableView.reloadData()
-        }
     }
     
     private func refreshUserSection() async {
@@ -188,7 +171,7 @@ extension OtherUserViewController: TXTableViewDataSource {
     
     private func refreshTweetsSection() async {
         let tweetsResult = await TweetsDataStore.shared.tweets(
-            ofUserWithId: CurrentUserDataStore.shared.user!.id
+            ofUserWithId: user.id
         )
         
         tweetsResult.mapOnSuccess {
