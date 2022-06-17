@@ -63,9 +63,17 @@ extension PartialUserTableViewCell {
         }
         
         // Configure
-        func configure(withUser user: User) {
-            header.configure(withUser: user)
-            footer.configure(withUser: user)
+        func configure(
+            withUser user: User,
+            onPrimaryActionPressed: @escaping () -> Void
+        ) {
+            header.configure(
+                withUser: user,
+                onPrimaryActionPressed: onPrimaryActionPressed
+            )
+            footer.configure(
+                withUser: user
+            )
         }
         
         // Interact

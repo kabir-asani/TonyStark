@@ -58,10 +58,10 @@ struct User: Model {
         let following: Bool
         
         func copyWith(
-            follower: Bool? = nil
+            following: Bool? = nil
         ) -> User.Viewables {
             let newViewables = User.Viewables(
-                following: follower ?? self.following
+                following: following ?? self.following
             )
             
             return newViewables

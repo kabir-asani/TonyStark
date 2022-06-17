@@ -282,6 +282,24 @@ extension UIViewController {
             )
         }
     }
+    
+    func showFollowSuccesfulSnackBar(user: User) {
+        Task {
+            await showSnackBar(
+                text: "\(user.name) Followed Successfully!",
+                variant: .success
+            )
+        }
+    }
+    
+    func showUnfollowSuccessfulSnackBar(user: User) {
+        Task {
+            await showSnackBar(
+                text: "\(user.name) Unfollowed",
+                variant: .informative
+            )
+        }
+    }
 }
 
 // MARK: ActivityIndicator

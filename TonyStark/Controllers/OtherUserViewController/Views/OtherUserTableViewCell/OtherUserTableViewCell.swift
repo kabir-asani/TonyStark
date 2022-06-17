@@ -21,6 +21,8 @@ class OtherUserTableViewCell: TXTableViewCell {
         String(describing: OtherUserTableViewCell.self)
     }
     
+    private(set) var user: User!
+    
     weak var interactionsHandler: OtherUserTableViewCellInteractionsHandler?
     
     private let header: Header = {
@@ -103,7 +105,11 @@ class OtherUserTableViewCell: TXTableViewCell {
     }
     
     // Configure
-    func configure(withUser user: User) {
+    func configure(
+        withUser user: User
+    ) {
+        self.user = user
+        
         header.configure(
             withUser: user
         ) {
@@ -115,7 +121,9 @@ class OtherUserTableViewCell: TXTableViewCell {
             strongSelf.interactionsHandler?.otherUserCellDidPressFollow(strongSelf)
         }
         
-        body.configure(withUser: user)
+        body.configure(
+            withUser: user
+        )
         
         footer.configure(
             withUser: user
@@ -125,14 +133,18 @@ class OtherUserTableViewCell: TXTableViewCell {
                 return
             }
             
-            strongSelf.interactionsHandler?.otherUserCellDidPressFollowers(strongSelf)
+            strongSelf.interactionsHandler?.otherUserCellDidPressFollowers(
+                strongSelf
+            )
         } onFollowingsPressed: {
             [weak self] in
             guard let strongSelf = self else {
                 return
             }
             
-            strongSelf.interactionsHandler?.otherUserCellDidPressFollowings(strongSelf)
+            strongSelf.interactionsHandler?.otherUserCellDidPressFollowings(
+                strongSelf
+            )
         }
     }
 }

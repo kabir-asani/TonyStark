@@ -64,6 +64,7 @@ class EmptySearchTableViewCell: TXTableViewCell {
     
     private func arrangeBaseView() {
         selectionStyle = .none
+        separatorInset = .leading(.greatestFiniteMagnitude)
     }
     
     private func arrangeSubviews() {

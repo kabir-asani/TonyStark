@@ -8,7 +8,13 @@
 import UIKit
 
 protocol PartialUserTableViewCellInteractionsHandler: AnyObject {
-    func partialUserCellDidPressProfileImage(_ cell: PartialUserTableViewCell)
+    func partialUserCellDidPressProfileImage(
+        _ cell: PartialUserTableViewCell
+    )
+    
+    func partialUserCellDidPressPrimaryAction(
+        _ cell: PartialUserTableViewCell
+    )
 }
 
 class PartialUserTableViewCell: TXTableViewCell {
@@ -94,7 +100,9 @@ class PartialUserTableViewCell: TXTableViewCell {
     func configure(withUser user: User) {
         self.user = user
         
-        leading.configure(withUser: user) {
+        leading.configure(
+            withUser: user
+        ) {
             [weak self] in
             guard let strongSelf = self else {
                 return
@@ -103,7 +111,18 @@ class PartialUserTableViewCell: TXTableViewCell {
             strongSelf.interactionsHandler?.partialUserCellDidPressProfileImage(strongSelf)
         }
         
-        trailing.configure(withUser: user)
+        trailing.configure(
+            withUser: user
+        ) {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.interactionsHandler?.partialUserCellDidPressPrimaryAction(
+                strongSelf
+            )
+        }
     }
     
     // Interact

@@ -22,6 +22,8 @@ class CurrentUserDataStore: DataStore {
     private override init() { }
     
     override func bootUp() async {
+        configureEventListener()
+        
         do {
             let storedSession: TXLocalStorageElement<Session> = try await TXLocalStorageAssistant.shallow.retrieve(
                 key: Self.sessionKey
@@ -43,21 +45,6 @@ class CurrentUserDataStore: DataStore {
             TXEventBroker.shared.emit(
                 event: LogOutEvent()
             )
-        }
-        
-        TXEventBroker.shared.listen {
-            [weak self] event in
-            guard let strongSelf = self else {
-                return
-            }
-            
-            if event is TweetCreatedEvent {
-                strongSelf.onTweetCreated()
-            }
-            
-            if event is TweetDeletedEvent {
-                strongSelf.onTweetDeleted()
-            }
         }
     }
     
@@ -166,7 +153,6 @@ class CurrentUserDataStore: DataStore {
         }
     }
     
-    
     func refreshUser() async -> Result<Void, RefreshUserFailure> {
         if let session = session {
             do {
@@ -252,49 +238,153 @@ class CurrentUserDataStore: DataStore {
             return .failure(.unknown)
         }
     }
+}
+
+// MARK: Event Listener
+extension CurrentUserDataStore {
+    private func configureEventListener() {
+        TXEventBroker.shared.listen {
+            [weak self] event in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            if event is TweetCreatedEvent {
+                strongSelf.onTweetCreated()
+            }
+            
+            if event is TweetDeletedEvent {
+                strongSelf.onTweetDeleted()
+            }
+            
+            if event is FollowCreatedEvent {
+                strongSelf.onSomeoneFollowed()
+            }
+            
+            if event is FollowDeletedEvent {
+                strongSelf.onSomeoneUnfollowed()
+            }
+        }
+    }
+    
+    private func onSomeoneFollowed() {
+        guard let currentUser = user else {
+            return
+        }
+        
+        let socialDetails = currentUser.socialDetails
+        let updatedSocialDetails = socialDetails.copyWith(
+            followeesCount: socialDetails.followeesCount + 1
+        )
+        
+        let updatedUser = currentUser.copyWith(
+            socialDetails: updatedSocialDetails
+        )
+        
+        self.user = updatedUser
+        
+        TXEventBroker.shared.emit(
+            event: RefreshedCurrentUserEvent()
+        )
+        
+        Task {
+            do {
+                try await TXLocalStorageAssistant.shallow.update(
+                    key: Self.userKey,
+                    value: updatedUser
+                )
+            } catch {
+                // Do nothing
+            }
+        }
+    }
+    
+    private func onSomeoneUnfollowed() {
+        guard let currentUser = user else {
+            return
+        }
+        
+        let socialDetails = currentUser.socialDetails
+        let updatedSocialDetails = socialDetails.copyWith(
+            followeesCount: socialDetails.followeesCount - 1
+        )
+        
+        let updatedUser = currentUser.copyWith(
+            socialDetails: updatedSocialDetails
+        )
+        
+        self.user = updatedUser
+        
+        TXEventBroker.shared.emit(
+            event: RefreshedCurrentUserEvent()
+        )
+        
+        Task {
+            do {
+                try await TXLocalStorageAssistant.shallow.update(
+                    key: Self.userKey,
+                    value: updatedUser
+                )
+            } catch {
+                // Do nothing
+            }
+        }
+    }
     
     private func onTweetCreated() {
-        if let user = self.user {
-            let updatedUser = user.copyWith(
-                activityDetails: user.activityDetails.copyWith(
-                    tweetsCount: user.activityDetails.tweetsCount + 1
-                )
+        guard let currentUser = user else {
+            return
+        }
+        
+        let updatedUser = currentUser.copyWith(
+            activityDetails: currentUser.activityDetails.copyWith(
+                tweetsCount: currentUser.activityDetails.tweetsCount + 1
             )
-            
-            self.user = updatedUser
-            
-            Task {
-                do {
-                    try await TXLocalStorageAssistant.shallow.update(
-                        key: Self.userKey,
-                        value: updatedUser
-                    )
-                } catch {
-                    // Do nothing
-                }
+        )
+        
+        self.user = updatedUser
+        
+        TXEventBroker.shared.emit(
+            event: RefreshedCurrentUserEvent()
+        )
+        
+        Task {
+            do {
+                try await TXLocalStorageAssistant.shallow.update(
+                    key: Self.userKey,
+                    value: updatedUser
+                )
+            } catch {
+                // Do nothing
             }
         }
     }
     
     private func onTweetDeleted() {
-        if let user = self.user {
-            let updatedUser = user.copyWith(
-                activityDetails: user.activityDetails.copyWith(
-                    tweetsCount: user.activityDetails.tweetsCount - 1
-                )
+        guard let currentUser = user else {
+            return
+        }
+        
+        let updatedUser = currentUser.copyWith(
+            activityDetails: currentUser.activityDetails.copyWith(
+                tweetsCount: currentUser.activityDetails.tweetsCount - 1
             )
-            
-            self.user = updatedUser
-            
-            Task {
-                do {
-                    try await TXLocalStorageAssistant.shallow.update(
-                        key: Self.userKey,
-                        value: updatedUser
-                    )
-                } catch {
-                    // Do nothing
-                }
+        )
+        
+        self.user = updatedUser
+        
+        TXEventBroker.shared.emit(
+            event: RefreshedCurrentUserEvent()
+        )
+        
+        Task {
+            do {
+                try await TXLocalStorageAssistant.shallow.update(
+                    key: Self.userKey,
+                    value: updatedUser
+                )
+            } catch {
+                // Do nothing
             }
         }
     }

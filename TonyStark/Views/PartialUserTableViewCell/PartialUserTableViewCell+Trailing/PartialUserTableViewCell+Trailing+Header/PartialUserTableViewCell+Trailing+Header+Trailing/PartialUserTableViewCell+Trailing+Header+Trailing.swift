@@ -10,6 +10,8 @@ import UIKit
 extension PartialUserTableViewCell.Trailing.Header {
     class Trailing: TXView {
         // Declare
+        private var onPrimaryActionPressed: (() -> Void)?
+        
         private let followButton: TXButton = {
             let followButton = TXButton()
             
@@ -41,13 +43,26 @@ extension PartialUserTableViewCell.Trailing.Header {
         }
         
         // Configure
-        func configure(withUser user: User) {
-            followButton.setTitle(
-                user.viewables.following
-                ? "Unfollow"
-                : "Follow",
-                for: .normal
-            )
+        func configure(
+            withUser user: User,
+            onPrimaryActionPressed: @escaping () -> Void
+        ) {
+            self.onPrimaryActionPressed = onPrimaryActionPressed
+            
+            if user.id != CurrentUserDataStore.shared.user?.id {
+                followButton.setTitle(
+                    user.viewables.following
+                    ? "Unfollow"
+                    : "Follow",
+                    for: .normal
+                )
+            } else {
+                followButton.setTitle(
+                    "View",
+                    for: .normal
+                )
+            }
+            
             
             if #available(iOS 15.0, *) {
                 followButton.setTitleColor(
@@ -76,8 +91,19 @@ extension PartialUserTableViewCell.Trailing.Header {
                 : TXColor.systemBlue.cgColor
                 followButton.showsTouchWhenHighlighted = true
             }
+            
+            followButton.addTarget(
+                self,
+                action: #selector(onPrimaryActionPressed(_:)),
+                for: .touchUpInside
+            )
         }
         
         // Interact
+        @objc private func onPrimaryActionPressed(
+            _ sender: TXButton
+        ) {
+            onPrimaryActionPressed?()
+        }
     }
 }

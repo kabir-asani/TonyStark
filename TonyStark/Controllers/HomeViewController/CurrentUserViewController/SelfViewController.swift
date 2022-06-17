@@ -685,16 +685,11 @@ extension SelfViewController: TXTableViewDelegate {
         case SelfTableViewSection.tweets.rawValue:
             state.mapOnlyOnSuccess { paginatedTweets in
                 if paginatedTweets.page.isEmpty {
-                    tableView.removeSeparatorOnCell(cell)
                     return
                 }
                 
                 if indexPath.row == paginatedTweets.page.count - 1 {
-                    tableView.removeSeparatorOnCell(cell)
-                    
                     extendTableView()
-                } else {
-                    tableView.appendSeparatorOnCell(cell)
                 }
             }
         default:
@@ -890,7 +885,9 @@ extension SelfViewController: PartialTweetTableViewCellInteractionsHandler {
         }
     }
     
-    func partialTweetCellDidPressFollowOption(_ cell: PartialTweetTableViewCell) {
+    func partialTweetCellDidPressFollowOption(
+        _ cell: PartialTweetTableViewCell
+    ) {
         print(#function)
     }
     

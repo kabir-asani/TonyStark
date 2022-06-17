@@ -209,16 +209,11 @@ extension FolloweesViewController: TXTableViewDelegate {
     ) {
         state.mapOnlyOnSuccess { paginatedUsers in
             if paginatedUsers.page.isEmpty {
-                tableView.removeSeparatorOnCell(cell)
                 return
             }
             
             if indexPath.row == paginatedUsers.page.count - 1 {
-                tableView.removeSeparatorOnCell(cell)
-                
                 extendTableView()
-            } else {
-                tableView.appendSeparatorOnCell(cell)
             }
         }
     }
@@ -249,5 +244,9 @@ extension FolloweesViewController: PartialUserTableViewCellInteractionsHandler {
             
             navigationController?.openUserViewController(withUser: followee.user)
         }
+    }
+    
+    func partialUserCellDidPressPrimaryAction(_ cell: PartialUserTableViewCell) {
+        print(#function)
     }
 }

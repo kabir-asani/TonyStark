@@ -8,14 +8,10 @@
 import UIKit
 
 class TXTableViewCell: UITableViewCell {
+    static let defaultSeparatorInset = 16.0
+    
     class var reuseIdentifier: String {
         String(describing: TXTableViewCell.self)
-    }
-    
-    var defaultSeparatorInsets: UIEdgeInsets {
-        get {
-            .leading(16)
-        }
     }
     
     override init(
@@ -28,6 +24,7 @@ class TXTableViewCell: UITableViewCell {
         )
         
         contentView.isUserInteractionEnabled = false
+        separatorInset = .leading(0.0)
     }
     
     required init?(coder: NSCoder) {
@@ -46,6 +43,5 @@ class TXTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         revertAllPreparationsMadeForDelete()
-        separatorInset = defaultSeparatorInsets
     }
 }

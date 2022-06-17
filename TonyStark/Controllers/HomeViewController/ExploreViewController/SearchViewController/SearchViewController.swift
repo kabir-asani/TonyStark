@@ -214,16 +214,11 @@ extension SearchViewController: TXTableViewDelegate {
     ) {
         state.mapOnlyOnSuccess { paginatedUsers in
             if paginatedUsers.page.isEmpty {
-                tableView.removeSeparatorOnCell(cell)
                 return
             }
             
             if indexPath.row == paginatedUsers.page.count - 1 {
-                tableView.removeSeparatorOnCell(cell)
-                
                 extendTableView()
-            } else {
-                tableView.appendSeparatorOnCell(cell)
             }
         }
     }
@@ -247,7 +242,9 @@ extension SearchViewController: TXTableViewDelegate {
 
 // MARK: PartialUserTableViewCellInteractionsHandler
 extension SearchViewController: PartialUserTableViewCellInteractionsHandler {
-    func partialUserCellDidPressProfileImage(_ cell: PartialUserTableViewCell) {
+    func partialUserCellDidPressProfileImage(
+        _ cell: PartialUserTableViewCell
+    ) {
         state.mapOnlyOnSuccess { paginatedSearch in
             guard let user = paginatedSearch.page.first(where: { $0.id == cell.user.id }) else {
                 return
@@ -255,5 +252,11 @@ extension SearchViewController: PartialUserTableViewCellInteractionsHandler {
             
             navigationController?.openUserViewController(withUser: user)
         }
+    }
+    
+    func partialUserCellDidPressPrimaryAction(
+        _ cell: PartialUserTableViewCell
+    ) {
+        print(#function)
     }
 }

@@ -436,16 +436,11 @@ extension BookmarksViewController: TXTableViewDelegate {
     ) {
         state.mapOnlyOnSuccess { paginatedBookmarks in
             if paginatedBookmarks.page.isEmpty {
-                tableView.removeSeparatorOnCell(cell)
                 return
             }
             
             if indexPath.row == paginatedBookmarks.page.count - 1 {
-                tableView.removeSeparatorOnCell(cell)
-                
                 extendTableView()
-            } else {
-                tableView.appendSeparatorOnCell(cell)
             }
         }
     }
@@ -582,7 +577,29 @@ extension BookmarksViewController: PartialTweetTableViewCellInteractionsHandler 
     func partialTweetCellDidPressFollowOption(
         _ cell: PartialTweetTableViewCell
     ) {
-        print(#function)
+        guard cell.tweet.viewables.author.id != CurrentUserDataStore.shared.user?.id else {
+            return
+        }
+        
+        Task {
+            if cell.tweet.viewables.author.viewables.following {
+                let unfollowResult = await SocialsDataStore.shared.unfollow(
+                    userWithId: cell.tweet.viewables.author.id
+                )
+                
+                unfollowResult.mapOnlyOnFailure { failure in
+                    showUnknownFailureSnackBar()
+                }
+            } else {
+                let followResult = await SocialsDataStore.shared.follow(
+                    userWithId: cell.tweet.viewables.author.id
+                )
+                
+                followResult.mapOnlyOnFailure { failure in
+                    showUnknownFailureSnackBar()
+                }
+            }
+        }
     }
     
     func partialTweetCellDidPressDeleteOption(

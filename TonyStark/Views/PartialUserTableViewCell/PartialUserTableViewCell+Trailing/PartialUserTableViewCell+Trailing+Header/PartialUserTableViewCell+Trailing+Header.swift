@@ -65,9 +65,15 @@ extension PartialUserTableViewCell.Trailing {
         }
         
         // Configure
-        func configure(withUser user: User) {
+        func configure(
+            withUser user: User,
+            onPrimaryActionPressed: @escaping () -> Void
+        ) {
             leading.configure(withUser: user)
-            trailing.configure(withUser: user)
+            trailing.configure(
+                withUser: user,
+                onPrimaryActionPressed: onPrimaryActionPressed
+            )
         }
         
         // Interact

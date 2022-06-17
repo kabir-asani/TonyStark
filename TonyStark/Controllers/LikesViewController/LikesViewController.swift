@@ -281,16 +281,11 @@ extension LikesViewController: TXTableViewDelegate {
     ) {
         state.mapOnlyOnSuccess { paginatedLikes in
             if paginatedLikes.page.isEmpty {
-                tableView.removeSeparatorOnCell(cell)
                 return
             }
             
             if indexPath.row == paginatedLikes.page.count - 1 {
-                tableView.removeSeparatorOnCell(cell)
-                
                 extendTableView()
-            } else {
-                tableView.appendSeparatorOnCell(cell)
             }
         }
     }
@@ -326,5 +321,11 @@ extension LikesViewController: PartialUserTableViewCellInteractionsHandler {
                 withUser: like.viewables.author
             )
         }
+    }
+    
+    func partialUserCellDidPressPrimaryAction(
+        _ cell: PartialUserTableViewCell
+    ) {
+        print(#function)
     }
 }

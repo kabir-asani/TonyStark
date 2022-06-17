@@ -594,16 +594,11 @@ extension TweetViewController: TXTableViewDelegate {
     ) {
         state.mapOnlyOnSuccess { paginatedComments in
             if paginatedComments.page.isEmpty {
-                tableView.removeSeparatorOnCell(cell)
                 return
             }
             
             if indexPath.row == paginatedComments.page.count - 1 {
-                tableView.removeSeparatorOnCell(cell)
-                
                 extendTableView()
-            } else {
-                tableView.appendSeparatorOnCell(cell)
             }
         }
     }
@@ -706,8 +701,32 @@ extension TweetViewController: TweetTableViewCellInteractionsHandler {
         }
     }
     
-    func tweetCellDidPressFollowOption(_ cell: TweetTableViewCell) {
-        print(#function)
+    func tweetCellDidPressFollowOption(
+        _ cell: TweetTableViewCell
+    ) {
+        guard cell.tweet.viewables.author.id != CurrentUserDataStore.shared.user?.id else {
+            return
+        }
+        
+        Task {
+            if cell.tweet.viewables.author.viewables.following {
+                let unfollowResult = await SocialsDataStore.shared.unfollow(
+                    userWithId: cell.tweet.viewables.author.id
+                )
+                
+                unfollowResult.mapOnlyOnFailure { failure in
+                    showUnknownFailureSnackBar()
+                }
+            } else {
+                let followResult = await SocialsDataStore.shared.follow(
+                    userWithId: cell.tweet.viewables.author.id
+                )
+                
+                followResult.mapOnlyOnFailure { failure in
+                    showUnknownFailureSnackBar()
+                }
+            }
+        }
     }
     
     func tweetCellDidPressDeleteOption(_ cell: TweetTableViewCell) {

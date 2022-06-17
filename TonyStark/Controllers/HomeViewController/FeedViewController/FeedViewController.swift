@@ -106,7 +106,417 @@ class FeedViewController: TXFloatingActionViewController {
     }
 }
 
-// MARK: TXEventListener
+// MARK: TXTableViewDataSource
+extension FeedViewController: TXTableViewDataSource {
+    private func populateTableView() {
+        Task {
+            tableView.beginPaginating()
+            
+            let feedResult = await FeedDataStore.shared.feed()
+            
+            tableView.endPaginating()
+            
+            feedResult.map { paginatedFeed in
+                state = .success(paginatedFeed)
+                tableView.appendSpacerOnFooter()
+            } onFailure: { failure in
+                state = .failure(failure)
+                tableView.removeSpacerOnFooter()
+            }
+            
+            tableView.reloadData()
+        }
+    }
+    
+    private func refreshTableView() {
+        Task {
+            tableView.beginRefreshing()
+            
+            let feedResult = await FeedDataStore.shared.feed()
+            
+            tableView.endRefreshing()
+            
+            feedResult.map { paginatedFeed in
+                state = .success(paginatedFeed)
+                tableView.appendSpacerOnFooter()
+            } onFailure: { failure in
+                state = .failure(failure)
+                tableView.removeSpacerOnFooter()
+            }
+            
+            tableView.reloadData()
+        }
+    }
+    
+    private func extendTableView() {
+        state.mapOnlyOnSuccess { previousPaginated in
+            guard let nextToken = previousPaginated.nextToken else {
+                return
+            }
+            
+            Task {
+                tableView.beginPaginating()
+                
+                let feedResult = await FeedDataStore.shared.feed(
+                    after: nextToken
+                )
+                
+                tableView.endPaginating()
+                
+                feedResult.map { latestPaginatedFeed in
+                    
+                    let updatedPaginatedFeed = Paginated<Tweet>(
+                        page: previousPaginated.page + latestPaginatedFeed.page,
+                        nextToken: latestPaginatedFeed.nextToken
+                    )
+                    
+                    state = .success(updatedPaginatedFeed)
+                    
+                    tableView.reloadData()
+                    
+                    tableView.appendSepartorToLastMostVisibleCell()
+                } onFailure: { failure in
+                    showUnknownFailureSnackBar()
+                }
+            }
+        }
+    }
+    
+    func numberOfSections(
+        in tableView: UITableView
+    ) -> Int {
+        FeedTableViewSection.allCases.count
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        numberOfRowsInSection section: Int
+    ) -> Int {
+        state.mapOnSuccess { paginatedFeed in
+            if paginatedFeed.page.isEmpty {
+                return 1
+            } else {
+                return paginatedFeed.page.count
+            }
+        } orElse: {
+            0
+        }
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
+        state.mapOnSuccess { paginatedFeed in
+            if paginatedFeed.page.isEmpty {
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: EmptyFeedTableViewCell.reuseIdentifier,
+                    for: indexPath
+                ) as! EmptyFeedTableViewCell
+                
+                cell.intractionsHandler = self
+                
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
+                    for: indexPath
+                ) as! PartialTweetTableViewCell
+                
+                cell.interactionsHandler = self
+                cell.configure(
+                    withTweet: paginatedFeed.page[indexPath.row]
+                )
+                
+                return cell
+            }
+        } orElse: {
+            return TXTableViewCell()
+        }
+    }
+}
+
+// MARK: TXTableViewDelegate
+extension FeedViewController: TXTableViewDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        state.mapOnlyOnSuccess { paginatedTweets in
+            if paginatedTweets.page.isEmpty {
+                return
+            }
+            
+            if indexPath.row == paginatedTweets.page.count - 1 {
+                extendTableView()
+            }
+        }
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        estimatedHeightForRowAt indexPath: IndexPath
+    ) -> CGFloat {
+        UITableView.automaticDimension
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        tableView.deselectRow(
+            at: indexPath,
+            animated: true
+        )
+        
+        state.mapOnlyOnSuccess { paginatedFeed in
+            if paginatedFeed.page.isEmpty {
+                return
+            }
+            
+            let tweet = paginatedFeed.page[indexPath.row]
+            
+            let tweetViewController = TweetViewController()
+            
+            tweetViewController.populate(
+                withTweet: tweet
+            )
+            
+            navigationController?.pushViewController(
+                tweetViewController,
+                animated: true
+            )
+        }
+    }
+}
+
+// MARK: TXRefreshControlDelegate
+extension FeedViewController: TXRefreshControlDelegate {
+    func refreshControlDidChange(
+        _ control: TXRefreshControl
+    ) {
+        if control.isRefreshing {
+            refreshTableView()
+        }
+    }
+}
+
+// MARK: EmptyFeedTableViewCellInteractionsHandler
+extension FeedViewController: EmptyFeedTableViewCellInteractionsHandler {
+    func emtpyFeedCellDidPressSearch(
+        _ cell: EmptyFeedTableViewCell
+    ) {
+        TXEventBroker.shared.emit(
+            event: HomeTabSwitchEvent(
+                tab: .explore
+            )
+        )
+    }
+}
+
+// MARK: TweetTableViewCellInteractionsHandler
+extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
+    func partialTweetCellDidPressLike(
+        _ cell: PartialTweetTableViewCell
+    ) {
+        state.mapOnlyOnSuccess { paginatedFeed in
+            if cell.tweet.viewables.liked {
+                onTweetUnliked(
+                    withId: cell.tweet.id
+                )
+            } else {
+                onTweetLiked(
+                    withId: cell.tweet.id
+                )
+            }
+            
+            Task {
+                if cell.tweet.viewables.liked {
+                    let likeCreationResult = await LikesDataStore.shared.deleteLike(
+                        onTweetWithId: cell.tweet.id
+                    )
+                    
+                    likeCreationResult.mapOnlyOnFailure { failure in
+                        showUnknownFailureSnackBar()
+                        
+                        onTweetLiked(
+                            withId: cell.tweet.id
+                        )
+                    }
+                } else {
+                    let likeDeletionResult = await LikesDataStore.shared.createLike(
+                        onTweetWithId: cell.tweet.id
+                    )
+                    
+                    likeDeletionResult.mapOnlyOnFailure { failure in
+                        showUnknownFailureSnackBar()
+                        
+                        onTweetUnliked(
+                            withId: cell.tweet.id
+                        )
+                    }
+                }
+            }
+        }
+    }
+    
+    func partialTweetCellDidPressComment(
+        _ cell: PartialTweetTableViewCell
+    ) {
+        state.mapOnlyOnSuccess { paginatedFeed in
+            guard let tweet = paginatedFeed.page.first(where: { $0.id == cell.tweet.id }) else {
+                return
+            }
+            
+            navigationController?.openTweetViewController(
+                withTweet: tweet,
+                andOptions: .init(
+                    autoFocus: true
+                )
+            )
+        }
+    }
+    
+    func partialTweetCellDidPressProfileImage(
+        _ cell: PartialTweetTableViewCell
+    ) {
+        state.mapOnlyOnSuccess { paginatedFeed in
+            guard let tweet = paginatedFeed.page.first(where: { $0.id == cell.tweet.id }) else {
+                return
+            }
+            
+            let user = tweet.viewables.author
+            
+            navigationController?.openUserViewController(withUser: user)
+        }
+    }
+    
+    func partialTweetCellDidPressBookmarkOption(
+        _ cell: PartialTweetTableViewCell
+    ) {
+        Task {
+            if cell.tweet.viewables.bookmarked {
+                let bookmarkDeletionResult = await BookmarksDataStore.shared.deleteBookmark(
+                    onTweetWithId: cell.tweet.id
+                )
+                
+                bookmarkDeletionResult.map {
+                    showBookmarkDeletedSnackBar()
+                } onFailure: { failure in
+                    showUnknownFailureSnackBar()
+                }
+            } else {
+                let bookmarkCreationResult = await BookmarksDataStore.shared.createBookmark(
+                    onTweetWithId: cell.tweet.id
+                )
+                
+                bookmarkCreationResult.map {
+                    showBookmarkCreatedSnackBar()
+                } onFailure: { failure in
+                    showUnknownFailureSnackBar()
+                }
+            }
+        }
+    }
+    
+    func partialTweetCellDidPressFollowOption(
+        _ cell: PartialTweetTableViewCell
+    ) {
+        guard cell.tweet.viewables.author.id != CurrentUserDataStore.shared.user?.id else {
+            return
+        }
+        
+        Task {
+            if cell.tweet.viewables.author.viewables.following {
+                let unfollowResult = await SocialsDataStore.shared.unfollow(
+                    userWithId: cell.tweet.viewables.author.id
+                )
+                
+                unfollowResult.mapOnlyOnFailure { failure in
+                    showUnknownFailureSnackBar()
+                }
+            } else {
+                let followResult = await SocialsDataStore.shared.follow(
+                    userWithId: cell.tweet.viewables.author.id
+                )
+                
+                followResult.mapOnlyOnFailure { failure in
+                    showUnknownFailureSnackBar()
+                }
+            }
+        }
+    }
+    
+    func partialTweetCellDidPressDeleteOption(
+        _ cell: PartialTweetTableViewCell
+    ) {
+        state.mapOnlyOnSuccess { paginatedFeed in
+            guard let tweet = paginatedFeed.page.first(where: { $0.id == cell.tweet.id }) else {
+                return
+            }
+            
+            Task {
+                cell.prepareForDelete()
+                
+                let tweetDeletionResult = await TweetsDataStore.shared.deleteTweet(
+                    withId: tweet.id
+                )
+                
+                tweetDeletionResult.mapOnlyOnFailure { failure in
+                    cell.revertAllPreparationsMadeForDelete()
+                    showUnknownFailureSnackBar()
+                }
+            }
+            return
+        }
+    }
+    
+    func partialTweetCellDidPressOptions(
+        _ cell: PartialTweetTableViewCell
+    ) {
+        state.mapOnlyOnSuccess { paginatedFeed in
+            guard let tweet = paginatedFeed.page.first(where: { $0.id == cell.tweet.id }) else {
+                return
+            }
+            
+            let alert = TweetOptionsAlertController.regular()
+            
+            alert.interactionsHandler = self
+            alert.configure(
+                withTweet: tweet
+            )
+            
+            present(
+                alert,
+                animated: true
+            )
+        }
+    }
+}
+
+// MARK: TweetOptionsAlertViewControllerInteractionsHandler
+extension FeedViewController: TweetOptionsAlertControllerInteractionsHandler {
+    func tweetOptionsAlertControllerDidPressBookmark(
+        _ controller: TweetOptionsAlertController
+    ) {
+        print(#function)
+    }
+    
+    func tweetOptionsAlertControllerDidPressFollow(
+        _ controller: TweetOptionsAlertController
+    ) {
+        print(#function)
+    }
+    
+    func tweetOptionsAlertControllerDidPressDelete(
+        _ controller: TweetOptionsAlertController
+    ) {
+        print(#function)
+    }
+}
+
+// MARK: EventListener
 extension FeedViewController {
     private func configureEventListener() {
         TXEventBroker.shared.listen {
@@ -408,394 +818,5 @@ extension FeedViewController {
                 strongSelf.tableView.reloadData()
             }
         }
-    }
-}
-
-// MARK: TXTableViewDataSource
-extension FeedViewController: TXTableViewDataSource {
-    private func populateTableView() {
-        Task {
-            tableView.beginPaginating()
-            
-            let feedResult = await FeedDataStore.shared.feed()
-            
-            tableView.endPaginating()
-            
-            feedResult.map { paginatedFeed in
-                state = .success(paginatedFeed)
-                tableView.appendSpacerOnFooter()
-            } onFailure: { failure in
-                state = .failure(failure)
-                tableView.removeSpacerOnFooter()
-            }
-            
-            tableView.reloadData()
-        }
-    }
-    
-    private func refreshTableView() {
-        Task {
-            tableView.beginRefreshing()
-            
-            let feedResult = await FeedDataStore.shared.feed()
-            
-            tableView.endRefreshing()
-            
-            feedResult.map { paginatedFeed in
-                state = .success(paginatedFeed)
-                tableView.appendSpacerOnFooter()
-            } onFailure: { failure in
-                state = .failure(failure)
-                tableView.removeSpacerOnFooter()
-            }
-            
-            tableView.reloadData()
-        }
-    }
-    
-    private func extendTableView() {
-        state.mapOnlyOnSuccess { previousPaginated in
-            guard let nextToken = previousPaginated.nextToken else {
-                return
-            }
-            
-            Task {
-                tableView.beginPaginating()
-                
-                let feedResult = await FeedDataStore.shared.feed(
-                    after: nextToken
-                )
-                
-                tableView.endPaginating()
-                
-                feedResult.map { latestPaginatedFeed in
-                    
-                    let updatedPaginatedFeed = Paginated<Tweet>(
-                        page: previousPaginated.page + latestPaginatedFeed.page,
-                        nextToken: latestPaginatedFeed.nextToken
-                    )
-                    
-                    state = .success(updatedPaginatedFeed)
-                    
-                    tableView.reloadData()
-                    
-                    tableView.appendSepartorToLastMostVisibleCell()
-                } onFailure: { failure in
-                    showUnknownFailureSnackBar()
-                }
-            }
-        }
-    }
-    
-    func numberOfSections(
-        in tableView: UITableView
-    ) -> Int {
-        FeedTableViewSection.allCases.count
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
-        numberOfRowsInSection section: Int
-    ) -> Int {
-        state.mapOnSuccess { paginatedFeed in
-            if paginatedFeed.page.isEmpty {
-                return 1
-            } else {
-                return paginatedFeed.page.count
-            }
-        } orElse: {
-            0
-        }
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        state.mapOnSuccess { paginatedFeed in
-            if paginatedFeed.page.isEmpty {
-                let cell = tableView.dequeueReusableCell(
-                    withIdentifier: EmptyFeedTableViewCell.reuseIdentifier,
-                    for: indexPath
-                ) as! EmptyFeedTableViewCell
-                
-                cell.intractionsHandler = self
-                
-                return cell
-            } else {
-                let cell = tableView.dequeueReusableCell(
-                    withIdentifier: PartialTweetTableViewCell.reuseIdentifier,
-                    for: indexPath
-                ) as! PartialTweetTableViewCell
-                
-                cell.interactionsHandler = self
-                cell.configure(
-                    withTweet: paginatedFeed.page[indexPath.row]
-                )
-                
-                return cell
-            }
-        } orElse: {
-            TXTableViewCell()
-        }
-    }
-}
-
-// MARK: TXTableViewDelegate
-extension FeedViewController: TXTableViewDelegate {
-    func tableView(
-        _ tableView: UITableView,
-        willDisplay cell: UITableViewCell,
-        forRowAt indexPath: IndexPath
-    ) {
-        state.mapOnlyOnSuccess { paginatedTweets in
-            if paginatedTweets.page.isEmpty {
-                tableView.removeSeparatorOnCell(cell)
-                return
-            }
-            
-            if indexPath.row == paginatedTweets.page.count - 1 {
-                tableView.removeSeparatorOnCell(cell)
-                
-                extendTableView()
-            } else {
-                tableView.appendSeparatorOnCell(cell)
-            }
-        }
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
-        estimatedHeightForRowAt indexPath: IndexPath
-    ) -> CGFloat {
-        UITableView.automaticDimension
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
-        didSelectRowAt indexPath: IndexPath
-    ) {
-        tableView.deselectRow(
-            at: indexPath,
-            animated: true
-        )
-        
-        state.mapOnlyOnSuccess { paginatedFeed in
-            let tweet = paginatedFeed.page[indexPath.row]
-            
-            let tweetViewController = TweetViewController()
-            
-            tweetViewController.populate(
-                withTweet: tweet
-            )
-            
-            navigationController?.pushViewController(
-                tweetViewController,
-                animated: true
-            )
-        }
-    }
-}
-
-// MARK: TXRefreshControlDelegate
-extension FeedViewController: TXRefreshControlDelegate {
-    func refreshControlDidChange(
-        _ control: TXRefreshControl
-    ) {
-        if control.isRefreshing {
-            refreshTableView()
-        }
-    }
-}
-
-// MARK: EmptyFeedTableViewCellInteractionsHandler
-extension FeedViewController: EmptyFeedTableViewCellInteractionsHandler {
-    func emtpyFeedCellDidPressSearch(
-        _ cell: EmptyFeedTableViewCell
-    ) {
-        TXEventBroker.shared.emit(
-            event: HomeTabSwitchEvent(
-                tab: .explore
-            )
-        )
-    }
-}
-
-// MARK: TweetTableViewCellInteractionsHandler
-extension FeedViewController: PartialTweetTableViewCellInteractionsHandler {
-    func partialTweetCellDidPressLike(
-        _ cell: PartialTweetTableViewCell
-    ) {
-        state.mapOnlyOnSuccess { paginatedFeed in
-            if cell.tweet.viewables.liked {
-                onTweetUnliked(
-                    withId: cell.tweet.id
-                )
-            } else {
-                onTweetLiked(
-                    withId: cell.tweet.id
-                )
-            }
-            
-            Task {
-                if cell.tweet.viewables.liked {
-                    let likeCreationResult = await LikesDataStore.shared.deleteLike(
-                        onTweetWithId: cell.tweet.id
-                    )
-                    
-                    likeCreationResult.mapOnlyOnFailure { failure in
-                        showUnknownFailureSnackBar()
-                        
-                        onTweetLiked(
-                            withId: cell.tweet.id
-                        )
-                    }
-                } else {
-                    let likeDeletionResult = await LikesDataStore.shared.createLike(
-                        onTweetWithId: cell.tweet.id
-                    )
-                    
-                    likeDeletionResult.mapOnlyOnFailure { failure in
-                        showUnknownFailureSnackBar()
-                        
-                        onTweetUnliked(
-                            withId: cell.tweet.id
-                        )
-                    }
-                }
-            }
-        }
-    }
-    
-    func partialTweetCellDidPressComment(
-        _ cell: PartialTweetTableViewCell
-    ) {
-        state.mapOnlyOnSuccess { paginatedFeed in
-            guard let tweet = paginatedFeed.page.first(where: { $0.id == cell.tweet.id }) else {
-                return
-            }
-            
-            navigationController?.openTweetViewController(
-                withTweet: tweet,
-                andOptions: .init(
-                    autoFocus: true
-                )
-            )
-        }
-    }
-    
-    func partialTweetCellDidPressProfileImage(
-        _ cell: PartialTweetTableViewCell
-    ) {
-        state.mapOnlyOnSuccess { paginatedFeed in
-            guard let tweet = paginatedFeed.page.first(where: { $0.id == cell.tweet.id }) else {
-                return
-            }
-            
-            let user = tweet.viewables.author
-            
-            navigationController?.openUserViewController(withUser: user)
-        }
-    }
-    
-    func partialTweetCellDidPressBookmarkOption(
-        _ cell: PartialTweetTableViewCell
-    ) {
-        Task {
-            if cell.tweet.viewables.bookmarked {
-                let bookmarkDeletionResult = await BookmarksDataStore.shared.deleteBookmark(
-                    onTweetWithId: cell.tweet.id
-                )
-                
-                bookmarkDeletionResult.map {
-                    showBookmarkDeletedSnackBar()
-                } onFailure: { failure in
-                    showUnknownFailureSnackBar()
-                }
-            } else {
-                let bookmarkCreationResult = await BookmarksDataStore.shared.createBookmark(
-                    onTweetWithId: cell.tweet.id
-                )
-                
-                bookmarkCreationResult.map {
-                    showBookmarkCreatedSnackBar()
-                } onFailure: { failure in
-                    showUnknownFailureSnackBar()
-                }
-            }
-        }
-    }
-    
-    func partialTweetCellDidPressFollowOption(
-        _ cell: PartialTweetTableViewCell
-    ) {
-        print(#function)
-    }
-    
-    func partialTweetCellDidPressDeleteOption(
-        _ cell: PartialTweetTableViewCell
-    ) {
-        state.mapOnlyOnSuccess { paginatedFeed in
-            guard let tweet = paginatedFeed.page.first(where: { $0.id == cell.tweet.id }) else {
-                return
-            }
-            
-            Task {
-                cell.prepareForDelete()
-                
-                let tweetDeletionResult = await TweetsDataStore.shared.deleteTweet(
-                    withId: tweet.id
-                )
-                
-                tweetDeletionResult.mapOnlyOnFailure { failure in
-                    cell.revertAllPreparationsMadeForDelete()
-                    showUnknownFailureSnackBar()
-                }
-            }
-            return
-        }
-    }
-    
-    func partialTweetCellDidPressOptions(
-        _ cell: PartialTweetTableViewCell
-    ) {
-        state.mapOnlyOnSuccess { paginatedFeed in
-            guard let tweet = paginatedFeed.page.first(where: { $0.id == cell.tweet.id }) else {
-                return
-            }
-            
-            let alert = TweetOptionsAlertController.regular()
-            
-            alert.interactionsHandler = self
-            alert.configure(
-                withTweet: tweet
-            )
-            
-            present(
-                alert,
-                animated: true
-            )
-        }
-    }
-}
-
-// MARK: TweetOptionsAlertViewControllerInteractionsHandler
-extension FeedViewController: TweetOptionsAlertControllerInteractionsHandler {
-    func tweetOptionsAlertControllerDidPressBookmark(
-        _ controller: TweetOptionsAlertController
-    ) {
-        print(#function)
-    }
-    
-    func tweetOptionsAlertControllerDidPressFollow(
-        _ controller: TweetOptionsAlertController
-    ) {
-        print(#function)
-    }
-    
-    func tweetOptionsAlertControllerDidPressDelete(
-        _ controller: TweetOptionsAlertController
-    ) {
-        print(#function)
     }
 }

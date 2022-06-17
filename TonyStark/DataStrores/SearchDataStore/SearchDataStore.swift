@@ -54,12 +54,7 @@ class SearchDataStore: DataStore {
                         from: searchResult.data
                     ).data
                     
-                    let paginatedSearchWithoutCurrentUser = Paginated<User>(
-                        page: paginatedSearch.page.filter { $0.id != CurrentUserDataStore.shared.user?.id },
-                        nextToken: paginatedSearch.nextToken
-                    )
-                    
-                    return .success(paginatedSearchWithoutCurrentUser)
+                    return .success(paginatedSearch)
                 } else {
                     return .failure(.unknown)
                 }
