@@ -84,6 +84,10 @@ class FeedViewController: TXFloatingActionViewController {
             EmptyFeedTableViewCell.self,
             forCellReuseIdentifier: EmptyFeedTableViewCell.reuseIdentifier
         )
+        tableView.register(
+            UnknownFailureTableViewCell.self,
+            forCellReuseIdentifier: UnknownFailureTableViewCell.reuseIdentifier
+        )
         
         tableView.pin(
             to: view,
@@ -192,13 +196,15 @@ extension FeedViewController: TXTableViewDataSource {
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        state.mapOnSuccess { paginatedFeed in
+        state.map { paginatedFeed in
             if paginatedFeed.page.isEmpty {
                 return 1
             } else {
                 return paginatedFeed.page.count
             }
-        } orElse: {
+        } onFailure: { failure in
+            1
+        } onProcessing: {
             0
         }
     }
@@ -207,7 +213,7 @@ extension FeedViewController: TXTableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        state.mapOnSuccess { paginatedFeed in
+        state.map { paginatedFeed in
             if paginatedFeed.page.isEmpty {
                 let cell = tableView.dequeueReusableCell(
                     withIdentifier: EmptyFeedTableViewCell.reuseIdentifier,
@@ -230,8 +236,15 @@ extension FeedViewController: TXTableViewDataSource {
                 
                 return cell
             }
-        } orElse: {
-            return TXTableViewCell()
+        } onFailure: { failure in
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: UnknownFailureTableViewCell.reuseIdentifier,
+                for: indexPath
+            ) as! UnknownFailureTableViewCell
+            
+            return cell
+        } onProcessing: {
+            TXTableViewCell()
         }
     }
 }

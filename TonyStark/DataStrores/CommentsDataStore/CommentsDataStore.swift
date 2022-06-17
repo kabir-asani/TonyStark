@@ -78,6 +78,37 @@ class CommentsDataStore: DataStore {
         onTweetWithId tweetId: String,
         after nextToken: String? = nil
     ) async -> Result<Paginated<Comment>, CommentsFailure>{
-        return .failure(.unknown)
+        guard let session = CurrentUserDataStore.shared.session else {
+            return .failure(.unknown)
+        }
+        
+        do {
+            let query = nextToken != nil ? [
+                "nextToken": nextToken!
+            ] : nil
+            
+            let commentsResult = try await TXNetworkAssistant.shared.get(
+                url: Self.commentsURL(
+                    tweetId: tweetId
+                ),
+                query: query,
+                headers: secureHeaders(
+                    withAccessToken: session.accessToken
+                )
+            )
+            
+            if commentsResult.statusCode == 200 {
+                let comments = try TXJsonAssistant.decode(
+                    SuccessData<Paginated<Comment>>.self,
+                    from: commentsResult.data
+                ).data
+                
+                return .success(comments)
+            } else {
+                return .failure(.unknown)
+            }
+        } catch {
+            return .failure(.unknown)
+        }
     }
 }

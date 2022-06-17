@@ -56,6 +56,7 @@
 		161CB5FC285C564600AB6101 /* OtherUserDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161CB5FB285C564600AB6101 /* OtherUserDataStore.swift */; };
 		161CB5FE285C565500AB6101 /* OtherUserDataStore+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161CB5FD285C565500AB6101 /* OtherUserDataStore+Request.swift */; };
 		161CB600285C565C00AB6101 /* OtherUserDataStore+Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161CB5FF285C565C00AB6101 /* OtherUserDataStore+Response.swift */; };
+		161CB603285C869C00AB6101 /* UnknownFailureTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161CB602285C869C00AB6101 /* UnknownFailureTableViewCell.swift */; };
 		16237AEE281FABD200837064 /* EditBioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16237AED281FABD200837064 /* EditBioTableViewCell.swift */; };
 		16237AF1281FB49600837064 /* StringX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16237AF0281FB49600837064 /* StringX.swift */; };
 		16237AF3281FB71000837064 /* EditUsernameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16237AF2281FB71000837064 /* EditUsernameTableViewCell.swift */; };
@@ -250,6 +251,7 @@
 		161CB5FB285C564600AB6101 /* OtherUserDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserDataStore.swift; sourceTree = "<group>"; };
 		161CB5FD285C565500AB6101 /* OtherUserDataStore+Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OtherUserDataStore+Request.swift"; sourceTree = "<group>"; };
 		161CB5FF285C565C00AB6101 /* OtherUserDataStore+Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OtherUserDataStore+Response.swift"; sourceTree = "<group>"; };
+		161CB602285C869C00AB6101 /* UnknownFailureTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnknownFailureTableViewCell.swift; sourceTree = "<group>"; };
 		16237AED281FABD200837064 /* EditBioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBioTableViewCell.swift; sourceTree = "<group>"; };
 		16237AF0281FB49600837064 /* StringX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringX.swift; sourceTree = "<group>"; };
 		16237AF2281FB71000837064 /* EditUsernameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUsernameTableViewCell.swift; sourceTree = "<group>"; };
@@ -729,6 +731,7 @@
 		1618F8EB2822EB7300C1358E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				161CB601285C868F00AB6101 /* UnknownFailureTableViewCell */,
 				165A8A022850863D00A89AD6 /* Core */,
 				165A8A0728508E0400A89AD6 /* ActivityIndicator */,
 				162644E928292C6B00CE4B53 /* SnackBar */,
@@ -749,6 +752,14 @@
 				161CB5FB285C564600AB6101 /* OtherUserDataStore.swift */,
 			);
 			path = OtherUserDataStore;
+			sourceTree = "<group>";
+		};
+		161CB601285C868F00AB6101 /* UnknownFailureTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				161CB602285C869C00AB6101 /* UnknownFailureTableViewCell.swift */,
+			);
+			path = UnknownFailureTableViewCell;
 			sourceTree = "<group>";
 		};
 		1624FE73285B1C0100AAF9B7 /* EmptySearchTableViewCell */ = {
@@ -2090,6 +2101,7 @@
 				165ED0312811E41A0022D822 /* TXVisualEffectView.swift in Sources */,
 				16FDA078280FF5A4004BB3C4 /* CommentTableViewCell+Trailing+Header.swift in Sources */,
 				1618F8E92822E50600C1358E /* FloatingActionButton.swift in Sources */,
+				161CB603285C869C00AB6101 /* UnknownFailureTableViewCell.swift in Sources */,
 				16E3C13228216C39009CC8E7 /* FeedDataStore.swift in Sources */,
 				16237AF1281FB49600837064 /* StringX.swift in Sources */,
 				16DBF5C32817E90600E92DE5 /* UIViewControllerX.swift in Sources */,
