@@ -177,7 +177,9 @@ extension FolloweesViewController: TXTableViewDataSource {
             ) as! PartialUserTableViewCell
             
             cell.interactionsHandler = self
-            cell.configure(withUser: followee.user)
+            cell.configure(
+                withUser: followee.viewables.followee
+            )
             
             return cell
         } orElse: {
@@ -197,7 +199,9 @@ extension FolloweesViewController: TXTableViewDataSource {
         state.mapOnlyOnSuccess { paginatedFollowees in
             let followee = paginatedFollowees.page[indexPath.row]
             
-            navigationController?.openUserViewController(withUser: followee.user)
+            navigationController?.openUserViewController(
+                withUser: followee.viewables.followee
+            )
         }
     }
 }
@@ -239,18 +243,64 @@ extension FolloweesViewController: TXRefreshControlDelegate {
 
 // MARK: PartialUserTableViewCellInteractionsHandler
 extension FolloweesViewController: PartialUserTableViewCellInteractionsHandler {
-    func partialUserCellDidPressProfileImage(_ cell: PartialUserTableViewCell) {
+    func partialUserCellDidPressProfileImage(
+        _ cell: PartialUserTableViewCell
+    ) {
         state.mapOnlyOnSuccess { paginatedFollowees in
-            guard let followee = paginatedFollowees.page.first(where: { $0.user.id == cell.user.id }) else {
+            guard let followee = paginatedFollowees.page.first(where: { $0.viewables.followee.id == cell.user.id }) else {
                 return
             }
             
-            navigationController?.openUserViewController(withUser: followee.user)
+            navigationController?.openUserViewController(
+                withUser: followee.viewables.followee
+            )
         }
     }
     
-    func partialUserCellDidPressPrimaryAction(_ cell: PartialUserTableViewCell) {
-        print(#function)
+    func partialUserCellDidPressPrimaryAction(
+        _ cell: PartialUserTableViewCell
+    ) {
+        if cell.user.id == CurrentUserDataStore.shared.user?.id {
+            navigationController?.openUserViewController(
+                withUser: cell.user
+            )
+        } else {
+            if cell.user.viewables.following {
+                onSomeoneUnfollowed(
+                    withId: cell.user.id
+                )
+            } else {
+                onSomeoneFollowed(
+                    withId: cell.user.id
+                )
+            }
+            
+            Task {
+                if cell.user.viewables.following {
+                    let unfollowResult = await SocialsDataStore.shared.unfollow(
+                        userWithId: cell.user.id
+                    )
+                    
+                    unfollowResult.mapOnlyOnFailure { failure in
+                        showUnknownFailureSnackBar()
+                        onSomeoneFollowed(
+                            withId: cell.user.id
+                        )
+                    }
+                } else {
+                    let followResult = await SocialsDataStore.shared.follow(
+                        userWithId: cell.user.id
+                    )
+                    
+                    followResult.mapOnlyOnFailure { failure in
+                        showUnknownFailureSnackBar()
+                        onSomeoneUnfollowed(
+                            withId: cell.user.id
+                        )
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -283,7 +333,7 @@ extension FolloweesViewController {
         state.mapOnlyOnSuccess { previousPaginatedFollowees in
             let updatedPaginatedFollowees = previousPaginatedFollowees.copyWith(
                 page: previousPaginatedFollowees.page.map { followee in
-                    let user = followee.user
+                    let user = followee.viewables.followee
                     
                     if user.id != id || user.viewables.following {
                         return followee
@@ -306,7 +356,9 @@ extension FolloweesViewController {
                     )
                     
                     return followee.copyWith(
-                        user: updatedUser
+                        viewables: followee.viewables.copyWith(
+                            followee: updatedUser
+                        )
                     )
                 }
             )
@@ -332,7 +384,7 @@ extension FolloweesViewController {
         state.mapOnlyOnSuccess { previousPaginatedFollowees in
             let updatedPaginatedFollowees = previousPaginatedFollowees.copyWith(
                 page: previousPaginatedFollowees.page.map { followee in
-                    let user = followee.user
+                    let user = followee.viewables.followee
                     
                     if user.id != id || !user.viewables.following {
                         return followee
@@ -355,7 +407,9 @@ extension FolloweesViewController {
                     )
                     
                     return followee.copyWith(
-                        user: updatedUser
+                        viewables: followee.viewables.copyWith(
+                            followee: updatedUser
+                        )
                     )
                 }
             )

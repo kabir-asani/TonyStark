@@ -273,7 +273,47 @@ extension LikesViewController: PartialUserTableViewCellInteractionsHandler {
     func partialUserCellDidPressPrimaryAction(
         _ cell: PartialUserTableViewCell
     ) {
-        print(#function)
+        if cell.user.id == CurrentUserDataStore.shared.user?.id {
+            navigationController?.openUserViewController(
+                withUser: cell.user
+            )
+        } else {
+            if cell.user.viewables.following {
+                onSomeoneUnfollowed(
+                    withId: cell.user.id
+                )
+            } else {
+                onSomeoneFollowed(
+                    withId: cell.user.id
+                )
+            }
+            
+            Task {
+                if cell.user.viewables.following {
+                    let unfollowResult = await SocialsDataStore.shared.unfollow(
+                        userWithId: cell.user.id
+                    )
+                    
+                    unfollowResult.mapOnlyOnFailure { failure in
+                        showUnknownFailureSnackBar()
+                        onSomeoneFollowed(
+                            withId: cell.user.id
+                        )
+                    }
+                } else {
+                    let followResult = await SocialsDataStore.shared.follow(
+                        userWithId: cell.user.id
+                    )
+                    
+                    followResult.mapOnlyOnFailure { failure in
+                        showUnknownFailureSnackBar()
+                        onSomeoneUnfollowed(
+                            withId: cell.user.id
+                        )
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -8,45 +8,89 @@
 import Foundation
 
 struct Follower: Model {
+    struct Viewables: Model {
+        static var `default`: Viewables {
+            Viewables(
+                follower: .default
+            )
+        }
+        
+        let follower: User
+        
+        func copyWith(
+            follower: User? = nil
+        ) -> Viewables {
+            Viewables(
+                follower: follower ?? self.follower
+            )
+        }
+    }
+    
     static var `default`: Follower {
         Follower(
-            user: .default,
-            creationDate: .current
+            followerId: "",
+            creationDate: .current,
+            viewables: .default
         )
     }
     
-    let user: User
+    let followerId: String
     let creationDate: Date
+    let viewables: Viewables
     
     func copyWith(
-        user: User? = nil,
-        creationDate: Date? = nil
+        followerId: String? = nil,
+        creationDate: Date? = nil,
+        viewables: Viewables? = nil
     ) -> Follower {
         Follower(
-            user: user ?? self.user,
-            creationDate: creationDate ?? self.creationDate
+            followerId: followerId ?? self.followerId,
+            creationDate: creationDate ?? self.creationDate,
+            viewables: viewables ?? self.viewables
         )
     }
 }
 
 struct Followee: Model {
+    struct Viewables: Model {
+        static var `default`: Viewables {
+            Viewables(
+                followee: .default
+            )
+        }
+        
+        let followee: User
+        
+        func copyWith(
+            followee: User? = nil
+        ) -> Viewables {
+            Viewables(
+                followee: followee ?? self.followee
+            )
+        }
+    }
+    
     static var `default`: Followee {
         Followee(
-            user: .default,
-            creationDate: .current
+            followeeId: "",
+            creationDate: .current,
+            viewables: .default
         )
     }
     
-    let user: User
+    let followeeId: String
     let creationDate: Date
+    let viewables: Viewables
     
     func copyWith(
-        user: User? = nil,
-        creationDate: Date? = nil
+        followeeId: String? = nil,
+        creationDate: Date? = nil,
+        viewables: Viewables? = nil
     ) -> Followee {
         Followee(
-            user: user ?? self.user,
-            creationDate: creationDate ?? self.creationDate
+            followeeId: followeeId ?? self.followeeId,
+            creationDate: creationDate ?? self.creationDate,
+            viewables: viewables ?? self.viewables
         )
     }
 }

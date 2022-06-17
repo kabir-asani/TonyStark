@@ -177,7 +177,7 @@ extension FollowersViewController: TXTableViewDataSource {
             ) as! PartialUserTableViewCell
             
             cell.interactionsHandler = self
-            cell.configure(withUser: follower.user)
+            cell.configure(withUser: follower.viewables.follower)
             
             return cell
         } orElse: {
@@ -223,18 +223,64 @@ extension FollowersViewController: TXRefreshControlDelegate {
 
 // MARK: PartialUserTableViewCellInteractionsHandler
 extension FollowersViewController: PartialUserTableViewCellInteractionsHandler {
-    func partialUserCellDidPressProfileImage(_ cell: PartialUserTableViewCell) {
+    func partialUserCellDidPressProfileImage(
+        _ cell: PartialUserTableViewCell
+    ) {
         state.mapOnlyOnSuccess { paginatedFollowers in
-            guard let follower = paginatedFollowers.page.first(where: { $0.user.id == cell.user.id }) else {
+            guard let follower = paginatedFollowers.page.first(where: { $0.viewables.follower.id == cell.user.id }) else {
                 return
             }
             
-            navigationController?.openUserViewController(withUser: follower.user)
+            navigationController?.openUserViewController(
+                withUser: follower.viewables.follower
+            )
         }
     }
     
-    func partialUserCellDidPressPrimaryAction(_ cell: PartialUserTableViewCell) {
-        print(#function)
+    func partialUserCellDidPressPrimaryAction(
+        _ cell: PartialUserTableViewCell
+    ) {
+        if cell.user.id == CurrentUserDataStore.shared.user?.id {
+            navigationController?.openUserViewController(
+                withUser: cell.user
+            )
+        } else {
+            if cell.user.viewables.following {
+                onSomeoneUnfollowed(
+                    withId: cell.user.id
+                )
+            } else {
+                onSomeoneFollowed(
+                    withId: cell.user.id
+                )
+            }
+            
+            Task {
+                if cell.user.viewables.following {
+                    let unfollowResult = await SocialsDataStore.shared.unfollow(
+                        userWithId: cell.user.id
+                    )
+                    
+                    unfollowResult.mapOnlyOnFailure { failure in
+                        showUnknownFailureSnackBar()
+                        onSomeoneFollowed(
+                            withId: cell.user.id
+                        )
+                    }
+                } else {
+                    let followResult = await SocialsDataStore.shared.follow(
+                        userWithId: cell.user.id
+                    )
+                    
+                    followResult.mapOnlyOnFailure { failure in
+                        showUnknownFailureSnackBar()
+                        onSomeoneUnfollowed(
+                            withId: cell.user.id
+                        )
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -267,7 +313,7 @@ extension FollowersViewController {
         state.mapOnlyOnSuccess { previousPaginatedFollowers in
             let updatedPaginatedFollowers = previousPaginatedFollowers.copyWith(
                 page: previousPaginatedFollowers.page.map { follower in
-                    let user = follower.user
+                    let user = follower.viewables.follower
                     
                     if user.id != id || user.viewables.following {
                         return follower
@@ -290,7 +336,9 @@ extension FollowersViewController {
                     )
                     
                     return follower.copyWith(
-                        user: updatedUser
+                        viewables: follower.viewables.copyWith(
+                            follower: updatedUser
+                        )
                     )
                 }
             )
@@ -316,7 +364,7 @@ extension FollowersViewController {
         state.mapOnlyOnSuccess { previousPaginatedFollowers in
             let updatedPaginatedFollowers = previousPaginatedFollowers.copyWith(
                 page: previousPaginatedFollowers.page.map { follower in
-                    let user = follower.user
+                    let user = follower.viewables.follower
                     
                     if user.id != id || !user.viewables.following {
                         return follower
@@ -339,7 +387,9 @@ extension FollowersViewController {
                     )
                     
                     return follower.copyWith(
-                        user: updatedUser
+                        viewables: follower.viewables.copyWith(
+                            follower: updatedUser
+                        )
                     )
                 }
             )

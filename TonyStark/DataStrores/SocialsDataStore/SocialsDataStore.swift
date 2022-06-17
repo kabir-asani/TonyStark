@@ -102,7 +102,7 @@ class SocialsDataStore: DataStore {
                     "nextToken": nextToken!
                 ] : nil
                 
-                let followersResult = try await TXNetworkAssistant.shared.delete(
+                let followersResult = try await TXNetworkAssistant.shared.get(
                     url: userId == currentUser.id
                     ? Self.selfFollowersURL
                     : Self.otherFollowersURL(userId: userId),
@@ -117,6 +117,7 @@ class SocialsDataStore: DataStore {
                         SuccessData<Paginated<Follower>>.self,
                         from: followersResult.data
                     ).data
+                    
                     
                     return .success(followers)
                 } else {
@@ -140,7 +141,7 @@ class SocialsDataStore: DataStore {
                     "nextToken": nextToken!
                 ] : nil
                 
-                let followeesResult = try await TXNetworkAssistant.shared.delete(
+                let followeesResult = try await TXNetworkAssistant.shared.get(
                     url: userId == currentUser.id
                     ? Self.selfFolloweesURL
                     : Self.otherFolloweesURL(userId: userId),

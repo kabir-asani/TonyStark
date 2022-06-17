@@ -268,11 +268,11 @@ extension SearchViewController: PartialUserTableViewCellInteractionsHandler {
         
         if cell.user.viewables.following {
             onSomeoneUnfollowed(
-                userId: cell.user.id
+                withId: cell.user.id
             )
         } else {
             onSomeoneFollowed(
-                userId: cell.user.id
+                withId: cell.user.id
             )
         }
         
@@ -285,7 +285,7 @@ extension SearchViewController: PartialUserTableViewCellInteractionsHandler {
                 unfollowResult.mapOnlyOnFailure { failure in
                     showUnknownFailureSnackBar()
                     onSomeoneFollowed(
-                        userId: cell.user.id
+                        withId: cell.user.id
                     )
                 }
             } else {
@@ -296,7 +296,7 @@ extension SearchViewController: PartialUserTableViewCellInteractionsHandler {
                 followResult.mapOnlyOnFailure { failure in
                     showUnknownFailureSnackBar()
                     onSomeoneUnfollowed(
-                        userId: cell.user.id
+                        withId: cell.user.id
                     )
                 }
             }
@@ -315,20 +315,20 @@ extension SearchViewController {
             
             if let event = event as? FollowCreatedEvent {
                 strongSelf.onSomeoneFollowed(
-                    userId: event.userId
+                    withId: event.userId
                 )
             }
             
             if let event = event as? FollowDeletedEvent {
                 strongSelf.onSomeoneUnfollowed(
-                    userId: event.userId
+                    withId: event.userId
                 )
             }
         }
     }
     
     private func onSomeoneFollowed(
-        userId: String
+        withId userId: String
     ) {
         state.mapOnlyOnSuccess { paginatedUsers in
             let updatedPaginatedUsers = paginatedUsers.copyWith(
@@ -370,7 +370,7 @@ extension SearchViewController {
     }
     
     private func onSomeoneUnfollowed(
-        userId: String
+        withId userId: String
     ) {
         state.mapOnlyOnSuccess { paginatedUsers in
             let updatedPaginatedUsers = paginatedUsers.copyWith(
