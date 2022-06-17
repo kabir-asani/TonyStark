@@ -53,6 +53,9 @@
 		161347E32819433B004AA245 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161347E22819433B004AA245 /* BookmarksViewController.swift */; };
 		161347E628194DE1004AA245 /* BookmarksDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161347E528194DE1004AA245 /* BookmarksDataStore.swift */; };
 		1618F8E92822E50600C1358E /* FloatingActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1618F8E82822E50600C1358E /* FloatingActionButton.swift */; };
+		161CB5FC285C564600AB6101 /* OtherUserDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161CB5FB285C564600AB6101 /* OtherUserDataStore.swift */; };
+		161CB5FE285C565500AB6101 /* OtherUserDataStore+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161CB5FD285C565500AB6101 /* OtherUserDataStore+Request.swift */; };
+		161CB600285C565C00AB6101 /* OtherUserDataStore+Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161CB5FF285C565C00AB6101 /* OtherUserDataStore+Response.swift */; };
 		16237AEE281FABD200837064 /* EditBioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16237AED281FABD200837064 /* EditBioTableViewCell.swift */; };
 		16237AF1281FB49600837064 /* StringX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16237AF0281FB49600837064 /* StringX.swift */; };
 		16237AF3281FB71000837064 /* EditUsernameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16237AF2281FB71000837064 /* EditUsernameTableViewCell.swift */; };
@@ -103,6 +106,7 @@
 		166C325E281E8551009D6961 /* EditBioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166C325D281E8551009D6961 /* EditBioViewController.swift */; };
 		167224D3281BC1CB005D79EB /* TXLabelX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167224D2281BC1CB005D79EB /* TXLabelX.swift */; };
 		167224D6281BC73C005D79EB /* ResultX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167224D5281BC73C005D79EB /* ResultX.swift */; };
+		16725D78285B78F00073B5FB /* SocialsDataStore+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16725D77285B78F00073B5FB /* SocialsDataStore+Events.swift */; };
 		16791E302850FF0600400024 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16791E2F2850FF0600400024 /* Model.swift */; };
 		167C3A44280C80C6004E9B4D /* TweetsDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C3A43280C80C6004E9B4D /* TweetsDataStore.swift */; };
 		167C3A48280C99A3004E9B4D /* UITableViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C3A47280C99A3004E9B4D /* UITableViewX.swift */; };
@@ -243,6 +247,9 @@
 		161347E22819433B004AA245 /* BookmarksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
 		161347E528194DE1004AA245 /* BookmarksDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksDataStore.swift; sourceTree = "<group>"; };
 		1618F8E82822E50600C1358E /* FloatingActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingActionButton.swift; sourceTree = "<group>"; };
+		161CB5FB285C564600AB6101 /* OtherUserDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserDataStore.swift; sourceTree = "<group>"; };
+		161CB5FD285C565500AB6101 /* OtherUserDataStore+Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OtherUserDataStore+Request.swift"; sourceTree = "<group>"; };
+		161CB5FF285C565C00AB6101 /* OtherUserDataStore+Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OtherUserDataStore+Response.swift"; sourceTree = "<group>"; };
 		16237AED281FABD200837064 /* EditBioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBioTableViewCell.swift; sourceTree = "<group>"; };
 		16237AF0281FB49600837064 /* StringX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringX.swift; sourceTree = "<group>"; };
 		16237AF2281FB71000837064 /* EditUsernameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUsernameTableViewCell.swift; sourceTree = "<group>"; };
@@ -293,6 +300,7 @@
 		166C325D281E8551009D6961 /* EditBioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBioViewController.swift; sourceTree = "<group>"; };
 		167224D2281BC1CB005D79EB /* TXLabelX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXLabelX.swift; sourceTree = "<group>"; };
 		167224D5281BC73C005D79EB /* ResultX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultX.swift; sourceTree = "<group>"; };
+		16725D77285B78F00073B5FB /* SocialsDataStore+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SocialsDataStore+Events.swift"; sourceTree = "<group>"; };
 		16791E2F2850FF0600400024 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		167C3A43280C80C6004E9B4D /* TweetsDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetsDataStore.swift; sourceTree = "<group>"; };
 		167C3A47280C99A3004E9B4D /* UITableViewX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewX.swift; sourceTree = "<group>"; };
@@ -733,6 +741,16 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		161CB5FA285C563800AB6101 /* OtherUserDataStore */ = {
+			isa = PBXGroup;
+			children = (
+				161CB5FD285C565500AB6101 /* OtherUserDataStore+Request.swift */,
+				161CB5FF285C565C00AB6101 /* OtherUserDataStore+Response.swift */,
+				161CB5FB285C564600AB6101 /* OtherUserDataStore.swift */,
+			);
+			path = OtherUserDataStore;
+			sourceTree = "<group>";
+		};
 		1624FE73285B1C0100AAF9B7 /* EmptySearchTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1000,6 +1018,7 @@
 			children = (
 				16E3C12D28216B00009CC8E7 /* SocialsDataStore+Request.swift */,
 				16E3C12F28216B06009CC8E7 /* SocialsDataStore+Response.swift */,
+				16725D77285B78F00073B5FB /* SocialsDataStore+Events.swift */,
 				163D2DA92819258300CE5646 /* SocialsDataStore.swift */,
 			);
 			path = SocialsDataStore;
@@ -1702,6 +1721,7 @@
 			children = (
 				165A8A0A28509F6100A89AD6 /* Core */,
 				16C03C592821172900E7005B /* CurrentUserDataStore */,
+				161CB5FA285C563800AB6101 /* OtherUserDataStore */,
 				16DEB9532806082200140E63 /* FeedDataStore */,
 				16DEB9522806081700140E63 /* TweetsDataStore */,
 				16FDA07B280FFC97004BB3C4 /* CommentsDataStore */,
@@ -1912,6 +1932,7 @@
 				16FDA072280FF45B004BB3C4 /* CommentTableViewCell+Leading.swift in Sources */,
 				162644EB28292C8000CE4B53 /* SnackBar.swift in Sources */,
 				16D3C5E22810306100B8A2CC /* DateX.swift in Sources */,
+				161CB5FE285C565500AB6101 /* OtherUserDataStore+Request.swift in Sources */,
 				160437D327E1B7B100EA615F /* NotificationsViewController.swift in Sources */,
 				163A09F32823B8FB008CDCED /* TXPresentationController.swift in Sources */,
 				16D3DFD728166D740083B7E9 /* TweetTableViewCell+Header.swift in Sources */,
@@ -1930,7 +1951,9 @@
 				165A8A0928508E3F00A89AD6 /* ActivityIndicator.swift in Sources */,
 				16DBF5C62817EEF700E92DE5 /* TXScrollViewController.swift in Sources */,
 				16CFD1C728172E040020341B /* TweetViewController.swift in Sources */,
+				161CB600285C565C00AB6101 /* OtherUserDataStore+Response.swift in Sources */,
 				161043A62851E82A00F3EF2E /* TweetsDataStore+Events.swift in Sources */,
+				16725D78285B78F00073B5FB /* SocialsDataStore+Events.swift in Sources */,
 				165ED0252811CC760022D822 /* TXTableView.swift in Sources */,
 				16D8F97C280D7C13000545EC /* SocialDetails.swift in Sources */,
 				160437D927E1B87B00EA615F /* TXTabBarItem.swift in Sources */,
@@ -2017,6 +2040,7 @@
 				16DEB9562806089E00140E63 /* Tweet.swift in Sources */,
 				167DE001280D55F900670BAD /* PartialTweetTableViewCell+Trailing+Footer+LikeInteractionDetails.swift in Sources */,
 				16E3C13628216C50009CC8E7 /* FeedDataStore+Response.swift in Sources */,
+				161CB5FC285C564600AB6101 /* OtherUserDataStore.swift in Sources */,
 				165ED02E2811D85C0022D822 /* TXEdgeInsets.swift in Sources */,
 				1696A07F281D742500C88604 /* GodViewController.swift in Sources */,
 				160437B327E1AE3300EA615F /* TXCollectionViewController.swift in Sources */,
