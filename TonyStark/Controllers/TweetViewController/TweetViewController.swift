@@ -170,6 +170,24 @@ class TweetViewController: TXViewController {
                 buttonText: "Post"
             )
         ) { text in
+            print(#function)
+            Task {
+                [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                let commentResult = await CommentsDataStore.shared.createComment(
+                    withText: "text",
+                    onTweetWithId: strongSelf.tweet.id
+                )
+                
+                commentResult.map {
+                    strongSelf.refreshTableView()
+                } onFailure: { failure in
+                    strongSelf.showUnknownFailureSnackBar()
+                }
+            }
         }
         
         commentInputBar.pin(

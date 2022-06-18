@@ -731,7 +731,6 @@
 		1618F8EB2822EB7300C1358E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				161CB601285C868F00AB6101 /* UnknownFailureTableViewCell */,
 				165A8A022850863D00A89AD6 /* Core */,
 				165A8A0728508E0400A89AD6 /* ActivityIndicator */,
 				162644E928292C6B00CE4B53 /* SnackBar */,
@@ -740,6 +739,7 @@
 				16BB01142813A2D400532323 /* SocialDetails */,
 				163D2D9028191BD600CE5646 /* PartialUserTableViewCell */,
 				16308636280881780061BE31 /* PartialTweetTableViewCell */,
+				161CB601285C868F00AB6101 /* UnknownFailureTableViewCell */,
 			);
 			path = Views;
 			sourceTree = "<group>";

@@ -85,6 +85,11 @@ class CommentInputBar: TXView {
             leftToRightOf: textField,
             withMargin: 8
         )
+        primaryButton.addTarget(
+            self,
+            action: #selector(onPrimaryPressed(_:)),
+            for: .touchUpInside
+        )
     }
     
     // Configure
@@ -115,6 +120,7 @@ class CommentInputBar: TXView {
     
     // Interact
     @objc private func onPrimaryPressed(_ sender: TXButton) {
+        textField.text = ""
         onPressed?(textField.text ?? "")
     }
     
