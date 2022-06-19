@@ -62,6 +62,7 @@
 		16237AF3281FB71000837064 /* EditUsernameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16237AF2281FB71000837064 /* EditUsernameTableViewCell.swift */; };
 		1624FE75285B1C0900AAF9B7 /* EmptySearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1624FE74285B1C0900AAF9B7 /* EmptySearchTableViewCell.swift */; };
 		162644EB28292C8000CE4B53 /* SnackBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162644EA28292C8000CE4B53 /* SnackBar.swift */; };
+		16282B98285F9BB7002C3F05 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 16282B97285F9BB7002C3F05 /* README.md */; };
 		162832C82824D71700A17680 /* EmptyFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162832C72824D71700A17680 /* EmptyFeedTableViewCell.swift */; };
 		162AB408284FA42F006E2C55 /* TXJsonAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162AB407284FA42F006E2C55 /* TXJsonAssistant.swift */; };
 		162C378D281D15D8000A8C0C /* ProfileImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C378C281D15D8000A8C0C /* ProfileImageTableViewCell.swift */; };
@@ -257,6 +258,7 @@
 		16237AF2281FB71000837064 /* EditUsernameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUsernameTableViewCell.swift; sourceTree = "<group>"; };
 		1624FE74285B1C0900AAF9B7 /* EmptySearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySearchTableViewCell.swift; sourceTree = "<group>"; };
 		162644EA28292C8000CE4B53 /* SnackBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnackBar.swift; sourceTree = "<group>"; };
+		16282B97285F9BB7002C3F05 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		162832C72824D71700A17680 /* EmptyFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyFeedTableViewCell.swift; sourceTree = "<group>"; };
 		162AB407284FA42F006E2C55 /* TXJsonAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXJsonAssistant.swift; sourceTree = "<group>"; };
 		162C378C281D15D8000A8C0C /* ProfileImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageTableViewCell.swift; sourceTree = "<group>"; };
@@ -645,6 +647,7 @@
 		161250E527DBB56E006BCE5A = {
 			isa = PBXGroup;
 			children = (
+				16282B97285F9BB7002C3F05 /* README.md */,
 				161250F027DBB56E006BCE5A /* TonyStark */,
 				161250EF27DBB56E006BCE5A /* Products */,
 			);
@@ -2111,6 +2114,7 @@
 				16DEE05628548218003ACFC4 /* BookmarksDataStore+Events.swift in Sources */,
 				160437C127E1B0DE00EA615F /* TXPageViewController.swift in Sources */,
 				16F21A01281BDC2F0013A750 /* FolloweesViewController.swift in Sources */,
+				16282B98285F9BB7002C3F05 /* README.md in Sources */,
 				1610D943280F44E300739208 /* TweetOptionsAlertController.swift in Sources */,
 				16021ACD2823C36A00C28EAD /* TXRefreshControl.swift in Sources */,
 				16E3C14228217455009CC8E7 /* LikesDataStore+Response.swift in Sources */,
