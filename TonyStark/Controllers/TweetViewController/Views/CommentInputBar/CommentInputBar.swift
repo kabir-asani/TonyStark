@@ -120,8 +120,8 @@ class CommentInputBar: TXView {
     
     // Interact
     @objc private func onPrimaryPressed(_ sender: TXButton) {
-        textField.text = ""
         onPressed?(textField.text ?? "")
+        textField.text = ""
     }
     
     @objc private func textFieldDidChange(_ textField: UITextField) {

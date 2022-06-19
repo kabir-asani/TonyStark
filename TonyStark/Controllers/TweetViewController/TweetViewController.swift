@@ -170,7 +170,6 @@ class TweetViewController: TXViewController {
                 buttonText: "Post"
             )
         ) { text in
-            print(#function)
             Task {
                 [weak self] in
                 guard let strongSelf = self else {
@@ -178,7 +177,7 @@ class TweetViewController: TXViewController {
                 }
                 
                 let commentResult = await CommentsDataStore.shared.createComment(
-                    withText: "text",
+                    withText: text,
                     onTweetWithId: strongSelf.tweet.id
                 )
                 
