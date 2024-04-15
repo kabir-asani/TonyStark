@@ -1,6 +1,6 @@
 # TwitterX
 
-TwitterX is essentially a **clone** of Twitter's core features. You can tweet, follow people, like their tweets, bookmark them, edit your profile and what not.
+TwitterX is essentially a **clone** of X(formerly Twitter)'s core features. You can tweet, follow people, like their tweets, bookmark them, edit your profile and what not.
 
 TwitterX started as a hobby project that probably wouldn't have seen the light of the day. But it soon turned into a personal project that I'm very proud of and is nearing completion.
 
