@@ -7,7 +7,7 @@ TwitterX started as a hobby project that probably wouldn't have seen the light o
 This application is build from to end.
 
 -   [Frontend 👆🏽](https://github.com/m-zaink/TonyStark)
--   [Backend 👈🏽](https://github.com/m-zaink/NickFury).
+-   [Backend 👈🏽](https://github.com/m-zaink/NickFury)
 
 It has the following features
 
